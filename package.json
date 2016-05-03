@@ -15,6 +15,7 @@
     "build": "npm run build:dev",
     "build:dev": "npm run clean:dist && ./node_modules/.bin/webpack --progress --profile --colors --display-error-details --display-cached",
     "build:prod": "npm run clean:dist && ./node_modules/.bin/webpack --config webpack.prod.config.js --progress --profile --colors --display-error-details --display-cached",
+    "api": "cd src/server && node .",
     "server": "npm run server:dev",
     "server:dev": "./node_modules/.bin/webpack-dev-server --progress --profile --colors --display-error-details --display-cached",
     "server:prod": "./node_modules/.bin/http-server dist --cors",
