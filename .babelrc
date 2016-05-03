@@ -1,0 +1,9 @@
+{
+  "stage": 0,
+  "optional": [
+    "es7.decorators"
+  ],
+  "plugins": [
+    "ng-annotate"
+  ]
+}
