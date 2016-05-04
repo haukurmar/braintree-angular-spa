@@ -19,7 +19,7 @@ export default class DropinComponent {
 	}
 
 	_getToken() {
-		this.$http.post(this.braintreeService.apiUrl + this.braintreeService.tokenPath).then(
+		this.braintreeService.getClientToken().then(
 			(response) => {
 				console.log('res', response.data);
 
@@ -37,7 +37,7 @@ export default class DropinComponent {
 						};
 
 						// Process payment
-						this.$http.post(this.braintreeService.apiUrl + this.braintreeService.processPath, paymentData).then(
+						this.braintreeService.processPayment(paymentData).then(
 							(response) => {
 								console.log('Success:', response.data);
 

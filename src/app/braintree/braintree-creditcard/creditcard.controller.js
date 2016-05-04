@@ -24,7 +24,7 @@ export default class CreditCardComponent {
 		this.showForm = false;
 
 		// Send request to get token, then use the token to tokenize credit card info and process a transaction
-		this.$http.post(this.braintreeService.apiUrl + this.braintreeService.tokenPath).then(
+		this.braintreeService.getClientToken().then(
 			(response) => {
 				// Create new client and tokenize card
 				let client = new braintree.api.Client({clientToken: response.data.client_token});
@@ -39,7 +39,7 @@ export default class CreditCardComponent {
 						payment_method_nonce: nonce
 					};
 
-					this.$http.post(this.braintreeService.apiUrl + this.braintreeService.processPath, paymentData).then(
+					this.braintreeService.processPayment(paymentData).then(
 						(response) => {
 							console.log(response.data.success);
 							this.showForm = false;
