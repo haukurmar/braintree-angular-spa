@@ -1,10 +1,9 @@
 import braintree from 'braintree-web';
 // Inject dependencies
-@Inject('$http')
+@Inject('$http', 'braintreeService')
 export default class DropinComponent {
 	constructor() {
-		// TODO: Move to configService
-		this.apiUrl = 'http://127.0.0.1:3000/api';
+		this.apiUrl = braintreeService.apiUrl;
 
 		this.message = 'Please use the form below to pay:';
 		this.showDropinContainer = true;
