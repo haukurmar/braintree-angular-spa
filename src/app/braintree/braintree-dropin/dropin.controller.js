@@ -30,7 +30,8 @@ export default class DropinComponent {
 				console.log('res', response.data);
 
 				braintree.setup(response.data.client_token, 'dropin', {
-					container: 'checkout',
+					// id of html tag for braintree dropin container
+					container: 'js-braintree-checkout-container',
 					// Form is not submitted by default when paymentMethodNonceReceived is implemented
 					paymentMethodNonceReceived: (event, nonce) => {
 						this.message = 'Processing your payment...';
@@ -73,7 +74,6 @@ export default class DropinComponent {
 				this.showDropinContainer = false;
 				this.isError = true;
 			});
-
 
 	}
 
