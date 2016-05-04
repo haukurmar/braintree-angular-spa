@@ -27,4 +27,8 @@ export default class BraintreeService {
 	processPayment(paymentData) {
 		return this.$http.post(this._apiUrl + this._processPath, paymentData);
 	}
+
+	get $braintree() {
+		return braintree;
+	}
 }

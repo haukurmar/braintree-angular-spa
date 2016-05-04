@@ -1,4 +1,3 @@
-import braintree from 'braintree-web';
 // Inject dependencies
 @Inject('$http', 'braintreeService')
 export default class DropinComponent {
@@ -23,7 +22,7 @@ export default class DropinComponent {
 			(response) => {
 				console.log('res', response.data);
 
-				braintree.setup(response.data.client_token, 'dropin', {
+				this.braintreeService.$braintree.setup(response.data.client_token, 'dropin', {
 					// id of html tag for braintree dropin container
 					container: 'js-braintree-checkout-container',
 					// Form is not submitted by default when paymentMethodNonceReceived is implemented

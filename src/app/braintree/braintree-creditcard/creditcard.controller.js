@@ -1,4 +1,3 @@
-import braintree from 'braintree-web';
 // Inject dependencies
 @Inject('$http', 'braintreeService')
 export default class CreditCardComponent {
@@ -27,7 +26,8 @@ export default class CreditCardComponent {
 		this.braintreeService.getClientToken().then(
 			(response) => {
 				// Create new client and tokenize card
-				let client = new braintree.api.Client({clientToken: response.data.client_token});
+
+				let client = new this.braintreeService.$braintree.api.Client({clientToken: response.data.client_token});
 
 				client.tokenizeCard({
 					number: this.creditCardNumber,
