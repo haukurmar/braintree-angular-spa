@@ -3,8 +3,6 @@ import braintree from 'braintree-web';
 @Inject('$http', 'braintreeService')
 export default class CreditCardComponent {
 	constructor() {
-		this.apiUrl = this.braintreeService.apiUrl;
-
 		this.message = 'Please use the form below to pay:';
 		this.isError = false;
 		this.isPaid = false;
@@ -22,13 +20,11 @@ export default class CreditCardComponent {
 	// Public viewModel methods
 	// --------------------------------------------------
 	processPayment() {
-		let tokenApiPath = '/v1/token';
-		let processApiPath = '/v1/process';
 		this.message = 'Processing payment...';
 		this.showForm = false;
 
 		// Send request to get token, then use the token to tokenize credit card info and process a transaction
-		this.$http.post(this.apiUrl + tokenApiPath).then(
+		this.$http.post(this.braintreeService.apiUrl + this.braintreeService.tokenPath).then(
 			(response) => {
 				// Create new client and tokenize card
 				let client = new braintree.api.Client({clientToken: response.data.client_token});
@@ -37,12 +33,13 @@ export default class CreditCardComponent {
 					number: this.creditCardNumber,
 					expirationDate: this.expirationDate
 				}, (err, nonce) => {
-					let data = {
+
+					let paymentData = {
 						amount: this.amount,
 						payment_method_nonce: nonce
 					};
 
-					this.$http.post(this.apiUrl + processApiPath, data).then(
+					this.$http.post(this.braintreeService.apiUrl + this.braintreeService.processPath, paymentData).then(
 						(response) => {
 							console.log(response.data.success);
 							this.showForm = false;
@@ -53,7 +50,7 @@ export default class CreditCardComponent {
 								this.isPaid = true;
 
 							} else {
-								// implement your solution to handle payment failures
+								// TODO: Handle different payment failures
 								this.message = 'Payment failed: ' + response.data.message + ' Please refresh the page and try again.';
 								this.isError = true;
 							}

@@ -3,8 +3,6 @@ import braintree from 'braintree-web';
 @Inject('$http', 'braintreeService')
 export default class DropinComponent {
 	constructor() {
-		this.apiUrl = this.braintreeService.apiUrl;
-
 		this.message = 'Please use the form below to pay:';
 		this.showDropinContainer = true;
 		this.isError = false;
@@ -21,10 +19,7 @@ export default class DropinComponent {
 	}
 
 	_getToken() {
-		let tokenApiPath = '/v1/token';
-		let processApiPath = '/v1/process';
-
-		this.$http.post(this.apiUrl + tokenApiPath).then(
+		this.$http.post(this.braintreeService.apiUrl + this.braintreeService.tokenPath).then(
 			(response) => {
 				console.log('res', response.data);
 
@@ -36,40 +31,41 @@ export default class DropinComponent {
 						this.message = 'Processing your payment...';
 						this.showDropinContainer = false;
 
-						this.$http({
-							method: 'POST',
-							url: this.apiUrl + processApiPath,
-							data: {
-								amount: this.amount,
-								payment_method_nonce: nonce
-							}
-						}).success((data) => {
+						let paymentData = {
+							amount: this.amount,
+							payment_method_nonce: nonce
+						};
 
-							console.log('Success:', data);
+						// Process payment
+						this.$http.post(this.braintreeService.apiUrl + this.braintreeService.processPath, paymentData).then(
+							(response) => {
+								console.log('Success:', response.data);
 
-							if (data.success) {
-								this.message = 'Payment was authorized!';
+								if (response.data.success) {
+									this.message = 'Payment was authorized!';
+									this.showDropinContainer = false;
+									this.isError = false;
+									this.isPaid = true;
+
+								} else {
+									// TODO: Handle different payment failures
+									this.message = 'Payment failed: ' + response.data.message + ' Please refresh the page and try again.';
+									this.isError = true;
+								}
+
+							},
+							(error) => {
+								this.message = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
 								this.showDropinContainer = false;
-								this.isError = false;
-								this.isPaid = true;
-
-							} else {
-								// implement your solution to handle payment failures
-								this.message = 'Payment failed: ' + data.message + ' Please refresh the page and try again.';
 								this.isError = true;
-							}
 
-						}).error((error) => {
-							this.message = 'Error: cannot connect to server. Please make sure your server is running.';
-							this.showDropinContainer = false;
-							this.isError = true;
-						});
+							});
 
 					}
 				});
 			},
 			(error) => {
-				this.message = 'Error: cannot connect to server. Please make sure your server is running.';
+				this.message = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
 				this.showDropinContainer = false;
 				this.isError = true;
 			});
