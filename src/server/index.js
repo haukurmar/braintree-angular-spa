@@ -35,7 +35,7 @@ app.use(function (req, res, next) {
 /**
  * Route that returns a token to be used on the client side to tokenize payment details
  */
-app.post('/api/v1/token', function (request, response) {
+app.get('/api/v1/token', function (request, response) {
 	gateway.clientToken.generate({}, function (err, res) {
 		if (err) throw err;
 		response.json({
