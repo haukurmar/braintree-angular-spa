@@ -3,7 +3,7 @@ import braintree from 'braintree-web';
 @Inject('$http', 'braintreeService')
 export default class DropinComponent {
 	constructor() {
-		this.apiUrl = braintreeService.apiUrl;
+		this.apiUrl = this.braintreeService.apiUrl;
 
 		this.message = 'Please use the form below to pay:';
 		this.showDropinContainer = true;
