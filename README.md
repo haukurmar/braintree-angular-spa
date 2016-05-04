@@ -4,7 +4,8 @@
 
 Run the following to install both server and client dependencies
 
-	$ npm run install
+	$ npm install
+	$ cd src/server && npm install
 	
 # Run the app
 

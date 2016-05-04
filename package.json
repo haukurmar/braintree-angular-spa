@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install": "npm install && cd src/server && npm install",
     "clean": "./node_modules/.bin/rimraf node_modules doc typings coverage dist && npm cache clean",
     "clean:dist": "./node_modules/.bin/rimraf dist",
     "clean:install": "npm run clean && npm install",
@@ -86,6 +85,7 @@
   "dependencies": {
     "angular": "^1.5.5",
     "angular-ui-router": "^0.2.18",
+    "braintree-web": "^2.24.0",
     "jquery": "^2.2.3"
   },
   "bugs": {
