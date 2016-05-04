@@ -2,7 +2,6 @@ import BraintreeService from './braintree.service';
 import DropinComponent from './braintree-dropin/dropin.component';
 import CreditCardComponent from './braintree-creditcard/creditcard.component';
 
-
 let ngModule = angular.module('braintree', []);
 
 /**
