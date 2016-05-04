@@ -1,0 +1,18 @@
+<section ng-class="{'error': vm.isError, 'success': vm.isPaid}">
+
+	<span><p ng-bind="vm.message"></p></span>
+
+	<div ng-show="vm.showDropinContainer">
+
+		<form name="payment">
+			<label>Amount (XX.XX)</label>
+			<input type="number" ng-model="vm.amount" />
+
+			<!-- Add Dropin here -->
+			<div id="checkout"></div>
+
+			<button type="submit">Pay Now</button>
+		</form>
+	</div>
+
+</section>

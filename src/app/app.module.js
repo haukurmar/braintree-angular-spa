@@ -1,8 +1,13 @@
+// Styles
 import '../assets/less/app.less';
+// Components
 import AppComponent from './app.component';
+// Modules
+import BrainTreeModule from './braintree/braintree.module';
 
 let ngModule = angular.module('app', [
-	'ui.router'
+	'ui.router',
+	BrainTreeModule.name
 ]);
 
 /**
