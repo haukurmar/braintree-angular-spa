@@ -14,9 +14,7 @@ Run the following to install both server and client dependencies
 App runs on
 [http://localhost:1337](http://localhost:1337)
 
-# Run the API
+# API
 
-	$ npm start
-	
-Api runs on
-[http://localhost:5000](http://localhost:5000)
+Clone and set up the API server at 
+[https://github.com/haukurmar/braintree-node-api](https://github.com/haukurmar/braintree-node-api)
