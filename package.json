@@ -89,8 +89,11 @@
     "angular": "^1.5.5",
     "angular-ui-router": "^0.2.18",
     "braintree-web": "^2.24.0",
+    "jquery": "^2.2.3", 
+    "body-parser": "^1.15.0",
+    "braintree": "^1.37.1",
     "express": "^4.13.4",
-    "jquery": "^2.2.3"
+    "util": "^0.10.3"
   },
   "bugs": {
     "url": "https://github.com/haukurmar/braintree-angular-web/issues"
