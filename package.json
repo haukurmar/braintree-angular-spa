@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "server/index.js",
 	"engines": {
-		"node": "4.2.1"
+		"node": "0.10.33"
 	},
 	"scripts": {
 		"clean": "./node_modules/.bin/rimraf node_modules doc typings coverage dist && npm cache clean",
@@ -29,7 +29,7 @@
 		"ci": "npm run e2e && npm run test",
 		"docs": "./node_modules/.bin/typedoc  --options typedoc.json  src/**/*.ts",
 		"spa": "npm run server:dev",
-		"start": "npm run api",
+		"start": "npm run api"
 	},
 	"repository": {
 		"type": "git",
