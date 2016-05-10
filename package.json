@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "server/index.js",
 	"engines": {
-		"node": "4.1.1"
+		"node": "4.2.1"
 	},
 	"scripts": {
 		"clean": "./node_modules/.bin/rimraf node_modules doc typings coverage dist && npm cache clean",
@@ -30,7 +30,6 @@
 		"docs": "./node_modules/.bin/typedoc  --options typedoc.json  src/**/*.ts",
 		"spa": "npm run server:dev",
 		"start": "npm run api",
-		"postinstall": "./node_modules/.bin/typings install"
 	},
 	"repository": {
 		"type": "git",
