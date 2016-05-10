@@ -34,6 +34,28 @@ app.use(function (req, res, next) {
 	next();
 });
 
+
+
+app.get('/api/v1/samplenotification', function (request, response) {
+	var sampleNotification = gateway.webhookTesting.sampleNotification(
+		braintree.WebhookNotification.Kind.SubscriptionWentPastDue,
+		"myId"
+	);
+
+	gateway.webhookNotification.parse(
+		sampleNotification.bt_signature,
+		sampleNotification.bt_payload,
+		function (err, webhookNotification) {
+			webhookNotification.subscription.id
+			console.log('webhookNotification.subscription.id', webhookNotification.subscription.id);
+			// "myId"
+		}
+	);
+
+
+	response.send(200);
+});
+
 /**
  * Route that returns a token to be used on the client side to tokenize payment details
  */
