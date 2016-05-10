@@ -6,7 +6,6 @@ export default class CreditCardComponent {
 		this.isError = false;
 		this.isPaid = false;
 		this.showForm = true;
-		this.checkout = null;
 
 		this._activate();
 	}
@@ -15,51 +14,10 @@ export default class CreditCardComponent {
 	// --------------------------------------------------
 	_activate() {
 		console.log('Braintree CreditCard Component...');
-		this._setupGateway();
-	}
-
-	_setupGateway() {
-		this.braintreeService.getClientToken().then(
-			(response) => {
-				let ctrl = this;
-				this.braintreeService.$braintree.setup(response.data.client_token, "custom", {
-					id: 'js-customPayment', // the id of the form
-					//enableCORS: true,
-					onReady: function (integration) {
-						console.log('Integration ready: ', integration, ctrl);
-						ctrl.checkout = integration;
-					},
-					onPaymentMethodReceived: function (payload) {
-						// retrieve nonce from payload.nonce
-						console.log('retrieve nonce from payload.nonce', payload);
-					},
-					paypal: {
-						singleUse: true,
-						amount: ctrl.amount,
-						currency: 'USD',
-						locale: 'en_us',
-						enableShippingAddress: true,
-						headless: true
-					}
-				});
-			},
-			(error) => {
-				// TODO: Handle errors better and/or better error display
-				this.message = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
-				this.isError = true;
-				this.showForm = false;
-			}
-		);
 	}
 
 	// Public viewModel methods
 	// --------------------------------------------------
-	usePaypal(event) {
-		event.preventDefault();
-		console.log('this.checkout', this.checkout);
-		this.checkout.paypal.initAuthFlow();
-	}
-
 	processPayment() {
 		this.message = 'Processing payment...';
 		this.showForm = false;

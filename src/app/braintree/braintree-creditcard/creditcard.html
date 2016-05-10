@@ -4,19 +4,17 @@
 
 	<div ng-show="vm.showForm">
 
-		<form name="payment" id="js-customPayment">
+		<form name="payment" ng-submit="vm.processPayment()">
 			<label>Amount (XX.XX)</label>
 			<input type="text" ng-model="vm.amount" />
 			<br>
 
 			<label>Credit Card Number (XXXX XXXX XXXX XXXX)</label>
-			<input type="text" data-braintree-name="number" ng-model="vm.creditCardNumber"/>
+			<input type="text" ng-model="vm.creditCardNumber"/>
 			<br>
 
 			<label>Expiration Date (MM/YY)</label>
-			<input type="text" data-braintree-name="expiration_date" ng-model="vm.expirationDate"/>
-			<br>
-			<input data-braintree-name="cvv" value="100" ng-model="vm.cvv">
+			<input type="text" ng-model="vm.expirationDate"/>
 			<br>
 
 			<button type="submit">Pay Now</button>
