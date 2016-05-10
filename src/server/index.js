@@ -59,6 +59,27 @@ app.post('/api/v1/process', jsonParser, function (request, response) {
 	});
 });
 
-app.listen(3000, function () {
-	console.log('Listening on port 3000');
+app.post("/api/v1/webhooks", function (req, res) {
+	gateway.webhookNotification.parse(
+		req.body.bt_signature,
+		req.body.bt_payload,
+		function (err, webhookNotification) {
+			//webhookNotification.kind
+			// "subscriptionWentPastDue"
+
+			//webhookNotification.timestamp
+			// Sun Jan 1 00:00:00 UTC 2012
+
+			//webhookNotification.subscription.id
+			// "subscription_id"
+
+
+			console.log("[Webhook Received " + webhookNotification.timestamp + "] | Kind: " + webhookNotification.kind + " | Subscription: " + webhookNotification.subscription.id);
+		}
+	);
+	res.send(200);
+});
+
+app.listen(5000, function () {
+	console.log('Listening on port 5000');
 });
