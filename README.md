@@ -2,14 +2,13 @@
 
 # Installation
 
-Run the following to install both server and client dependencies
+Run the following to install dependencies
 
 	$ npm install
-	$ cd src/server && npm install
 	
 # Run the single page app
 
-	$ npm run spa
+	$ npm start
 
 App runs on
 [http://localhost:1337](http://localhost:1337)
