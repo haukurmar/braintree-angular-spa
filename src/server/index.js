@@ -9,6 +9,8 @@ var bodyParser = require('body-parser');
  * Instantiate your server and a JSON parser to parse all incoming requests
  */
 var app = express();
+app.set('port', (process.env.PORT || 5000));
+
 var jsonParser = bodyParser.json();
 
 /**
@@ -73,13 +75,12 @@ app.post("/api/v1/webhooks", function (req, res) {
 			//webhookNotification.subscription.id
 			// "subscription_id"
 
-
 			console.log("[Webhook Received " + webhookNotification.timestamp + "] | Kind: " + webhookNotification.kind + " | Subscription: " + webhookNotification.subscription.id);
 		}
 	);
 	res.send(200);
 });
 
-app.listen(5000, function () {
-	console.log('Listening on port 5000');
+app.listen(app.get('port'), function() {
+	console.log('Node app is running on port', app.get('port'));
 });
