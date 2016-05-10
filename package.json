@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "server/index.js",
 	"engines": {
-		"node": "4.2.1"
+		"node": "4.1.1"
 	},
 	"scripts": {
 		"clean": "./node_modules/.bin/rimraf node_modules doc typings coverage dist && npm cache clean",
