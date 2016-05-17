@@ -2,12 +2,14 @@
 import '../assets/less/app.less';
 // Components
 import AppComponent from './app.component';
+import AppHomeViewComponent from './components/view/home/home.component';
 // Modules
-import BrainTreeModule from './braintree/braintree.module';
+import BrainTreeModule from './modules/braintree/braintree.module';
+import CoreModule from './modules/core/core.module';
 
 let ngModule = angular.module('app', [
-	'ui.router',
-	BrainTreeModule.name
+	BrainTreeModule.name,
+	CoreModule.name
 ]);
 
 /**
@@ -16,31 +18,18 @@ let ngModule = angular.module('app', [
 ngModule
 	.config(appConfig)
 	.run(appRun)
-	.component('app', AppComponent);
+	.component('app', AppComponent)
+	.component('appHome', AppHomeViewComponent)
+	.value('$routerRootComponent', 'app');
 
 /* @ngInject */
-function appConfig($stateProvider, $urlRouterProvider) {
+function appConfig($locationProvider) {
 	console.log('appConfig');
-	// ---------- Routes ----------
-	$urlRouterProvider.otherwise('/');
-
-	// ----- States -----
-	let home = {
-		name: 'app',
-		url: '/',
-		abstract: true,
-		views: {
-			'appMain': {template: '<div ui-view="appContent"></div>'}
-		}
-	};
-
-	// ----- Register states -----
-	$stateProvider
-		.state(home);
+	$locationProvider.html5Mode(false);
 }
 
 /* @ngInject */
-function appRun($rootScope, $state) {
+function appRun($rootScope) {
 
 }
 

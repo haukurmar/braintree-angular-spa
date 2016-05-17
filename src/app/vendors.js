@@ -1,6 +1,6 @@
 // Scripts
 import jQuery from 'jquery';
 import angular from 'angular';
-import uiRouter from 'angular-ui-router';
+import componentRouter from '../../node_modules/@angular/router/angular1/angular_1_router';
 
 // CSS

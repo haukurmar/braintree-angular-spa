@@ -6,7 +6,11 @@ let component = {
 	bindings: {},
 	template,
 	controller,
-	controllerAs: 'vm'
+	controllerAs: 'vm',
+	$routeConfig: [
+		{ path: '/', name: 'Home', component: 'appHome', useAsDefault: true },
+		{ path: '/braintree/...', name: 'BraintreeHome', component: 'braintreeHome' }
+	]
 };
 
 export default component;

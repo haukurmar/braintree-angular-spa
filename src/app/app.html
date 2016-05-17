@@ -1,10 +1,9 @@
-<section ui-view="appMain"></section>
+<ul>
+	<li>
+		<a ng-link="['Home']">Home</a>
+		<a ng-link="['BraintreeHome']">Braintree</a>
+	</li>
+</ul>
 
-<h2>New customer</h2>
-<braintree-customer></braintree-customer>
+<ng-outlet></ng-outlet>
 
-<h2>Drop-in component</h2>
-<braintree-dropin></braintree-dropin>
-
-<h2>CreditCard component</h2>
-<braintree-creditcard></braintree-creditcard>

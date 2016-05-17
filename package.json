@@ -81,10 +81,10 @@
     "webpack-md5-hash": "0.0.4"
   },
   "dependencies": {
+    "@angular/router": "^0.2.0",
     "angular": "^1.5.5",
-    "angular-ui-router": "^0.2.18",
     "braintree-web": "^2.24.0",
-    "jquery": "^2.2.3" 
+    "jquery": "^2.2.3"
   },
   "bugs": {
     "url": "https://github.com/haukurmar/braintree-angular-web/issues"
