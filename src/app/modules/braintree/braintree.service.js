@@ -1,9 +1,8 @@
 import braintree from 'braintree-web';
-@Inject('$http')
+@Inject('$http', 'CONFIG')
 export default class BraintreeService {
 	constructor() {
-		//this._apiUrl = 'https://haukurmar-braintree-node-api.herokuapp.com/api';
-		this._apiUrl = 'http://127.0.0.1:5000/api';
+		this._apiUrl = this.CONFIG.braintreeApiUrl;
 		this._tokenPath = '/v1/token';
 		this._processPath = '/v1/process';
 		this._customerPath = '/v1/customers';
