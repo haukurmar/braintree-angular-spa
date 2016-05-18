@@ -6,13 +6,11 @@ export default class DropinComponent {
 		this.showDropinContainer = true;
 		this.isError = false;
 		this.isPaid = false;
-
-		this._activate();
 	}
 
 	// Private methods
 	// --------------------------------------------------
-	_activate() {
+	$onInit() {
 		console.log('Braintree Dropin Component...');
 		this._getToken();
 	}
