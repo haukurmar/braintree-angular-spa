@@ -1,27 +1,27 @@
-<section ng-class="{'error': vm.isError, 'success': vm.isCreated}">
+<section ng-class="{'error': $ctrl.isError, 'success': $ctrl.isCreated}">
 
-	<span><p ng-bind="vm.message"></p></span>
+	<span><p ng-bind="$ctrl.message"></p></span>
 
-	<div ng-show="vm.showForm">
+	<div ng-show="$ctrl.showForm">
 
-		<form name="customer" ng-submit="vm.createCustomer()">
+		<form name="customer" ng-submit="$ctrl.createCustomer()">
 			<div>
 				<label>CustomerId</label>
-				<input type="text" ng-model="vm.customerModel.id" required placeholder="Username for example" />
+				<input type="text" ng-model="$ctrl.customerModel.id" required placeholder="Username for example" />
 			</div>
 			<div>
 				<label>First name</label>
-				<input type="text" ng-model="vm.customerModel.firstName" required placeholder="First name" />
+				<input type="text" ng-model="$ctrl.customerModel.firstName" required placeholder="First name" />
 			</div>
 
 			<div>
 				<label>Last name</label>
-				<input type="text" ng-model="vm.customerModel.lastName" required placeholder="Last name" />
+				<input type="text" ng-model="$ctrl.customerModel.lastName" required placeholder="Last name" />
 			</div>
 
 			<div>
 				<label>Email</label>
-				<input type="email" ng-model="vm.customerModel.email" required placeholder="Email address" />
+				<input type="email" ng-model="$ctrl.customerModel.email" required placeholder="Email address" />
 			</div>
 
 

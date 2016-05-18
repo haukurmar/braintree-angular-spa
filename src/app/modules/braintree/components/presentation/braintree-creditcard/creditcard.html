@@ -1,26 +1,26 @@
-<section ng-class="{'error': vm.isError, 'success': vm.isPaid}">
+<section ng-class="{'error': $ctrl.isError, 'success': $ctrl.isPaid}">
 
-	<span><p ng-bind="vm.message"></p></span>
+	<span><p ng-bind="$ctrl.message"></p></span>
 
-	<div ng-show="vm.showForm">
+	<div ng-show="$ctrl.showForm">
 
-		<form name="payment" ng-submit="vm.processPayment()">
+		<form name="payment" ng-submit="$ctrl.processPayment()">
 			<label>Amount (XX.XX)</label>
-			<input type="text" ng-model="vm.amount" />
+			<input type="text" ng-model="$ctrl.amount" />
 			<br>
 
 			<label>Credit Card Number (XXXX XXXX XXXX XXXX)</label>
-			<input type="text" ng-model="vm.creditCardNumber"/>
+			<input type="text" ng-model="$ctrl.creditCardNumber"/>
 			<br>
 
 			<label>Expiration Date (MM/YY)</label>
-			<input type="text" ng-model="vm.expirationDate"/>
+			<input type="text" ng-model="$ctrl.expirationDate"/>
 			<br>
 
 			<button type="submit">Pay Now</button>
 		</form>
 
-		<button type="button" ng-click="vm.usePaypal($event)">Pay with paypal</button>
+		<button type="button" ng-click="$ctrl.usePaypal($event)">Pay with paypal</button>
 	</div>
 
 </section>
