@@ -8,14 +8,12 @@ export default class CustomerComponent {
 		this.showForm = true;
 
 		this.customerModel = {};
-
-		this._activate();
 	}
 
 	// Private methods
 	// --------------------------------------------------
-	_activate() {
-		console.log('Braintree Customer Component...');
+	$onInit() {
+		console.log('Braintree Customer Component $onInit...');
 	}
 
 	// Public viewModel methods

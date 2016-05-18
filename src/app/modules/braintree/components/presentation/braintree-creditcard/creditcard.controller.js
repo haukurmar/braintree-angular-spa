@@ -6,13 +6,11 @@ export default class CreditCardComponent {
 		this.isError = false;
 		this.isPaid = false;
 		this.showForm = true;
-
-		this._activate();
 	}
 
 	// Private methods
 	// --------------------------------------------------
-	_activate() {
+	$onInit() {
 		console.log('Braintree CreditCard Component...');
 	}
 
