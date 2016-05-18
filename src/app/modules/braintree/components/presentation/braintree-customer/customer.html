@@ -2,32 +2,27 @@
 
 	<span><p ng-bind="$ctrl.message"></p></span>
 
-	<div ng-show="$ctrl.showForm">
+	<form name="customer" ng-submit="$ctrl.onCreateCustomer({customerModel: $ctrl.customerModel})">
+		<div>
+			<label>CustomerId</label>
+			<input type="text" ng-model="$ctrl.customerModel.id" required placeholder="Username for example" />
+		</div>
+		<div>
+			<label>First name</label>
+			<input type="text" ng-model="$ctrl.customerModel.firstName" required placeholder="First name" />
+		</div>
 
-		<form name="customer" ng-submit="$ctrl.createCustomer()">
-			<div>
-				<label>CustomerId</label>
-				<input type="text" ng-model="$ctrl.customerModel.id" required placeholder="Username for example" />
-			</div>
-			<div>
-				<label>First name</label>
-				<input type="text" ng-model="$ctrl.customerModel.firstName" required placeholder="First name" />
-			</div>
+		<div>
+			<label>Last name</label>
+			<input type="text" ng-model="$ctrl.customerModel.lastName" required placeholder="Last name" />
+		</div>
 
-			<div>
-				<label>Last name</label>
-				<input type="text" ng-model="$ctrl.customerModel.lastName" required placeholder="Last name" />
-			</div>
-
-			<div>
-				<label>Email</label>
-				<input type="email" ng-model="$ctrl.customerModel.email" required placeholder="Email address" />
-			</div>
+		<div>
+			<label>Email</label>
+			<input type="email" ng-model="$ctrl.customerModel.email" required placeholder="Email address" />
+		</div>
 
 
-			<button type="submit">Continue</button>
-		</form>
-
-	</div>
-
+		<button type="submit">Continue</button>
+	</form>
 </section>
