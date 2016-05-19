@@ -4,22 +4,53 @@ import template from './subscribe.html';
 @Inject('braintreeService')
 class SubscribeComponent {
 	constructor() {
+		this.message = '';
+		this.plans = [];
 		this.state = {
-			showCustomerForm: true,
+			showCustomerForm: false,
 			showCreditCardForm: false,
+			showPlans: true,
 			showPaypalButton: false,
 			showMessage: false
+		};
+
+		// TODO: Move to service
+		this.subscription = {
+			plan: null,
+			customer: null,
+			paymentMethod: null
 		}
 	}
 
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
+		this._getAllSubscriptionPlans();
+	}
 
+	_getAllSubscriptionPlans() {
+		console.log('Getting all subscription plans...');
+		this.braintreeService.getAllSubscriptionPlans().then(
+			(response) => {
+				this.plans = response.data.plans;
+			},
+			(error) => {
+				this.message = 'Unable to get subscription plans, the development team has been notified, please try again later.';
+
+			}
+		);
 	}
 
 	// Public viewModel methods
 	// --------------------------------------------------
+	chooseSubscriptionPlan(subscriptionPlanModel) {
+		this.subscription.plan = subscriptionPlanModel;
+		this.state.showPlans = false;
+		this.state.showCustomerForm = true;
+		console.log('plan chosen', subscriptionPlanModel);
+	}
+
+
 	createCustomer(customerModel) {
 		console.log('Creating customer from subscribe', customerModel);
 		this.message = 'Creating customer...';
@@ -27,8 +58,8 @@ class SubscribeComponent {
 		this.state.showCustomerForm = false;
 
 		this.braintreeService.createCustomer(customerModel).then(
-			(success) => {
-				console.log('Customer created: ' + JSON.stringify(success.data));
+			(response) => {
+				console.log('Customer created: ' + JSON.stringify(response.data));
 				this.message = '';
 				this.state.showCreditCardForm = true;
 			},

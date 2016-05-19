@@ -4,6 +4,7 @@ import BraintreeService from './braintree.service';
 // Presentation Components
 import UICreditCardComponent from './components/presentation/braintree-creditcard/creditcard.component';
 import UICustomerComponent from './components/presentation/braintree-customer/customer.component';
+import UISubscriptionPlan from './components/presentation/braintree-subscription-plan/subscription-plan.component';
 
 // Business Components
 import CustomerBusinessComponent from './components/business/braintree-customer/customer.component';
@@ -27,6 +28,7 @@ ngModule
 	.component('braintreeSubscribe', SubscribeComponent)
 	.component('braintreeHome', HomeViewComponent)
 	.component('uiBraintreeCustomer', UICustomerComponent)
-	.component('uiBraintreeCreditcard', UICreditCardComponent);
+	.component('uiBraintreeCreditcard', UICreditCardComponent)
+	.component('uiBraintreeSubscriptionPlan', UISubscriptionPlan);
 
 export default ngModule;

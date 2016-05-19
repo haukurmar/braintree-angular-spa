@@ -6,10 +6,15 @@ export default class BraintreeService {
 		this._tokenPath = '/v1/token';
 		this._processPath = '/v1/process';
 		this._customerPath = '/v1/customers';
+		this._subscriptionPlansPath = '/v1/plans';
 	}
 
 	get apiUrl() {
 		return this._apiUrl
+	}
+
+	getAllSubscriptionPlans() {
+		return this.$http.get(this._apiUrl + this._subscriptionPlansPath);
 	}
 
 	/**

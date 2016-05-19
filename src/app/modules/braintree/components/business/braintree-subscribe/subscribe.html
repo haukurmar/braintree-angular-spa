@@ -2,6 +2,10 @@
 
 <p ng-if="$ctrl.state.showMessage" ng-bind="$ctrl.message"></p>
 
+<div ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.state.showPlans && $ctrl.plans.length">
+	<ui-braintree-subscription-plan subscription-plan="plan" on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)"></ui-braintree-subscription-plan>
+</div>
+
 <ui-braintree-customer on-create-customer="$ctrl.createCustomer(customerModel)" ng-if="$ctrl.state.showCustomerForm"></ui-braintree-customer>
 
 <ui-braintree-creditcard on-process-payment="$ctrl.processPayment(paymentModel)" ng-if="$ctrl.state.showCreditCardForm"></ui-braintree-creditcard>
