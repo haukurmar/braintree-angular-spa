@@ -18,7 +18,7 @@ class CreditCardComponent {
 
 	// Public viewModel methods
 	// --------------------------------------------------
-	processPayment(cardModel) {
+	processPayment(paymentModel) {
 		this.message = 'Processing payment...';
 		this.showForm = false;
 
@@ -30,12 +30,12 @@ class CreditCardComponent {
 				let client = new this.braintreeService.$braintree.api.Client({clientToken: response.data.client_token});
 
 				client.tokenizeCard({
-					number: cardModel.creditCardNumber,
-					expirationDate: cardModel.expirationDate
+					number: paymentModel.creditCardNumber,
+					expirationDate: paymentModel.expirationDate
 				}, (err, nonce) => {
 
 					let paymentData = {
-						amount: cardModel.amount,
+						amount: paymentModel.amount,
 						payment_method_nonce: nonce
 					};
 

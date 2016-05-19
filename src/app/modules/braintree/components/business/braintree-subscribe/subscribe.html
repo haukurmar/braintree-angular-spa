@@ -1,0 +1,7 @@
+<h1>Subscribe</h1>
+
+<p ng-if="$ctrl.state.showMessage" ng-bind="$ctrl.message"></p>
+
+<ui-braintree-customer on-create-customer="$ctrl.createCustomer(customerModel)" ng-if="$ctrl.state.showCustomerForm"></ui-braintree-customer>
+
+<ui-braintree-creditcard on-process-payment="$ctrl.processPayment(paymentModel)" ng-if="$ctrl.state.showCreditCardForm"></ui-braintree-creditcard>

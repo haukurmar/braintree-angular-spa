@@ -23,7 +23,7 @@ class BraintreeSubscribeComponent {
 	// Public viewModel methods
 	// --------------------------------------------------
 	createCustomer(customerModel) {
-		console.log('Creating customer from subscribe', customerModel);
+		console.log('Creating customer from customer', customerModel);
 		this.message = 'Creating customer...';
 		this.showForm = false;
 

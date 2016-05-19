@@ -1,15 +1,21 @@
-<form name="payment" ng-submit="$ctrl.onProcessPayment({cardModel: $ctrl.cardModel})">
-	<label>Amount (XX.XX)</label>
-	<input type="text" ng-model="$ctrl.cardModel.amount" />
-	<br>
+<section>
+	<h2>Please fill out your card details</h2>
+	<form name="payment" ng-submit="$ctrl.onProcessPayment({paymentModel: $ctrl.paymentModel})">
+		<div>
+			<label>Amount (XX.XX)</label>
+			<input type="text" ng-model="$ctrl.paymentModel.amount" required />
+		</div>
 
-	<label>Credit Card Number (XXXX XXXX XXXX XXXX)</label>
-	<input type="text" ng-model="$ctrl.cardModel.creditCardNumber" />
-	<br>
+		<div>
+			<label>Credit Card Number (XXXX XXXX XXXX XXXX)</label>
+			<input type="text" ng-model="$ctrl.paymentModel.creditCardNumber" required minlength="16" maxlength="16" />
+		</div>
 
-	<label>Expiration Date (MM/YY)</label>
-	<input type="text" ng-model="$ctrl.cardModel.expirationDate" />
-	<br>
+		<div>
+			<label>Expiration Date (MM/YY)</label>
+			<input type="text" ng-model="$ctrl.paymentModel.expirationDate" required maxlength="5" />
+		</div>
 
-	<button type="submit">Pay Now</button>
-</form>
+		<button type="submit">Pay Now</button>
+	</form>
+</section>
