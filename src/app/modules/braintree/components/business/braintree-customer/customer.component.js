@@ -1,7 +1,7 @@
 import template from './customer.html';
 
 // Inject dependencies
-@Inject('$http', 'braintreeService')
+@Inject('braintreeService')
 class BraintreeSubscribeComponent {
 	constructor() {
 		this.message = '';
