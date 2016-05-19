@@ -1,12 +1,10 @@
 import template from './customer.html';
-import controller from './customer.controller';
 
-// Component decorations
 let component = {
-	bindings: {},
-	template,
-	controller,
-	controllerAs: 'vm'
+	bindings: {
+		onCreateCustomer: '&'
+	},
+	template: template
 };
 
 export default component;

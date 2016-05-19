@@ -1,12 +1,12 @@
-<section ng-class="{'error': vm.isError, 'success': vm.isPaid}">
+<section ng-class="{'error': $ctrl.isError, 'success': $ctrl.isPaid}">
 
-	<span><p ng-bind="vm.message"></p></span>
+	<span><p ng-bind="$ctrl.message"></p></span>
 
-	<div ng-show="vm.showDropinContainer">
+	<div ng-show="$ctrl.showDropinContainer">
 
 		<form name="payment">
 			<label>Amount (XX.XX)</label>
-			<input type="number" ng-model="vm.amount" />
+			<input type="text" ng-model="$ctrl.amount" />
 
 			<!-- Add Dropin here -->
 			<div id="js-braintree-checkout-container"></div>

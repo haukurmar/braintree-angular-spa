@@ -1,6 +1,8 @@
+import template from './dropin.html';
+
 // Inject dependencies
 @Inject('$http', 'braintreeService')
-export default class DropinComponent {
+class DropinComponent {
 	constructor() {
 		this.message = 'Please use the form below to pay:';
 		this.showDropinContainer = true;
@@ -72,3 +74,12 @@ export default class DropinComponent {
 	// Public viewModel methods
 	// --------------------------------------------------
 }
+
+// Component decorations
+let component = {
+	bindings: {},
+	template: template,
+	controller: DropinComponent
+};
+
+export default component;

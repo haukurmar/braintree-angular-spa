@@ -1,28 +1,33 @@
+import template from './customer.html';
+
 // Inject dependencies
 @Inject('$http', 'braintreeService')
-export default class CustomerComponent {
+class BraintreeSubscribeComponent {
 	constructor() {
 		this.message = '';
 		this.isError = false;
 		this.isCreated = false;
 		this.showForm = true;
-
-		this.customerModel = {};
 	}
 
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		console.log('Braintree Customer Component $onInit...');
+
+	}
+
+	$onChanges(changesObj) {
+		console.log('Subscribe change detected', changesObj);
 	}
 
 	// Public viewModel methods
 	// --------------------------------------------------
-	createCustomer() {
+	createCustomer(customerModel) {
+		console.log('Creating customer from subscribe', customerModel);
 		this.message = 'Creating customer...';
 		this.showForm = false;
 
-		this.braintreeService.createCustomer(this.customerModel).then(
+		this.braintreeService.createCustomer(customerModel).then(
 			(success) => {
 				this.message = 'Customer created: ' + JSON.stringify(success.data);
 			},
@@ -35,3 +40,14 @@ export default class CustomerComponent {
 		);
 	}
 }
+
+// Component decorations
+let component = {
+	bindings: {
+
+	},
+	template : template,
+	controller: BraintreeSubscribeComponent
+};
+
+export default component;

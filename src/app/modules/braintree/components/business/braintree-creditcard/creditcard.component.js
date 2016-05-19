@@ -1,6 +1,8 @@
+import template from './creditcard.html';
+
 // Inject dependencies
 @Inject('$http', 'braintreeService')
-export default class CreditCardComponent {
+class CreditCardComponent {
 	constructor() {
 		this.message = 'Please use the form below to pay:';
 		this.isError = false;
@@ -16,7 +18,7 @@ export default class CreditCardComponent {
 
 	// Public viewModel methods
 	// --------------------------------------------------
-	processPayment() {
+	processPayment(cardModel) {
 		this.message = 'Processing payment...';
 		this.showForm = false;
 
@@ -28,12 +30,12 @@ export default class CreditCardComponent {
 				let client = new this.braintreeService.$braintree.api.Client({clientToken: response.data.client_token});
 
 				client.tokenizeCard({
-					number: this.creditCardNumber,
-					expirationDate: this.expirationDate
+					number: cardModel.creditCardNumber,
+					expirationDate: cardModel.expirationDate
 				}, (err, nonce) => {
 
 					let paymentData = {
-						amount: this.amount,
+						amount: cardModel.amount,
 						payment_method_nonce: nonce
 					};
 
@@ -70,3 +72,12 @@ export default class CreditCardComponent {
 		);
 	}
 }
+
+// Component decorations
+let component = {
+	bindings: {},
+	template: template,
+	controller: CreditCardComponent
+};
+
+export default component;

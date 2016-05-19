@@ -1,12 +1,11 @@
 import template from './creditcard.html';
-import controller from './creditcard.controller';
 
 // Component decorations
 let component = {
-	bindings: {},
-	template,
-	controller,
-	controllerAs: 'vm'
+	bindings: {
+		onProcessPayment: '&'
+	},
+	template: template
 };
 
 export default component;

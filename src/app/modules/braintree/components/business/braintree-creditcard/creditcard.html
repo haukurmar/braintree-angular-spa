@@ -1,0 +1,8 @@
+<section ng-class="{'error': $ctrl.isError, 'success': $ctrl.isPaid}">
+
+	<span><p ng-bind="$ctrl.message"></p></span>
+
+	<div ng-show="$ctrl.showForm">
+		<ui-braintree-creditcard on-process-payment="$ctrl.processPayment(cardModel)"></ui-braintree-creditcard>
+	</div>
+</section>
