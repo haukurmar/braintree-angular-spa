@@ -4,12 +4,12 @@ import template from './app.html';
 @Inject()
 export default class AppComponent {
 	constructor() {
-		this._activate();
+		
 	}
 
 	// Class methods
 	// --------------------------------------------------
-	_activate() {
+	$onInit() {
 		console.log('App Component...');
 	}
 }

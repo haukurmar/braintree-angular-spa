@@ -24,7 +24,6 @@ ngModule
 
 /* @ngInject */
 function appConfig($locationProvider) {
-	console.log('appConfig');
 	$locationProvider.html5Mode(false);
 }
 
