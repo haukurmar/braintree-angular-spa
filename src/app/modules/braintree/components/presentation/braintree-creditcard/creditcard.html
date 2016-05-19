@@ -1,26 +1,15 @@
-<section ng-class="{'error': $ctrl.isError, 'success': $ctrl.isPaid}">
+<form name="payment" ng-submit="$ctrl.onProcessPayment({cardModel: $ctrl.cardModel})">
+	<label>Amount (XX.XX)</label>
+	<input type="text" ng-model="$ctrl.cardModel.amount" />
+	<br>
 
-	<span><p ng-bind="$ctrl.message"></p></span>
+	<label>Credit Card Number (XXXX XXXX XXXX XXXX)</label>
+	<input type="text" ng-model="$ctrl.cardModel.creditCardNumber" />
+	<br>
 
-	<div ng-show="$ctrl.showForm">
+	<label>Expiration Date (MM/YY)</label>
+	<input type="text" ng-model="$ctrl.cardModel.expirationDate" />
+	<br>
 
-		<form name="payment" ng-submit="$ctrl.processPayment()">
-			<label>Amount (XX.XX)</label>
-			<input type="text" ng-model="$ctrl.amount" />
-			<br>
-
-			<label>Credit Card Number (XXXX XXXX XXXX XXXX)</label>
-			<input type="text" ng-model="$ctrl.creditCardNumber"/>
-			<br>
-
-			<label>Expiration Date (MM/YY)</label>
-			<input type="text" ng-model="$ctrl.expirationDate"/>
-			<br>
-
-			<button type="submit">Pay Now</button>
-		</form>
-
-		<button type="button" ng-click="$ctrl.usePaypal($event)">Pay with paypal</button>
-	</div>
-
-</section>
+	<button type="submit">Pay Now</button>
+</form>

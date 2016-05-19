@@ -1,4 +1,4 @@
-import template from './subscribe.html';
+import template from './customer.html';
 
 // Inject dependencies
 @Inject('$http', 'braintreeService')

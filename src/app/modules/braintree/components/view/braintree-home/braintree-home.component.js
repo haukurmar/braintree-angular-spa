@@ -6,9 +6,8 @@ let component = {
 	template,
 	$routeConfig: [
 		{path: '/',         name: 'Customer',   component: 'braintreeCustomer', useAsDefault: true},
-		{path: '/subscribe', name: 'Subscribe',   component: 'braintreeSubscribe'},
 		{path: '/customer', name: 'Customer',   component: 'braintreeCustomer'},
-		{path: '/cards',    name: 'CreditCards',component: 'braintreeCreditcard'},
+		{path: '/cards',    name: 'CreditCards',component: 'braintreeCreditCard'},
 		{path: '/dropin',   name: 'Dropin',     component: 'braintreeDropin'}
 	]
 };
