@@ -8,4 +8,9 @@
 
 <ui-braintree-customer on-create-customer="$ctrl.createCustomer(customerModel)" ng-if="$ctrl.state.showCustomerForm"></ui-braintree-customer>
 
-<ui-braintree-creditcard on-process-payment="$ctrl.processPayment(paymentModel)" ng-if="$ctrl.state.showCreditCardForm"></ui-braintree-creditcard>
+<ui-braintree-creditcard on-process-payment="$ctrl.createVaultedPayment(paymentModel)" ng-if="$ctrl.state.showCreditCardForm"></ui-braintree-creditcard>
+
+<section ng-if="$ctrl.state.showConfirmPanel">
+	<h2>Verify</h2>
+	<button ng-click="$ctrl.confirmSubscription()">Confirm subscription</button>
+</section>
