@@ -2,17 +2,17 @@
 	<h2 class="Heading--two">Please fill out your card details</h2>
 	<form name="payment" ng-submit="$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})">
 		<div class="Form-item">
-			<label class="Form-itemLabel">Amount (XX.XX)</label>
+			<label class="Form-itemLabel">Amount</label>
 			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.amount" required />
 		</div>
 
 		<div class="Form-item">
-			<label class="Form-itemLabel">Credit Card Number (4111111111111111)</label>
+			<label class="Form-itemLabel">Credit Card Number</label>
 			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.creditCardNumber" required minlength="16" maxlength="16" />
 		</div>
 
 		<div class="Form-item">
-			<label class="Form-itemLabel">Expiration Date (01/18)</label>
+			<label class="Form-itemLabel">Expiration Date</label>
 			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.expirationDate" required maxlength="5" />
 		</div>
 

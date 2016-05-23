@@ -1,3 +1,6 @@
+// Modules
+import CommonModule from '../common/common.module';
+
 // Services
 import BraintreeService from './braintree.service';
 
@@ -15,7 +18,9 @@ import SubscribeContainerComponent from './components/container/braintree-subscr
 // View Components (Route Components)
 import HomeViewComponent from './components/view/braintree-home/braintree-home.component';
 
-let ngModule = angular.module('braintree', []);
+let ngModule = angular.module('braintree', [
+	CommonModule.name
+]);
 
 /**
  * App Module

@@ -5,9 +5,13 @@ import template from './creditcard.html';
 class CreditCardComponent {
 	constructor() {
 		this.message = '';
-		this.isError = false;
-		this.isPaid = false;
-		this.showForm = true;
+		this.loadingText = '';
+		this.state = {
+			loading: false,
+			showForm: true,
+			error: false,
+			paid: false
+		};
 	}
 
 	// Private methods
@@ -19,14 +23,14 @@ class CreditCardComponent {
 	// Public viewModel methods
 	// --------------------------------------------------
 	processPayment(paymentModel) {
-		this.message = 'Processing payment...';
-		this.showForm = false;
+		this.loadingText = 'Processing payment...';
+		this.state.loading = true;
+		this.state.showForm = false;
 
 		// Send request to get token, then use the token to tokenize credit card info and process a transaction
 		this.braintreeService.getClientToken().then(
 			(response) => {
 				// Create new client and tokenize card
-
 				let client = new this.braintreeService.$braintree.api.Client({clientToken: response.data.client_token});
 
 				client.tokenizeCard({
@@ -42,32 +46,36 @@ class CreditCardComponent {
 					this.braintreeService.processPayment(paymentData).then(
 						(response) => {
 							console.log(response.data.success);
-							this.showForm = false;
-
 							if (response.data.success) {
 								this.message = 'Payment authorized, thanks.';
-								this.isError = false;
-								this.isPaid = true;
+								this.state.paid = true;
+								this.state.error = false;
+								this.state.loading = false;
+								this.state.showForm = false;
 
 							} else {
 								// TODO: Handle different payment failures
 								this.message = 'Payment failed: ' + response.data.message + ' Please refresh the page and try again.';
-								this.isError = true;
+								this.state.error = true;
+								this.state.loading = false;
+								this.state.showForm = true;
 							}
 
 						},
 						(error) => {
 							this.message = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
-							this.isError = true;
-							this.showForm = false;
+							this.state.error = true;
+							this.state.loading = false;
+							this.state.showForm = true;
 						}
 					);
 				})
 			},
 			(error) => {
 				this.message = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
-				this.isError = true;
-				this.showForm = false;
+				this.state.error = true;
+				this.state.loading = false;
+				this.state.showForm = false;
 			}
 		);
 	}

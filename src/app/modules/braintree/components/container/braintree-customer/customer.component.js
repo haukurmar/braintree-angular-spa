@@ -5,9 +5,11 @@ import template from './customer.html';
 class BraintreeSubscribeComponent {
 	constructor() {
 		this.message = '';
-		this.isError = false;
-		this.isCreated = false;
-		this.showForm = true;
+		this.loadingText = '';
+		this.state = {
+			loading: false,
+			showForm: true
+		};
 	}
 
 	// Private methods
@@ -24,16 +26,19 @@ class BraintreeSubscribeComponent {
 	// --------------------------------------------------
 	createCustomer(customerModel) {
 		console.log('Creating customer from customer', customerModel);
-		this.message = 'Creating customer...';
-		this.showForm = false;
+		this.loadingText = 'Creating customer...';
+		this.state.loading = true;
 
 		this.braintreeService.createCustomer(customerModel).then(
 			(success) => {
-				this.message = 'Customer created: ' + JSON.stringify(success.data);
+				this.state.loading = false;
+				this.state.showForm = false;
+				this.message = 'Customer created successfully!';
 			},
 			(error) => {
 				// TODO: Handle errors better (use error.data.errors collection)
 				this.message = error.data.message;
+				this.state.loading = false;
 				console.log('Error message', error.data.message);
 				console.log('Errors:', error.data.errors);
 			}

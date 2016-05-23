@@ -1,22 +1,20 @@
 <h2 class="Heading--two">Subscribe</h2>
 <hr class="Divider--dotted">
 
-<p ng-if="$ctrl.state.showMessage" ng-bind="$ctrl.message"></p>
+<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
 
-<div class="u-textCenter m--4" ng-if="$ctrl.state.loading">
-	<i class="fa fa-circle-o-notch fa-spin fa-4x"></i>
-</div>
+<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading" text="$ctrl.loadingText"></ui-loading-icon>
+
 <div ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.state.showPlans && $ctrl.plans.length">
-
-	<ui-braintree-subscription-plan subscription-plan="plan" on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)"></ui-braintree-subscription-plan>
+	<ui-braintree-subscription-plan subscription-plan="plan" on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
 	<hr class="Divider--dotted">
 </div>
 
-<ui-braintree-customer on-submit="$ctrl.createCustomer(customerModel)" button-text="'Continue'" ng-if="$ctrl.state.showCustomerForm"></ui-braintree-customer>
+<ui-braintree-customer on-submit="$ctrl.createCustomer(customerModel)" button-text="'Continue'" ng-if="$ctrl.state.showCustomerForm" ng-hide="$ctrl.state.loading"></ui-braintree-customer>
 
-<ui-braintree-creditcard on-submit="$ctrl.createVaultedPayment(paymentModel)" button-text="'Continue'" ng-if="$ctrl.state.showCreditCardForm"></ui-braintree-creditcard>
+<ui-braintree-creditcard on-submit="$ctrl.createVaultedPayment(paymentModel)" button-text="'Continue'" ng-if="$ctrl.state.showCreditCardForm" ng-hide="$ctrl.state.loading"></ui-braintree-creditcard>
 
-<section ng-if="$ctrl.state.showConfirmPanel">
-	<h2>Verify</h2>
+<section ng-if="$ctrl.state.showConfirmPanel" ng-hide="$ctrl.state.loading">
+	<h2>Verify subscription</h2>
 	<button class="Button Button--success Button--lg" ng-click="$ctrl.confirmSubscription()">Confirm subscription</button>
 </section>
