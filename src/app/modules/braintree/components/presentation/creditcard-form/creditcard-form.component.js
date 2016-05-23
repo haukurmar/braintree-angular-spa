@@ -1,4 +1,4 @@
-import template from './creditcard.html';
+import template from './creditcard-form.html';
 
 // Component decorations
 let component = {

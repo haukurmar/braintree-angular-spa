@@ -1,4 +1,4 @@
-import template from './customer.html';
+import template from './customer-form.html';
 
 let component = {
 	bindings: {

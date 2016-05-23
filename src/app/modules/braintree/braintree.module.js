@@ -5,16 +5,16 @@ import CommonModule from '../common/common.module';
 import BraintreeService from './braintree.service';
 
 // Presentation Components
-import UICreditCardComponent from './components/presentation/braintree-creditcard/creditcard.component';
-import UICustomerComponent from './components/presentation/braintree-customer/customer.component';
-import UISubscriptionPlanComponent from './components/presentation/braintree-subscription-plan/subscription-plan.component';
+import UICreditCardFormComponent from './components/presentation/creditcard-form/creditcard-form.component';
+import UICustomerFormComponent from './components/presentation/customer-form/customer-form.component';
+import UISubscriptionPlanComponent from './components/presentation/subscription-plan/subscription-plan.component';
 import UISubscriptionOverviewComponent from './components/presentation/subscription-overview/subscription-overview.component';
 
 // Container Components
-import CustomerContainerComponent from './components/container/braintree-customer/customer.component';
-import CreditCardContainerComponent from './components/container/braintree-creditcard/creditcard.component';
-import DropinContainerComponent from './components/container/braintree-dropin/dropin.component';
-import SubscribeContainerComponent from './components/container/braintree-subscribe/subscribe.component';
+import CustomerContainerComponent from './components/container/customer/customer.component';
+import CreditCardContainerComponent from './components/container/creditcard/creditcard.component';
+import DropinContainerComponent from './components/container/dropin/dropin.component';
+import SubscribeContainerComponent from './components/container/subscribe/subscribe.component';
 
 // View Components (Route Components)
 import HomeViewComponent from './components/view/braintree-home/braintree-home.component';
@@ -33,8 +33,8 @@ ngModule
 	.component('braintreeDropin', DropinContainerComponent)
 	.component('braintreeSubscribe', SubscribeContainerComponent)
 	.component('braintreeHome', HomeViewComponent)
-	.component('uiBraintreeCustomer', UICustomerComponent)
-	.component('uiBraintreeCreditcard', UICreditCardComponent)
+	.component('uiBraintreeCustomerForm', UICustomerFormComponent)
+	.component('uiBraintreeCreditcardForm', UICreditCardFormComponent)
 	.component('uiBraintreeSubscriptionPlan', UISubscriptionPlanComponent)
 	.component('uiBraintreeSubscriptionOverview', UISubscriptionOverviewComponent);
 

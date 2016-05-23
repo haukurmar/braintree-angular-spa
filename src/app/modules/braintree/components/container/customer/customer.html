@@ -1,0 +1,3 @@
+<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
+<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading" text="$ctrl.loadingText"></ui-loading-icon>
+<ui-braintree-customer-form on-submit="$ctrl.createCustomer(customerModel)" button-text="'Create customer'" ng-hide="$ctrl.state.loading || !$ctrl.state.showForm"></ui-braintree-customer-form>
