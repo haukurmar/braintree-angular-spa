@@ -12,7 +12,8 @@ class SubscribeComponent {
 			showPlans: true,
 			showPaypalButton: false,
 			showMessage: false,
-			showConfirmPanel: true
+			showConfirmPanel: true,
+			loading: false
 		};
 
 		// TODO: Move to service
@@ -32,14 +33,15 @@ class SubscribeComponent {
 	}
 
 	_getAllSubscriptionPlans() {
-		console.log('Getting all subscription plans...');
+		this.state.loading = true;
 		this.braintreeService.getAllSubscriptionPlans().then(
 			(response) => {
 				this.plans = response.data.plans;
+				this.state.loading = false;
 			},
 			(error) => {
 				this.message = 'Unable to get subscription plans, the development team has been notified, please try again later.';
-
+				this.state.loading = false;
 			}
 		);
 	}

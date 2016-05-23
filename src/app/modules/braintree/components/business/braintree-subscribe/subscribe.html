@@ -3,7 +3,11 @@
 
 <p ng-if="$ctrl.state.showMessage" ng-bind="$ctrl.message"></p>
 
+<div class="u-textCenter m--4" ng-if="$ctrl.state.loading">
+	<i class="fa fa-circle-o-notch fa-spin fa-4x"></i>
+</div>
 <div ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.state.showPlans && $ctrl.plans.length">
+
 	<ui-braintree-subscription-plan subscription-plan="plan" on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)"></ui-braintree-subscription-plan>
 	<hr class="Divider--dotted">
 </div>
