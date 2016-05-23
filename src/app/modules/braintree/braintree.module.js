@@ -6,7 +6,7 @@ import UICreditCardComponent from './components/presentation/braintree-creditcar
 import UICustomerComponent from './components/presentation/braintree-customer/customer.component';
 import UISubscriptionPlan from './components/presentation/braintree-subscription-plan/subscription-plan.component';
 
-// Business Components
+// Container Components
 import CustomerContainerComponent from './components/container/braintree-customer/customer.component';
 import CreditCardContainerComponent from './components/container/braintree-creditcard/creditcard.component';
 import DropinContainerComponent from './components/container/braintree-dropin/dropin.component';
