@@ -3,7 +3,8 @@ import template from './creditcard.html';
 // Component decorations
 let component = {
 	bindings: {
-		onProcessPayment: '&'
+		onSubmit: '&',
+		buttonText: '<'
 	},
 	template: template
 };

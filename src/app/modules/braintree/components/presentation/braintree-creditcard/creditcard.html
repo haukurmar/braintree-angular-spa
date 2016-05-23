@@ -1,6 +1,6 @@
 <section>
 	<h2 class="Heading--two">Please fill out your card details</h2>
-	<form name="payment" ng-submit="$ctrl.onProcessPayment({paymentModel: $ctrl.paymentModel})">
+	<form name="payment" ng-submit="$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})">
 		<div class="Form-item">
 			<label class="Form-itemLabel">Amount (XX.XX)</label>
 			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.amount" required />
@@ -16,6 +16,6 @@
 			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.expirationDate" required maxlength="5" />
 		</div>
 
-		<button class="Button Button--primary" type="submit">Pay Now</button>
+		<button class="Button Button--primary" type="submit">{{ $ctrl.buttonText }}</button>
 	</form>
 </section>
