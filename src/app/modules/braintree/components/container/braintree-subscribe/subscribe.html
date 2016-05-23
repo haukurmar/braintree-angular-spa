@@ -16,5 +16,6 @@
 
 <section ng-if="$ctrl.state.showConfirmPanel" ng-hide="$ctrl.state.loading">
 	<h2>Verify subscription</h2>
+	<ui-braintree-subscription-overview subscription-plan="$ctrl.selectedSubscriptionPlan"></ui-braintree-subscription-overview>
 	<button class="Button Button--success Button--lg" ng-click="$ctrl.confirmSubscription()">Confirm subscription</button>
 </section>

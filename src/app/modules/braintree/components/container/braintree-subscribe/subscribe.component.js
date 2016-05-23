@@ -17,12 +17,7 @@ class SubscribeComponent {
 			loading: false
 		};
 
-		// TODO: Move to service
-		this.subscription = {
-			plan: null,
-			customer: null,
-			paymentMethod: null
-		}
+		this.selectedSubscriptionPlan = {}
 	}
 
 	// Private methods
@@ -85,6 +80,7 @@ class SubscribeComponent {
 
 		this.state.showPlans = false;
 		this.state.showCustomerForm = true;
+		this.selectedSubscriptionPlan = subscriptionPlanModel;
 
 		let customer = {
 			subscriptionPlan: subscriptionPlanModel
