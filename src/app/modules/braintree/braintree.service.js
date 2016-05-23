@@ -1,5 +1,5 @@
 import braintree from 'braintree-web';
-@Inject('$http', 'CONFIG')
+@Inject('$http', 'CONFIG', '$q')
 export default class BraintreeService {
 	constructor() {
 		this._apiUrl = this.CONFIG.braintreeApiUrl;
@@ -19,7 +19,6 @@ export default class BraintreeService {
 	// Private methods
 	// --------------------------------------------------
 
-
 	// Public methods
 	// --------------------------------------------------
 	get apiUrl() {
@@ -34,15 +33,13 @@ export default class BraintreeService {
 		this.getClientToken().then(
 			(response) => {
 				this.$braintree.setup(response.data.client_token, "custom");
-				console.log('Braintree setup with the clientToken', response.data.client_token);
 				let customer = {
 					clientToken: response.data.client_token
 				};
 
 				this.updateCustomer(customer);
-			});
-
-
+			}
+		);
 	}
 
 	/**
@@ -50,7 +47,7 @@ export default class BraintreeService {
 	 * @param paymentModel
 	 */
 	getPaymentMethodNonce(paymentModel) {
-		return new Promise((resolve, reject) => {
+		return this.$q((resolve, reject) => {
 			this.getClientToken().then(
 				(response) => {
 					// Create new client and tokenize card
@@ -87,6 +84,8 @@ export default class BraintreeService {
 
 	// TODO: Probably change to take in the model
 	createSubscription() {
+		console.log('createSubscription', this.customer);
+		console.log('this.customer.paymentMethod.token', this.customer.paymentMethod.token);
 		let subscriptionData = {
 			paymentMethodToken: this.customer.paymentMethod.token,
 			planId: this.customer.subscriptionPlan.id
@@ -102,28 +101,27 @@ export default class BraintreeService {
 	}
 
 	createVaultedPayment(customerId, paymentModel) {
-		// Tokenize creditcard and get paymentMethodNonce
-		return new Promise((resolve, reject) => {
+		return this.$q((resolve, reject) => {
+			// Get PaymentMethodNonce to send when saving a payment method to the braintree vault.
 			this.getPaymentMethodNonce(paymentModel).then(
 				(nonce) => {
 					let data = {
 						customerId: customerId,
-						paymentMethodNonce: nonce,
-						token: this.customer.paymentMethodToken
-					};
-
-					console.log('Vault payment data', data);
-
-					let customer = {
 						paymentMethodNonce: nonce
 					};
-
-					// Save the paymentMethodNonce to customer
-					this.updateCustomer(customer);
+					console.log('Vault payment data', data);
 
 					// Save to Vault
-					console.log('paymentMethodNonce and customer: ', data);
-					resolve(this.$http.post(this._apiUrl + this._paymentMethodsPath, data));
+					this.$http.post(this._apiUrl + this._paymentMethodsPath, data).then(
+						(res) => {
+							this.updateCustomer(res.data.customer);
+							console.log('Payment method created!', res);
+							resolve(res);
+						},
+						(error) => {
+							reject('Failed to create payment method:', error);
+						}
+					);
 				},
 				(error) => {
 					console.log('Failed to get PaymentMethodNonce', error);
@@ -162,7 +160,6 @@ export default class BraintreeService {
 	get $braintree() {
 		return braintree;
 	}
-
 
 	// TODO: Move somewhere else
 	// Walk throught the object tree and set values
