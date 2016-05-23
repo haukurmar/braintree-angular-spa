@@ -1,0 +1,135 @@
+/********************************************
+	Panel
+********************************************/
+
+/// Naming conventions:
+// LegoName
+// LegoName--modifierName
+// LegoName-descendantName
+// LegoName.is-stateOfLego
+// Variable names:
+// @lego--modifier-property ex: @button--warning-borderColor
+// @lego--modifier-descendant-property ex: @listGroup-itemHeading-fontSize
+
+// -------------------- Variables --------------------
+
+// ----- Wrapper
+@panel-marginTop: 2;
+@panel-marginBottom: 2;
+@panel-color: inherit;
+@panel-backgroundColor: #fff;
+// Border
+@panel-borderWidth: 0;
+@panel-borderStyle: solid;
+@panel-borderColor: transparent;
+@panel-borderRadius: 0;
+
+// ----- Header
+@panel-header-borderWidth : 0;
+@panel-header-borderStyle: solid;
+@panel-header-borderColor: transparent;
+@panel-header-backgroundColor: #fff;
+
+// ----- Heading
+@panel-heading-fontFamily: inherit;
+@panel-heading-marginTop: 1;
+@panel-heading-marginBottom: 1;
+@panel-heading-paddingLeft: 10px;
+@panel-heading-paddingRight: 10px;
+@panel-heading-color: @base-color--light;
+
+// ----- Body
+@panel-body-paddingLeft: 20px;
+@panel-body-paddingRight: 20px;
+
+// --- Custom modifiers ---
+@panel--warning-color: #fff;
+@panel--warning-bgColor: @brand-warning;
+@panel--warning-border: 1px solid darken(@panel--warning-bgColor, 20%);
+@panel--warning-header-bgColor: darken(@panel--warning-bgColor, 10%);
+@panel--warning-heading-color: inherit;
+
+@panel--info-color: #fff;
+@panel--info-bgColor: @brand-primary;
+@panel--info-border: 1px solid darken(@panel--info-bgColor, 20%);
+@panel--info-header-bgColor: darken(@panel--info-bgColor, 10%);
+@panel--info-heading-color: inherit;
+
+@panel--success-color: #fff;
+@panel--success-bgColor: @brand-success;
+@panel--success-border: 1px solid darken(@panel--success-bgColor, 20%);
+@panel--success-header-bgColor: darken(@panel--success-bgColor, 10%);
+@panel--success-heading-color: inherit;
+
+@panel--danger-color: #fff;
+@panel--danger-bgColor: @brand-danger;
+@panel--danger-border: 1px solid darken(@panel--danger-bgColor, 20%);
+@panel--danger-header-bgColor: darken(@panel--danger-bgColor, 10%);
+@panel--danger-heading-color: inherit;
+
+// -------------------- Core LEGO --------------------
+.Panel {
+	.Panel();
+}
+
+// -------------------- Descendands --------------------
+// Wrapper around .Panel-heading
+.Panel-header {
+	.Panel-header();
+}
+
+.Panel-heading {
+	.Panel-heading();
+	font-family: @base-heading-fontFamily;
+	border-bottom: 1px solid @base-borderColor;
+	margin-left: @panel-body-paddingLeft;
+	margin-right: @panel-body-paddingRight;
+	.height(7); // Set the height because of the border to fit baseline
+	.line-height(7);
+
+	&.Heading--two {
+		color: @base-color;
+		.line-height(7);
+	}
+}
+
+.Panel-body {
+	.Panel-body();
+	overflow: hidden; // margin overflow fix
+}
+
+// -------------------- Modifiers --------------------
+// Modifier on body descendand
+.Panel-body--highlight {
+	.Panel-body--highlight();
+}
+
+.Panel--transparent {
+	.Panel--transparent();
+}
+
+// -------------------- Custom descendands --------------------
+
+// Container around .Nav--tabs
+.Panel-tabs {
+	background-color: #fff;
+	.margin-top(2);
+	.padding-top(1);
+}
+
+// -------------------- Custom modifiers --------------------
+.Panel--warning {
+	.createPanelModifier(@panel--warning-color, @panel--warning-bgColor, @panel--warning-border, @panel--warning-header-bgColor, @panel--warning-heading-color);
+}
+
+.Panel--info {
+	.createPanelModifier(@panel--info-color, @panel--info-bgColor, @panel--info-border, @panel--info-header-bgColor, @panel--info-heading-color);
+}
+
+.Panel--danger {
+	.createPanelModifier(@panel--danger-color, @panel--danger-bgColor, @panel--danger-border, @panel--danger-header-bgColor, @panel--danger-heading-color);
+}
+
+.Panel--success {
+	.createPanelModifier(@panel--success-color, @panel--success-bgColor, @panel--success-border, @panel--success-header-bgColor, @panel--success-heading-color);
+}

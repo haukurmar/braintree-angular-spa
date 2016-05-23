@@ -1,0 +1,103 @@
+/********************************************
+	Text utils
+********************************************/
+
+// When writing Lego's we use BEM naming conventions
+// Utilities must use a camel case name.
+// Example:
+// u-utilityName
+// This is usually the only place you are allowed to have !important
+
+// -------------------- Text utils --------------------
+
+//
+
+/**
+ * Web accessibility
+ *
+ * For text that's rendered for Web Accessibility
+ * (i.e. for buttons that are icons) but not visible in the UI.
+ */
+
+.u-waiText {
+	display: none;
+}
+
+/**
+ * Text layout
+ */
+.u-textUpper {
+	text-transform: uppercase !important;
+}
+
+.u-textLower {
+	text-transform: lowercase !important;
+}
+
+.u-textCenter {
+	text-align: center !important;
+}
+
+.u-textLeft {
+	text-align: left !important;
+}
+
+.u-textRight {
+	text-align: right !important;
+}
+
+.u-textMiddle {
+	vertical-align: middle;
+}
+
+/**
+ * Text truncation
+ *
+ * Prevent text from wrapping onto multiple lines, and truncate with an
+ * ellipsis.
+ *
+ * 1. Ensure that the node has a maximum width after which truncation can
+ *    occur.
+ * 2. Fix for IE 8/9 if `word-wrap: break-word` is in effect on ancestor
+ *    nodes.
+ */
+.u-textTruncate {
+	max-width: 100%; /* 1 */
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	white-space: nowrap !important;
+	word-wrap: normal !important; /* 2 */
+}
+
+/**
+ * Word breaking
+ *
+ * Break strings when their length exceeds the width of their container.
+ */
+.u-textBreak {
+	word-wrap: break-word !important;
+}
+
+/**
+ * Text colors
+ *
+ */
+.u-textPrimary {
+	color: @brand-primary;
+}
+
+.u-textSecondary {
+	color: @brand-secondary;
+}
+
+.u-textSuccess {
+	color: @brand-success;
+}
+
+.u-textWarning {
+	color: @brand-warning;
+}
+
+.u-textDanger {
+	color: @brand-danger;
+}
