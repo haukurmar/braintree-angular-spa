@@ -2,7 +2,8 @@ import template from './customer.html';
 
 let component = {
 	bindings: {
-		onCreateCustomer: '&'
+		onSubmit: '&',
+		buttonText: '<'
 	},
 	template: template
 };

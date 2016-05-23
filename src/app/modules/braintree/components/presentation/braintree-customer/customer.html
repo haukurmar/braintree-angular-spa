@@ -1,6 +1,6 @@
 <section>
 	<h2 class="Heading--two">Please fill out your contact information</h2>
-	<form name="customer" ng-submit="$ctrl.onCreateCustomer({customerModel: $ctrl.customerModel})">
+	<form name="customer" ng-submit="$ctrl.onSubmit({customerModel: $ctrl.customerModel})">
 		<div class="Form-item">
 			<label class="Form-itemLabel" for="txtCustomerId">CustomerId</label>
 			<input type="text" class="Textbox" id="txtCustomerId" ng-model="$ctrl.customerModel.id" placeholder="Username for example" />
@@ -20,6 +20,6 @@
 			<input type="email" class="Textbox" id="txtEmail" ng-model="$ctrl.customerModel.email" required placeholder="Email address" />
 		</div>
 
-		<button class="Button Button--primary" type="submit">Continue</button>
+		<button class="Button Button--primary" type="submit">{{ $ctrl.buttonText }}</button>
 	</form>
 </section>

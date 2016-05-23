@@ -12,7 +12,7 @@
 	<hr class="Divider--dotted">
 </div>
 
-<ui-braintree-customer on-create-customer="$ctrl.createCustomer(customerModel)" ng-if="$ctrl.state.showCustomerForm"></ui-braintree-customer>
+<ui-braintree-customer on-submit="$ctrl.createCustomer(customerModel)" button-text="'Continue'" ng-if="$ctrl.state.showCustomerForm"></ui-braintree-customer>
 
 <ui-braintree-creditcard on-process-payment="$ctrl.createVaultedPayment(paymentModel)" ng-if="$ctrl.state.showCreditCardForm"></ui-braintree-creditcard>
 
