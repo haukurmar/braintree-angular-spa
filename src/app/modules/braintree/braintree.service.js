@@ -105,18 +105,18 @@ export default class BraintreeService {
 			// Get PaymentMethodNonce to send when saving a payment method to the braintree vault.
 			this.getPaymentMethodNonce(paymentModel).then(
 				(nonce) => {
-					let data = {
+					let paymentMethodModel = {
 						customerId: customerId,
 						paymentMethodNonce: nonce
 					};
-					console.log('Vault payment data', data);
+					console.log('Vault payment data', paymentMethodModel);
 
 					// Save to Vault
-					this.$http.post(this._apiUrl + this._paymentMethodsPath, data).then(
-						(res) => {
-							this.updateCustomer(res.data.customer);
-							console.log('Payment method created!', res);
-							resolve(res);
+					this.createPaymentMethod(paymentMethodModel).then(
+						(response) => {
+							this.updateCustomer(response.data.customer);
+							console.log('Payment method created!', response);
+							resolve(response);
 						},
 						(error) => {
 							reject('Failed to create payment method:', error);
@@ -129,6 +129,15 @@ export default class BraintreeService {
 				}
 			);
 		});
+	}
+
+	/**
+	 * Add a payment method to customer
+	 * Expects a paymentMethodModel: {customerId: x, paymentMethodNonce: x }
+	 * @param paymentMethodModel
+	 */
+	createPaymentMethod(paymentMethodModel) {
+		return this.$http.post(this._apiUrl + this._paymentMethodsPath, paymentMethodModel);
 	}
 
 	getAllSubscriptionPlans() {

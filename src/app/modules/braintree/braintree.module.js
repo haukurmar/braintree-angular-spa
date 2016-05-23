@@ -15,6 +15,7 @@ import CustomerContainerComponent from './components/container/customer/customer
 import CreditCardContainerComponent from './components/container/creditcard/creditcard.component';
 import DropinContainerComponent from './components/container/dropin/dropin.component';
 import SubscribeContainerComponent from './components/container/subscribe/subscribe.component';
+import PaypalContainerComponent from './components/container/paypal/paypal.component';
 
 // View Components (Route Components)
 import HomeViewComponent from './components/view/braintree-home/braintree-home.component';
@@ -32,6 +33,7 @@ ngModule
 	.component('braintreeCreditCard', CreditCardContainerComponent)
 	.component('braintreeDropin', DropinContainerComponent)
 	.component('braintreeSubscribe', SubscribeContainerComponent)
+	.component('braintreePaypal', PaypalContainerComponent)
 	.component('braintreeHome', HomeViewComponent)
 	.component('uiBraintreeCustomerForm', UICustomerFormComponent)
 	.component('uiBraintreeCreditcardForm', UICreditCardFormComponent)

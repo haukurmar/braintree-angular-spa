@@ -12,6 +12,8 @@ class SubscribeComponent {
 			showCustomerForm: false,
 			showCreditCardForm: false,
 			showPlans: true,
+			showPaymentMethods: false,
+			showPaypal: false,
 			showPaypalButton: false,
 			showConfirmPanel: false,
 			loading: false
@@ -89,6 +91,18 @@ class SubscribeComponent {
 		this.braintreeService.updateCustomer(customer);
 	}
 
+	choosePaymentMethod(type) {
+		if(type === 'creditcard') {
+			this.state.showCreditCardForm = true;
+			this.state.showPaypal = false;
+		} else if(type === 'paypal') {
+			this.state.showCreditCardForm = false;
+			this.state.showPaypal = true;
+		}
+
+		//this.state.showPaymentMethods = false;
+	}
+
 	createCustomer(customerModel) {
 		this.loadingText = 'Creating customer...';
 		this.state.loading = true;
@@ -97,7 +111,7 @@ class SubscribeComponent {
 			(response) => {
 				this.state.loading = false;
 				this.state.showCustomerForm = false;
-				this.state.showCreditCardForm = true;
+				this.state.showPaymentMethods = true;
 				this.braintreeService.updateCustomer(response.data.customer);
 			},
 			(error) => {

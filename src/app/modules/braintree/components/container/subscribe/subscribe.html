@@ -10,8 +10,17 @@
 	<hr class="Divider--dotted">
 </div>
 
+
 <ui-braintree-customer-form on-submit="$ctrl.createCustomer(customerModel)" button-text="'Continue'" ng-if="$ctrl.state.showCustomerForm" ng-hide="$ctrl.state.loading"></ui-braintree-customer-form>
 
+<section ng-if="$ctrl.state.showPaymentMethods">
+	<h3 class="Heading--three">Choose your preferred payment method</h3>
+
+	<button class="Button Button--primary Button--lg" ng-click="$ctrl.choosePaymentMethod('creditcard')">Creditcard or Debit card</button>
+	<button class="Button Button--primary Button--lg"  ng-click="$ctrl.choosePaymentMethod('paypal')">Paypal</button>
+</section>
+
+<braintree-paypal ng-if="$ctrl.state.showPaypal"></braintree-paypal>
 <ui-braintree-creditcard-form on-submit="$ctrl.createVaultedPayment(paymentModel)" button-text="'Continue'" hide-amount="true" ng-if="$ctrl.state.showCreditCardForm" ng-hide="$ctrl.state.loading"></ui-braintree-creditcard-form>
 
 <section ng-if="$ctrl.state.showConfirmPanel" ng-hide="$ctrl.state.loading">
