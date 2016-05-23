@@ -12,7 +12,7 @@
 
 <ui-braintree-customer on-submit="$ctrl.createCustomer(customerModel)" button-text="'Continue'" ng-if="$ctrl.state.showCustomerForm" ng-hide="$ctrl.state.loading"></ui-braintree-customer>
 
-<ui-braintree-creditcard on-submit="$ctrl.createVaultedPayment(paymentModel)" button-text="'Continue'" ng-if="$ctrl.state.showCreditCardForm" ng-hide="$ctrl.state.loading"></ui-braintree-creditcard>
+<ui-braintree-creditcard on-submit="$ctrl.createVaultedPayment(paymentModel)" button-text="'Continue'" hide-amount="true" ng-if="$ctrl.state.showCreditCardForm" ng-hide="$ctrl.state.loading"></ui-braintree-creditcard>
 
 <section ng-if="$ctrl.state.showConfirmPanel" ng-hide="$ctrl.state.loading">
 	<h2>Verify subscription</h2>

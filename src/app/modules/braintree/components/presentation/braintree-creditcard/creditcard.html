@@ -1,7 +1,7 @@
 <section>
 	<h2 class="Heading--two">Please fill out your card details</h2>
 	<form name="payment" ng-submit="$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})">
-		<div class="Form-item">
+		<div class="Form-item" ng-if="!$ctrl.hideAmount">
 			<label class="Form-itemLabel">Amount</label>
 			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.amount" required />
 		</div>
