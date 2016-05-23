@@ -1,17 +1,19 @@
 <section ng-class="{'error': $ctrl.isError, 'success': $ctrl.isPaid}">
-
-	<span><p ng-bind="$ctrl.message"></p></span>
+	<h2 class="Heading--two">Please use the form below to pay:</h2>
+	<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
 
 	<div ng-show="$ctrl.showDropinContainer">
 
 		<form name="payment">
-			<label>Amount (XX.XX)</label>
-			<input type="text" ng-model="$ctrl.amount" />
+			<div class="Form-item">
+				<label class="Form-itemLabel" for="txtAmount">Amount (XX.XX)</label>
+				<input type="text" class="Textbox" id="txtAmount" ng-model="$ctrl.amount" />
+			</div>
 
 			<!-- Add Dropin here -->
 			<div id="js-braintree-checkout-container"></div>
 
-			<button type="submit">Pay Now</button>
+			<button class="Button Button--success Button--lg" type="submit">Pay Now</button>
 		</form>
 	</div>
 

@@ -19,7 +19,7 @@
 @button-paddingVertical: 0px;
 @button-minWidth: 30px;
 
-@button-borderRadius: 3px;
+@button-borderRadius: 2px;
 @button-borderWidth: 1px;
 @button-borderStyle: solid;
 @button-borderColor: transparent;
@@ -47,6 +47,20 @@
 
 @button--danger-color: #fff;
 @button--danger-backgroundColor: #d42020;
+
+@button--cta-color: #fff;
+@button--cta-backgroundColor: #e47010;
+
+// Size modifiers
+@button--xs-fontSize: @base-fontSize--xs;
+@button--xs-borderRadius: 2px;
+@button--sm-fontSize: @base-fontSize--sm;
+@button--sm-borderRadius: 3px;
+@button--lg-fontSize: @base-fontSize--lg;
+@button--lg-borderRadius: 5px;
+@button--xl-fontSize: @base-fontSize--xl;
+@button--xl-borderRadius: 4px;
+
 
 // -------------------- Core LEGO --------------------
 .Button {
@@ -91,6 +105,7 @@
 .Button--success { .buttonVariant(@button--success-color, @button--success-backgroundColor); }
 .Button--warning { .buttonVariant(@button--warning-color, @button--warning-backgroundColor); }
 .Button--danger { .buttonVariant(@button--danger-color, @button--danger-backgroundColor); }
+.Button--cta { .buttonVariant(@button--cta-color, @button--cta-backgroundColor); }
 
 // Button layout modifiers
 .Button--block {
@@ -100,4 +115,22 @@
 .Button--center {
 	display: block;
 	margin: 10px auto;
+}
+
+
+// -------------------- Size Modifiers --------------------
+.Button--xs {
+	.buttonSize(@button--xs-fontSize, @button--xs-borderRadius);
+}
+
+.Button--sm {
+	.buttonSize(@button--sm-fontSize, @button--sm-borderRadius);
+}
+
+.Button--lg {
+	.buttonSize(@button--lg-fontSize, @button--lg-borderRadius);
+}
+
+.Button--xl {
+	.buttonSize(@button--xl-fontSize, @button--xl-borderRadius);
 }

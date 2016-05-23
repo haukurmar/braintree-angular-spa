@@ -4,7 +4,7 @@ import template from './dropin.html';
 @Inject('$http', 'braintreeService')
 class DropinComponent {
 	constructor() {
-		this.message = 'Please use the form below to pay:';
+		this.message = '';
 		this.showDropinContainer = true;
 		this.isError = false;
 		this.isPaid = false;

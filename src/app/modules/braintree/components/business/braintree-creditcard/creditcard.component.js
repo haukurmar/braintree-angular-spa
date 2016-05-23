@@ -4,7 +4,7 @@ import template from './creditcard.html';
 @Inject('$http', 'braintreeService')
 class CreditCardComponent {
 	constructor() {
-		this.message = 'Please use the form below to pay:';
+		this.message = '';
 		this.isError = false;
 		this.isPaid = false;
 		this.showForm = true;

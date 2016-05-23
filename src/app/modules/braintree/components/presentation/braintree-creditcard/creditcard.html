@@ -1,21 +1,21 @@
 <section>
-	<h2>Please fill out your card details</h2>
+	<h2 class="Heading--two">Please fill out your card details</h2>
 	<form name="payment" ng-submit="$ctrl.onProcessPayment({paymentModel: $ctrl.paymentModel})">
-		<div>
-			<label>Amount (XX.XX)</label>
-			<input type="text" ng-model="$ctrl.paymentModel.amount" required />
+		<div class="Form-item">
+			<label class="Form-itemLabel">Amount (XX.XX)</label>
+			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.amount" required />
 		</div>
 
-		<div>
-			<label>Credit Card Number (XXXX XXXX XXXX XXXX)</label>
-			<input type="text" ng-model="$ctrl.paymentModel.creditCardNumber" required minlength="16" maxlength="16" />
+		<div class="Form-item">
+			<label class="Form-itemLabel">Credit Card Number (4111111111111111)</label>
+			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.creditCardNumber" required minlength="16" maxlength="16" />
 		</div>
 
-		<div>
-			<label>Expiration Date (MM/YY)</label>
-			<input type="text" ng-model="$ctrl.paymentModel.expirationDate" required maxlength="5" />
+		<div class="Form-item">
+			<label class="Form-itemLabel">Expiration Date (01/18)</label>
+			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.expirationDate" required maxlength="5" />
 		</div>
 
-		<button type="submit">Pay Now</button>
+		<button class="Button Button--primary" type="submit">Pay Now</button>
 	</form>
 </section>

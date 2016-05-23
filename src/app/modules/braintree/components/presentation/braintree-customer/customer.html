@@ -1,25 +1,25 @@
 <section>
-	<h2>Please fill out your contact information</h2>
+	<h2 class="Heading--two">Please fill out your contact information</h2>
 	<form name="customer" ng-submit="$ctrl.onCreateCustomer({customerModel: $ctrl.customerModel})">
-		<div>
-			<label>CustomerId</label>
-			<input type="text" ng-model="$ctrl.customerModel.id" required placeholder="Username for example" />
+		<div class="Form-item">
+			<label class="Form-itemLabel" for="txtCustomerId">CustomerId</label>
+			<input type="text" class="Textbox" id="txtCustomerId" ng-model="$ctrl.customerModel.id" placeholder="Username for example" />
 		</div>
-		<div>
-			<label>First name</label>
-			<input type="text" ng-model="$ctrl.customerModel.firstName" required placeholder="First name" />
-		</div>
-
-		<div>
-			<label>Last name</label>
-			<input type="text" ng-model="$ctrl.customerModel.lastName" required placeholder="Last name" />
+		<div class="Form-item">
+			<label class="Form-itemLabel" for="txtFirstName">First name</label>
+			<input type="text" class="Textbox" id="txtFirstName" ng-model="$ctrl.customerModel.firstName" required placeholder="First name" />
 		</div>
 
-		<div>
-			<label>Email</label>
-			<input type="email" ng-model="$ctrl.customerModel.email" required placeholder="Email address" />
+		<div class="Form-item">
+			<label class="Form-itemLabel" for="txtLastName">Last name</label>
+			<input type="text" class="Textbox" id="txtLastName" ng-model="$ctrl.customerModel.lastName" required placeholder="Last name" />
 		</div>
 
-		<button type="submit">Continue</button>
+		<div class="Form-item">
+			<label class="Form-itemLabel" for="txtEmail">Email</label>
+			<input type="email" class="Textbox" id="txtEmail" ng-model="$ctrl.customerModel.email" required placeholder="Email address" />
+		</div>
+
+		<button class="Button Button--primary" type="submit">Continue</button>
 	</form>
 </section>

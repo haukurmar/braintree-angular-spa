@@ -1,4 +1,3 @@
-<h1>Subscribe</h1>
-<span><p ng-bind="$ctrl.message"></p></span>
+<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
 
 <ui-braintree-customer on-create-customer="$ctrl.createCustomer(customerModel)"></ui-braintree-customer>
