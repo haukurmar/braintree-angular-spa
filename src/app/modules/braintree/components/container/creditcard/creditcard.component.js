@@ -98,7 +98,8 @@ class CreditCardComponent {
 
 		client.tokenizeCard({
 			number: paymentModel.creditCardNumber,
-			expirationDate: paymentModel.expirationDate
+			expirationDate: paymentModel.expirationDate,
+			cvv: paymentModel.cvv,
 		}, (err, nonce) => {
 			let paymentData = {
 				amount: paymentModel.amount,

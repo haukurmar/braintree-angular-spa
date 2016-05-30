@@ -8,12 +8,17 @@
 
 		<div class="Form-item">
 			<label class="Form-itemLabel">Credit Card Number</label>
-			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.creditCardNumber" required minlength="16" maxlength="16" />
+			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.creditCardNumber" required maxlength="16" />
 		</div>
 
 		<div class="Form-item">
 			<label class="Form-itemLabel">Expiration Date</label>
 			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.expirationDate" required maxlength="5" />
+		</div>
+
+		<div class="Form-item">
+			<label class="Form-itemLabel">CVV</label>
+			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.cvv" required maxlength="4" />
 		</div>
 
 		<button class="Button Button--primary" type="submit">{{ $ctrl.buttonText }}</button>
