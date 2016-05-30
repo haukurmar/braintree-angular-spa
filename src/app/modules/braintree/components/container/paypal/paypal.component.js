@@ -23,7 +23,7 @@ class PaypalComponent {
 					let customer = {
 						clientToken: response.data.client_token
 					};
-					this.braintreeService.updateCustomerModel(customer);
+					this.braintreeService.updateCustomerData(customer);
 					this._setupPaypal(customer.clientToken);
 				}
 			);
@@ -64,7 +64,7 @@ class PaypalComponent {
 
 		this.braintreeService.createPaymentMethod(paymentMethodModel).then(
 			(response) => {
-				this.braintreeService.updateCustomerModel(response.data.customer);
+				this.braintreeService.updateCustomerData(response.data.customer);
 
 				this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
 				this.$router.navigate([this.state.nextRoute]);

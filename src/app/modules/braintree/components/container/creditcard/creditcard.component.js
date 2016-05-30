@@ -34,7 +34,7 @@ class CreditCardComponent {
 						clientToken: response.data.client_token
 					};
 
-					this.braintreeService.updateCustomerModel(customer);
+					this.braintreeService.updateCustomerData(customer);
 				}
 			);
 		}

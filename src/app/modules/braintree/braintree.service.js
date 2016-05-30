@@ -55,7 +55,7 @@ export default class BraintreeService {
 					clientToken: response.data.client_token
 				};
 
-				this.updateCustomerModel(customer);
+				this.updateCustomerData(customer);
 			}
 		);
 	}
@@ -104,7 +104,7 @@ export default class BraintreeService {
 					// Save to Vault
 					this.createPaymentMethod(paymentMethodModel).then(
 						(response) => {
-							this.updateCustomerModel(response.data.customer);
+							this.updateCustomerData(response.data.customer);
 							console.log('Payment method created!', response);
 							resolve(response);
 						},
@@ -192,6 +192,12 @@ export default class BraintreeService {
 		}
 	}
 
+	initCustomerData() {
+		this._customerData = {
+			customer: {}
+		};
+	}
+
 	/**
 	 * Process the payment
 	 * @param paymentData
@@ -201,7 +207,7 @@ export default class BraintreeService {
 		return this.$http.post(this._apiUrl + this._processPath, paymentData);
 	}
 
-	updateCustomerModel(customerModel) {
+	updateCustomerData(customerModel) {
 		this.setObjectValues(this._customerData.customer, customerModel);
 		console.log('customer model updated in service', customerModel);
 	}

@@ -50,7 +50,7 @@ class BraintreeSubscribeComponent {
 		this.braintreeService.getCustomerDetails(customerId).then(
 			(response) => {
 				console.log('success', response);
-				this.braintreeService.updateCustomerModel(response.data.customer);
+				this.braintreeService.updateCustomerData(response.data.customer);
 
 				// TODO: What to do here?
 			},
@@ -74,7 +74,7 @@ class BraintreeSubscribeComponent {
 				this.state.loading = false;
 				this.state.showCustomerForm = false;
 				this.state.showPaymentMethods = true;
-				this.braintreeService.updateCustomerModel(response.data.customer);
+				this.braintreeService.updateCustomerData(response.data.customer);
 				this.state.nextRoute = ROUTES.PAYMENT_METHODS;
 				this.$router.navigate([this.state.nextRoute]);
 			},

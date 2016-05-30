@@ -10,6 +10,8 @@ class SubscriptionOverviewComponent {
 			error: false,
 			loading: false
 		};
+
+		this.customerData = {};
 	}
 
 	// Private methods
@@ -32,6 +34,10 @@ class SubscriptionOverviewComponent {
 				if (response.data.success) {
 					this.message = 'Subscription was created!';
 					this.state.loading = false;
+					this.customerData = this.braintreeService.customer;
+
+					// Clear the customer data
+					this.braintreeService.initCustomerData();
 				} else {
 					console.log('Error creating a sub', response.data.message);
 					// TODO: Handle different failures maybe?

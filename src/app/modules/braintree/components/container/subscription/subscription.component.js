@@ -52,7 +52,7 @@ class SubscribeComponent {
 			//newSubscriptionPlan: subscriptionPlanModel
 			subscriptionPlan: subscriptionPlanModel
 		};
-		this.braintreeService.updateCustomerModel(customer);
+		this.braintreeService.updateCustomerData(customer);
 
 		this.state.nextRoute = ROUTES.CUSTOMER;
 		this.$router.navigate([this.state.nextRoute]);
