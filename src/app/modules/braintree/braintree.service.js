@@ -13,6 +13,10 @@ export default class BraintreeService {
 			customer: {}
 		};
 
+		this._mode = {
+			subscription: false
+		};
+
 		window.customer = this._customerData;
 	}
 
@@ -25,10 +29,24 @@ export default class BraintreeService {
 		return this._apiUrl
 	}
 
+	get $braintree() {
+		return braintree;
+	}
+
 	get customer() {
 		return this._customerData.customer;
 	}
 
+	/**
+	 * Used to determine payment mode in paymentMethods,
+	 * If to process payment right away or save to vault
+	 * @returns {{subscription: boolean}|*}
+	 */
+	get mode() {
+		return this._mode;
+	}
+
+	// TODO: Depricate this, doing this inside of components instead
 	setup() {
 		this.getClientToken().then(
 			(response) => {
@@ -37,40 +55,9 @@ export default class BraintreeService {
 					clientToken: response.data.client_token
 				};
 
-				this.updateCustomer(customer);
+				this.updateCustomerModel(customer);
 			}
 		);
-	}
-
-	/**
-	 * Tokenize creditcard and get paymentMethodNonce
-	 * @param paymentModel
-	 */
-	getPaymentMethodNonce(paymentModel) {
-		return this.$q((resolve, reject) => {
-			this.getClientToken().then(
-				(response) => {
-					// Create new client and tokenize card
-					let client = new this.$braintree.api.Client({clientToken: response.data.client_token});
-
-					client.tokenizeCard({
-						number: paymentModel.creditCardNumber,
-						expirationDate: paymentModel.expirationDate
-					}, (err, nonce) => {
-						// TODO: Handle errors better
-						if (err) {
-							reject(err);
-						}
-
-						resolve(nonce);
-					});
-				},
-				(error) => {
-					console.log('Error: cannot connect to server. Please try again. Erromessage: ' + error.data);
-					reject(error);
-				}
-			);
-		})
 	}
 
 	/**
@@ -82,19 +69,13 @@ export default class BraintreeService {
 		return this.$http.post(this._apiUrl + this._customerPath, customerData);
 	}
 
-	/**
-	 * Get a specific customer
-	 * @param customerId
-	 * @returns {*}
-	 */
-	getCustomer(customerId) {
-		return this.$http.get(this._apiUrl + this._customerPath + '/' + customerId);
-	}
-
 	// TODO: Probably change to take in the model
 	createSubscription() {
 		console.log('createSubscription', this.customer);
 		console.log('this.customer.paymentMethod.token', this.customer.paymentMethod.token);
+
+		// TODO: Find out what to do with a current subscriptionplan if user has any
+
 		let subscriptionData = {
 			paymentMethodToken: this.customer.paymentMethod.token,
 			planId: this.customer.subscriptionPlan.id
@@ -123,7 +104,7 @@ export default class BraintreeService {
 					// Save to Vault
 					this.createPaymentMethod(paymentMethodModel).then(
 						(response) => {
-							this.updateCustomer(response.data.customer);
+							this.updateCustomerModel(response.data.customer);
 							console.log('Payment method created!', response);
 							resolve(response);
 						},
@@ -162,6 +143,56 @@ export default class BraintreeService {
 	}
 
 	/**
+	 * Get a specific customer
+	 * @param customerId
+	 * @returns {*}
+	 */
+	getCustomer(customerId) {
+		return this.$http.get(this._apiUrl + this._customerPath + '/' + customerId);
+	}
+
+	/**
+	 * Tokenize creditcard and get paymentMethodNonce
+	 * @param paymentModel
+	 */
+	getPaymentMethodNonce(paymentModel) {
+		return this.$q((resolve, reject) => {
+			this.getClientToken().then(
+				(response) => {
+					// Create new client and tokenize card
+					let client = new this.$braintree.api.Client({clientToken: response.data.client_token});
+
+					client.tokenizeCard({
+						number: paymentModel.creditCardNumber,
+						expirationDate: paymentModel.expirationDate
+					}, (err, nonce) => {
+						// TODO: Handle errors better
+						if (err) {
+							reject(err);
+						}
+
+						resolve(nonce);
+					});
+				},
+				(error) => {
+					console.log('Error: cannot connect to server. Please try again. Erromessage: ' + error.data);
+					reject(error);
+				}
+			);
+		})
+	}
+
+	/**
+	 * Init the mode flow
+	 * @param type
+	 */
+	initMode(type) {
+		if (type.toLowerCase() === 'subscription') {
+			this._mode.subscription = true;
+		}
+	}
+
+	/**
 	 * Process the payment
 	 * @param paymentData
 	 * @returns {promise}
@@ -170,13 +201,9 @@ export default class BraintreeService {
 		return this.$http.post(this._apiUrl + this._processPath, paymentData);
 	}
 
-	updateCustomer(customerModel) {
+	updateCustomerModel(customerModel) {
 		this.setObjectValues(this._customerData.customer, customerModel);
 		console.log('customer model updated in service', customerModel);
-	}
-
-	get $braintree() {
-		return braintree;
 	}
 
 	// TODO: Move somewhere else
