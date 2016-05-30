@@ -11,7 +11,7 @@ class SubscriptionOverviewComponent {
 			loading: false
 		};
 
-		this.customerData = {};
+		this.subscriptionPlan = null;
 	}
 
 	// Private methods
@@ -34,7 +34,7 @@ class SubscriptionOverviewComponent {
 				if (response.data.success) {
 					this.message = 'Subscription was created!';
 					this.state.loading = false;
-					this.customerData = this.braintreeService.customer;
+					this.subscriptionPlan = this.braintreeService.customer.subscriptionPlan;
 
 					// Clear the customer data
 					this.braintreeService.initCustomerData();
@@ -52,7 +52,6 @@ class SubscriptionOverviewComponent {
 			}
 		);
 	}
-
 }
 
 // Component decorations
