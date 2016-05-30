@@ -1,5 +1,5 @@
 <section ng-class="{'error': $ctrl.isError, 'success': $ctrl.isPaid}">
 	<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
 	<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading" text="$ctrl.loadingText"></ui-loading-icon>
-	<ui-braintree-creditcard-form on-submit="$ctrl.submitPayment(paymentModel)" button-text="$ctrl.state.buttonText" ng-hide="$ctrl.state.loading || !$ctrl.state.showForm"></ui-braintree-creditcard-form>
+	<ui-braintree-creditcard-form on-submit="$ctrl.submitPayment(paymentModel)" button-text="$ctrl.state.buttonText" hide-amount="$ctrl.state.hideAmount" ng-hide="$ctrl.state.loading || !$ctrl.state.showForm"></ui-braintree-creditcard-form>
 </section>

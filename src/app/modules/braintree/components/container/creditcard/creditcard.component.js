@@ -8,12 +8,13 @@ class CreditCardComponent {
 		this.message = '';
 		this.loadingText = '';
 		this.state = {
-			loading: false,
-			showForm: true,
+			buttonText: 'Pay now',
 			error: false,
-			paid: false,
+			hideAmount: false,
+			loading: false,
 			nextRoute: '',
-			buttonText: 'Pay now'
+			showForm: true,
+			paid: false
 		};
 	}
 
@@ -23,6 +24,7 @@ class CreditCardComponent {
 		let mode = this.braintreeService.mode;
 		if(mode.subscription) {
 			this.state.buttonText = 'Continue';
+			this.state.hideAmount = true;
 		}
 
 		console.log('Braintree CreditCard Component...');
