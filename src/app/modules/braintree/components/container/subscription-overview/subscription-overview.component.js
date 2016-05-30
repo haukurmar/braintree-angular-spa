@@ -15,7 +15,10 @@ class SubscriptionOverviewComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		this._confirmSubscription();
+		let customer = this.braintreeService.customer;
+		if(customer.clientToken) {
+			this._confirmSubscription();
+		}
 	}
 
 	// Public viewModel methods
