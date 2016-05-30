@@ -82,6 +82,15 @@ export default class BraintreeService {
 		return this.$http.post(this._apiUrl + this._customerPath, customerData);
 	}
 
+	/**
+	 * Get a specific customer
+	 * @param customerId
+	 * @returns {*}
+	 */
+	getCustomer(customerId) {
+		return this.$http.get(this._apiUrl + this._customerPath + '/' + customerId);
+	}
+
 	// TODO: Probably change to take in the model
 	createSubscription() {
 		console.log('createSubscription', this.customer);

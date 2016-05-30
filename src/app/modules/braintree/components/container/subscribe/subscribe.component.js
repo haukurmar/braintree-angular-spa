@@ -19,7 +19,9 @@ class SubscribeComponent {
 			loading: false
 		};
 
-		this.selectedSubscriptionPlan = {}
+		this.selectedSubscriptionPlan = {};
+
+		this.customerId = '';
 	}
 
 	// Private methods
@@ -51,7 +53,6 @@ class SubscribeComponent {
 		this.loadingText = 'Creating subscription...';
 		this.state.loading = true;
 
-
 		let customer = this.braintreeService.customer;
 
 		this.braintreeService.createSubscription().then(
@@ -80,22 +81,36 @@ class SubscribeComponent {
 	chooseSubscriptionPlan(subscriptionPlanModel) {
 		console.log('plan chosen', subscriptionPlanModel);
 
+		let customer = {
+			subscriptionPlan: subscriptionPlanModel
+		};
+		this.braintreeService.updateCustomer(customer);
+
+		if (this.customerId) {
+			//Get Customer if logged in
+			this.braintreeService.getCustomer(this.customerId).then(
+				(response) => {
+					console.log('success', response);
+					this.braintreeService.updateCustomer(response.data.customer);
+				},
+				(error) => {
+					console.log(error.data.message);
+				}
+			);
+		}
+
 		this.state.showPlans = false;
 		this.state.showCustomerForm = true;
 		this.selectedSubscriptionPlan = subscriptionPlanModel;
 
-		let customer = {
-			subscriptionPlan: subscriptionPlanModel
-		};
-
-		this.braintreeService.updateCustomer(customer);
+		//this.$router.navigate(['Customer']);
 	}
 
 	choosePaymentMethod(type) {
-		if(type === 'creditcard') {
+		if (type === 'creditcard') {
 			this.state.showCreditCardForm = true;
 			this.state.showPaypal = false;
-		} else if(type === 'paypal') {
+		} else if (type === 'paypal') {
 			this.state.showCreditCardForm = false;
 			this.state.showPaypal = true;
 		}
@@ -148,7 +163,9 @@ class SubscribeComponent {
 
 // Component decorations
 let component = {
-	bindings: {},
+	bindings: {
+		$router: '<'
+	},
 	template: template,
 	controller: SubscribeComponent
 };
