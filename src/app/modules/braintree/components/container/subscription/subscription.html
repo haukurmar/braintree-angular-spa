@@ -1,0 +1,11 @@
+<h2 class="Heading--two">Subscribe</h2>
+<hr class="Divider--dotted">
+
+<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
+
+<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading" text="$ctrl.loadingText"></ui-loading-icon>
+
+<div ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
+	<ui-braintree-subscription-plan subscription-plan="plan" on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+	<hr class="Divider--dotted">
+</div>

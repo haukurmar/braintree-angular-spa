@@ -4,7 +4,7 @@ import template from './app.html';
 @Inject()
 export default class AppComponent {
 	constructor() {
-		
+
 	}
 
 	// Class methods
@@ -21,7 +21,7 @@ let component = {
 	controller: AppComponent,
 	$routeConfig: [
 		{path: '/', name: 'Home', component: 'appHome', useAsDefault: true},
-		{path: '/braintree/...', name: 'BraintreeHome', component: 'braintreeHome'}
+		{path: '/braintree/...', name: 'Braintree', component: 'braintreeHome'}
 	]
 };
 

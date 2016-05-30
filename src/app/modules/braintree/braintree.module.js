@@ -14,8 +14,10 @@ import UISubscriptionOverviewComponent from './components/presentation/subscript
 import CustomerContainerComponent from './components/container/customer/customer.component';
 import CreditCardContainerComponent from './components/container/creditcard/creditcard.component';
 import DropinContainerComponent from './components/container/dropin/dropin.component';
-import SubscribeContainerComponent from './components/container/subscribe/subscribe.component';
 import PaypalContainerComponent from './components/container/paypal/paypal.component';
+import SubscriptionContainerComponent from './components/container/subscription/subscription.component';
+import SubscriptionOverviewContainerComponent from './components/container/subscription-overview/subscription-overview.component';
+import PaymentMethodsContainerComponent from './components/container/payment-methods/payment-methods.component';
 
 // View Components (Route Components)
 import HomeViewComponent from './components/view/braintree-home/braintree-home.component';
@@ -32,7 +34,9 @@ ngModule
 	.component('braintreeCustomer', CustomerContainerComponent)
 	.component('braintreeCreditCard', CreditCardContainerComponent)
 	.component('braintreeDropin', DropinContainerComponent)
-	.component('braintreeSubscribe', SubscribeContainerComponent)
+	.component('braintreeSubscription', SubscriptionContainerComponent)
+	.component('braintreeSubscriptionOverview', SubscriptionOverviewContainerComponent)
+	.component('braintreePaymentMethods', PaymentMethodsContainerComponent)
 	.component('braintreePaypal', PaypalContainerComponent)
 	.component('braintreeHome', HomeViewComponent)
 	.component('uiBraintreeCustomerForm', UICustomerFormComponent)
