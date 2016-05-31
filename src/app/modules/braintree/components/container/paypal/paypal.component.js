@@ -7,12 +7,14 @@ class PaypalComponent {
 	constructor() {
 		this._checkout = null;
 		this.state = {
-			loading: false,
-			nextRoute: ''
+			message: {
+				text: ''
+			}
 		};
 
 		// Used in template
 		this.routes = {
+			nextRoute: '',
 			subscription: ROUTES.SUBSCRIPTION
 		};
 
@@ -22,7 +24,6 @@ class PaypalComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		console.log('customer', this.braintreeService.customer);
 		this.customer = this.braintreeService.customer;
 
 		if(!this.braintreeService.customer.clientToken) {
@@ -74,12 +75,12 @@ class PaypalComponent {
 			(response) => {
 				this.braintreeService.updateCustomerData(response.data.customer);
 
-				this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
-				this.$router.navigate([this.state.nextRoute]);
+				this.routes.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
+				this.$router.navigate([this.routes.nextRoute]);
 				console.log('Paypal Payment method created!', response);
 			},
 			(error) => {
-				this.message = 'Failed to create payment method:' + error.data.message;
+				this.state.message.text = 'Failed to create payment method:' + error.data.message;
 				console.log('Failed to create payment method:', error);
 			}
 		);

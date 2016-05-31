@@ -1,7 +1,7 @@
 <ui-braintree-subscription-progress subscription-plan="$ctrl.customer.subscriptionPlan" subscription-route="$ctrl.routes.subscription"></ui-braintree-subscription-progress>
 
 <h2 class="Heading--two">Paypal</h2>
-<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
+<p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
 <input type="hidden" name="payment_method_nonce" />
 
 <button class="Button Button--primary Button--lg" ng-click="$ctrl.pay($event)">Paypal</button>
