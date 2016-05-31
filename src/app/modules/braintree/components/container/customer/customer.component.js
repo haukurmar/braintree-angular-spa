@@ -81,12 +81,15 @@ class BraintreeSubscriptionComponent {
 	 * @param customerModel
 	 */
 	saveCustomer(customerModel) {
-		this.state.loading.text = 'Creating customer...';
-		this.state.loading.isLoading = true;
-		this.routes.nextRoute = ROUTES.PAYMENT_METHODS;
 		this.state.showform = false;
+		this.routes.nextRoute = ROUTES.PAYMENT_METHODS;
 
-		if (!customerModel.id) {
+		console.log('customerModel', customerModel);
+
+		if (!this.customer.id) {
+			this.state.loading.text = 'Creating customer...';
+			this.state.loading.isLoading = true;
+
 			this.braintreeService.createCustomer(customerModel).then(
 				(response) => {
 					this.state.loading.isLoading = false;
