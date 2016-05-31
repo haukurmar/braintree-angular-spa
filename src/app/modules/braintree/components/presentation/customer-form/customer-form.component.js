@@ -3,7 +3,8 @@ import template from './customer-form.html';
 let component = {
 	bindings: {
 		onSubmit: '&',
-		buttonText: '<'
+		buttonText: '<',
+		customerModel: '<'
 	},
 	template: template
 };

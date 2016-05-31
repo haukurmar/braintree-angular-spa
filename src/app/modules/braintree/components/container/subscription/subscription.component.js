@@ -13,14 +13,19 @@ class SubscribeComponent {
 			loading: false,
 			nextRoute: ''
 		};
+
+		this.customer = null;
 	}
 
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		this.braintreeService.setup();
-		this.braintreeService.initMode('subscription');
+		this.customer = this.braintreeService.customer;
+		if(!this.customer.clientToken) {
+			this.braintreeService.setup();
+		}
 
+		this.braintreeService.initMode('subscription');
 		this._getAllSubscriptionPlans();
 	}
 

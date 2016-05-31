@@ -10,12 +10,20 @@ class PaypalComponent {
 			loading: false,
 			nextRoute: ''
 		};
+
+		// Used in template
+		this.routes = {
+			subscription: ROUTES.SUBSCRIPTION
+		};
+
+		this.customer = null;
 	}
 
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
 		console.log('customer', this.braintreeService.customer);
+		this.customer = this.braintreeService.customer;
 
 		if(!this.braintreeService.customer.clientToken) {
 			this.braintreeService.getClientToken().then(

@@ -16,12 +16,21 @@ class CreditCardComponent {
 			showForm: true,
 			paid: false
 		};
+
+		// Used in template
+		this.routes = {
+			subscription: ROUTES.SUBSCRIPTION
+		};
+
+		this.customer = null;
+
 	}
 
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
 		let mode = this.braintreeService.mode;
+		this.customer = this.braintreeService.customer;
 		if(mode.subscription) {
 			this.state.buttonText = 'Continue';
 			this.state.hideAmount = true;

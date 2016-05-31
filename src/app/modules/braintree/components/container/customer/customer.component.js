@@ -14,7 +14,13 @@ class BraintreeSubscribeComponent {
 			buttonText: 'Create customer'
 		};
 
+		// Used in template
+		this.routes = {
+			subscription: ROUTES.SUBSCRIPTION
+		};
+
 		this.customer = null;
+		this.customerModel = {};
 	}
 
 	// Private methods
@@ -47,10 +53,11 @@ class BraintreeSubscribeComponent {
 	 */
 	getCustomerDetails(customerId) {
 		//Get Customer if logged in
-		this.braintreeService.getCustomerDetails(customerId).then(
+		this.braintreeService.getCustomer(customerId).then(
 			(response) => {
 				console.log('success', response);
 				this.braintreeService.updateCustomerData(response.data.customer);
+				this.customerModel = response.data.customer;
 
 				// TODO: What to do here?
 			},
@@ -67,27 +74,30 @@ class BraintreeSubscribeComponent {
 	saveCustomer(customerModel) {
 		this.loadingText = 'Creating customer...';
 		this.state.loading = true;
+		this.state.nextRoute = ROUTES.PAYMENT_METHODS;
+		
+		if(!customerModel.id) {
+			this.braintreeService.createCustomer(customerModel).then(
+				(response) => {
+					this.state.loading = false;
+					this.state.showCustomerForm = false;
+					this.state.showPaymentMethods = true;
+					this.braintreeService.updateCustomerData(response.data.customer);
+					this.$router.navigate([this.state.nextRoute]);
+				},
+				(error) => {
+					// TODO: Handle errors better (use error.data.errors collection)
+					this.message = error.data.message;
+					this.state.loading = false;
+					this.state.showCustomerForm = true;
 
-		// TODO: Update a current one if we have a customerId
-		this.braintreeService.createCustomer(customerModel).then(
-			(response) => {
-				this.state.loading = false;
-				this.state.showCustomerForm = false;
-				this.state.showPaymentMethods = true;
-				this.braintreeService.updateCustomerData(response.data.customer);
-				this.state.nextRoute = ROUTES.PAYMENT_METHODS;
-				this.$router.navigate([this.state.nextRoute]);
-			},
-			(error) => {
-				// TODO: Handle errors better (use error.data.errors collection)
-				this.message = error.data.message;
-				this.state.loading = false;
-				this.state.showCustomerForm = true;
-
-				console.log('Error message', error.data.message);
-				console.log('Errors:', error.data.errors);
-			}
-		);
+					console.log('Error message', error.data.message);
+					console.log('Errors:', error.data.errors);
+				}
+			);
+		} else {
+			this.$router.navigate([this.state.nextRoute]);
+		}
 	}
 }
 

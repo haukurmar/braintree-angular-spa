@@ -2,15 +2,21 @@ import template from './payment-methods.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject()
+@Inject('braintreeService')
 class PaymentMethodsComponent {
 	constructor() {
+		// Used in template
+		this.routes = {
+			subscription: ROUTES.SUBSCRIPTION
+		};
+
+		this.customer = null;
 	}
 
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-
+		this.customer = this.braintreeService.customer;
 	}
 
 	// Public viewModel methods

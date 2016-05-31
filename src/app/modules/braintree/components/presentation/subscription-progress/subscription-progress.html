@@ -1,0 +1,4 @@
+<section ng-if="$ctrl.subscriptionPlan" class="Alert--info">
+	<p>Selected plan: <span ng-bind="$ctrl.subscriptionPlan.name"></span> / <span ng-bind="$ctrl.subscriptionPlan.description"></span> -
+		<a ng-link="[$ctrl.subscriptionRoute]">change plan</a></p>
+</section>

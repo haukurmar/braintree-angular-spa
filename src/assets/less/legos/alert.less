@@ -1,0 +1,79 @@
+/********************************************
+	Alert
+********************************************/
+
+/// Naming conventions:
+// LegoName
+// LegoName--modifierName
+// LegoName-descendantName
+// LegoName.is-stateOfLego
+// Variable names:
+// @legoModifier-property ex: @buttonPrimary-borderColor
+// @legoModifier-descendand-property ex: @listGroup-itemHeading-fontSize
+
+// -------------------- Core Lego Variables --------------------
+@alert-padding: 1;
+@alert-borderRadius: 3px;
+@alert-borderWidth: 1px;
+@alert-borderStyle: solid;
+@alert-borderColor: #d8d8d8;
+@alert-bgColor: #fff;
+
+// -------------------- Modifier Variables --------------------
+@alert--info-borderColor: #D8ECF7;
+@alert--info-bgColor: #D8ECF7;
+
+@alert--primary-borderColor: #06a3d5;
+@alert--primary-bgColor: #EDF7FC;
+
+@alert--success-borderColor: #6B904C;
+@alert--success-bgColor: #D5ECC2;
+
+@alert--warning-borderColor: #FFAE00;
+@alert--warning-bgColor: #fff5dc;
+
+@alert--danger-borderColor: #d42020;
+@alert--danger-bgColor: #FFE2E2;
+
+@alert--simple-bgColor: #fff;
+@alert--simple-borderWidth: 2px;
+
+@alert-caretSize: 3px;
+
+// -------------------- Core LEGO ------------------------
+.Alert {
+	.Alert();
+	.margin-top(1);
+	.margin-bottom(1);
+}
+
+// -------------------- Descendants ----------------------
+.Alert-closeButton {
+	.Alert-closeButton();
+}
+
+// -------------------- Type modifiers --------------------
+.Alert--info {
+	&:extend(.Alert);
+	.createAlertVariant(@alert--info-borderColor, @alert--info-bgColor);
+}
+
+.Alert--success {
+	&:extend(.Alert);
+	.createAlertVariant(@alert--success-borderColor, @alert--success-bgColor);
+}
+
+.Alert--primary {
+	&:extend(.Alert);
+	.createAlertVariant(@alert--primary-borderColor, @alert--primary-bgColor);
+}
+
+.Alert--warning {
+	&:extend(.Alert);
+	.createAlertVariant(@alert--warning-borderColor, @alert--warning-bgColor);
+}
+
+.Alert--danger {
+	&:extend(.Alert);
+	.createAlertVariant(@alert--danger-borderColor, @alert--danger-bgColor);
+}
