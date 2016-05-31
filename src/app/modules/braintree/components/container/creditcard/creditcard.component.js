@@ -7,7 +7,7 @@ class CreditCardComponent {
 	constructor() {
 		this.state = {
 			backButtonText: 'Back',
-			backButtonRoute: ROUTES.CUSTOMER,
+			backButtonRoute: ROUTES.PAYMENT_METHODS,
 			backButtonVisible: false,
 			error: false,
 			hideAmount: false,
