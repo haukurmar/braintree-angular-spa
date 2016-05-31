@@ -4,11 +4,5 @@
 	<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
 	<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading" text="$ctrl.loadingText"></ui-loading-icon>
 
-	<div ng-if="$ctrl.subscriptionPlan">
-		<h3 class="Heading--three">
-			<span ng-bind="$ctrl.subscriptionPlan.name"></span>
-		</h3>
-		<p ng-bind="$ctrl.subscriptionPlan.description"></p>
-	</div>
-
+	<ui-braintree-subscription-overview subscription-plan="$ctrl.subscriptionPlan"></ui-braintree-subscription-overview>
 </section>
