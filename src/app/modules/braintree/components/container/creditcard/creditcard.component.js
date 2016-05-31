@@ -40,6 +40,7 @@ class CreditCardComponent {
 		let mode = this.braintreeService.mode;
 		if (mode.subscription) {
 			this.state.buttonText = 'Continue';
+			this.state.hideAmount = true;
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
 			if (!this.customer.subscriptionPlan) {

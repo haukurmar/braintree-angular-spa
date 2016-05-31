@@ -111,6 +111,8 @@ class BraintreeSubscriptionComponent {
 				}
 			);
 		} else {
+			this.braintreeService.updateCustomerData(customerModel);
+			// TODO: Update customer in Braintree
 			this.$router.navigate([this.routes.nextRoute]);
 		}
 	}
