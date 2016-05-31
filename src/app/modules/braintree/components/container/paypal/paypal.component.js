@@ -7,6 +7,9 @@ class PaypalComponent {
 	constructor() {
 		this._checkout = null;
 		this.state = {
+			backButtonText: 'Back',
+			backButtonRoute: ROUTES.PAYMENT_METHODS,
+			backButtonVisible: true,
 			message: {
 				text: ''
 			}

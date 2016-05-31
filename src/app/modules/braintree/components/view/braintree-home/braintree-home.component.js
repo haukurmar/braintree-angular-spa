@@ -11,11 +11,11 @@ class BraintreeHomeComponent {
 	// --------------------------------------------------
 	$onInit() {
 		// tmp
-		this.braintreeService.initMode('subscription');
-		let customer = {
-			id: 'haukurmar21'
-		};
-		this.braintreeService.updateCustomerData(customer);
+		//this.braintreeService.initMode('subscription');
+		// let customer = {
+		// 	id: 'haukurmar21'
+		// };
+		// this.braintreeService.updateCustomerData(customer);
 	}
 
 	// Public viewModel methods
