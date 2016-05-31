@@ -20,6 +20,9 @@
 			<input type="email" class="Textbox" id="txtEmail" ng-model="$ctrl.customerModel.email" required placeholder="Email address" />
 		</div>
 
-		<button class="Button Button--primary" type="submit">{{ $ctrl.buttonText }}</button>
+		<button class="Button Button--primary" type="submit">{{ $ctrl.submitButtonText }}</button>
+		<span ng-if="$ctrl.backButtonVisible">
+			| <a ng-link="[$ctrl.backButtonRoute]">{{ $ctrl.backButtonText }}</a>
+		</span>
 	</form>
 </section>

@@ -6,6 +6,9 @@ import {ROUTES} from '../../../braintree.constants';
 class BraintreeSubscriptionComponent {
 	constructor() {
 		this.state = {
+			backButtonText: 'Back',
+			backButtonRoute: ROUTES.SUBSCRIPTION,
+			backButtonVisible: false,
 			loading: {
 				isLoading: false,
 				text: ''
@@ -16,7 +19,7 @@ class BraintreeSubscriptionComponent {
 				linkText: ''
 			},
 			showForm: true,
-			buttonText: 'Create customer'
+			submitButtonText: 'Create customer'
 		};
 
 		this.routes = {
@@ -37,7 +40,8 @@ class BraintreeSubscriptionComponent {
 		// Subscription mode
 		let mode = this.braintreeService.mode;
 		if (mode.subscription) {
-			this.state.buttonText = 'Continue';
+			this.state.submitButtonText = 'Continue';
+			this.state.backButtonVisible = true;
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
 			if (!this.customer.subscriptionPlan) {

@@ -4,4 +4,11 @@
 <a ng-link="[$ctrl.state.message.link]" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
 
 <ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
-<ui-braintree-customer-form customer-model="$ctrl.customerModel" on-submit="$ctrl.saveCustomer(customerModel)" button-text="$ctrl.state.buttonText" ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showForm"></ui-braintree-customer-form>
+<ui-braintree-customer-form
+	customer-model="$ctrl.customerModel"
+	on-submit="$ctrl.saveCustomer(customerModel)"
+	submit-button-text="$ctrl.state.submitButtonText"
+	back-button-text="$ctrl.state.backButtonText"
+	back-button-route="$ctrl.state.backButtonRoute"
+	back-button-visible="$ctrl.state.backButtonVisible"
+	ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showForm"></ui-braintree-customer-form>
