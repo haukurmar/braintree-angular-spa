@@ -3,9 +3,12 @@ import template from './creditcard-form.html';
 // Component decorations
 let component = {
 	bindings: {
-		buttonText: '<',
+		backButtonText: '<',
+		backButtonRoute: '<',
+		backButtonVisible: '<',
 		hideAmount: '<',
-		onSubmit: '&',
+		submitButtonText: '<',
+		onSubmit: '&'
 	},
 	template: template
 };

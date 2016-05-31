@@ -6,20 +6,23 @@ import {ROUTES} from '../../../braintree.constants';
 class CreditCardComponent {
 	constructor() {
 		this.state = {
-			buttonText: 'Pay now',
+			backButtonText: 'Back',
+			backButtonRoute: ROUTES.CUSTOMER,
+			backButtonVisible: false,
 			error: false,
 			hideAmount: false,
+			loading: {
+				isLoading: false,
+				text: ''
+			},
 			message: {
 				text: '',
 				link: '',
 				linkText: ''
 			},
-			loading: {
-				isLoading: false,
-				text: ''
-			},
 			paid: false,
-			showForm: true
+			showForm: true,
+			submitButtonText: 'Pay now'
 		};
 
 		// Used in template
@@ -39,8 +42,9 @@ class CreditCardComponent {
 		// Subscription mode
 		let mode = this.braintreeService.mode;
 		if (mode.subscription) {
-			this.state.buttonText = 'Continue';
+			this.state.backButtonVisible = true;
 			this.state.hideAmount = true;
+			this.state.submitButtonText = 'Continue';
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
 			if (!this.customer.subscriptionPlan) {
