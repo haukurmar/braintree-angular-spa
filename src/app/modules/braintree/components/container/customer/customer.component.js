@@ -37,7 +37,7 @@ class BraintreeSubscriptionComponent {
 		// Subscription mode
 		let mode = this.braintreeService.mode;
 		if (mode.subscription) {
-			//this.state.buttonText = 'Continue';
+			this.state.buttonText = 'Continue';
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
 			if (!this.customer.subscriptionPlan) {
