@@ -36,23 +36,30 @@ class CreditCardComponent {
 	$onInit() {
 		this.customer = this.braintreeService.customer;
 
+		// Subscription mode
 		let mode = this.braintreeService.mode;
 		if (mode.subscription) {
 			this.state.buttonText = 'Continue';
-			this.state.hideAmount = true;
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
 			if (!this.customer.subscriptionPlan) {
-				this.$router.navigate([ROUTES.SUBSCRIPTION]);
+				this.state.message.text = 'You need to choose a subscription plan before you proceed';
+				this.state.message.linkText = 'Go to subscription page';
+				this.state.message.link = ROUTES.SUBSCRIPTION;
+				this.state.showForm = false;
+				return;
 			}
 
 			// If the user has no customer ID
 			if (!this.customer.id) {
-				this.$router.navigate([ROUTES.CUSTOMER]);
+				this.state.message.text = 'You need to fill out customer information before you proceed';
+				this.state.message.linkText = 'Go to customer page';
+				this.state.message.link = ROUTES.CUSTOMER;
+				this.state.showForm = false;
+				return;
 			}
 		}
 
-		console.log('Braintree CreditCard Component...');
 		if (!customer.clientToken) {
 			this.braintreeService.getClientToken().then(
 				(response) => {

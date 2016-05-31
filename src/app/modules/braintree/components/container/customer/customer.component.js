@@ -42,7 +42,7 @@ class BraintreeSubscriptionComponent {
 			// If the user has not chosen a subscription plan (or refreshed the page)
 			if (!this.customer.subscriptionPlan) {
 				this.state.message.text = 'You need to choose a subscription plan before you proceed';
-				this.state.message.linkText = 'Back to subscription page';
+				this.state.message.linkText = 'Go to subscription page';
 				this.state.message.link = ROUTES.SUBSCRIPTION;
 				this.state.showForm = false;
 			}
