@@ -1,10 +1,28 @@
 import template from './braintree-home.html';
 import {ROUTES} from '../../../braintree.constants';
 
+// Inject dependencies
+@Inject('braintreeService')
+class BraintreeHomeComponent {
+	constructor() {
+	}
+
+	// Private methods
+	// --------------------------------------------------
+	$onInit() {
+		// tmp
+		this.braintreeService.initMode('subscription');
+	}
+
+	// Public viewModel methods
+	// --------------------------------------------------
+}
+
 // Component decorations
 let component = {
 	bindings: {},
 	template,
+	controller: BraintreeHomeComponent,
 	$routeConfig: [
 		{path: '/',         name: ROUTES.SUBSCRIPTION,   component: 'braintreeSubscription', useAsDefault: true},
 		{path: '/subscribe', name: ROUTES.SUBSCRIPTION,   component: 'braintreeSubscription'},

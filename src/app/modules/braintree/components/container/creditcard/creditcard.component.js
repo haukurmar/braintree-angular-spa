@@ -29,11 +29,22 @@ class CreditCardComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		let mode = this.braintreeService.mode;
 		this.customer = this.braintreeService.customer;
+
+		let mode = this.braintreeService.mode;
 		if(mode.subscription) {
 			this.state.buttonText = 'Continue';
 			this.state.hideAmount = true;
+
+			// If the user has not chosen a subscription plan (or refreshed the page)
+			if(!this.customer.subscriptionPlan) {
+				this.$router.navigate([ROUTES.SUBSCRIPTION]);
+			}
+
+			// If the user has no customer ID
+			if(!this.customer.id) {
+				this.$router.navigate([ROUTES.CUSTOMER]);
+			}
 		}
 
 		console.log('Braintree CreditCard Component...');
