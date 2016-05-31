@@ -4,8 +4,8 @@ let component = {
 	bindings: {
 		backButtonText: '<',
 		backButtonRoute: '<',
-		customerModel: '<',
 		backButtonVisible: '<',
+		customerModel: '<',
 		onSubmit: '&',
 		submitButtonText: '<'
 	},
