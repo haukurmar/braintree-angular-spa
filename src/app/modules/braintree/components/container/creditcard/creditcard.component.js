@@ -5,16 +5,21 @@ import {ROUTES} from '../../../braintree.constants';
 @Inject('$http', 'braintreeService')
 class CreditCardComponent {
 	constructor() {
-		this.message = '';
-		this.loadingText = '';
 		this.state = {
 			buttonText: 'Pay now',
 			error: false,
 			hideAmount: false,
-			loading: false,
-			nextRoute: '',
-			showForm: true,
-			paid: false
+			message: {
+				text: '',
+				link: '',
+				linkText: ''
+			},
+			loading: {
+				isLoading: false,
+				text: ''
+			},
+			paid: false,
+			showForm: true
 		};
 
 		// Used in template
@@ -32,23 +37,23 @@ class CreditCardComponent {
 		this.customer = this.braintreeService.customer;
 
 		let mode = this.braintreeService.mode;
-		if(mode.subscription) {
+		if (mode.subscription) {
 			this.state.buttonText = 'Continue';
 			this.state.hideAmount = true;
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
-			if(!this.customer.subscriptionPlan) {
+			if (!this.customer.subscriptionPlan) {
 				this.$router.navigate([ROUTES.SUBSCRIPTION]);
 			}
 
 			// If the user has no customer ID
-			if(!this.customer.id) {
+			if (!this.customer.id) {
 				this.$router.navigate([ROUTES.CUSTOMER]);
 			}
 		}
 
 		console.log('Braintree CreditCard Component...');
-		if(!customer.clientToken) {
+		if (!customer.clientToken) {
 			this.braintreeService.getClientToken().then(
 				(response) => {
 					this.braintreeService.$braintree.setup(response.data.client_token, "custom");
@@ -70,7 +75,7 @@ class CreditCardComponent {
 	 */
 	submitPayment(paymentModel) {
 		let mode = this.braintreeService.mode;
-		if(mode.subscription) {
+		if (mode.subscription) {
 			this.createVaultedPayment(paymentModel);
 		} else {
 			this.processPayment(paymentModel);
@@ -82,8 +87,8 @@ class CreditCardComponent {
 	 * @param paymentModel
 	 */
 	createVaultedPayment(paymentModel) {
-		this.loadingText = 'Saving payment information...';
-		this.state.loading = true;
+		this.state.loading.text = 'Saving payment information...';
+		this.state.loading.isLoading = true;
 		this.state.showForm = false;
 		let customerId = this.braintreeService.customer.id;
 
@@ -91,13 +96,13 @@ class CreditCardComponent {
 		this.braintreeService.createVaultedPayment(customerId, paymentModel).then(
 			(response) => {
 				console.log('from vaultedPayment', response);
-				this.state.loading = false;
+				this.state.loading.isLoading = false;
 				this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
 				this.$router.navigate([this.state.nextRoute]);
 			},
 			(error) => {
-				this.message = 'An error occurred saving payment information: ' + JSON.stringify(error);
-				this.state.loading = false;
+				this.state.message.text = 'An error occurred saving payment information: ' + JSON.stringify(error);
+				this.state.loading.isLoading = false;
 			}
 		);
 	}
@@ -107,8 +112,8 @@ class CreditCardComponent {
 	 * @param paymentModel
 	 */
 	processPayment(paymentModel) {
-		this.loadingText = 'Processing payment...';
-		this.state.loading = true;
+		this.state.loading.text = 'Processing payment...';
+		this.state.loading.isLoading = true;
 		this.state.showForm = false;
 		let clientToken = this.braintreeService.customer.clientToken;
 
@@ -119,7 +124,7 @@ class CreditCardComponent {
 		client.tokenizeCard({
 			number: paymentModel.creditCardNumber,
 			expirationDate: paymentModel.expirationDate,
-			cvv: paymentModel.cvv,
+			cvv: paymentModel.cvv
 		}, (err, nonce) => {
 			let paymentData = {
 				amount: paymentModel.amount,
@@ -130,23 +135,23 @@ class CreditCardComponent {
 				(response) => {
 					console.log(response.data.success);
 					if (response.data.success) {
-						this.message = 'Payment authorized, thanks.';
+						this.state.message.text = 'Payment authorized, thanks.';
 						this.state.paid = true;
 						this.state.error = false;
-						this.state.loading = false;
+						this.state.loading.isLoading = false;
 						this.state.showForm = false;
 					} else {
 						// TODO: Handle different payment failures
-						this.message = 'Payment failed: ' + response.data.message + ' Please refresh the page and try again.';
+						this.state.message.text = 'Payment failed: ' + response.data.message + ' Please refresh the page and try again.';
 						this.state.error = true;
-						this.state.loading = false;
+						this.state.loading.isLoading = false;
 						this.state.showForm = true;
 					}
 				},
 				(error) => {
-					this.message = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
+					this.state.message.text = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
 					this.state.error = true;
-					this.state.loading = false;
+					this.state.loading.isLoading = false;
 					this.state.showForm = true;
 				}
 			);
