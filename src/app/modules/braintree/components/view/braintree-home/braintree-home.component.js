@@ -11,7 +11,7 @@ class BraintreeHomeComponent {
 	// --------------------------------------------------
 	$onInit() {
 		// tmp
-		//this.braintreeService.initMode('subscription');
+		this.braintreeService.initMode('subscription');
 		// let customer = {
 		// 	id: 'haukurmar21'
 		// };
@@ -28,7 +28,7 @@ let component = {
 	template,
 	controller: BraintreeHomeComponent,
 	$routeConfig: [
-		{path: '/',         name: ROUTES.SUBSCRIPTION,   component: 'braintreeSubscription', useAsDefault: true},
+		{path: '/',         name: ROUTES.CUSTOMER_DETAILS,   component: 'braintreeCustomerDetails', useAsDefault: true},
 		{path: '/subscribe', name: ROUTES.SUBSCRIPTION,   component: 'braintreeSubscription'},
 		{path: '/subscription-overview', name: ROUTES.SUBSCRIPTION_OVERVIEW,   component: 'braintreeSubscriptionOverview'},
 		{path: '/customer', name: ROUTES.CUSTOMER,   component: 'braintreeCustomer'},

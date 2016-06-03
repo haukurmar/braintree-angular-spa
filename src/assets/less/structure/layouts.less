@@ -9,7 +9,26 @@
 }
 
 .App-body {
-	width: 800px;
+	width: 960px;
 	margin:0 auto;
 	padding: 0 20px;
+}
+
+.Page {
+	display: flex;
+	align-items: stretch;
+	.min-height(100);
+}
+
+.Page-aside--left {
+	flex-basis: 240px;
+	background: #1C1C1C;
+}
+
+.Page-main {
+	background: #F8F8F8;
+	padding: 0 20px;
+	flex-grow:1;
+	.padding-top(3);
+	.padding-bottom(3);
 }

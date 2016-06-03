@@ -1,7 +1,8 @@
-<ui-braintree-subscription-progress subscription-plan="$ctrl.customer.subscriptionPlan"></ui-braintree-subscription-progress>
+<ui-braintree-subscription-progress $router="$$router" subscription-plan="$ctrl.customer.subscriptionPlan"></ui-braintree-subscription-progress>
 
 <h2 class="Heading--two">Subscribe</h2>
 <hr class="Divider--dotted">
+<ui-braintree-subscription-navigation selected-route="'Subscription'"></ui-braintree-subscription-navigation>
 
 <p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
 

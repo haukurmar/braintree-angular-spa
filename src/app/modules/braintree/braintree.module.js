@@ -20,6 +20,7 @@ import UICustomerFormComponent from './components/presentation/customer-form/cus
 import UISubscriptionPlanComponent from './components/presentation/subscription-plan/subscription-plan.component';
 import UISubscriptionOverviewComponent from './components/presentation/subscription-overview/subscription-overview.component';
 import UISubscriptionProgressComponent from './components/presentation/subscription-progress/subscription-progress.component';
+import UISubscriptionNavigationComponent from './components/presentation/subscribe-navigation/subscribe-navigation.component';
 import UICustomerDetailsComponent from './components/presentation/customer-details/customer-details.component';
 
 // View Components (Route Components)
@@ -50,6 +51,7 @@ ngModule
 	.component('uiBraintreeCustomerDetails', UICustomerDetailsComponent)
 	.component('uiBraintreeCustomerForm', UICustomerFormComponent)
 	.component('uiBraintreeCreditcardForm', UICreditCardFormComponent)
+	.component('uiBraintreeSubscriptionNavigation', UISubscriptionNavigationComponent)
 	.component('uiBraintreeSubscriptionPlan', UISubscriptionPlanComponent)
 	.component('uiBraintreeSubscriptionProgress', UISubscriptionProgressComponent)
 	.component('uiBraintreeSubscriptionOverview', UISubscriptionOverviewComponent)
