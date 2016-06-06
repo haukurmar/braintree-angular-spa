@@ -1,4 +1,10 @@
 <h2 class="Heading--two">Customer details</h2>
 <hr class="Divider--dotted">
+<p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
 
-<ui-braintree-customer-details customer="$ctrl.customer"></ui-braintree-customer-details>
+<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
+
+<ui-braintree-customer-details
+	ng-if="$ctrl.customer"
+	customer="$ctrl.customer"
+	ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel"></ui-braintree-customer-details>

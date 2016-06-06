@@ -147,8 +147,14 @@ export default class BraintreeService {
 	 * @param customerId
 	 * @returns {*}
 	 */
-	getCustomer(customerId) {
-		return this.$http.get(this._apiUrl + this._customerPath + '/' + customerId);
+	getCustomer(customerId, includeSubscriptions = false) {
+		let path = this._apiUrl + this._customerPath + '/' + customerId;
+
+		if (includeSubscriptions) {
+			path += '/subscriptions';
+		}
+
+		return this.$http.get(path);
 	}
 
 	/**
