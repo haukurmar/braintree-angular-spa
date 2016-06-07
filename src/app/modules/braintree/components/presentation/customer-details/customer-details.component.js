@@ -3,7 +3,11 @@ import template from './customer-details.html';
 // Component decorations
 let component = {
 	bindings: {
-		customer: '<'
+		customer: '<',
+		cancelButtonRoute: '<',
+		cancelButtonText: '<',
+		editButtonRoute: '<',
+		editButtonText: '<'
 	},
 	template : template
 };

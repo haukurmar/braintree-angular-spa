@@ -1,4 +1,5 @@
 import template from './customer-details.html';
+import { ROUTES } from '../../../braintree.constants';
 
 // Inject dependencies
 @Inject('braintreeService')
@@ -15,6 +16,11 @@ class CustomerDetailsComponent {
 				linkText: ''
 			},
 			showDetailsPanel: true
+		};
+
+		this.routes = {
+			editSubscriptionRoute: ROUTES.SUBSCRIPTION,
+			cancelSubscriptionRoute: ROUTES.SUBSCRIPTION // TODO: CHANGE
 		};
 
 		this.customer = null;
@@ -61,7 +67,9 @@ class CustomerDetailsComponent {
 
 // Component decorations
 let component = {
-	bindings: {},
+	bindings: {
+
+	},
 	template : template,
 	controller: CustomerDetailsComponent
 };

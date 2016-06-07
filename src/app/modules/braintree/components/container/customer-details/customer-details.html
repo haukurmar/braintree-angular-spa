@@ -7,4 +7,8 @@
 <ui-braintree-customer-details
 	ng-if="$ctrl.customer"
 	customer="$ctrl.customer"
+	cancel-button-route="$ctrl.routes.cancelSubscriptionRoute"
+	cancel-button-text="'Disable auto renew'"
+	edit-button-text="'Edit plan'"
+	edit-button-route="$ctrl.routes.editSubscriptionRoute"
 	ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel"></ui-braintree-customer-details>

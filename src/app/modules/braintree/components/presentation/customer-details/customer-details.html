@@ -42,11 +42,15 @@
 							<label class="Form-itemLabel">Next billing date</label>
 							{{ subscription.nextBillingDate | date: longDate }}
 						</div>
+
+						<button type="button" class="Button Button--primary Button--lg" ng-link="[$ctrl.editButtonRoute]">{{ $ctrl.editButtonText }}</button>
+						<a ng-link="[$ctrl.cancelButtonRoute]">{{ $ctrl.cancelButtonText }}</a>
+
 						<hr class="Divider--dotted">
 					</div>
+				</div>
 			</section>
 
 		</div>
 	</div>
-
 </div>
