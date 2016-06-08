@@ -101,6 +101,23 @@
 						<a ng-link="[$ctrl.cancelButtonRoute]">{{ $ctrl.cancelButtonText }}</a>
 
 						<hr class="Divider--dotted">
+						<h4 class="Panel-bodyHeading Heading--four">Transaction history</h4>
+
+						<div class="Panel" ng-repeat="transaction in subscription.transactions">
+							<div class="Panel-body Panel-body--highlight">
+								{{ transaction.createdAt | date: longDate }}
+								${{ transaction.amount }}
+								<hr class="divider--dotted">
+								<h5 class="Heading--five">Status history</h5>
+								<div ng-repeat="statusHistoryItem in transaction.statusHistory">
+									{{ statusHistoryItem.timestamp | date: longDate }}
+									/ {{ statusHistoryItem.status }}
+								</div>
+							</div>
+
+						</div>
+
+						<hr class="Divider">
 					</div>
 				</div>
 			</section>
