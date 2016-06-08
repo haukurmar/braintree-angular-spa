@@ -113,8 +113,10 @@ class CreditCardComponent {
 				this.$router.navigate([this.state.nextRoute]);
 			},
 			(error) => {
-				this.state.message.text = 'An error occurred saving payment information: ' + JSON.stringify(error);
+				// TODO: Handle errors better
+				this.state.message.text = 'An error occurred saving payment information: ' + error;
 				this.state.loading.isLoading = false;
+				this.state.showForm = true;
 			}
 		);
 	}
