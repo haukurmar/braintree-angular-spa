@@ -1,6 +1,6 @@
 <div>
 	<div class="Grid-row">
-		<div class="Grid-col--6">
+		<div class="Grid-col--12">
 
 			<section class="Panel">
 				<h3 class="Panel-heading Heading--three">Profile</h3>
@@ -16,6 +16,60 @@
 				</div>
 			</section>
 
+		</div>
+	</div>
+	<div class="Grid-row">
+		<div class="Grid-col--6">
+			<section class="Panel">
+				<h3 class="Panel-heading Heading--three">Payment methods</h3>
+				<div class="Panel-body">
+					<h4 class="Panel-bodyHeading Heading--four"><i class="fa fa-credit-card"></i> Credit & Debit Cards</h4>
+					<div ng-repeat="card in $ctrl.customer.creditCards">
+						<div class="Form-item">
+							<label class="Form-itemLabel">Type</label>
+							<i class="fa fa-credit-card"></i> <span ng-bind="card.cardType"></span>
+							<span ng-if="card.debit === 'Yes'">Debit Card</span>
+							<span ng-if="card.prepaid === 'Yes'">(Prepaid)</span>
+						</div>
+						<div class="Form-item">
+							<label class="Form-itemLabel">Card number</label>
+							<span ng-bind="card.maskedNumber"></span>
+						</div>
+
+						<div class="Form-item">
+							<label class="Form-itemLabel">Expiration date</label>
+							<span ng-bind="card.expirationDate | date:'MM / y'"></span>
+						</div>
+
+						<div class="Form-item">
+							<label class="Form-itemLabel">Expired</label>
+							<span ng-bind="card.expired"></span>
+						</div>
+
+						<div class="Form-item">
+							<label class="Form-itemLabel">Default card</label>
+							<span ng-bind="card.default"></span>
+						</div>
+
+						<hr class="Divider--dotted">
+					</div>
+
+
+					<h4 class="Panel-bodyHeading Heading--four"><i class="fa fa-cc-paypal"></i> Paypal accounts</h4>
+					<div ng-repeat="paypalAccount in $ctrl.customer.paypalAccounts">
+						<div class="Form-item">
+							<label class="Form-itemLabel">Email</label>
+							<p ng-bind="paypalAccount.email"></p>
+						</div>
+						<div class="Form-item">
+							<label class="Form-itemLabel">Default payment method</label>
+							<p ng-bind="paypalAccount.default"></p>
+						</div>
+
+						<hr class="Divider--dotted">
+					</div>
+				</div>
+			</section>
 		</div>
 		<div class="Grid-col--6">
 			<section class="Panel" ng-if="$ctrl.customer.subscriptions">
@@ -50,7 +104,6 @@
 					</div>
 				</div>
 			</section>
-
 		</div>
 	</div>
 </div>

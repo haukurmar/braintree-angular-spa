@@ -34,8 +34,8 @@
 @panel-heading-fontFamily: inherit;
 @panel-heading-marginTop: 1;
 @panel-heading-marginBottom: 1;
-@panel-heading-paddingLeft: 10px;
-@panel-heading-paddingRight: 10px;
+@panel-heading-paddingLeft: 0;
+@panel-heading-paddingRight: 0;
 @panel-heading-color: @base-color--light;
 
 // ----- Body
@@ -96,6 +96,11 @@
 .Panel-body {
 	.Panel-body();
 	overflow: hidden; // margin overflow fix
+}
+
+.Panel-bodyHeading {
+	.margin-top(1);
+	.margin-bottom(2);
 }
 
 // -------------------- Modifiers --------------------
