@@ -29,7 +29,12 @@ class SubscriptionOverviewComponent {
 		this.loadingText = 'Creating subscription...';
 		this.state.loading = true;
 
-		this.braintreeService.createSubscription().then(
+		let subscriptionData = {
+			paymentMethodToken: this.braintreeService.customer.paymentMethod.token,
+			planId: this.braintreeService.customer.subscriptionPlan.id
+		};
+
+		this.braintreeService.createSubscription(subscriptionData).then(
 			(response) => {
 				if (response.data.success) {
 					this.message = 'Subscription was created!';

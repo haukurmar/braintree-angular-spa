@@ -69,23 +69,19 @@ export default class BraintreeService {
 		return this.$http.post(this._apiUrl + this._customerPath, customerData);
 	}
 
-	// TODO: Probably change to take in the model
-	createSubscription() {
-		console.log('createSubscription', this.customer);
-		console.log('this.customer.paymentMethod.token', this.customer.paymentMethod.token);
 
+	cancelSubscription(subscriptionId) {
+		return this.$http.delete(this._apiUrl + this._subscriptionsPath + '/' + subscriptionId);
+	}
+
+	/**
+	 * Creates a new subscription for customer
+	 * Expects subscriptionData: {paymentMethodToken: x, planId: x }
+	 * @param subscriptionData
+	 * @returns {*}
+	 */
+	createSubscription(subscriptionData) {
 		// TODO: Find out what to do with a current subscriptionplan if user has any
-
-		let subscriptionData = {
-			paymentMethodToken: this.customer.paymentMethod.token,
-			planId: this.customer.subscriptionPlan.id
-		};
-
-		console.log('this.customer.subscriptionPlan', this.customer.subscriptionPlan, subscriptionData);
-
-		// TODO: I need the paymentMethodToken here and not the nonce
-
-		console.log('NONCE', this.customer.paymentMethod.token, subscriptionData);
 
 		return this.$http.post(this._apiUrl + this._subscriptionsPath, subscriptionData);
 	}
