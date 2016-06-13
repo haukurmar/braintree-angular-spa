@@ -19,91 +19,25 @@
 		</div>
 	</div>
 	<div class="Grid-row">
-		<div class="Grid-col--6">
-			<section class="Panel">
-				<h3 class="Panel-heading Heading--three">Payment methods</h3>
-				<div class="Panel-body">
-					<h4 class="Panel-bodyHeading Heading--four"><i class="fa fa-credit-card"></i> Credit & Debit Cards</h4>
-					<div ng-repeat="card in $ctrl.customer.creditCards">
-						<div class="Form-item">
-							<label class="Form-itemLabel">Type</label>
-							<i class="fa fa-credit-card"></i> <span ng-bind="card.cardType"></span>
-							<span ng-if="card.debit === 'Yes'">Debit Card</span>
-							<span ng-if="card.prepaid === 'Yes'">(Prepaid)</span>
-						</div>
-						<div class="Form-item">
-							<label class="Form-itemLabel">Card number</label>
-							<span ng-bind="card.maskedNumber"></span>
-						</div>
 
-						<div class="Form-item">
-							<label class="Form-itemLabel">Expiration date</label>
-							<span ng-bind="card.expirationDate | date:'MM / y'"></span>
-						</div>
-
-						<div class="Form-item">
-							<label class="Form-itemLabel">Expired</label>
-							<span ng-bind="card.expired"></span>
-						</div>
-
-						<div class="Form-item">
-							<label class="Form-itemLabel">Default card</label>
-							<span ng-bind="card.default"></span>
-						</div>
-
-						<hr class="Divider--dotted">
-					</div>
-
-
-					<h4 class="Panel-bodyHeading Heading--four"><i class="fa fa-cc-paypal"></i> Paypal accounts</h4>
-					<div ng-repeat="paypalAccount in $ctrl.customer.paypalAccounts">
-						<div class="Form-item">
-							<label class="Form-itemLabel">Email</label>
-							<p ng-bind="paypalAccount.email"></p>
-						</div>
-						<div class="Form-item">
-							<label class="Form-itemLabel">Default payment method</label>
-							<p ng-bind="paypalAccount.default"></p>
-						</div>
-
-						<hr class="Divider--dotted">
-					</div>
-				</div>
-			</section>
-		</div>
-		<div class="Grid-col--6">
+		<div class="Grid-col--12">
 			<section class="Panel" ng-if="$ctrl.customer.subscriptions">
 				<h3 class="Panel-heading Heading--three">Subscriptions</h3>
 				<div class="Panel-body">
 					<div ng-repeat="subscription in $ctrl.customer.subscriptions">
-						<div class="Form-item">
-							<label class="Form-itemLabel">Type</label>
-							{{ subscription.plan.name}} / {{ subscription.plan.description}}
-						</div>
-						<div class="Form-item">
-							<label class="Form-itemLabel">Status</label>
-							{{ subscription.status}}
-						</div>
-						<div class="Form-item">
-							<label class="Form-itemLabel">Billing price</label>
-							${{ subscription.price}}
-						</div>
-						<div class="Form-item">
-							<label class="Form-itemLabel">Started</label>
-							{{ subscription.createdAt | date: longDate }}
-						</div>
-						<div class="Form-item">
-							<label class="Form-itemLabel">Next billing date</label>
-							{{ subscription.nextBillingDate | date: longDate }}
-						</div>
+						<ui-braintree-subscription-details subscription="subscription"></ui-braintree-subscription-details>
 
 						<button type="button" class="Button Button--primary Button--lg" ng-link="[$ctrl.editButtonRoute]">{{ $ctrl.editButtonText }}</button>
 						<a ng-link="[$ctrl.cancelButtonRoute]">{{ $ctrl.cancelButtonText }}</a>
 
-						<hr class="Divider--dotted">
-						<h4 class="Panel-bodyHeading Heading--four">Transaction history</h4>
+						<div class="Divider--dotted"></div>
+						<h4 class="Heading--four">Payment method</h4>
+						<ui-braintree-payment-method payment-method="subscription.defaultPaymentMethod"></ui-braintree-payment-method>
 
-						<div class="Panel" ng-repeat="transaction in subscription.transactions">
+						<hr class="Divider--dotted">
+						<h4 class="Panel-bodyHeading Heading--four" ui-toggle toggle-el-css-class="js-transactionHistory">Transaction history</h4>
+
+						<div class="Panel js-transactionHistory" ng-repeat="transaction in subscription.transactions">
 							<div class="Panel-body Panel-body--highlight">
 								{{ transaction.createdAt | date: longDate }}
 								${{ transaction.amount }}
@@ -116,11 +50,27 @@
 							</div>
 
 						</div>
-
 						<hr class="Divider">
 					</div>
 				</div>
 			</section>
+
+			<section class="Panel">
+				<h3 class="Panel-heading Heading--three">Other Saved Payment methods</h3>
+				<div class="Panel-body">
+					<div ng-repeat="paymentMethod in subscription.storedPaymentMethods">
+						<ui-braintree-payment-method payment-method="paymentMethod"></ui-braintree-payment-method>
+						<hr class="Divider--dotted">
+					</div>
+
+					<h4 class="Panel-bodyHeading Heading--four"><i class="fa fa-cc-paypal"></i> Paypal accounts</h4>
+					<div ng-repeat="paypalAccount in $ctrl.customer.paypalAccounts">
+						<ui-braintree-payment-method payment-method="paypalAccount"></ui-braintree-payment-method>
+						<hr class="Divider--dotted">
+					</div>
+				</div>
+			</section>
+
 		</div>
 	</div>
 </div>

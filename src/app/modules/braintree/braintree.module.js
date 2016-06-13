@@ -18,10 +18,12 @@ import CustomerDetailsComponent from './components/container/customer-details/cu
 import UICreditCardFormComponent from './components/presentation/creditcard-form/creditcard-form.component';
 import UICustomerFormComponent from './components/presentation/customer-form/customer-form.component';
 import UISubscriptionPlanComponent from './components/presentation/subscription-plan/subscription-plan.component';
+import UISubscriptionDetailsComponent from './components/presentation/subscription-details/subscription-details.component';
 import UISubscriptionOverviewComponent from './components/presentation/subscription-overview/subscription-overview.component';
 import UISubscriptionProgressComponent from './components/presentation/subscription-progress/subscription-progress.component';
 import UISubscriptionNavigationComponent from './components/presentation/subscribe-navigation/subscribe-navigation.component';
 import UICustomerDetailsComponent from './components/presentation/customer-details/customer-details.component';
+import UIPaymentMethodComponent from './components/presentation/payment-method/payment-method.component';
 
 // View Components (Route Components)
 import HomeViewComponent from './components/view/braintree-home/braintree-home.component';
@@ -51,10 +53,12 @@ ngModule
 	.component('uiBraintreeCustomerDetails', UICustomerDetailsComponent)
 	.component('uiBraintreeCustomerForm', UICustomerFormComponent)
 	.component('uiBraintreeCreditcardForm', UICreditCardFormComponent)
+	.component('uiBraintreeSubscriptionDetails', UISubscriptionDetailsComponent)
 	.component('uiBraintreeSubscriptionNavigation', UISubscriptionNavigationComponent)
 	.component('uiBraintreeSubscriptionPlan', UISubscriptionPlanComponent)
 	.component('uiBraintreeSubscriptionProgress', UISubscriptionProgressComponent)
 	.component('uiBraintreeSubscriptionOverview', UISubscriptionOverviewComponent)
+	.component('uiBraintreePaymentMethod', UIPaymentMethodComponent)
 
 	// View components
 	.component('braintreeHome', HomeViewComponent);

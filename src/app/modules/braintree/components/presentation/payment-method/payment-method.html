@@ -1,0 +1,42 @@
+
+<div ng-if="$ctrl.paymentMethod.cardType">
+	<!-- Card -->
+	<div class="Form-item">
+		<label class="Form-itemLabel">Type</label>
+		<i class="fa fa-credit-card"></i> <span ng-bind="$ctrl.paymentMethod.cardType"></span>
+		<span ng-if="$ctrl.paymentMethod.debit === 'Yes'">Debit Card</span>
+		<span ng-if="$ctrl.paymentMethod.prepaid === 'Yes'">(Prepaid)</span>
+	</div>
+	<div class="Form-item">
+		<label class="Form-itemLabel">Card number</label>
+		<span ng-bind="$ctrl.paymentMethod.maskedNumber"></span>
+	</div>
+
+	<div class="Form-item">
+		<label class="Form-itemLabel">Expiration date</label>
+		<span ng-bind="$ctrl.paymentMethod.expirationDate | date:'MM / y'"></span>
+	</div>
+
+	<div class="Form-item">
+		<label class="Form-itemLabel">Expired</label>
+		<span ng-bind="$ctrl.paymentMethod.expired"></span>
+	</div>
+
+	<div class="Form-item">
+		<label class="Form-itemLabel">Default card</label>
+		<span ng-bind="$ctrl.paymentMethod.default"></span>
+	</div>
+</div>
+
+<div ng-if="$ctrl.paymentMethod.billingAgreementId">
+	<!-- Paypal -->
+	<div class="Form-item">
+		<label class="Form-itemLabel">Email</label>
+		<p ng-bind="$ctrl.paymentMethod.email"></p>
+	</div>
+	<div class="Form-item">
+		<label class="Form-itemLabel">Default payment method</label>
+		<p ng-bind="$ctrl.paymentMethod.default"></p>
+	</div>
+
+</div>

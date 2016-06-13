@@ -1,0 +1,20 @@
+<div class="Form-item">
+	<label class="Form-itemLabel">Type</label>
+	{{ $ctrl.subscription.plan.name}} / {{ $ctrl.subscription.plan.description}}
+</div>
+<div class="Form-item">
+	<label class="Form-itemLabel">Status</label>
+	{{ $ctrl.subscription.status}}
+</div>
+<div class="Form-item">
+	<label class="Form-itemLabel">Billing price</label>
+	${{ $ctrl.subscription.price}}
+</div>
+<div class="Form-item">
+	<label class="Form-itemLabel">Started</label>
+	{{ $ctrl.subscription.createdAt | date: longDate }}
+</div>
+<div class="Form-item">
+	<label class="Form-itemLabel">Next billing date</label>
+	{{ $ctrl.subscription.nextBillingDate | date: longDate }}
+</div>
