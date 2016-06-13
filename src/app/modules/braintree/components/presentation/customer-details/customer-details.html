@@ -35,29 +35,42 @@
 						<ui-braintree-payment-method payment-method="subscription.defaultPaymentMethod"></ui-braintree-payment-method>
 
 						<hr class="Divider--dotted">
-						<h4 class="Panel-bodyHeading Heading--four" ui-toggle toggle-el-css-class="js-transactionHistory">Transaction history</h4>
 
-						<div class="Panel js-transactionHistory" ng-repeat="transaction in subscription.transactions">
-							<div class="Panel-body Panel-body--highlight">
-								{{ transaction.createdAt | date: longDate }}
-								${{ transaction.amount }}
-								<hr class="divider--dotted">
-								<h5 class="Heading--five">Status history</h5>
-								<div ng-repeat="statusHistoryItem in transaction.statusHistory">
-									{{ statusHistoryItem.timestamp | date: longDate }}
-									/ {{ statusHistoryItem.status }}
+						<h4 class="Panel-bodyHeading Heading--four"
+						    ui-toggle
+						    toggle-el-css-class="js-transactionHistory"
+						    toggle-icon-css-class="js-toggleIcon"
+						    toggle-icon-css-class-hide="fa-chevron-down"
+							toggle-icon-css-class-show="fa-chevron-right"><i class="fa fa-chevron-right js-toggleIcon"></i> Transaction history</h4>
+
+						<div class="js-transactionHistory" hidden>
+							<div class="Panel" ng-repeat="transaction in subscription.transactions">
+								<div class="Panel-body Panel-body--highlight">
+									{{ transaction.createdAt | date: longDate }}
+									${{ transaction.amount }}
+									<hr class="divider--dotted">
+									<h5 class="Heading--five">Status history</h5>
+									<div ng-repeat="statusHistoryItem in transaction.statusHistory">
+										{{ statusHistoryItem.timestamp | date: longDate }}
+										/ {{ statusHistoryItem.status }}
+									</div>
 								</div>
-							</div>
 
+							</div>
 						</div>
-						<hr class="Divider">
 					</div>
+					<hr class="Divider">
 				</div>
 			</section>
 
 			<section class="Panel">
-				<h3 class="Panel-heading Heading--three">Other Saved Payment methods</h3>
-				<div class="Panel-body">
+				<h3 class="Panel-heading Heading--three"
+				    ui-toggle
+				    toggle-el-css-class="js-otherPaymentMethods"
+				    toggle-icon-css-class="js-toggleIcon"
+				    toggle-icon-css-class-hide="fa-chevron-down"
+				    toggle-icon-css-class-show="fa-chevron-right"><i class="fa fa-chevron-right js-toggleIcon"></i> Other Saved Payment methods</h3>
+				<div class="Panel-body js-otherPaymentMethods" hidden>
 					<div ng-repeat="paymentMethod in subscription.storedPaymentMethods">
 						<ui-braintree-payment-method payment-method="paymentMethod"></ui-braintree-payment-method>
 						<hr class="Divider--dotted">
