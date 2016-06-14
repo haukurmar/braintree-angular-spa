@@ -5,9 +5,12 @@ let component = {
 	bindings: {
 		paymentMethod: '<',
 		cardButtonText: '<',
+		cardButtonVisible: '<',
 		paypalButtonText: '<',
+		paypalButtonVisible: '<',
 		onCardButtonClick: '&',
-		onPaypalButtonClick: '&'
+		onPaypalButtonClick: '&',
+
 	},
 	template : template
 };
