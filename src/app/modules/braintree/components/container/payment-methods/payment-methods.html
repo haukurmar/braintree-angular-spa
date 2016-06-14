@@ -1,7 +1,20 @@
-<ui-braintree-subscription-progress subscription-plan="$ctrl.customer.subscriptionPlan" subscription-route="$ctrl.routes.subscription"></ui-braintree-subscription-progress>
+<ui-braintree-subscription-progress subscription-plan="$ctrl.customer.subscriptionPlan" subscription-route="$ctrl.state.routes.subscription"></ui-braintree-subscription-progress>
 
 <h2 class="Heading--two">Choose your payment method</h2>
 <hr class="Divider--dotted">
+
+<div ng-if="$ctrl.customer.paymentMethods['0']">
+	<h2 class="Heading--three">Your stored payment methods</h2>
+	<div ng-repeat="paymentMethod in $ctrl.customer.paymentMethods">
+		<ui-braintree-payment-method
+			payment-method="paymentMethod"
+			card-button-text="'Choose card'"
+			paypal-button-text="'Choose paypal'"
+			on-card-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"
+			on-paypal-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"></ui-braintree-payment-method>
+		<hr class="Divider--dotted">
+	</div>
+</div>
 
 <button class="Button Button--primary Button--lg" ng-click="$ctrl.choosePaymentMethod('cards')">Credit or Debit card</button>
 <button class="Button Button--primary Button--lg" ng-click="$ctrl.choosePaymentMethod('paypal')">Paypal</button>

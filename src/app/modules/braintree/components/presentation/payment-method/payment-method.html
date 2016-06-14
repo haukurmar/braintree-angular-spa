@@ -26,6 +26,8 @@
 		<label class="Form-itemLabel">Default card</label>
 		<span ng-bind="$ctrl.paymentMethod.default"></span>
 	</div>
+
+	<button class="Button Button--primary" ng-click="$ctrl.onCardButtonClick({paymentMethod: $ctrl.paymentMethod})">{{ $ctrl.cardButtonText }}</button>
 </div>
 
 <div ng-if="$ctrl.paymentMethod.billingAgreementId">
@@ -39,4 +41,5 @@
 		<p ng-bind="$ctrl.paymentMethod.default"></p>
 	</div>
 
+	<button class="Button Button--primary" ng-click="$ctrl.onPaypalButtonClick({paymentMethod: $ctrl.paymentMethod})">{{ $ctrl.paypalButtonText }}</button>
 </div>

@@ -6,11 +6,15 @@ import {ROUTES} from '../../../braintree.constants';
 class PaymentMethodsComponent {
 	constructor() {
 		// Used in template
-		this.routes = {
-			subscription: ROUTES.SUBSCRIPTION
+		this.state = {
+			routes: {
+				nextRoute: '',
+				subscription: ROUTES.SUBSCRIPTION
+			}
 		};
 
 		this.customer = null;
+
 	}
 
 	// Private methods
@@ -27,6 +31,17 @@ class PaymentMethodsComponent {
 		} else if(method === 'paypal') {
 			this.$router.navigate([ROUTES.PAYPAL]);
 		}
+	}
+
+	chooseStoredPaymentMethod(paymentMethod) {
+		let customerData = {
+			paymentMethod: paymentMethod
+		};
+
+		this.braintreeService.updateCustomerData(customerData);
+
+		this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
+		this.$router.navigate([this.state.nextRoute]);
 	}
 }
 
