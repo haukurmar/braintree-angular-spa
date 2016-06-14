@@ -4,10 +4,12 @@ import template from './customer-details.html';
 let component = {
 	bindings: {
 		customer: '<',
-		cancelButtonRoute: '<',
 		cancelButtonText: '<',
+		enableButtonText: '<',
 		editButtonRoute: '<',
-		editButtonText: '<'
+		editButtonText: '<',
+		onCancelSubscription: '&',
+		onEnableSubscription: '&'
 	},
 	template : template
 };
