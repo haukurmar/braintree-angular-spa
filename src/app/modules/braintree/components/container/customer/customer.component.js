@@ -65,17 +65,21 @@ class BraintreeSubscriptionComponent {
 	 * @param customerId
 	 */
 	getCustomerDetails(customerId) {
+		this.state.loading.isLoading = true;
+		this.state.loading.text = 'Fetching customer information...';
 		//Get Customer if logged in
 		this.braintreeService.getCustomer(customerId).then(
 			(response) => {
 				console.log('success', response);
 				this.braintreeService.updateCustomerData(response.data.customer);
 				this.customerModel = response.data.customer;
+				this.state.loading.isLoading = false;
 
 				// TODO: What to do here?
 			},
 			(error) => {
 				console.log(error.data.message);
+				this.state.loading.isLoading = false;
 			}
 		);
 	}
