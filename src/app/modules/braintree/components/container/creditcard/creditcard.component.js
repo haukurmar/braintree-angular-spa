@@ -114,7 +114,7 @@ class CreditCardComponent {
 			},
 			(error) => {
 				// TODO: Handle errors better
-				this.state.message.text = 'An error occurred saving payment information: ' + error;
+				this.state.message.text = error;
 				this.state.loading.isLoading = false;
 				this.state.showForm = true;
 			}

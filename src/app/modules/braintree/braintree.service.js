@@ -105,13 +105,12 @@ export default class BraintreeService {
 							resolve(response);
 						},
 						(error) => {
-							reject('Failed to create payment method:', error);
+							reject('Failed to create payment method:' + error.data.message);
 						}
 					);
 				},
 				(error) => {
-					console.log('Failed to get PaymentMethodNonce', error);
-					reject('Failed to get PaymentMethodNonce', error);
+					reject('Failed to get PaymentMethodNonce' + error);
 				}
 			);
 		});
