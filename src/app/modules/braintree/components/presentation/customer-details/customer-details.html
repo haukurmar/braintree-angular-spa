@@ -76,7 +76,9 @@
 				    toggle-icon-css-class-hide="fa-chevron-down"
 				    toggle-icon-css-class-show="fa-chevron-right"><i class="fa fa-chevron-right js-toggleIcon"></i> Saved Payment Methods</h3>
 				<div class="Panel-body js-otherPaymentMethods" hidden>
-					<div ng-repeat="paymentMethod in subscription.storedPaymentMethods">
+
+					<h4 class="Panel-bodyHeading Heading--four"><i class="fa fa-credit-card"></i> Credit & debit cards</h4>
+					<div ng-repeat="paymentMethod in $ctrl.customer.creditCards">
 						<ui-braintree-payment-method payment-method="paymentMethod"></ui-braintree-payment-method>
 						<hr class="Divider--dotted">
 					</div>
