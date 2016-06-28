@@ -13,9 +13,7 @@ class BraintreeHomeComponent {
 		// tmp
 		this.braintreeService.initMode('subscription');
 		let customer = {
-			id: 'haukurmar21'
-			//id: 'multiplesubs'
-			//id: 'nosub'
+			id: '38863385'
 		};
 		this.braintreeService.updateCustomerData(customer);
 	}
