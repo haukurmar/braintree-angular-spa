@@ -213,6 +213,16 @@ export default class BraintreeService {
 		console.log('customer model updated in service', customerModel);
 	}
 
+	updateSubscription(currentSubscriptionId, subscription) {
+
+		let subscriptionObj = {
+			currentSubscriptionId: currentSubscriptionId,
+			subscription: subscription
+		};
+
+		return this.$http.put(this._apiUrl + this._subscriptionsPath, subscriptionObj);
+	}
+
 	// TODO: Move somewhere else
 	// Walk throught the object tree and set values
 	setObjectValues(src, dest) {
