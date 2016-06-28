@@ -5,7 +5,10 @@
 	'u-textSuccess' : $ctrl.subscription.status.toLowerCase() === 'active',
 	'u-textDanger' : $ctrl.subscription.status.toLowerCase() === 'canceled',
 	'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pastdue'
-	}" ng-bind="$ctrl.subscription.status"></strong>
+	}">
+		<span ng-bind="$ctrl.subscription.status" ng-if="$ctrl.subscription.price > 0"></span>
+		<span ng-if="$ctrl.subscription.price <= 0" class="u-textWarning">On hold</span>
+	</strong>
 </div>
 <div class="Form-item">
 	<label class="Form-itemLabel">Billing price</label>
