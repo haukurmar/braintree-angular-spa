@@ -125,6 +125,10 @@ export default class BraintreeService {
 		return this.$http.post(this._apiUrl + this._paymentMethodsPath, paymentMethodModel);
 	}
 
+	deletePaymentMethod(paymentMethod) {
+		return this.$http.delete(this._apiUrl + this._paymentMethodsPath + '/' + paymentMethod.token);
+	}
+
 	getAllSubscriptionPlans() {
 		return this.$http.get(this._apiUrl + this._subscriptionPlansPath);
 	}

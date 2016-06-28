@@ -48,6 +48,7 @@
 							<div class="Grid-col--6">
 								<h4 class="Heading--four">Payment method</h4>
 								<ui-braintree-payment-method payment-method="subscription.defaultPaymentMethod"></ui-braintree-payment-method>
+								<a href="" confirm-message="'Are you sure you want to delete this payment method? This will also cancel your subscription'" ui-confirm-click="$ctrl.deletePaymentMethod(subscription.defaultPaymentMethod)">Delete payment method</a>
 							</div>
 						</div>
 						<hr class="Divider--dotted">

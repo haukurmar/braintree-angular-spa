@@ -59,7 +59,7 @@ class CustomerDetailsComponent {
 			(response) => {
 				console.log('success', response);
 				this.braintreeService.updateCustomerData(response.data.customer);
-				this.customer = this.braintreeService.customer;
+				this.customer = response.data.customer;
 				this.state.loading.isLoading = false;
 			},
 			(error) => {
@@ -85,6 +85,27 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				console.log(error.data.message);
+				this.state.subscriptions.loading.isLoading = false;
+				this.state.message.text = error.data.message;
+			}
+		);
+	}
+
+	deletePaymentMethod(paymentMethod) {
+		this.state.subscriptions.loading.isLoading = true;
+		this.state.subscriptions.loading.text = 'Deleting payment method...';
+
+		console.log('deleting payment method', paymentMethod.token);
+
+		this.braintreeService.deletePaymentMethod(paymentMethod).then(
+			(response) => {
+				if (this.customer.id) {
+					this.getCustomerDetails(this.customer.id);
+				}
+
+				this.state.subscriptions.loading.isLoading = false;
+			},
+			(error) => {
 				this.state.subscriptions.loading.isLoading = false;
 				this.state.message.text = error.data.message;
 			}
