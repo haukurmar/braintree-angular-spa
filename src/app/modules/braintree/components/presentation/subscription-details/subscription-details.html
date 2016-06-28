@@ -1,7 +1,11 @@
 <h4 class="Heading--four">{{ $ctrl.subscription.plan.name}} / {{ $ctrl.subscription.plan.description}}</h4>
 <div class="Form-item">
 	<label class="Form-itemLabel">Status</label>
-	<strong ng-class="{'u-textSuccess' : $ctrl.subscription.status.toLowerCase() === 'active'}" ng-bind="$ctrl.subscription.status"></strong>
+	<strong ng-class="{
+	'u-textSuccess' : $ctrl.subscription.status.toLowerCase() === 'active',
+	'u-textDanger' : $ctrl.subscription.status.toLowerCase() === 'canceled',
+	'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pastdue'
+	}" ng-bind="$ctrl.subscription.status"></strong>
 </div>
 <div class="Form-item">
 	<label class="Form-itemLabel">Billing price</label>
