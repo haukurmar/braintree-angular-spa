@@ -11,6 +11,6 @@
 	enable-button-text="'Enable auto renew'"
 	edit-button-text="'Edit plan'"
 	edit-button-route="$ctrl.routes.editSubscriptionRoute"
-	on-enable-subscription="$ctrl.enableSubscription(subscription)"
-	on-cancel-subscription="$ctrl.cancelSubscription(subscription)"
+	on-enable-subscription="$ctrl.enableAutoRenew(subscription)"
+	on-cancel-subscription="$ctrl.disableAutoRenew(subscription)"
 	ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel"></ui-braintree-customer-details>

@@ -1,5 +1,5 @@
 import template from './customer-details.html';
-import { ROUTES } from '../../../braintree.constants';
+import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
 @Inject('braintreeService')
@@ -81,33 +81,44 @@ class CustomerDetailsComponent {
 		);
 	}
 
-	enableSubscription(subscription) {
-		console.log('Enable subscription again', subscription);
-
-		let subscriptionData = {
-			paymentMethodToken: subscription.paymentMethodToken,
-			planId: subscription.planId
+	disableAutoRenew(subscription) {
+		let updatedSubscription = {
+			price: 0.00,
 		};
 
-		this.braintreeService.createSubscription(subscriptionData).then(
+		this.braintreeService.updateSubscription(subscription.id, updatedSubscription).then(
 			(response) => {
-				if (response.data.success) {
-					this.message = 'Subscription was created!';
-
-					if (this.customer.id) {
-						this.getCustomerDetails(this.customer.id);
-					}
-
-				} else {
-					console.log('Error creating a sub', response.data.message);
-					// TODO: Handle different failures maybe?
-					this.message = 'An error occurred creating a subscription: ' + response.data.message;
+				console.log('cancel response', response);
+				if (this.customer.id) {
+					this.getCustomerDetails(this.customer.id);
 				}
 			},
 			(error) => {
-				console.log('Error creating a subcription', error);
-				this.message = error.data.message;
-				this.state.loading = false;
+				console.log(error.data.message);
+				this.state.loading.isLoading = false;
+				this.state.message.text = error.data.message;
+			}
+		);
+	}
+
+	enableAutoRenew(subscription) {
+		console.log('Enable subscription again', subscription);
+
+		let updatedSubscription = {
+			price: subscription.plan.price
+		};
+
+		this.braintreeService.updateSubscription(subscription.id, updatedSubscription).then(
+			(response) => {
+				console.log('cancel response', response);
+				if (this.customer.id) {
+					this.getCustomerDetails(this.customer.id);
+				}
+			},
+			(error) => {
+				console.log(error.data.message);
+				this.state.loading.isLoading = false;
+				this.state.message.text = error.data.message;
 			}
 		);
 	}
@@ -115,10 +126,8 @@ class CustomerDetailsComponent {
 
 // Component decorations
 let component = {
-	bindings: {
-
-	},
-	template : template,
+	bindings: {},
+	template: template,
 	controller: CustomerDetailsComponent
 };
 
