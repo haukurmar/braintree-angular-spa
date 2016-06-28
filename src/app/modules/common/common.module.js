@@ -1,10 +1,12 @@
 import LoadingIconComponent from './presentation/loading-icon/loading-icon.component';
 import ToggleDirective from './directives/toggle.directive';
+import ConfirmClickDirective from './directives/confirm-click.directive';
 
 let ngModule = angular.module('common', []);
 
 ngModule
 	.directive('uiToggle', ToggleDirective)
+	.directive('uiConfirmClick', ConfirmClickDirective)
 	.component('uiLoadingIcon', LoadingIconComponent)
 	.filter('toArray', function () {
 		return function (obj, addKey) {
