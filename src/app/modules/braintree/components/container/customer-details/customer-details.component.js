@@ -10,6 +10,12 @@ class CustomerDetailsComponent {
 				isLoading: false,
 				text: ''
 			},
+			subscriptions: {
+				loading: {
+					isLoading: false,
+					text: ''
+				}
+			},
 			message: {
 				text: '',
 				link: '',
@@ -65,23 +71,30 @@ class CustomerDetailsComponent {
 	}
 
 	cancelSubscription(subscription) {
-		console.log('cancel it', subscription);
+		this.state.subscriptions.loading.isLoading = true;
+		this.state.subscriptions.loading.text = 'Canceling subscription...';
+
 		this.braintreeService.cancelSubscription(subscription.id).then(
 			(response) => {
 				console.log('cancel response', response);
 				if (this.customer.id) {
 					this.getCustomerDetails(this.customer.id);
 				}
+
+				this.state.subscriptions.loading.isLoading = false;
 			},
 			(error) => {
 				console.log(error.data.message);
-				this.state.loading.isLoading = false;
+				this.state.subscriptions.loading.isLoading = false;
 				this.state.message.text = error.data.message;
 			}
 		);
 	}
 
 	disableAutoRenew(subscription) {
+		this.state.subscriptions.loading.isLoading = true;
+		this.state.subscriptions.loading.text = 'Updating subscription...';
+
 		let updatedSubscription = {
 			price: 0.00,
 		};
@@ -92,17 +105,20 @@ class CustomerDetailsComponent {
 				if (this.customer.id) {
 					this.getCustomerDetails(this.customer.id);
 				}
+
+				this.state.subscriptions.loading.isLoading = false;
 			},
 			(error) => {
 				console.log(error.data.message);
-				this.state.loading.isLoading = false;
+				this.state.subscriptions.loading.isLoading = false;
 				this.state.message.text = error.data.message;
 			}
 		);
 	}
 
 	enableAutoRenew(subscription) {
-		console.log('Enable subscription again', subscription);
+		this.state.subscriptions.loading.isLoading = true;
+		this.state.subscriptions.loading.text = 'Updating subscription...';
 
 		let updatedSubscription = {
 			price: subscription.plan.price
@@ -110,14 +126,14 @@ class CustomerDetailsComponent {
 
 		this.braintreeService.updateSubscription(subscription.id, updatedSubscription).then(
 			(response) => {
-				console.log('cancel response', response);
 				if (this.customer.id) {
 					this.getCustomerDetails(this.customer.id);
 				}
+				this.state.subscriptions.loading.isLoading = false;
 			},
 			(error) => {
 				console.log(error.data.message);
-				this.state.loading.isLoading = false;
+				this.state.subscriptions.loading.isLoading = false;
 				this.state.message.text = error.data.message;
 			}
 		);
