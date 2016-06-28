@@ -42,7 +42,7 @@ class SubscriptionOverviewComponent {
 					this.subscriptionPlan = this.braintreeService.customer.subscriptionPlan;
 
 					// Clear the customer data
-					this.braintreeService.initCustomerData();
+					//this.braintreeService.initCustomerData();
 				} else {
 					console.log('Error creating a sub', response.data.message);
 					// TODO: Handle different failures maybe?
