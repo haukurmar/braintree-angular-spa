@@ -1,6 +1,11 @@
 <h2 class="Heading--two">Customer details</h2>
 <hr class="Divider--dotted">
-<p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
+<section class="Alert Alert--warning" ng-if="$ctrl.state.message.text">
+	<p>
+		<i class="Alert-icon fa fa-warning fa-lg"></i>
+		<span ng-bind="$ctrl.state.message.text"></span>
+	</p>
+</section>
 
 <ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
 
@@ -41,18 +46,62 @@
 							<div class="Grid-col--6">
 								<ui-braintree-subscription-details subscription="subscription"></ui-braintree-subscription-details>
 
-								<button type="button" class="Button Button--primary Button--lg" ng-link="[$ctrl.routes.editSubscriptionRoute]">Edit plan</button>
-								<a href="" ng-if="subscription.status === 'Active' && subscription.price > 0" ng-click="$ctrl.disableAutoRenew(subscription)">Disable auto renew</a>
-								<a href="" ng-if="subscription.status === 'Canceled' || subscription.price <= 0" ng-click="$ctrl.enableAutoRenew(subscription)">Enable auto renew</a>
+								<button type="button" class="Button Button--primary" ng-link="[$ctrl.routes.editSubscriptionRoute]">Edit Plan</button>
+								|
+								<a href="" ng-if="subscription.status === 'Active' && subscription.price > 0" ng-click="$ctrl.disableAutoRenew(subscription)">Disable Auto Renew</a>
+								<a href="" ng-if="subscription.status === 'Canceled' || subscription.price <= 0" ng-click="$ctrl.enableAutoRenew(subscription)">Enable Auto Renew</a>
 							</div>
 							<div class="Grid-col--6">
 								<h4 class="Heading--four">Payment method</h4>
 								<ui-braintree-payment-method payment-method="subscription.defaultPaymentMethod"></ui-braintree-payment-method>
-								<a href="" confirm-message="'Are you sure you want to delete this payment method? This will also cancel your subscription'" ui-confirm-click="$ctrl.deletePaymentMethod(subscription.defaultPaymentMethod)">Delete payment method</a>
+								<button class="Button Button--primary" ng-click="$ctrl.togglePaymentMethodsForSubscription()">Edit / Change Payment Method</button>
+								|
+								<a href="" confirm-message="'Are you sure you want to delete this payment method? This will also cancel your subscription'" ui-confirm-click="$ctrl.deletePaymentMethod(subscription.defaultPaymentMethod)">Delete</a>
 							</div>
 						</div>
-						<hr class="Divider--dotted">
 
+						<!-- Edit payment method -->
+						<section class="Panel" ng-if="$ctrl.state.showEditPaymentMethodsPanel">
+							<h4 class="Heading--four">Edit payment method</h4>
+							<hr class="Divider--dotted">
+							<div class="Panel-body Panel-body--highlight">
+
+								<div ng-if="$ctrl.customer.paymentMethods['0']">
+									<h5 class="Heading--five">Your stored payment methods</h5>
+									<hr class="Divider--dotted">
+
+									<div class="Grid-row">
+										<div class="Grid-col--6" ng-repeat="paymentMethod in $ctrl.customer.paymentMethods">
+											<ui-braintree-payment-method
+												payment-method="paymentMethod"
+												card-button-text="'Choose card'"
+												card-button-visible="true"
+												paypal-button-text="'Choose paypal'"
+												paypal-button-visible="true"
+												on-card-button-click="$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)"
+												on-paypal-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod, subscription)"></ui-braintree-payment-method>
+										</div>
+									</div>
+								</div>
+
+								<!--<hr class="Divider&#45;&#45;dotted">-->
+								<!--<h5 class="Heading&#45;&#45;five" ng-if="$ctrl.customer.paymentMethods['0']">Add a new payment method</h5>-->
+								<!--<button class="Button Button&#45;&#45;primary" ng-click="$ctrl.showPaymentMethodForm('cards')">Credit or Debit card</button>-->
+								<!--<button class="Button Button&#45;&#45;primary" ng-click="$ctrl.showPaymentMethodForm('paypal')">Paypal</button>-->
+
+								<!--<ui-braintree-creditcard-form-->
+									<!--ng-if="$ctrl.state.showCreditCardForm"-->
+									<!--on-submit=""-->
+									<!--back-button-visible="false"-->
+									<!--submit-button-text="'Save card'"-->
+									<!--hide-amount="$ctrl.state.hideAmount"></ui-braintree-creditcard-form>-->
+
+							</div>
+
+						</section>
+
+						<!-- Transaction history -->
+						<hr class="Divider--dotted">
 						<h4 class="Panel-bodyHeading Heading--four"
 						    ui-toggle
 						    toggle-el-css-class="js-transactionHistory"

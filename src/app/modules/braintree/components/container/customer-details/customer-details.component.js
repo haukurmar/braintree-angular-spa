@@ -21,7 +21,10 @@ class CustomerDetailsComponent {
 				link: '',
 				linkText: ''
 			},
-			showDetailsPanel: true
+			showDetailsPanel: true,
+			showEditPaymentMethodsPanel: false,
+			showCreditCardForm: false,
+			showPaypalForm: false
 		};
 
 		this.routes = {
@@ -46,30 +49,11 @@ class CustomerDetailsComponent {
 
 	// Public viewModel methods
 	// --------------------------------------------------
+
 	/**
-	 * Get Customer details, including current subscription plans, payment methods etc.
-	 * @param customerId
+	 * Cancel a specific subscription.
+	 * @param subscription
 	 */
-	getCustomerDetails(customerId) {
-		this.state.loading.isLoading = true;
-		this.state.loading.text = 'Loading...';
-
-		//Get Customer if logged in
-		this.braintreeService.getCustomer(customerId, true).then(
-			(response) => {
-				console.log('success', response);
-				this.braintreeService.updateCustomerData(response.data.customer);
-				this.customer = response.data.customer;
-				this.state.loading.isLoading = false;
-			},
-			(error) => {
-				console.log(error.data.message);
-				this.state.loading.isLoading = false;
-				this.state.message.text = error.data.message;
-			}
-		);
-	}
-
 	cancelSubscription(subscription) {
 		this.state.subscriptions.loading.isLoading = true;
 		this.state.subscriptions.loading.text = 'Canceling subscription...';
@@ -91,11 +75,28 @@ class CustomerDetailsComponent {
 		);
 	}
 
+	/**
+	 * Change payment method for a specific subscription.
+	 * @param newPaymentMethod
+	 * @param subscription
+	 */
+	changePaymentMethodForSubscription(newPaymentMethod, subscription) {
+		let loadingText = 'Updating payment method...';
+		let subscriptionChanges = {
+			paymentMethodToken: newPaymentMethod.token
+		};
+
+		this.updateSubscription(subscription, subscriptionChanges, loadingText);
+	}
+
+	/**
+	 * Delete a payment method for a specific subscription.
+	 * Subscription will also be canceled
+	 * @param paymentMethod
+	 */
 	deletePaymentMethod(paymentMethod) {
 		this.state.subscriptions.loading.isLoading = true;
 		this.state.subscriptions.loading.text = 'Deleting payment method...';
-
-		console.log('deleting payment method', paymentMethod.token);
 
 		this.braintreeService.deletePaymentMethod(paymentMethod).then(
 			(response) => {
@@ -112,18 +113,64 @@ class CustomerDetailsComponent {
 		);
 	}
 
+	/**
+	 * Disables auto renew for a specific subscription.
+	 * @param subscription
+	 */
 	disableAutoRenew(subscription) {
-		this.state.subscriptions.loading.isLoading = true;
-		this.state.subscriptions.loading.text = 'Updating subscription...';
-
-		let updatedSubscription = {
+		let loadingText = 'Disabling auto renew';
+		let subscriptionChanges = {
 			price: 0.00,
 			numberOfBillingCycles: subscription.currentBillingCycle
 		};
 
-		this.braintreeService.updateSubscription(subscription.id, updatedSubscription).then(
+		this.updateSubscription(subscription, subscriptionChanges, loadingText);
+	}
+
+	/**
+	 * Enables auto renew for a specific subscription.
+	 * @param subscription
+	 */
+	enableAutoRenew(subscription) {
+		let loadingText = 'Disabling auto renew';
+
+		let subscriptionChanges = {
+			price: subscription.plan.price,
+			numberOfBillingCycles: null
+		};
+
+		this.updateSubscription(subscription, subscriptionChanges, loadingText);
+	}
+
+	/**
+	 * Get Customer details, including current subscription plans, payment methods etc.
+	 * @param customerId
+	 */
+	getCustomerDetails(customerId) {
+		this.state.loading.isLoading = true;
+		this.state.loading.text = 'Loading profile details...';
+
+		//Get Customer if logged in
+		this.braintreeService.getCustomer(customerId, true).then(
 			(response) => {
-				console.log('cancel response', response);
+				this.braintreeService.updateCustomerData(response.data.customer);
+				this.customer = response.data.customer;
+				this.state.loading.isLoading = false;
+			},
+			(error) => {
+				this.state.loading.isLoading = false;
+				this.state.message.text = error.data.message;
+			}
+		);
+	}
+
+	// TODO: Change this so we use an endpoint in the api for this, so we are not sending the price over the wire
+	updateSubscription(subscription, subscriptionChanges, loadingText) {
+		this.state.subscriptions.loading.isLoading = true;
+		this.state.subscriptions.loading.text = loadingText;
+
+		this.braintreeService.updateSubscription(subscription.id, subscriptionChanges).then(
+			(response) => {
 				if (this.customer.id) {
 					this.getCustomerDetails(this.customer.id);
 				}
@@ -138,29 +185,19 @@ class CustomerDetailsComponent {
 		);
 	}
 
-	enableAutoRenew(subscription) {
-		this.state.subscriptions.loading.isLoading = true;
-		this.state.subscriptions.loading.text = 'Updating subscription...';
+	showPaymentMethodForm(type) {
+		if (type === 'cards') {
+			this.state.showCreditCardForm = true;
+			this.state.showPaypalForm = false;
+		} else if (type === 'paypal') {
+			this.state.showCreditCardForm = false;
+			this.state.showPaypalForm = true;
+		}
+	}
 
-		// TODO: Change this so we use an endpoint in the api for this, so we are not sending the price over the wire
-		let updatedSubscription = {
-			price: subscription.plan.price,
-			numberOfBillingCycles: null
-		};
-
-		this.braintreeService.updateSubscription(subscription.id, updatedSubscription).then(
-			(response) => {
-				if (this.customer.id) {
-					this.getCustomerDetails(this.customer.id);
-				}
-				this.state.subscriptions.loading.isLoading = false;
-			},
-			(error) => {
-				console.log(error.data.message);
-				this.state.subscriptions.loading.isLoading = false;
-				this.state.message.text = error.data.message;
-			}
-		);
+	// TODO: Only show payment method for the selected subscription, not all
+	togglePaymentMethodsForSubscription() {
+		this.state.showEditPaymentMethodsPanel = !this.state.showEditPaymentMethodsPanel;
 	}
 }
 
