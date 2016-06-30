@@ -115,13 +115,10 @@ class CustomerDetailsComponent {
 	disableAutoRenew(subscription) {
 		this.state.subscriptions.loading.isLoading = true;
 		this.state.subscriptions.loading.text = 'Updating subscription...';
-		let endDate = new Date();
-		endDate.setMinutes(endDate.getMinutes() + 1);
-
 
 		let updatedSubscription = {
 			price: 0.00,
-			billingPeriodEndDate: '2016-06-30'
+			numberOfBillingCycles: subscription.currentBillingCycle
 		};
 
 		this.braintreeService.updateSubscription(subscription.id, updatedSubscription).then(
@@ -145,8 +142,10 @@ class CustomerDetailsComponent {
 		this.state.subscriptions.loading.isLoading = true;
 		this.state.subscriptions.loading.text = 'Updating subscription...';
 
+		// TODO: Change this so we use an endpoint in the api for this, so we are not sending the price over the wire
 		let updatedSubscription = {
-			price: subscription.plan.price
+			price: subscription.plan.price,
+			numberOfBillingCycles: null
 		};
 
 		this.braintreeService.updateSubscription(subscription.id, updatedSubscription).then(
