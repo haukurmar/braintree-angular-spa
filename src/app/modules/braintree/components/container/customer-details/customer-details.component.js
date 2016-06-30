@@ -115,9 +115,13 @@ class CustomerDetailsComponent {
 	disableAutoRenew(subscription) {
 		this.state.subscriptions.loading.isLoading = true;
 		this.state.subscriptions.loading.text = 'Updating subscription...';
+		let endDate = new Date();
+		endDate.setMinutes(endDate.getMinutes() + 1);
+
 
 		let updatedSubscription = {
 			price: 0.00,
+			billingPeriodEndDate: '2016-06-30'
 		};
 
 		this.braintreeService.updateSubscription(subscription.id, updatedSubscription).then(

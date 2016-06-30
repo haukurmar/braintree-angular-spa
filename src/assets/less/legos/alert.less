@@ -71,6 +71,10 @@
 .Alert--warning {
 	&:extend(.Alert);
 	.createAlertVariant(@alert--warning-borderColor, @alert--warning-bgColor);
+
+	.Alert-icon {
+		color: @alert--warning-borderColor;
+	}
 }
 
 .Alert--danger {
