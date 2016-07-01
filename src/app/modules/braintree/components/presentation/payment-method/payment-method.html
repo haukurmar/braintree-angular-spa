@@ -28,7 +28,9 @@
 
 	<button class="Button Button--primary"
 	        ng-if="$ctrl.cardButtonVisible"
-	        ng-click="$ctrl.onCardButtonClick({paymentMethod: $ctrl.paymentMethod})">{{ $ctrl.cardButtonText }}
+	        ng-disabled="$ctrl.buttonDisabled"
+	        ng-click="$ctrl.onCardButtonClick({paymentMethod: $ctrl.paymentMethod})">
+		{{ ($ctrl.buttonDisabled) ? $ctrl.buttonDisabledText : $ctrl.cardButtonText }}
 	</button>
 	<a href=""
 	   ng-if="$ctrl.deleteLinkVisible"
@@ -49,7 +51,9 @@
 
 	<button class="Button Button--primary"
 	        ng-if="$ctrl.paypalButtonVisible"
-	        ng-click="$ctrl.onPaypalButtonClick({paymentMethod: $ctrl.paymentMethod})">{{ $ctrl.paypalButtonText }}
+	        ng-disabled="$ctrl.buttonDisabled"
+	        ng-click="$ctrl.onPaypalButtonClick({paymentMethod: $ctrl.paymentMethod})">
+		{{ ($ctrl.buttonDisabled) ? $ctrl.buttonDisabledText : $ctrl.paypalButtonText }}
 	</button>
 	<a href=""
 	   ng-if="$ctrl.deleteLinkVisible"

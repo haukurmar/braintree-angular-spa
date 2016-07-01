@@ -4,6 +4,8 @@ import template from './payment-method.html';
 let component = {
 	bindings: {
 		paymentMethod: '<',
+		buttonDisabled: '<',
+		buttonDisabledText: '<',
 		cardButtonText: '<',
 		cardButtonVisible: '<',
 		deleteLinkText: '<',
