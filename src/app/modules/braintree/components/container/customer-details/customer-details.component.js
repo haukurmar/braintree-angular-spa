@@ -77,6 +77,7 @@ class CustomerDetailsComponent {
 	 * @param subscription
 	 */
 	addCreditCard(paymentMethod, subscription) {
+		this._clearMessage();
 		this._startLoading('Saving payment information...');
 		let customerId = this.braintreeService.customer.id;
 

@@ -55,8 +55,6 @@
 								<h4 class="Heading--four">Payment method</h4>
 								<ui-braintree-payment-method payment-method="subscription.defaultPaymentMethod"></ui-braintree-payment-method>
 								<button class="Button Button--primary" ng-click="$ctrl.togglePaymentMethodsForSubscription()">Change Payment Method</button>
-								|
-								<a href="" confirm-message="'Are you sure you want to delete this payment method? This will also cancel your subscription'" ui-confirm-click="$ctrl.deletePaymentMethod(subscription.defaultPaymentMethod)">Delete</a>
 							</div>
 						</div>
 
@@ -71,13 +69,15 @@
 									<hr class="Divider--dotted">
 
 									<div class="Grid-row">
-										<div class="Grid-col--4" ng-repeat="paymentMethod in $ctrl.customer.paymentMethods">
+										<div class="CustomerDetails-paymentMethodColumn Grid-col--4" ng-repeat="paymentMethod in $ctrl.customer.paymentMethods" ng-class="{'is-default' : paymentMethod.token === subscription.defaultPaymentMethod.token}">
 											<ui-braintree-payment-method
 												payment-method="paymentMethod"
+												button-disabled="paymentMethod.token === subscription.defaultPaymentMethod.token"
+												button-disabled-text="'Default payment method'"
 												card-button-text="'Choose card'"
 												card-button-visible="true"
 												delete-link-text="'Delete'"
-												delete-link-visible="true"
+												delete-link-visible="paymentMethod.token !== subscription.defaultPaymentMethod.token"
 												paypal-button-text="'Choose paypal'"
 												paypal-button-visible="true"
 												on-card-button-click="$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)"
