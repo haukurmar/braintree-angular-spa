@@ -218,13 +218,12 @@ export default class BraintreeService {
 	}
 
 	updateSubscription(currentSubscriptionId, subscription) {
-
-		let subscriptionObj = {
+		let requestBody = {
 			currentSubscriptionId: currentSubscriptionId,
-			subscription: subscription
+			subscriptionChanges: subscription
 		};
 
-		return this.$http.put(this._apiUrl + this._subscriptionsPath, subscriptionObj);
+		return this.$http.put(this._apiUrl + this._subscriptionsPath, requestBody);
 	}
 
 	// TODO: Move somewhere else

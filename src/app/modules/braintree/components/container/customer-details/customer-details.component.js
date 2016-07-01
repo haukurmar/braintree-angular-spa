@@ -187,6 +187,7 @@ class CustomerDetailsComponent {
 		let loadingText = 'Disabling auto renew';
 		let messageSuccessText = 'Auto renew has been disabled';
 		let subscriptionChanges = {
+			planId: subscription.planId,
 			price: 0.00,
 			numberOfBillingCycles: subscription.currentBillingCycle
 		};
@@ -203,6 +204,7 @@ class CustomerDetailsComponent {
 		let messageSuccessText = 'Auto renew has been enabled.';
 
 		let subscriptionChanges = {
+			planId: subscription.planId,
 			price: subscription.plan.price,
 			numberOfBillingCycles: null
 		};
