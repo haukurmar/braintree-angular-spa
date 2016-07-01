@@ -76,10 +76,14 @@
 												payment-method="paymentMethod"
 												card-button-text="'Choose card'"
 												card-button-visible="true"
+												delete-link-text="'Delete'"
+												delete-link-visible="true"
 												paypal-button-text="'Choose paypal'"
 												paypal-button-visible="true"
 												on-card-button-click="$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)"
-												on-paypal-button-click="$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)"></ui-braintree-payment-method>
+												on-delete-click="$ctrl.deletePaymentMethod(paymentMethod)"
+												on-paypal-button-click="$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)">
+											</ui-braintree-payment-method>
 										</div>
 									</div>
 								</div>
