@@ -21,11 +21,6 @@
 		<span ng-bind="$ctrl.paymentMethod.expired"></span>
 	</div>
 
-	<div class="Form-item">
-		<label class="Form-itemLabel">Default card</label>
-		<span ng-bind="$ctrl.paymentMethod.default"></span>
-	</div>
-
 	<button class="Button Button--primary"
 	        ng-if="$ctrl.cardButtonVisible"
 	        ng-disabled="$ctrl.buttonDisabled"
@@ -41,12 +36,12 @@
 <div ng-if="$ctrl.paymentMethod.billingAgreementId">
 	<!-- Paypal -->
 	<div class="Form-item">
-		<label class="Form-itemLabel">Email</label>
-		<p ng-bind="$ctrl.paymentMethod.email"></p>
+		<label class="Form-itemLabel">Type</label>
+		<i class="fa fa-cc-paypal"></i> Paypal
 	</div>
 	<div class="Form-item">
-		<label class="Form-itemLabel">Default payment method</label>
-		<p ng-bind="$ctrl.paymentMethod.default"></p>
+		<label class="Form-itemLabel">Email</label>
+		<span ng-bind="$ctrl.paymentMethod.email"></span>
 	</div>
 
 	<button class="Button Button--primary"
