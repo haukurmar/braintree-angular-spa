@@ -5,6 +5,7 @@
 	<a ng-link="[$ctrl.state.message.link]" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
 
 	<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
+	<h2 class="Heading--two">Please fill out your card details</h2>
 	<ui-braintree-creditcard-form
 		on-submit="$ctrl.submitPayment(paymentModel)"
 		back-button-text="$ctrl.state.backButtonText"
