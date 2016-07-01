@@ -9,6 +9,7 @@ import CustomerComponent from './components/container/customer/customer.componen
 import CreditCardComponent from './components/container/creditcard/creditcard.component';
 import DropinComponent from './components/container/dropin/dropin.component';
 import PaypalComponent from './components/container/paypal/paypal.component';
+import PaypalButtonComponent from './components/container/paypal-button/paypal-button.component';
 import SubscriptionComponent from './components/container/subscription/subscription.component';
 import SubscriptionOverviewComponent from './components/container/subscription-overview/subscription-overview.component';
 import PaymentMethodsComponent from './components/container/payment-methods/payment-methods.component';
@@ -48,6 +49,7 @@ ngModule
 	.component('braintreeSubscriptionOverview', SubscriptionOverviewComponent)
 	.component('braintreePaymentMethods', PaymentMethodsComponent)
 	.component('braintreePaypal', PaypalComponent)
+	.component('braintreePaypalButton', PaypalButtonComponent)
 
 	// Presentational components
 	.component('uiBraintreeCustomerDetails', UICustomerDetailsComponent)

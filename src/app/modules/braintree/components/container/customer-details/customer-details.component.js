@@ -52,7 +52,7 @@ class CustomerDetailsComponent {
 		this.state.message.text = '';
 	}
 
-	_displayMessage(text, type){
+	_displayMessage(text, type) {
 		this.state.message.type = type;
 		this.state.message.text = text;
 	}
@@ -60,32 +60,45 @@ class CustomerDetailsComponent {
 	// Public viewModel methods
 	// --------------------------------------------------
 
-	addCreditCard(paymentModel, subscription) {
-			this.state.loading.text = 'Saving payment information...';
-			this.state.loading.isLoading = true;
-			let customerId = this.braintreeService.customer.id;
+	/**
+	 * Save a creditcard to the vault and adding as a default payment method for subscription.
+	 * @param paymentMethod
+	 * @param subscription
+	 */
+	addCreditCard(paymentMethod, subscription) {
+		this.state.loading.text = 'Saving payment information...';
+		this.state.loading.isLoading = true;
+		let customerId = this.braintreeService.customer.id;
 
-			// Send request to get token, then use the token to tokenize credit card info and verify the card
-			this.braintreeService.createVaultedPayment(customerId, paymentModel).then(
-				(response) => {
-					this.state.loading.isLoading = false;
+		// Send request to get token, then use the token to tokenize credit card info and verify the card
+		this.braintreeService.createVaultedPayment(customerId, paymentMethod).then(
+			(response) => {
+				this.state.loading.isLoading = false;
 
-					let loadingText = 'Updating payment method...';
-					let messageSuccessText = 'Payment method has been updated.';
-					let subscriptionChanges = {
-						paymentMethodToken: response.data.customer.paymentMethod.token
-					};
+				this.addPaymentMethod(response.data.customer.paymentMethod, subscription);
+			},
+			(error) => {
+				// TODO: Handle errors better
+				this._displayMessage(error, 'danger');
+				this.state.loading.isLoading = false;
+				this.state.showForm = true;
+			}
+		);
+	}
 
-					this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
-				},
-				(error) => {
-					// TODO: Handle errors better
-					this._displayMessage(error, 'danger');
-					this.state.loading.isLoading = false;
-					this.state.showForm = true;
-				}
-			);
+	/**
+	 * Adding a default PaymentMethod to subscription
+	 * @param paymentMethod
+	 * @param subscription
+	 */
+	addPaymentMethod(paymentMethod, subscription) {
+		let loadingText = 'Updating payment method...';
+		let messageSuccessText = 'Payment method has been updated.';
+		let subscriptionChanges = {
+			paymentMethodToken: paymentMethod.token
+		};
 
+		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
 	}
 
 	/**
