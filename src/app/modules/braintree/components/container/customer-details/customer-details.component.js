@@ -57,6 +57,17 @@ class CustomerDetailsComponent {
 		this.state.message.text = text;
 	}
 
+	_startLoading(text){
+		this.state.loading.isLoading = true;
+		this.state.loading.text = text;
+	}
+
+	_stopLoading(){
+		this.state.loading.isLoading = false;
+		this.state.loading.text = '';
+	}
+
+
 	// Public viewModel methods
 	// --------------------------------------------------
 
@@ -66,21 +77,20 @@ class CustomerDetailsComponent {
 	 * @param subscription
 	 */
 	addCreditCard(paymentMethod, subscription) {
-		this.state.loading.text = 'Saving payment information...';
-		this.state.loading.isLoading = true;
+		this._startLoading('Saving payment information...');
 		let customerId = this.braintreeService.customer.id;
 
 		// Send request to get token, then use the token to tokenize credit card info and verify the card
 		this.braintreeService.createVaultedPayment(customerId, paymentMethod).then(
 			(response) => {
-				this.state.loading.isLoading = false;
+				this._stopLoading();
 
 				this.addPaymentMethod(response.data.customer.paymentMethod, subscription);
 			},
 			(error) => {
 				// TODO: Handle errors better
 				this._displayMessage(error, 'danger');
-				this.state.loading.isLoading = false;
+				this._stopLoading();
 				this.state.showForm = true;
 			}
 		);
@@ -107,21 +117,21 @@ class CustomerDetailsComponent {
 	 */
 	cancelSubscription(subscription) {
 		this._clearMessage();
-		this.state.loading.isLoading = true;
-		this.state.loading.text = 'Canceling subscription...';
+		this._startLoading('Canceling subscription...');
 
 		this.braintreeService.cancelSubscription(subscription.id).then(
 			(response) => {
 				console.log('cancel response', response);
 				if (this.customer.id) {
-					this.getCustomerDetails(this.customer.id);
+					this.getCustomerDetails(this.customer.id).then(
+						() => {
+							this._displayMessage('Subscription has been canceled.', 'success');
+						}
+					);
 				}
-
-				this.state.loading.isLoading = false;
 			},
 			(error) => {
-				console.log(error.data.message);
-				this.state.loading.isLoading = false;
+				this._stopLoading();
 				this._displayMessage(error.data.message, 'danger');
 			}
 		);
@@ -149,20 +159,20 @@ class CustomerDetailsComponent {
 	 */
 	deletePaymentMethod(paymentMethod) {
 		this._clearMessage();
-		this.state.loading.isLoading = true;
-		this.state.loading.text = 'Deleting payment method...';
+		this._startLoading('Deleting payment method...');
 
 		this.braintreeService.deletePaymentMethod(paymentMethod).then(
 			(response) => {
 				if (this.customer.id) {
-					this.getCustomerDetails(this.customer.id);
+					this.getCustomerDetails(this.customer.id).then(
+						() => {
+							this._displayMessage('Payment method has been deleted, and all connected subscriptions have been cancelled.', 'success');
+						}
+					);
 				}
-
-				this.state.loading.isLoading = false;
-				this._displayMessage('Payment method has been deleted, and all connected subscriptions have been cancelled.', 'success');
 			},
 			(error) => {
-				this.state.loading.isLoading = false;
+				this._stopLoading();
 				this._displayMessage(error.data.message, 'danger');
 			}
 		);
@@ -188,7 +198,7 @@ class CustomerDetailsComponent {
 	 * @param subscription
 	 */
 	enableAutoRenew(subscription) {
-		let loadingText = 'Disabling auto renew';
+		let loadingText = 'Enabling auto renew';
 		let messageSuccessText = 'Auto renew has been enabled.';
 
 		let subscriptionChanges = {
@@ -204,18 +214,17 @@ class CustomerDetailsComponent {
 	 * @param customerId
 	 */
 	getCustomerDetails(customerId) {
-		this.state.loading.isLoading = true;
-		this.state.loading.text = 'Loading profile details...';
+		this._startLoading('Loading profile details...');
 
 		//Get Customer if logged in
-		this.braintreeService.getCustomer(customerId, true).then(
+		return this.braintreeService.getCustomer(customerId, true).then(
 			(response) => {
 				this.braintreeService.updateCustomerData(response.data.customer);
 				this.customer = response.data.customer;
-				this.state.loading.isLoading = false;
+				this._stopLoading();
 			},
 			(error) => {
-				this.state.loading.isLoading = false;
+				this._stopLoading();
 				this._displayMessage(error.data.message, 'danger');
 			}
 		);
@@ -224,22 +233,21 @@ class CustomerDetailsComponent {
 	// TODO: Change this so we use an endpoint in the api for this, so we are not sending the price over the wire
 	updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText) {
 		this._clearMessage();
-		this.state.loading.isLoading = true;
-		this.state.loading.text = loadingText;
+		this._startLoading(loadingText);
 
 		this.braintreeService.updateSubscription(subscription.id, subscriptionChanges).then(
 			(response) => {
-				if (this.customer.id) {
-					this.getCustomerDetails(this.customer.id);
-				}
+				this.getCustomerDetails(this.customer.id).then(
+					() => {
+						this.state.showEditPaymentMethodsPanel = false;
+						this._displayMessage(messageSuccessText, 'success');
+					}
+				);
 
-				this.state.loading.isLoading = false;
-				this.state.showEditPaymentMethodsPanel = false;
-				this._displayMessage(messageSuccessText, 'success');
 			},
 			(error) => {
 				console.log(error.data.message);
-				this.state.loading.isLoading = false;
+				this._stopLoading();
 				this._displayMessage(error.data.message, 'danger');
 			}
 		);
