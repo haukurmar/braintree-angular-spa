@@ -19,7 +19,8 @@ class CustomerDetailsComponent {
 			message: {
 				text: '',
 				link: '',
-				linkText: ''
+				linkText: '',
+				type: 'warning'
 			},
 			showDetailsPanel: true,
 			showEditPaymentMethodsPanel: false,
@@ -47,16 +48,54 @@ class CustomerDetailsComponent {
 		}
 	}
 
+	_clearMessage() {
+		this.state.message.text = '';
+	}
+
+	_displayMessage(text, type){
+		this.state.message.type = type;
+		this.state.message.text = text;
+	}
+
 	// Public viewModel methods
 	// --------------------------------------------------
+
+	addCreditCard(paymentModel, subscription) {
+			this.state.loading.text = 'Saving payment information...';
+			this.state.loading.isLoading = true;
+			let customerId = this.braintreeService.customer.id;
+
+			// Send request to get token, then use the token to tokenize credit card info and verify the card
+			this.braintreeService.createVaultedPayment(customerId, paymentModel).then(
+				(response) => {
+					this.state.loading.isLoading = false;
+
+					let loadingText = 'Updating payment method...';
+					let messageSuccessText = 'Payment method has been updated.';
+					let subscriptionChanges = {
+						paymentMethodToken: response.data.customer.paymentMethod.token
+					};
+
+					this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
+				},
+				(error) => {
+					// TODO: Handle errors better
+					this._displayMessage(error, 'danger');
+					this.state.loading.isLoading = false;
+					this.state.showForm = true;
+				}
+			);
+
+	}
 
 	/**
 	 * Cancel a specific subscription.
 	 * @param subscription
 	 */
 	cancelSubscription(subscription) {
-		this.state.subscriptions.loading.isLoading = true;
-		this.state.subscriptions.loading.text = 'Canceling subscription...';
+		this._clearMessage();
+		this.state.loading.isLoading = true;
+		this.state.loading.text = 'Canceling subscription...';
 
 		this.braintreeService.cancelSubscription(subscription.id).then(
 			(response) => {
@@ -65,12 +104,12 @@ class CustomerDetailsComponent {
 					this.getCustomerDetails(this.customer.id);
 				}
 
-				this.state.subscriptions.loading.isLoading = false;
+				this.state.loading.isLoading = false;
 			},
 			(error) => {
 				console.log(error.data.message);
-				this.state.subscriptions.loading.isLoading = false;
-				this.state.message.text = error.data.message;
+				this.state.loading.isLoading = false;
+				this._displayMessage(error.data.message, 'danger');
 			}
 		);
 	}
@@ -82,11 +121,12 @@ class CustomerDetailsComponent {
 	 */
 	changePaymentMethodForSubscription(newPaymentMethod, subscription) {
 		let loadingText = 'Updating payment method...';
+		let messageSuccessText = 'Payment method has been updated.';
 		let subscriptionChanges = {
 			paymentMethodToken: newPaymentMethod.token
 		};
 
-		this.updateSubscription(subscription, subscriptionChanges, loadingText);
+		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
 	}
 
 	/**
@@ -95,8 +135,9 @@ class CustomerDetailsComponent {
 	 * @param paymentMethod
 	 */
 	deletePaymentMethod(paymentMethod) {
-		this.state.subscriptions.loading.isLoading = true;
-		this.state.subscriptions.loading.text = 'Deleting payment method...';
+		this._clearMessage();
+		this.state.loading.isLoading = true;
+		this.state.loading.text = 'Deleting payment method...';
 
 		this.braintreeService.deletePaymentMethod(paymentMethod).then(
 			(response) => {
@@ -104,11 +145,12 @@ class CustomerDetailsComponent {
 					this.getCustomerDetails(this.customer.id);
 				}
 
-				this.state.subscriptions.loading.isLoading = false;
+				this.state.loading.isLoading = false;
+				this._displayMessage('Payment method has been deleted, and all connected subscriptions have been cancelled.', 'success');
 			},
 			(error) => {
-				this.state.subscriptions.loading.isLoading = false;
-				this.state.message.text = error.data.message;
+				this.state.loading.isLoading = false;
+				this._displayMessage(error.data.message, 'danger');
 			}
 		);
 	}
@@ -119,12 +161,13 @@ class CustomerDetailsComponent {
 	 */
 	disableAutoRenew(subscription) {
 		let loadingText = 'Disabling auto renew';
+		let messageSuccessText = 'Auto renew has been disabled';
 		let subscriptionChanges = {
 			price: 0.00,
 			numberOfBillingCycles: subscription.currentBillingCycle
 		};
 
-		this.updateSubscription(subscription, subscriptionChanges, loadingText);
+		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
 	}
 
 	/**
@@ -133,13 +176,14 @@ class CustomerDetailsComponent {
 	 */
 	enableAutoRenew(subscription) {
 		let loadingText = 'Disabling auto renew';
+		let messageSuccessText = 'Auto renew has been enabled.';
 
 		let subscriptionChanges = {
 			price: subscription.plan.price,
 			numberOfBillingCycles: null
 		};
 
-		this.updateSubscription(subscription, subscriptionChanges, loadingText);
+		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
 	}
 
 	/**
@@ -159,15 +203,16 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				this.state.loading.isLoading = false;
-				this.state.message.text = error.data.message;
+				this._displayMessage(error.data.message, 'danger');
 			}
 		);
 	}
 
 	// TODO: Change this so we use an endpoint in the api for this, so we are not sending the price over the wire
-	updateSubscription(subscription, subscriptionChanges, loadingText) {
-		this.state.subscriptions.loading.isLoading = true;
-		this.state.subscriptions.loading.text = loadingText;
+	updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText) {
+		this._clearMessage();
+		this.state.loading.isLoading = true;
+		this.state.loading.text = loadingText;
 
 		this.braintreeService.updateSubscription(subscription.id, subscriptionChanges).then(
 			(response) => {
@@ -175,12 +220,14 @@ class CustomerDetailsComponent {
 					this.getCustomerDetails(this.customer.id);
 				}
 
-				this.state.subscriptions.loading.isLoading = false;
+				this.state.loading.isLoading = false;
+				this.state.showEditPaymentMethodsPanel = false;
+				this._displayMessage(messageSuccessText, 'success');
 			},
 			(error) => {
 				console.log(error.data.message);
-				this.state.subscriptions.loading.isLoading = false;
-				this.state.message.text = error.data.message;
+				this.state.loading.isLoading = false;
+				this._displayMessage(error.data.message, 'danger');
 			}
 		);
 	}

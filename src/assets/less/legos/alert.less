@@ -22,18 +22,23 @@
 // -------------------- Modifier Variables --------------------
 @alert--info-borderColor: #D8ECF7;
 @alert--info-bgColor: #D8ECF7;
+@alert--info-color: #31708f;
 
 @alert--primary-borderColor: #06a3d5;
 @alert--primary-bgColor: #EDF7FC;
+@alert--primary-color: inherit;
 
 @alert--success-borderColor: #6B904C;
 @alert--success-bgColor: #D5ECC2;
+@alert--success-color: #3c763d;
 
 @alert--warning-borderColor: #FFAE00;
 @alert--warning-bgColor: #fff5dc;
+@alert--warning-color: #8a6d3b;
 
 @alert--danger-borderColor: #d42020;
 @alert--danger-bgColor: #FFE2E2;
+@alert--danger-color: #a94442;
 
 @alert--simple-bgColor: #fff;
 @alert--simple-borderWidth: 2px;
@@ -56,21 +61,25 @@
 .Alert--info {
 	&:extend(.Alert);
 	.createAlertVariant(@alert--info-borderColor, @alert--info-bgColor);
+	color: @alert--info-color;
 }
 
 .Alert--success {
 	&:extend(.Alert);
 	.createAlertVariant(@alert--success-borderColor, @alert--success-bgColor);
+	color: @alert--success-color;
 }
 
 .Alert--primary {
 	&:extend(.Alert);
 	.createAlertVariant(@alert--primary-borderColor, @alert--primary-bgColor);
+	color: @alert--primary-color;
 }
 
 .Alert--warning {
 	&:extend(.Alert);
 	.createAlertVariant(@alert--warning-borderColor, @alert--warning-bgColor);
+	color: @alert--warning-color;
 
 	.Alert-icon {
 		color: @alert--warning-borderColor;
