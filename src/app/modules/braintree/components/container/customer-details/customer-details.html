@@ -140,31 +140,6 @@
 				</div>
 			</section>
 
-			<section class="Panel">
-				<h3 class="Panel-heading Heading--three"
-				    ui-toggle
-				    toggle-el-css-class="js-otherPaymentMethods"
-				    toggle-icon-css-class="js-toggleIcon"
-				    toggle-icon-css-class-hide="fa-chevron-down"
-				    toggle-icon-css-class-show="fa-chevron-right">
-					<i class="fa fa-chevron-right js-toggleIcon"></i> Saved Payment Methods</h3>
-				<div class="Panel-body js-otherPaymentMethods" hidden>
-
-					<h4 class="Panel-bodyHeading Heading--four"><i class="fa fa-credit-card"></i> Credit & debit cards
-					</h4>
-					<div ng-repeat="paymentMethod in $ctrl.customer.creditCards">
-						<ui-braintree-payment-method payment-method="paymentMethod"></ui-braintree-payment-method>
-						<hr class="Divider--dotted">
-					</div>
-
-					<h4 class="Panel-bodyHeading Heading--four"><i class="fa fa-cc-paypal"></i> Paypal accounts</h4>
-					<div ng-repeat="paypalAccount in $ctrl.customer.paypalAccounts">
-						<ui-braintree-payment-method payment-method="paypalAccount"></ui-braintree-payment-method>
-						<hr class="Divider--dotted">
-					</div>
-				</div>
-			</section>
-
 		</div>
 	</div>
 
