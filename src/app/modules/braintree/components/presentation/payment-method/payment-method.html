@@ -30,6 +30,10 @@
 	        ng-if="$ctrl.cardButtonVisible"
 	        ng-click="$ctrl.onCardButtonClick({paymentMethod: $ctrl.paymentMethod})">{{ $ctrl.cardButtonText }}
 	</button>
+	<a href=""
+	   ng-if="$ctrl.deleteLinkVisible"
+	   confirm-message="'Are you sure you want to delete this payment method?'"
+	   ui-confirm-click="$ctrl.onDeleteClick({paymentMethod: $ctrl.paymentMethod})">{{ $ctrl.deleteLinkText }}</a>
 </div>
 
 <div ng-if="$ctrl.paymentMethod.billingAgreementId">
@@ -47,4 +51,8 @@
 	        ng-if="$ctrl.paypalButtonVisible"
 	        ng-click="$ctrl.onPaypalButtonClick({paymentMethod: $ctrl.paymentMethod})">{{ $ctrl.paypalButtonText }}
 	</button>
+	<a href=""
+	   ng-if="$ctrl.deleteLinkVisible"
+	   confirm-message="'Are you sure you want to delete this payment method?'"
+	   ui-confirm-click="$ctrl.onDeleteClick({paymentMethod: $ctrl.paymentMethod})">{{ $ctrl.deleteLinkText }}</a>
 </div>

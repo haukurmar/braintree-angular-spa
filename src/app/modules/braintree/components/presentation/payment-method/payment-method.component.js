@@ -6,9 +6,12 @@ let component = {
 		paymentMethod: '<',
 		cardButtonText: '<',
 		cardButtonVisible: '<',
+		deleteLinkText: '<',
+		deleteLinkVisible: '<',
 		paypalButtonText: '<',
 		paypalButtonVisible: '<',
 		onCardButtonClick: '&',
+		onDeleteClick: '&',
 		onPaypalButtonClick: '&',
 
 	},
