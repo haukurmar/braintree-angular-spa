@@ -5,16 +5,18 @@
 
 <div ng-if="$ctrl.customer.paymentMethods['0']">
 	<h2 class="Heading--three">Your stored payment methods</h2>
-	<div ng-repeat="paymentMethod in $ctrl.customer.paymentMethods">
-		<ui-braintree-payment-method
-			payment-method="paymentMethod"
-			card-button-text="'Choose card'"
-			card-button-visible="true"
-			paypal-button-text="'Choose paypal'"
-			paypal-button-visible="true"
-			on-card-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"
-			on-paypal-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"></ui-braintree-payment-method>
-		<hr class="Divider--dotted">
+	<div class="Grid-row">
+		<div class="Grid-col--4" ng-repeat="paymentMethod in $ctrl.customer.paymentMethods">
+			<ui-braintree-payment-method
+				payment-method="paymentMethod"
+				card-button-text="'Choose card'"
+				card-button-visible="true"
+				paypal-button-text="'Choose paypal'"
+				paypal-button-visible="true"
+				on-card-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"
+				on-paypal-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"></ui-braintree-payment-method>
+			<hr class="Divider--dotted">
+		</div>
 	</div>
 </div>
 
