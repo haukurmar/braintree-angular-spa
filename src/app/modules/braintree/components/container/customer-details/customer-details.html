@@ -36,7 +36,7 @@
 
 		<div class="Grid-col--12">
 			<section class="Panel" ng-if="$ctrl.customer.subscriptions">
-				<h3 class="Panel-heading Heading--three">Subscriptions</h3>
+				<h3 class="Panel-heading Heading--three">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>
 
 				<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.subscriptions.loading.isLoading" text="$ctrl.state.subscriptions.loading.text"></ui-loading-icon>
 
