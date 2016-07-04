@@ -60,7 +60,7 @@ class CustomerDetailsComponent {
 	}
 
 	_getAllSubscriptionPlans() {
-		if(this.plans.length > 0) {
+		if (this.plans.length > 0) {
 			return;
 		}
 
@@ -80,19 +80,18 @@ class CustomerDetailsComponent {
 		);
 	}
 
-	_startLoading(text){
+	_startLoading(text) {
 		this.state.loading.isLoading = true;
 		this.state.loading.text = text;
 	}
 
-	_stopLoading(){
+	_stopLoading() {
 		this.state.loading.isLoading = false;
 		this.state.loading.text = '';
 
 		this.state.plans.loading.isLoading = false;
 		this.state.plans.loading.text = '';
 	}
-
 
 	// Public viewModel methods
 	// --------------------------------------------------
@@ -181,8 +180,63 @@ class CustomerDetailsComponent {
 		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
 	}
 
-	chooseSubscriptionPlan(subscriptionPlan) {
-		console.log('plan chosen', subscriptionPlan);
+	/**
+	 * Change to a new subscription plan.
+	 * 1. Cancels the current subscription
+	 * 2. Calculates discount if appropriate
+	 * 3. Creates a new subscription.
+	 * @param newSubscriptionPlan
+	 * @param currentSubscription
+	 */
+	changeSubscriptionPlan(newSubscriptionPlan, currentSubscription) {
+		console.log('plan chosen', newSubscriptionPlan, currentSubscription);
+
+		this._clearMessage();
+		this._startLoading('Updating subscription plan...');
+		this.state.showEditPlan = false;
+
+		// Cancel the current subscription
+		this.braintreeService.cancelSubscription(currentSubscription.id).then(
+			(response) => {
+				console.log('cancel response', response);
+				if (this.customer.id) {
+
+					// Calculate price difference
+
+					// Create a new subscription
+					let subscriptionData = {
+						paymentMethodToken: currentSubscription.defaultPaymentMethod.token,
+						planId: newSubscriptionPlan.id
+					};
+
+					this.braintreeService.createSubscription(subscriptionData).then(
+						(response) => {
+							if (response.data.success) {
+								this.getCustomerDetails(this.customer.id).then(
+									() => {
+										this._displayMessage('Your subscription has been changed to the new plan.', 'success');
+									}
+								);
+							} else {
+								console.log('Error creating a sub', response.data.message);
+								// TODO: Handle different failures maybe?
+								this._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'danger');
+								this._stopLoading();
+							}
+						},
+						(error) => {
+							console.log('Error creating a subcription', error);
+							this._displayMessage(error.data.message, 'danger');
+							this._stopLoading();
+						}
+					);
+				}
+			},
+			(error) => {
+				this._stopLoading();
+				this._displayMessage(error.data.message, 'danger');
+			}
+		);
 	}
 
 	/**
@@ -301,7 +355,7 @@ class CustomerDetailsComponent {
 	toggleEditPlan() {
 		this.state.showEditPlan = !this.state.showEditPlan;
 
-		if(this.state.showEditPlan) {
+		if (this.state.showEditPlan) {
 			this._getAllSubscriptionPlans();
 		}
 	}
