@@ -106,6 +106,7 @@ class CustomerDetailsComponent {
 		let loadingText = 'Updating payment method...';
 		let messageSuccessText = 'Payment method has been updated.';
 		let subscriptionChanges = {
+			planId: subscription.planId,
 			paymentMethodToken: paymentMethod.token
 		};
 
@@ -147,6 +148,7 @@ class CustomerDetailsComponent {
 		let loadingText = 'Updating payment method...';
 		let messageSuccessText = 'Payment method has been updated.';
 		let subscriptionChanges = {
+			planId: subscription.planId,
 			paymentMethodToken: newPaymentMethod.token
 		};
 
