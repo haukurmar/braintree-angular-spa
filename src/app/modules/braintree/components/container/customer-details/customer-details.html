@@ -38,15 +38,13 @@
 			<section class="Panel" ng-if="$ctrl.customer.subscriptions">
 				<h3 class="Panel-heading Heading--three">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>
 
-				<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.subscriptions.loading.isLoading" text="$ctrl.state.subscriptions.loading.text"></ui-loading-icon>
-
-				<div class="Panel-body" ng-hide="$ctrl.state.subscriptions.loading.isLoading">
+				<div class="Panel-body">
 					<div ng-repeat="subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: 'status'">
 						<div class="Grid-row">
 							<div class="Grid-col--6">
 								<ui-braintree-subscription-details subscription="subscription"></ui-braintree-subscription-details>
 
-								<button type="button" class="Button Button--primary" ng-link="[$ctrl.routes.editSubscriptionRoute]">Edit Plan</button>
+								<button type="button" class="Button Button--primary" ng-click="$ctrl.toggleEditPlan()">Edit Plan</button>
 								|
 								<a href="" ng-if="subscription.status === 'Active' && subscription.price > 0" ng-click="$ctrl.disableAutoRenew(subscription)">Disable Auto Renew</a>
 								<a href="" ng-if="subscription.status === 'Canceled' || subscription.price <= 0" ng-click="$ctrl.enableAutoRenew(subscription)">Enable Auto Renew</a>
@@ -57,6 +55,21 @@
 								<button class="Button Button--primary" ng-click="$ctrl.togglePaymentMethodsForSubscription()">Change Payment Method</button>
 							</div>
 						</div>
+
+						<!-- Edit plan -->
+						<section class="Panel" ng-if="$ctrl.state.showEditPlan">
+							<h4 class="Heading--four">Edit subscription plan</h4>
+							<hr class="Divider--dotted">
+							<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.plans.loading.isLoading" text="$ctrl.state.plans.loading.text"></ui-loading-icon>
+							<div class="Panel-body Panel-body--highlight">
+
+								<div ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
+									<ui-braintree-subscription-plan subscription-plan="plan" on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)"></ui-braintree-subscription-plan>
+									<hr class="Divider--dotted">
+								</div>
+							</div>
+						</section>
+
 
 						<!-- Edit payment method -->
 						<section class="Panel" ng-if="$ctrl.state.showEditPaymentMethodsPanel">

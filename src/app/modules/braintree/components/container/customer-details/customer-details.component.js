@@ -10,12 +10,6 @@ class CustomerDetailsComponent {
 				isLoading: false,
 				text: ''
 			},
-			subscriptions: {
-				loading: {
-					isLoading: false,
-					text: ''
-				}
-			},
 			message: {
 				text: '',
 				link: '',
@@ -24,8 +18,15 @@ class CustomerDetailsComponent {
 			},
 			showDetailsPanel: true,
 			showEditPaymentMethodsPanel: false,
+			showEditPlan: false,
 			showCreditCardForm: false,
-			showPaypalForm: false
+			showPaypalForm: false,
+			plans: {
+				loading: {
+					isLoading: false,
+					text: ''
+				}
+			}
 		};
 
 		this.routes = {
@@ -34,6 +35,7 @@ class CustomerDetailsComponent {
 		};
 
 		this.customer = null;
+		this.plans = [];
 	}
 
 	// Private methods
@@ -57,6 +59,27 @@ class CustomerDetailsComponent {
 		this.state.message.text = text;
 	}
 
+	_getAllSubscriptionPlans() {
+		if(this.plans.length > 0) {
+			return;
+		}
+
+		this.state.plans.loading.isLoading = true;
+		this.state.plans.loading.text = 'Loading plans...';
+
+		this.braintreeService.getAllSubscriptionPlans().then(
+			(response) => {
+				this.plans = response.data.plans;
+				this._stopLoading();
+			},
+			(error) => {
+				// TODO: Notify development team or do it via api
+				this._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
+				this._stopLoading();
+			}
+		);
+	}
+
 	_startLoading(text){
 		this.state.loading.isLoading = true;
 		this.state.loading.text = text;
@@ -65,6 +88,9 @@ class CustomerDetailsComponent {
 	_stopLoading(){
 		this.state.loading.isLoading = false;
 		this.state.loading.text = '';
+
+		this.state.plans.loading.isLoading = false;
+		this.state.plans.loading.text = '';
 	}
 
 
@@ -153,6 +179,10 @@ class CustomerDetailsComponent {
 		};
 
 		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
+	}
+
+	chooseSubscriptionPlan(subscriptionPlan) {
+		console.log('plan chosen', subscriptionPlan);
 	}
 
 	/**
@@ -265,6 +295,14 @@ class CustomerDetailsComponent {
 		} else if (type === 'paypal') {
 			this.state.showCreditCardForm = false;
 			this.state.showPaypalForm = true;
+		}
+	}
+
+	toggleEditPlan() {
+		this.state.showEditPlan = !this.state.showEditPlan;
+
+		if(this.state.showEditPlan) {
+			this._getAllSubscriptionPlans();
 		}
 	}
 
