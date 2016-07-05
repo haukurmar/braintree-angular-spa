@@ -44,10 +44,11 @@
 							<div class="Grid-col--6">
 								<ui-braintree-subscription-details subscription="subscription"></ui-braintree-subscription-details>
 
-								<button type="button" class="Button Button--primary" ng-click="$ctrl.toggleEditPlan()">Edit Plan</button>
-								|
-								<a href="" ng-if="subscription.status === 'Active' && subscription.price > 0" ng-click="$ctrl.disableAutoRenew(subscription)">Disable Auto Renew</a>
-								<a href="" ng-if="subscription.status === 'Canceled' || subscription.price <= 0" ng-click="$ctrl.enableAutoRenew(subscription)">Enable Auto Renew</a>
+								<button type="button" class="Button Button--primary" ng-click="$ctrl.toggleEditPlan()" ng-if="subscription.status.toLowerCase() === 'active'">Edit Plan</button>
+								<span ng-if="subscription.status.toLowerCase() === 'active'">|</span>
+								<a href="" ng-if="subscription.status.toLowerCase() === 'active' && subscription.price > 0" ng-click="$ctrl.disableAutoRenew(subscription)">Disable Auto Renew</a>
+								<a href="" ng-if="subscription.status.toLowerCase() === 'active' && subscription.price <= 0" ng-click="$ctrl.enableAutoRenew(subscription)">Enable Auto Renew</a>
+								<a href="" ng-if="subscription.status.toLowerCase() === 'pending'" ng-click="$ctrl.cancelSubscription(subscription)">Cancel subscription</a>
 							</div>
 							<div class="Grid-col--6">
 								<h4 class="Heading--four">Payment method</h4>
@@ -134,19 +135,25 @@
 							<i class="fa fa-chevron-right js-toggleIcon"></i> Transaction history</h4>
 
 						<div class="js-transactionHistory" hidden>
-							<div class="Panel" ng-repeat="transaction in subscription.transactions">
-								<div class="Panel-body Panel-body--highlight">
-									{{ transaction.createdAt | date: longDate }}
-									${{ transaction.amount }}
-									<hr class="divider--dotted">
+							<div class="Panel">
+								<div class="Panel-body Panel-body--highlight" ng-repeat="transaction in subscription.transactions">
+									<header class="HeadingGroup">
+										<h5 class="Heading--seven HeadingGroup-heading--top"><time>{{ transaction.createdAt | date: longDate }}</time></h5>
+										<h5 class="Heading--five u-textSuccess HeadingGroup-heading--main">${{ transaction.amount }}</h5>
+									</header>
+									<hr class="Divider--dotted">
 									<h5 class="Heading--five">Status history</h5>
 									<div ng-repeat="statusHistoryItem in transaction.statusHistory">
 										{{ statusHistoryItem.timestamp | date: longDate }}
 										/ {{ statusHistoryItem.status }}
 									</div>
+									<hr class="Divider">
 								</div>
-
+								<div class="Panel-body Panel-body--highlight" ng-if="!subscription.transactions.length">
+									<h4 class="Heading--five">No transactions were found.</h4>
+								</div>
 							</div>
+
 						</div>
 						<hr class="Divider">
 					</div>
