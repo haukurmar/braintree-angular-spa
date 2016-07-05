@@ -9,7 +9,7 @@
 	}">
 		<span ng-if="$ctrl.subscription.status.toLowerCase() !== 'active'" ng-bind="$ctrl.subscription.status"></span>
 		<span ng-if="$ctrl.subscription.price > 0 && $ctrl.subscription.status.toLowerCase() === 'active'" ng-bind="$ctrl.subscription.status"></span>
-		<span ng-if="$ctrl.subscription.price <= 0 && $ctrl.subscription.status.toLowerCase() === 'active'" class="u-textWarning">On hold</span>
+		<span ng-if="$ctrl.subscription.price <= 0 && $ctrl.subscription.status.toLowerCase() === 'active'" class="u-textWarning">{{ $ctrl.subscription.status }} <span class="u-textBase u-textNormal">( Auto renew disabled )</span></span>
 	</strong>
 </div>
 <div class="Form-item">
