@@ -39,7 +39,7 @@
 				<h3 class="Panel-heading Heading--three">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>
 
 				<div class="Panel-body">
-					<div ng-repeat="subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: 'status'">
+					<div ng-repeat="subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['status', '-updatedAt']">
 						<div class="Grid-row">
 							<div class="Grid-col--6">
 								<ui-braintree-subscription-details subscription="subscription"></ui-braintree-subscription-details>
@@ -139,7 +139,9 @@
 								<div class="Panel-body Panel-body--highlight" ng-repeat="transaction in subscription.transactions">
 									<header class="HeadingGroup">
 										<h5 class="Heading--seven HeadingGroup-heading--top"><time>{{ transaction.createdAt | date: longDate }}</time></h5>
-										<h5 class="Heading--five u-textSuccess HeadingGroup-heading--main">${{ transaction.amount }}</h5>
+										<h5 class="Heading--five u-textSuccess HeadingGroup-heading--main">${{ transaction.amount }}
+											<small class="u-textBase" ng-if="transaction.discounts.length">(Upgrade credit: <span ng-repeat="discount in transaction.discounts" class="u-textSuccess">${{ discount.amount }}</span>)</small>
+										</h5>
 									</header>
 									<hr class="Divider--dotted">
 									<h5 class="Heading--five">Status history</h5>
