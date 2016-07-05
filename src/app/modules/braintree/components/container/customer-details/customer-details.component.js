@@ -220,11 +220,10 @@ class CustomerDetailsComponent {
 					let discount = 0;
 
 					// New subscription data
-					let subscriptionData = {
+					let newSubscriptionData = {
 						subscription: {
 							paymentMethodToken: currentSubscription.defaultPaymentMethod.token,
-							planId: newSubscriptionPlan.id,
-							//firstBillingDate: currentSubscription.nextBillingDate, // TODO: Is this the one we want to use?
+							planId: newSubscriptionPlan.id
 						}
 					};
 
@@ -242,21 +241,20 @@ class CustomerDetailsComponent {
 						discount = ((remainingDays / billingCycleDays) * currentSubscription.plan.price).toFixed(2);
 
 						// Add discount to new subscription data
-						subscriptionData.subscription.discounts = {
+						newSubscriptionData.subscription.discounts = {
 							add: [{
 								amount: discount,
 								numberOfBillingCycles: 1,
 								inheritedFromId: 'testDiscount'
 							}]
 						};
+					} else {
+						// Set the StartDate on the new subscription to be the end of the current one.
+						newSubscriptionData.subscription.firstBillingDate = currentSubscription.paidThroughDate
 					}
 
-					// if(subLessFrequent) {
-					// 	// Change the StartDate on the new subscription to be the end of the current one.
-					// }
-
 					// Create a new subscription
-					this.braintreeService.createSubscription(subscriptionData).then(
+					this.braintreeService.createSubscription(newSubscriptionData).then(
 						(response) => {
 							console.log('response', response);
 							if (response.data.success) {
