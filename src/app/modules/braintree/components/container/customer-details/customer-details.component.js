@@ -11,6 +11,7 @@ class CustomerDetailsComponent {
 				text: ''
 			},
 			message: {
+				descriptionHtml: '',
 				text: '',
 				link: '',
 				linkText: '',
@@ -54,9 +55,10 @@ class CustomerDetailsComponent {
 		this.state.message.text = '';
 	}
 
-	_displayMessage(text, type) {
+	_displayMessage(text, type, descriptionHtml) {
 		this.state.message.type = type;
 		this.state.message.text = text;
+		this.state.message.descriptionHtml = descriptionHtml;
 	}
 
 	_getAllSubscriptionPlans() {
@@ -78,6 +80,22 @@ class CustomerDetailsComponent {
 				this._stopLoading();
 			}
 		);
+	}
+
+	_getCurrencySymbol(currencyIsoCode) {
+		switch(currencyIsoCode) {
+		case 'USD':
+			return '$';
+		break;
+		case 'EUR':
+			return '€';
+		break;
+		case 'GBP':
+			return '£';
+		break;
+		default:
+			return '$';
+		}
 	}
 
 	_startLoading(text) {
@@ -212,10 +230,6 @@ class CustomerDetailsComponent {
 						// Calculate discount
 						// Discount = (RemaningDays / TotalBillingCycleDays) * CurrentPlanPrice
 						discount = ((remainingDays / billingCycleDays) * currentSubscription.plan.price).toFixed(2);
-
-						console.log('billingCycleDays', billingCycleDays);
-						console.log('remainingDays', remainingDays);
-						console.log('Discount', discount);
 					}
 
 					// Create a new subscription
@@ -234,13 +248,24 @@ class CustomerDetailsComponent {
 						}
 					};
 
-					this.braintreeService.createSubscription
-					(subscriptionData).then(
+					this.braintreeService.createSubscription(subscriptionData).then(
 						(response) => {
+							console.log('response', response);
 							if (response.data.success) {
 								this.getCustomerDetails(this.customer.id).then(
 									() => {
-										this._displayMessage('Your subscription has been changed to the new plan.', 'success');
+										let descriptionHtml = '';
+
+										if(response.data.subscription.transactions.length) {
+											let transactionAmount = response.data.subscription.transactions[0].amount;
+											let currencySymbol = this._getCurrencySymbol(response.data.subscription.transactions[0].currencyIsoCode);
+
+											if (discount > 0) {
+												descriptionHtml = '<p>A payment of ' + currencySymbol + transactionAmount + ' has been submitted, Your previous subscription credit of ' + currencySymbol + discount + ' was deducted from the full amount.</p>';
+											}
+										}
+
+										this._displayMessage('Your subscription has been changed to the new plan.', 'success', descriptionHtml);
 									}
 								);
 							} else {
