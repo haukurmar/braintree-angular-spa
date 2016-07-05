@@ -4,15 +4,25 @@
 	<strong ng-class="{
 	'u-textSuccess' : $ctrl.subscription.status.toLowerCase() === 'active',
 	'u-textDanger' : $ctrl.subscription.status.toLowerCase() === 'canceled',
-	'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pastdue'
+	'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pastdue',
+	'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pending'
 	}">
-		<span ng-bind="$ctrl.subscription.status" ng-if="$ctrl.subscription.price > 0"></span>
-		<span ng-if="$ctrl.subscription.price <= 0" class="u-textWarning">On hold</span>
+		<span ng-if="$ctrl.subscription.status.toLowerCase() !== 'active'" ng-bind="$ctrl.subscription.status"></span>
+		<span ng-if="$ctrl.subscription.price > 0 && $ctrl.subscription.status.toLowerCase() === 'active'" ng-bind="$ctrl.subscription.status"></span>
+		<span ng-if="$ctrl.subscription.price <= 0 && $ctrl.subscription.status.toLowerCase() === 'active'" class="u-textWarning">On hold</span>
 	</strong>
 </div>
 <div class="Form-item">
-	<label class="Form-itemLabel">Billing price</label>
+	<label class="Form-itemLabel">Billing amount</label>
 	${{ $ctrl.subscription.price}}
+</div>
+<div class="Form-item">
+	<label class="Form-itemLabel">Next billing amount</label>
+	${{ $ctrl.subscription.nextBillAmount}}
+</div>
+<div class="Form-item">
+	<label class="Form-itemLabel">Next billing period amount</label>
+	${{ $ctrl.subscription.nextBillingPeriodAmount}}
 </div>
 <div class="Form-item">
 	<label class="Form-itemLabel">Started</label>
