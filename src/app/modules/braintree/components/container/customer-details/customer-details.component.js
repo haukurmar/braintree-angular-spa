@@ -338,6 +338,10 @@ class CustomerDetailsComponent {
 		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
 	}
 
+	getAllPlans() {
+		this._getAllSubscriptionPlans();
+	}
+
 	/**
 	 * Enables auto renew for a specific subscription.
 	 * @param subscription
@@ -407,19 +411,6 @@ class CustomerDetailsComponent {
 			this.state.showCreditCardForm = false;
 			this.state.showPaypalForm = true;
 		}
-	}
-
-	toggleEditPlan() {
-		this.state.showEditPlan = !this.state.showEditPlan;
-
-		if (this.state.showEditPlan) {
-			this._getAllSubscriptionPlans();
-		}
-	}
-
-	// TODO: Only show payment method for the selected subscription, not all
-	togglePaymentMethodsForSubscription() {
-		this.state.showEditPaymentMethodsPanel = !this.state.showEditPaymentMethodsPanel;
 	}
 }
 

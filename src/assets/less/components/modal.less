@@ -1,0 +1,153 @@
+/********************************************
+	Modal Component
+********************************************/
+/// Naming conventions:
+// LegoName
+// LegoName--modifierName
+// LegoName-descendantName
+// LegoName.is-stateOfLego
+// Variable names:
+// @lego--modifier-property ex: @button--warning-borderColor
+// @lego--modifier-descendant-property ex: @listGroup-itemHeading-fontSize
+
+// -------------------- Variables --------------------
+@modal-zIndex: 5;
+@modal-backgroundColor: rgba(0, 0, 0, 0.4);
+@modal-container-animation-duration: .4s;
+@modal-animation-duration: .4s;
+
+// -------------------- Core LEGO --------------------
+// TODO: Change this to body.modal-open when we do JS
+body {
+	overflow: hidden;
+}
+
+.Modal-container {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+	z-index: @modal-zIndex;
+	overflow-y: auto;
+	background-color: @modal-backgroundColor;
+	text-align: center; // horizontal alignment for the modal itself
+
+	&.animate-if.ng-enter {
+		animation: modal-fade-in @modal-container-animation-duration;
+
+		.Modal {
+			animation: modal-slide-up @modal-animation-duration;
+		}
+	}
+
+	&.animate-if.ng-leave {
+		animation: modal-fade-out @modal-container-animation-duration;
+
+		.Modal {
+			animation: modal-slide-down @modal-animation-duration forwards;
+		}
+	}
+
+	/* "ghost" element to use for vertical alignment
+	  (see https://css-tricks.com/centering-in-the-unknown/) */
+	&:before {
+		content: '';
+		display: inline-block;
+		height: 100%;
+		vertical-align: middle;
+	}
+
+	.Modal {
+		position: relative;
+		text-align: left; // reset text-align (I'd use "initial", but IE doesn't support it)
+		vertical-align: middle;
+		display: inline-block;
+		width: 60%;
+		border-radius: 3px;
+		border: none;
+		z-index: 6;
+		padding: 2em 1.5em 1.5em 1.5em;
+		background: white;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+
+		a.popeye-close-modal {
+			position: absolute;
+			top: 1em;
+			right: 1em;
+			font-weight: 100;
+			text-decoration: none;
+			color: inherit;
+
+			&::after {
+				content: "\d7";
+			}
+		}
+	}
+}
+
+.Modal-close {
+	color: @base-color;
+	position: absolute;
+	top:-15px;
+	right:-15px;
+	font-size: 24px;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	text-align: center;
+		background-color: rgba(255, 255, 255, .8);
+
+	&:hover {
+		background-color: rgba(255, 255, 255, 1);
+	}
+
+	.Modal-closeIcon {
+		vertical-align: middle;
+	}
+}
+
+@keyframes modal-slide-up {
+	0% {
+		opacity: 0;
+		transform: translateY(100%);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+}
+
+@keyframes modal-slide-down {
+	0% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+
+	100% {
+		opacity: 0;
+		transform: translateY(100%);
+	}
+}
+
+@keyframes modal-fade-in {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes modal-fade-out {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}

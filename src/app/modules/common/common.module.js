@@ -1,16 +1,24 @@
-import LoadingIconComponent from './presentation/loading-icon/loading-icon.component';
+// Components
+import LoadingIconComponent from './components/presentation/loading-icon/loading-icon.component';
+import ModalComponent from './components/container/modal/modal.component';
+
+// Directive
 import ToggleDirective from './directives/toggle.directive';
 import ConfirmClickDirective from './directives/confirm-click.directive';
 
 let ngModule = angular.module('common', [
 	'angularMoment',
-	'ngSanitize'
+	'ngSanitize',
+	'ngAnimate',
+	'angular-click-outside',
+	'mp.escAction'
 ]);
 
 ngModule
 	.directive('uiToggle', ToggleDirective)
 	.directive('uiConfirmClick', ConfirmClickDirective)
 	.component('uiLoadingIcon', LoadingIconComponent)
+	.component('uiModal', ModalComponent)
 	.filter('toArray', function () {
 		return function (obj, addKey) {
 			if (!angular.isObject(obj)) return obj;

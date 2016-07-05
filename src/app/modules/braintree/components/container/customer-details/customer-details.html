@@ -45,7 +45,7 @@
 							<div class="Grid-col--6">
 								<ui-braintree-subscription-details subscription="subscription"></ui-braintree-subscription-details>
 
-								<button type="button" class="Button Button--primary" ng-click="$ctrl.toggleEditPlan()" ng-if="subscription.status.toLowerCase() === 'active'">Edit Plan</button>
+								<button type="button" class="Button Button--primary" ng-click="$ctrl.getAllPlans(); showEditPlanModal = !showEditPlanModal" ng-show="subscription.status.toLowerCase() === 'active'">Edit Plan</button>
 								<span ng-if="subscription.status.toLowerCase() === 'active'">|</span>
 								<a href="" ng-if="subscription.status.toLowerCase() === 'active' && subscription.price > 0" ng-click="$ctrl.disableAutoRenew(subscription)">Disable Auto Renew</a>
 								<a href="" ng-if="subscription.status.toLowerCase() === 'active' && subscription.price <= 0" ng-click="$ctrl.enableAutoRenew(subscription)">Enable Auto Renew</a>
@@ -54,76 +54,84 @@
 							<div class="Grid-col--6">
 								<h4 class="Heading--four">Payment method</h4>
 								<ui-braintree-payment-method payment-method="subscription.defaultPaymentMethod"></ui-braintree-payment-method>
-								<button class="Button Button--primary" ng-click="$ctrl.togglePaymentMethodsForSubscription()">Change Payment Method</button>
+								<button class="Button Button--primary" ng-click="showEditPaymentMethodsModal = !showEditPaymentMethodsModal">Change Payment Method</button>
 							</div>
 						</div>
 
 						<!-- Edit plan -->
-						<section class="Panel" ng-if="$ctrl.state.showEditPlan">
-							<h4 class="Heading--four">Edit subscription plan</h4>
-							<hr class="Divider--dotted">
-							<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.plans.loading.isLoading" text="$ctrl.state.plans.loading.text"></ui-loading-icon>
-							<div class="Panel-body Panel-body--highlight">
-
-								<div ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
-									<ui-braintree-subscription-plan subscription-plan="plan" on-choose="$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)"></ui-braintree-subscription-plan>
+						<ui-modal modal-id="'editPlanModal'" modal-visible="showEditPlanModal">
+							<modal-body>
+								<section class="Panel">
+									<h4 class="Heading--four">Edit subscription plan</h4>
 									<hr class="Divider--dotted">
-								</div>
-							</div>
-						</section>
+									<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.plans.loading.isLoading" text="$ctrl.state.plans.loading.text"></ui-loading-icon>
+									<div class="Panel-body Panel-body--highlight">
 
-
-						<!-- Edit payment method -->
-						<section class="Panel" ng-if="$ctrl.state.showEditPaymentMethodsPanel">
-							<h4 class="Heading--four">Edit payment method</h4>
-							<hr class="Divider--dotted">
-							<div class="Panel-body Panel-body--highlight">
-
-								<div ng-if="$ctrl.customer.paymentMethods['0']">
-									<h5 class="Heading--five">Your stored payment methods</h5>
-									<hr class="Divider--dotted">
-
-									<div class="Grid-row">
-										<div class="CustomerDetails-paymentMethodColumn Grid-col--4" ng-repeat="paymentMethod in $ctrl.customer.paymentMethods" ng-class="{'is-default' : paymentMethod.token === subscription.defaultPaymentMethod.token}">
-											<ui-braintree-payment-method
-												payment-method="paymentMethod"
-												button-disabled="paymentMethod.token === subscription.defaultPaymentMethod.token"
-												button-disabled-text="'Default payment method'"
-												card-button-text="'Choose card'"
-												card-button-visible="true"
-												delete-link-text="'Delete'"
-												delete-link-visible="paymentMethod.token !== subscription.defaultPaymentMethod.token"
-												paypal-button-text="'Choose paypal'"
-												paypal-button-visible="true"
-												on-card-button-click="$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)"
-												on-delete-click="$ctrl.deletePaymentMethod(paymentMethod)"
-												on-paypal-button-click="$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)">
-											</ui-braintree-payment-method>
+										<div ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
+											<ui-braintree-subscription-plan subscription-plan="plan" on-choose="$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)"></ui-braintree-subscription-plan>
+											<hr class="Divider--dotted">
 										</div>
 									</div>
-								</div>
+								</section>
+							</modal-body>
+						</ui-modal>
 
-								<hr class="Divider--dotted">
-								<h5 class="Heading--five">Add a new payment method</h5>
+						<!-- Edit payment method -->
+						<ui-modal modal-id="'changePaymentMethodModal'" modal-visible="showEditPaymentMethodsModal">
+							<modal-body>
 
-								<div class="Grid-row">
-									<div class="Grid-col--6">
-										<h2 class="Heading--six">Credit or Debit Card</h2>
-										<ui-braintree-creditcard-form
-											on-submit="$ctrl.addCreditCard(paymentModel, subscription)"
-											back-button-visible="false"
-											submit-button-text="'Save and choose card'"
-											hide-amount="true"></ui-braintree-creditcard-form>
+								<section class="Panel">
+									<h4 class="Heading--four">Edit payment method</h4>
+									<hr class="Divider--dotted">
+									<div class="Panel-body Panel-body--highlight">
+
+										<div ng-if="$ctrl.customer.paymentMethods['0']">
+											<h5 class="Heading--five">Your stored payment methods</h5>
+											<hr class="Divider--dotted">
+
+											<div class="Grid-row">
+												<div class="CustomerDetails-paymentMethodColumn Grid-col--4" ng-repeat="paymentMethod in $ctrl.customer.paymentMethods" ng-class="{'is-default' : paymentMethod.token === subscription.defaultPaymentMethod.token}">
+													<ui-braintree-payment-method
+														payment-method="paymentMethod"
+														button-disabled="paymentMethod.token === subscription.defaultPaymentMethod.token"
+														button-disabled-text="'Default payment method'"
+														card-button-text="'Choose card'"
+														card-button-visible="true"
+														delete-link-text="'Delete'"
+														delete-link-visible="paymentMethod.token !== subscription.defaultPaymentMethod.token"
+														paypal-button-text="'Choose paypal'"
+														paypal-button-visible="true"
+														on-card-button-click="$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)"
+														on-delete-click="$ctrl.deletePaymentMethod(paymentMethod)"
+														on-paypal-button-click="$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)">
+													</ui-braintree-payment-method>
+												</div>
+											</div>
+										</div>
+
+										<hr class="Divider--dotted">
+										<h5 class="Heading--five">Add a new payment method</h5>
+
+										<div class="Grid-row">
+											<div class="Grid-col--6">
+												<h2 class="Heading--six">Credit or Debit Card</h2>
+												<ui-braintree-creditcard-form
+													on-submit="$ctrl.addCreditCard(paymentModel, subscription)"
+													back-button-visible="false"
+													submit-button-text="'Save and choose card'"
+													hide-amount="true"></ui-braintree-creditcard-form>
+											</div>
+											<div class="Grid-col--6">
+												<h2 class="Heading--six">Paypal</h2>
+												<braintree-paypal-button button-text="'Connect with Paypal...'" on-finish="$ctrl.addPaymentMethod(paymentModel, subscription)"></braintree-paypal-button>
+											</div>
+										</div>
 									</div>
-									<div class="Grid-col--6">
-										<h2 class="Heading--six">Paypal</h2>
-										<braintree-paypal-button button-text="'Connect with Paypal...'" on-finish="$ctrl.addPaymentMethod(paymentModel, subscription)"></braintree-paypal-button>
-									</div>
-								</div>
+								</section>
 
-							</div>
+							</modal-body>
+						</ui-modal>
 
-						</section>
 
 						<!-- Transaction history -->
 						<hr class="Divider--dotted">
@@ -139,9 +147,13 @@
 							<div class="Panel">
 								<div class="Panel-body Panel-body--highlight" ng-repeat="transaction in subscription.transactions">
 									<header class="HeadingGroup">
-										<h5 class="Heading--seven HeadingGroup-heading--top"><time>{{ transaction.createdAt | date: longDate }}</time></h5>
+										<h5 class="Heading--seven HeadingGroup-heading--top">
+											<time>{{ transaction.createdAt | date: longDate }}</time>
+										</h5>
 										<h5 class="Heading--five u-textSuccess HeadingGroup-heading--main">${{ transaction.amount }}
-											<small class="u-textBase" ng-if="transaction.discounts.length">(Upgrade credit: <span ng-repeat="discount in transaction.discounts" class="u-textSuccess">${{ discount.amount }}</span>)</small>
+											<small class="u-textBase" ng-if="transaction.discounts.length">(Upgrade credit:
+												<span ng-repeat="discount in transaction.discounts" class="u-textSuccess">${{ discount.amount }}</span>)
+											</small>
 										</h5>
 									</header>
 									<hr class="Divider--dotted">

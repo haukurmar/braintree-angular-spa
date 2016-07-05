@@ -1,0 +1,12 @@
+<div class="Modal-container animate-if"
+     ng-if="$ctrl.modalVisible"
+     esc-action="$ctrl.close()"
+     click-outside="$ctrl.close()"
+     outside-if-not="$ctrl.modalId"
+     tabindex="0">
+	<section class="Modal" id="$ctrl.modalId">
+		<!--<div ng-transclude="title"></div>-->
+		<div ng-transclude="body"></div>
+		<a class="Modal-close" href="" ng-click="$ctrl.close()"><i class="fa fa-close Modal-closeIcon"></i></a>
+	</section>
+</div>
