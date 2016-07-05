@@ -44,6 +44,7 @@
 .Heading--seven {
 	&:extend(.Heading);
 }
+
 .Heading--one {
 	.Heading--one();
 }
@@ -72,4 +73,13 @@
 // -------------------- Custom modifiers --------------------
 .Heading--seven {
 	font-size: @heading--seven-fontSize;
+}
+
+.HeadingGroup {
+	.HeadingGroup-heading--top + .HeadingGroup-heading--main {
+		margin-top: 0;
+	}
+
+	.HeadingGroup-heading--bottom {
+	}
 }

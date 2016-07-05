@@ -30,8 +30,10 @@ class SubscriptionOverviewComponent {
 		this.state.loading = true;
 
 		let subscriptionData = {
-			paymentMethodToken: this.braintreeService.customer.paymentMethod.token,
-			planId: this.braintreeService.customer.subscriptionPlan.id
+			subscription: {
+				paymentMethodToken: this.braintreeService.customer.paymentMethod.token,
+				planId: this.braintreeService.customer.subscriptionPlan.id
+			}
 		};
 
 		this.braintreeService.createSubscription(subscriptionData).then(

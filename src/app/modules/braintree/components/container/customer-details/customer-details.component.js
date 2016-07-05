@@ -2,7 +2,7 @@ import template from './customer-details.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService')
+@Inject('braintreeService', 'moment')
 class CustomerDetailsComponent {
 	constructor() {
 		this.state = {
@@ -148,7 +148,6 @@ class CustomerDetailsComponent {
 
 		this.braintreeService.cancelSubscription(subscription.id).then(
 			(response) => {
-				console.log('cancel response', response);
 				if (this.customer.id) {
 					this.getCustomerDetails(this.customer.id).then(
 						() => {
@@ -198,18 +197,45 @@ class CustomerDetailsComponent {
 		// Cancel the current subscription
 		this.braintreeService.cancelSubscription(currentSubscription.id).then(
 			(response) => {
-				console.log('cancel response', response);
 				if (this.customer.id) {
 
-					// Calculate price difference
+					let discount = 0;
+					// Calculate discount if we are going to a less frequent billing cycle.
+					if (newSubscriptionPlan.billingFrequency > currentSubscription.plan.billingFrequency) {
+						// Get remaining days of current subscription
+						let nextBillingDate = this.moment(currentSubscription.nextBillingDate).startOf('days');
+						let today = this.moment(this.moment().startOf('days'));
+						let duration = this.moment.duration(nextBillingDate.diff(today));
+						let remainingDays = duration.asDays();
+						let billingCycleDays = currentSubscription.plan.billingFrequency * 31;
+
+						// Calculate discount
+						// Discount = (RemaningDays / TotalBillingCycleDays) * CurrentPlanPrice
+						discount = ((remainingDays / billingCycleDays) * currentSubscription.plan.price).toFixed(2);
+
+						console.log('billingCycleDays', billingCycleDays);
+						console.log('remainingDays', remainingDays);
+						console.log('Discount', discount);
+					}
 
 					// Create a new subscription
 					let subscriptionData = {
-						paymentMethodToken: currentSubscription.defaultPaymentMethod.token,
-						planId: newSubscriptionPlan.id
+						subscription: {
+							paymentMethodToken: currentSubscription.defaultPaymentMethod.token,
+							planId: newSubscriptionPlan.id,
+							//firstBillingDate: currentSubscription.nextBillingDate, // TODO: Is this the one we want to use?
+							discounts: {
+								add: [{
+									amount: discount,
+									numberOfBillingCycles: 1,
+									inheritedFromId: 'testDiscount'
+								}]
+							}
+						}
 					};
 
-					this.braintreeService.createSubscription(subscriptionData).then(
+					this.braintreeService.createSubscription
+					(subscriptionData).then(
 						(response) => {
 							if (response.data.success) {
 								this.getCustomerDetails(this.customer.id).then(

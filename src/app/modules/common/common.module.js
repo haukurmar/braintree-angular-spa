@@ -2,7 +2,9 @@ import LoadingIconComponent from './presentation/loading-icon/loading-icon.compo
 import ToggleDirective from './directives/toggle.directive';
 import ConfirmClickDirective from './directives/confirm-click.directive';
 
-let ngModule = angular.module('common', []);
+let ngModule = angular.module('common', [
+	'angularMoment'
+]);
 
 ngModule
 	.directive('uiToggle', ToggleDirective)
