@@ -83,16 +83,16 @@ class CustomerDetailsComponent {
 	}
 
 	_getCurrencySymbol(currencyIsoCode) {
-		switch(currencyIsoCode) {
+		switch (currencyIsoCode) {
 		case 'USD':
 			return '$';
-		break;
+			break;
 		case 'EUR':
 			return '€';
-		break;
+			break;
 		case 'GBP':
 			return '£';
-		break;
+			break;
 		default:
 			return '$';
 		}
@@ -216,10 +216,20 @@ class CustomerDetailsComponent {
 		this.braintreeService.cancelSubscription(currentSubscription.id).then(
 			(response) => {
 				if (this.customer.id) {
-
+					let subLessFrequent = (newSubscriptionPlan.billingFrequency > currentSubscription.plan.billingFrequency);
 					let discount = 0;
+
+					// New subscription data
+					let subscriptionData = {
+						subscription: {
+							paymentMethodToken: currentSubscription.defaultPaymentMethod.token,
+							planId: newSubscriptionPlan.id,
+							//firstBillingDate: currentSubscription.nextBillingDate, // TODO: Is this the one we want to use?
+						}
+					};
+
 					// Calculate discount if we are going to a less frequent billing cycle.
-					if (newSubscriptionPlan.billingFrequency > currentSubscription.plan.billingFrequency) {
+					if (subLessFrequent) {
 						// Get remaining days of current subscription
 						let nextBillingDate = this.moment(currentSubscription.nextBillingDate).startOf('days');
 						let today = this.moment(this.moment().startOf('days'));
@@ -230,24 +240,22 @@ class CustomerDetailsComponent {
 						// Calculate discount
 						// Discount = (RemaningDays / TotalBillingCycleDays) * CurrentPlanPrice
 						discount = ((remainingDays / billingCycleDays) * currentSubscription.plan.price).toFixed(2);
+
+						// Add discount to new subscription data
+						subscriptionData.subscription.discounts = {
+							add: [{
+								amount: discount,
+								numberOfBillingCycles: 1,
+								inheritedFromId: 'testDiscount'
+							}]
+						};
 					}
 
-					// Create a new subscription
-					let subscriptionData = {
-						subscription: {
-							paymentMethodToken: currentSubscription.defaultPaymentMethod.token,
-							planId: newSubscriptionPlan.id,
-							//firstBillingDate: currentSubscription.nextBillingDate, // TODO: Is this the one we want to use?
-							discounts: {
-								add: [{
-									amount: discount,
-									numberOfBillingCycles: 1,
-									inheritedFromId: 'testDiscount'
-								}]
-							}
-						}
-					};
+					// if(subLessFrequent) {
+					// 	// Change the StartDate on the new subscription to be the end of the current one.
+					// }
 
+					// Create a new subscription
 					this.braintreeService.createSubscription(subscriptionData).then(
 						(response) => {
 							console.log('response', response);
@@ -256,7 +264,7 @@ class CustomerDetailsComponent {
 									() => {
 										let descriptionHtml = '';
 
-										if(response.data.subscription.transactions.length) {
+										if (response.data.subscription.transactions.length) {
 											let transactionAmount = response.data.subscription.transactions[0].amount;
 											let currencySymbol = this._getCurrencySymbol(response.data.subscription.transactions[0].currencyIsoCode);
 
