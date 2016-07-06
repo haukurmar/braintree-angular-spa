@@ -56,7 +56,7 @@
 								<ui-braintree-payment-method payment-method="subscription.defaultPaymentMethod"></ui-braintree-payment-method>
 								<button class="Button Button--primary"
 								        ng-click="showEditPaymentMethodsModal = !showEditPaymentMethodsModal"
-										ng-if="subscription.status.toLowerCase() !== 'canceled'">Change Payment Method</button>
+										ng-hide="subscription.status.toLowerCase() === 'canceled'">Change Payment Method</button>
 							</div>
 						</div>
 
