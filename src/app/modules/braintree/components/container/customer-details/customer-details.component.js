@@ -18,21 +18,12 @@ class CustomerDetailsComponent {
 				type: 'warning'
 			},
 			showDetailsPanel: true,
-			showEditPaymentMethodsPanel: false,
-			showEditPlan: false,
-			showCreditCardForm: false,
-			showPaypalForm: false,
 			plans: {
 				loading: {
 					isLoading: false,
 					text: ''
 				}
 			}
-		};
-
-		this.routes = {
-			editSubscriptionRoute: ROUTES.SUBSCRIPTION,
-			cancelSubscriptionRoute: ROUTES.SUBSCRIPTION // TODO: CHANGE
 		};
 
 		this.customer = null;
@@ -210,7 +201,6 @@ class CustomerDetailsComponent {
 
 		this._clearMessage();
 		this._startLoading('Updating subscription plan...');
-		this.state.showEditPlan = false;
 
 		// Cancel the current subscription
 		this.braintreeService.cancelSubscription(currentSubscription.id).then(
@@ -389,7 +379,6 @@ class CustomerDetailsComponent {
 			(response) => {
 				this.getCustomerDetails(this.customer.id).then(
 					() => {
-						this.state.showEditPaymentMethodsPanel = false;
 						this._displayMessage(messageSuccessText, 'success');
 					}
 				);
@@ -401,16 +390,6 @@ class CustomerDetailsComponent {
 				this._displayMessage(error.data.message, 'danger');
 			}
 		);
-	}
-
-	showPaymentMethodForm(type) {
-		if (type === 'cards') {
-			this.state.showCreditCardForm = true;
-			this.state.showPaypalForm = false;
-		} else if (type === 'paypal') {
-			this.state.showCreditCardForm = false;
-			this.state.showPaypalForm = true;
-		}
 	}
 }
 
