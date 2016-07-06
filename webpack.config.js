@@ -135,7 +135,9 @@ module.exports = {
 		new ExtractTextPlugin('[name].css'),
 		// Use so angular uses jQuery instead of jQLite
 		new ProvidePlugin({
-			"window.jQuery": "jquery"
+			$: 'jquery',
+			"jQuery": 'jquery',
+			"window.jQuery": 'jquery'
 		}),
 	],
 
