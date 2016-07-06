@@ -1,6 +1,6 @@
 # braintree-angular-spa
 
-A Single Page Application built with Angular 1 Components that each server their own simple purpose, following best practices with Container/Presentational pattern. (smart and dumb components)
+A Single Page Application built with Angular 1 Components who each serve their own simple purpose, following best practices with Container/Presentational pattern. (smart and dumb components)
 
 Also makes use of the [Angular Component Router](https://github.com/angular/router).
 
