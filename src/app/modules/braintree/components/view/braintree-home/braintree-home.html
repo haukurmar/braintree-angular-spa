@@ -1,6 +1,13 @@
 <h1 class="Heading--one">Braintree module</h1>
 <hr class="Divider--dotted">
 
+<label>
+	<input type="checkbox" ng-click="$ctrl.initFlowMode()" ng-model="$ctrl.state.enableWizardMode"> Subscription wizard mode enabled
+</label>
+<p>
+	<small>Note: Enable this to prevent going to other parts without choosing a the previous step.</small>
+</p>
+
 <div class="Page">
 	<nav class="Page-aside--left">
 		<ul class="Nav Nav--vertical">
@@ -9,6 +16,18 @@
 			</li>
 			<li class="Nav-item">
 				<a class="Nav-link" ng-link="['./Subscription']">Subscribe</a>
+			</li>
+			<li class="Nav-item">
+				<a class="Nav-link" ng-link="['./Customer']">Create Customer</a>
+			</li>
+			<li class="Nav-item">
+				<a class="Nav-link" ng-link="['./Cards']">Pay with Credit or Debit Cards</a>
+			</li>
+			<li class="Nav-item">
+				<a class="Nav-link" ng-link="['./Paypal']">Pay with Paypal</a>
+			</li>
+			<li class="Nav-item">
+				<a class="Nav-link" ng-link="['./Dropin']">Drop-in</a>
 			</li>
 		</ul>
 	</nav>

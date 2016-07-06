@@ -194,6 +194,8 @@ export default class BraintreeService {
 	initMode(type) {
 		if (type.toLowerCase() === 'subscription') {
 			this._mode.subscription = true;
+		} else {
+			this._mode.subscription = false;
 		}
 	}
 

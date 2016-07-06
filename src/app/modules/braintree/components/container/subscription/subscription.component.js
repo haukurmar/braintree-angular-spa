@@ -25,7 +25,6 @@ class SubscribeComponent {
 			this.braintreeService.setup();
 		}
 
-		this.braintreeService.initMode('subscription');
 		this._getAllSubscriptionPlans();
 	}
 

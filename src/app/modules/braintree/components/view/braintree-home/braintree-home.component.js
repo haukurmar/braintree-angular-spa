@@ -5,21 +5,32 @@ import {ROUTES} from '../../../braintree.constants';
 @Inject('braintreeService')
 class BraintreeHomeComponent {
 	constructor() {
+		this.state = {
+			enableWizardMode: false
+		}
 	}
 
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		// tmp
-		this.braintreeService.initMode('subscription');
+		this.initFlowMode();
+
+		// Init registered customer (debug)
 		let customer = {
-			id: '38863385'
+			id: '27547087'
 		};
 		this.braintreeService.updateCustomerData(customer);
 	}
 
 	// Public viewModel methods
 	// --------------------------------------------------
+	initFlowMode() {
+		if(this.state.enableWizardMode) {
+			this.braintreeService.initMode('subscription');
+		} else {
+			this.braintreeService.initMode('standAlone');
+		}
+	}
 }
 
 // Component decorations
