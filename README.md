@@ -1,6 +1,8 @@
 # braintree-angular-spa
 
-A Single Page Application built with Angular 1 Components who each serve their own simple purpose, following best practices with Container/Presentational pattern. (smart and dumb components)
+A Single Page Application used to handle payments and subscriptions for the [Braintree](https://www.braintreepayments.com/) payment gateway 
+
+Built with Angular 1 Components who each serve their own simple purpose, following best practices with Container/Presentational pattern. (smart and dumb components)
 
 Also makes use of the [Angular Component Router](https://github.com/angular/router).
 
@@ -9,7 +11,8 @@ Functionality:
 * Create customer (stand-alone)
 * Pay with creditcard & debit cards (stand-alone)
 * Pay with paypal (stand-alone)
-* Subscription wizard from loaded plans from Braintree where we make use of Customer creation, choosing or adding payment methods.
+* Braintree Drop-in payments (stand-alone)
+* Subscription wizard which loads plans from Braintree and create a customer, choose or add payment methods.
 * Customer profile details where you can switch between subscription plans, change payment methods etc.
 
 # Installation
