@@ -15,6 +15,10 @@ Functionality:
 * Subscription wizard which loads plans from Braintree and create a customer, choose or add payment methods.
 * Customer profile details where you can switch between subscription plans, change payment methods etc.
 
+Other notes:
+
+Everything is written in ES6, and I use [Webpack](https://webpack.github.io/) with [Babel](https://babeljs.io/) and more to handle all the transpiling, compiling and packaging.
+
 # Installation
 
 Run the following to install dependencies
