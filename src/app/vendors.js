@@ -9,6 +9,7 @@ import angularMoment from 'angular-moment';
 import angularEscAction from 'angular-esc-action';
 import clickOutside from '@iamadamjowett/angular-click-outside';
 //import momentTimezone from 'moment-timezone';
+import angularPayments from 'angular-payments';
 
 // CSS
 import 'font-awesome-webpack';

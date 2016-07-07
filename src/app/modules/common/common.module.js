@@ -2,7 +2,7 @@
 import LoadingIconComponent from './components/presentation/loading-icon/loading-icon.component';
 import ModalComponent from './components/container/modal/modal.component';
 
-// Directive
+// Directives
 import ToggleDirective from './directives/toggle.directive';
 import ConfirmClickDirective from './directives/confirm-click.directive';
 
@@ -11,7 +11,8 @@ let ngModule = angular.module('common', [
 	'ngSanitize',
 	'ngAnimate',
 	'angular-click-outside',
-	'mp.escAction'
+	'mp.escAction',
+	'angularPayments'
 ]);
 
 ngModule

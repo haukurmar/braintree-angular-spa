@@ -63,6 +63,47 @@
 	&:focus {
 		border-color: @textbox-success-borderColor;
 	}
+
+	//.ng-invalid {
+	//	border-color: #f00 !important;
+	//}
+
+	&.visa,
+	&.amex,
+	&.mastercard,
+	&.discover,
+	&.jcb,
+	&.maestro {
+		background-size: auto 80%;
+		background-repeat: no-repeat;
+		background-position: 98% 50%;
+	}
+
+	&.visa {
+		background-image: url('../../images/cards/visa.svg');
+		background-size: auto 50%;
+	}
+
+	&.amex {
+		background-image: url('../../images/cards/amex.svg');
+	}
+
+	&.mastercard {
+		background-image: url('../../images/cards/mastercard.svg');
+	}
+
+	&.discover {
+		background-image: url('../../images/cards/discover.svg');
+	}
+
+	&.jcb {
+		background-image: url('../../images/cards/jcb.svg');
+	}
+
+	&.maestro {
+		background-image: url('../../images/cards/maestro.svg');
+	}
+
 }
 
 // -------------------- Modifiers --------------------
