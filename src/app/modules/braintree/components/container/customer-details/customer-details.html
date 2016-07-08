@@ -76,7 +76,11 @@
 									<div class="Panel-body Panel-body--highlight">
 
 										<div ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
-											<ui-braintree-subscription-plan subscription-plan="plan" on-choose="$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)"></ui-braintree-subscription-plan>
+											<ui-braintree-subscription-plan
+												button-css-modifier="'Button--cta'"
+												button-text="'Select plan'"
+												subscription-plan="plan"
+												on-choose="$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)"></ui-braintree-subscription-plan>
 											<hr class="Divider--dotted">
 										</div>
 									</div>

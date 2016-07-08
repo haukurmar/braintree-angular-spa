@@ -9,7 +9,6 @@ class SubscriptionPlanComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-
 	}
 
 	// Public viewModel methods
@@ -19,6 +18,8 @@ class SubscriptionPlanComponent {
 // Component decorations
 let component = {
 	bindings: {
+		buttonCssModifier: '<',
+		buttonText: '<',
 		subscriptionPlan: '<',
 		onChoose: '&'
 	},

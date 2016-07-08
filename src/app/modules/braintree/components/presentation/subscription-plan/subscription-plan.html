@@ -3,7 +3,5 @@
 		<span ng-bind="$ctrl.subscriptionPlan.name"></span>
 	</h3>
 	<p ng-bind="$ctrl.subscriptionPlan.description"></p>
-	<button class="Button Button--cta Button--lg" ng-click="$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})">Select</button>
+	<button class="Button {{ $ctrl.buttonCssModifier }}" ng-click="$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})">{{ $ctrl.buttonText }}</button>
 </div>
-
-
