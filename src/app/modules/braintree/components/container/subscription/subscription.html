@@ -8,11 +8,17 @@
 
 <ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading" text="$ctrl.loadingText"></ui-loading-icon>
 
-<div ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
-	<ui-braintree-subscription-plan
-		button-css-modifier="'Button--cta Button--lg'"
-		button-text="'Select plan'"
-		subscription-plan="plan"
-		on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
-	<hr class="Divider--dotted">
-</div>
+<section class="Panel">
+	<div class="Panel-body">
+		<div class="Grid-row">
+			<div class="Grid-col--4" ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
+				<ui-braintree-subscription-plan
+					button-css-modifier="'Button--cta Button--lg'"
+					button-text="'Select plan'"
+					subscription-plan="plan"
+					on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+				<hr class="Divider--dotted">
+			</div>
+		</div>
+	</div>
+</section>
