@@ -19,7 +19,9 @@ class SubscriptionPlanComponent {
 let component = {
 	bindings: {
 		buttonCssModifier: '<',
+		buttonDisabled: '<',
 		buttonText: '<',
+		itemCssClass: '<',
 		subscriptionPlan: '<',
 		onChoose: '&'
 	},

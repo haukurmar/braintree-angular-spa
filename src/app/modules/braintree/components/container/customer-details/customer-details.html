@@ -56,7 +56,8 @@
 								<ui-braintree-payment-method payment-method="subscription.defaultPaymentMethod"></ui-braintree-payment-method>
 								<button class="Button Button--primary"
 								        ng-click="showEditPaymentMethodsModal = !showEditPaymentMethodsModal"
-										ng-hide="subscription.status.toLowerCase() === 'canceled'">Change Payment Method</button>
+								        ng-hide="subscription.status.toLowerCase() === 'canceled'">Change Payment Method
+								</button>
 							</div>
 						</div>
 
@@ -75,13 +76,16 @@
 									<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.plans.loading.isLoading" text="$ctrl.state.plans.loading.text"></ui-loading-icon>
 									<div class="Panel-body Panel-body--highlight">
 
-										<div ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
-											<ui-braintree-subscription-plan
-												button-css-modifier="'Button--cta'"
-												button-text="'Select plan'"
-												subscription-plan="plan"
-												on-choose="$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)"></ui-braintree-subscription-plan>
-											<hr class="Divider--dotted">
+										<div class="Grid-row">
+											<div class="Grid-col--4" ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
+												<ui-braintree-subscription-plan
+													button-disabled="plan.id === subscription.planId"
+													button-css-modifier="plan.id === subscription.planId ? 'Button--success' : 'Button--cta'"
+													button-text="plan.id === subscription.planId ? 'Current plan' : 'Select plan'"
+													subscription-plan="plan"
+													on-choose="$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)"></ui-braintree-subscription-plan>
+												<hr class="Divider--dotted">
+											</div>
 										</div>
 									</div>
 								</section>

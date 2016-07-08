@@ -1,7 +1,9 @@
-<div>
+<div class="{{ $ctrl.itemCssClass }}">
 	<h3 class="Heading--three">
 		<span ng-bind="$ctrl.subscriptionPlan.name"></span>
 	</h3>
 	<p ng-bind="$ctrl.subscriptionPlan.description"></p>
-	<button class="Button {{ $ctrl.buttonCssModifier }}" ng-click="$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})">{{ $ctrl.buttonText }}</button>
+	<button class="Button {{ $ctrl.buttonCssModifier }}"
+	        ng-click="$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})"
+			ng-disabled="$ctrl.buttonDisabled">{{ $ctrl.buttonText }}</button>
 </div>
