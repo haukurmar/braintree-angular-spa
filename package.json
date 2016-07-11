@@ -1,5 +1,5 @@
 {
-  "name": "braintree-angular-web",
+  "name": "braintree-angular-spa",
   "version": "1.0.0",
   "description": "",
   "main": "src/app/boot.js",
