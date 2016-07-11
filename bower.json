@@ -1,0 +1,19 @@
+{
+  "name": "braintree-angular-spa",
+  "version": "0.0.1",
+  "homepage": "https://github.com/haukurmar/braintree-angular-spa",
+  "authors": [
+    "Haukur Mar Bodvarsson <haukurmar@gmail.com>"
+  ],
+  "description": "A Single Page Application used to handle payments and subscriptions for the Braintree payment gateway",
+  "main": "dist/app.js",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
