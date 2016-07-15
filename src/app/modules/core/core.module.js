@@ -1,6 +1,6 @@
 import CONFIG from './config.service';
 
-let ngModule = angular.module('core', [
+let ngModule = angular.module('braintree-angular-spa.core', [
 	'ngComponentRouter'
 ]);
 

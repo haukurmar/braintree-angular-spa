@@ -31,10 +31,13 @@ module.exports = {
 	debug: true,
 
 	entry: {
-		app: [
+		'braintree-angular-spa': [
+			'./src/app/app.module.js'
+		],
+		'braintree-angular-spa-boot': [
 			'./src/app/boot.js'
 		],
-		vendors: [
+		'braintree-angular-spa-vendors': [
 			'./src/app/vendors.js'
 		]
 	},
@@ -120,7 +123,7 @@ module.exports = {
 
 
 	plugins: [
-		new CommonsChunkPlugin({ name: 'vendors', filename: 'vendors.js', minChunks: Infinity, chunks: ["app"] }),
+		//new CommonsChunkPlugin({ name: 'vendors', filename: 'vendors.js', minChunks: Infinity, chunks: ["app"] }),
 		// static assets
 		new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
 		// generating html

@@ -6,7 +6,7 @@ import ModalComponent from './components/container/modal/modal.component';
 import ToggleDirective from './directives/toggle.directive';
 import ConfirmClickDirective from './directives/confirm-click.directive';
 
-let ngModule = angular.module('common', [
+let ngModule = angular.module('braintree-angular-spa.common', [
 	'angularMoment',
 	'ngSanitize',
 	'ngAnimate',

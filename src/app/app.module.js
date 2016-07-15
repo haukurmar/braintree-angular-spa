@@ -7,7 +7,7 @@ import AppHomeViewComponent from './components/view/home/home.component';
 import BrainTreeModule from './modules/braintree/braintree.module';
 import CoreModule from './modules/core/core.module';
 
-let ngModule = angular.module('app', [
+let ngModule = angular.module('braintree-angular-spa', [
 	BrainTreeModule.name,
 	CoreModule.name
 ]);
@@ -16,11 +16,11 @@ let ngModule = angular.module('app', [
  * App Module
  */
 ngModule
-	.config(appConfig)
 	.run(appRun)
-	.component('app', AppComponent)
+	.config(appConfig)
+	.component('braintreeApp', AppComponent)
 	.component('appHome', AppHomeViewComponent)
-	.value('$routerRootComponent', 'app');
+	.value('$routerRootComponent', 'braintreeApp');
 
 /* @ngInject */
 function appConfig($locationProvider) {
@@ -28,7 +28,7 @@ function appConfig($locationProvider) {
 }
 
 /* @ngInject */
-function appRun($rootScope) {
+function appRun() {
 
 }
 

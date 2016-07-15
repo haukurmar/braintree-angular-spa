@@ -1,5 +1,6 @@
 // Modules
 import CommonModule from '../common/common.module';
+import CoreModule from '../core/core.module';
 
 // Services
 import BraintreeService from './braintree.service';
@@ -29,8 +30,9 @@ import UIPaymentMethodComponent from './components/presentation/payment-method/p
 // View Components (Route Components)
 import HomeViewComponent from './components/view/braintree-home/braintree-home.component';
 
-let ngModule = angular.module('braintree', [
-	CommonModule.name
+let ngModule = angular.module('braintree-angular-spa.braintree.components', [
+	CommonModule.name,
+	CoreModule.name
 ]);
 
 /**

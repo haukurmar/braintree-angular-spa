@@ -7,7 +7,7 @@ import AppModule from './app.module';
 angular
 	.element(document)
 	.ready(function () {
-		let appName = 'braintree-angular-web';
+		let appName = 'braintree-angular-spa.boot';
 		let body = document.getElementsByTagName("body")[0];
 
 		let app = angular.module(appName, [AppModule.name]);
