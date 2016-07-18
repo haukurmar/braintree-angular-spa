@@ -30,7 +30,7 @@
 							<div class="Grid-col--6">
 								<ui-braintree-subscription-details subscription="subscription"></ui-braintree-subscription-details>
 
-								<button type="button" class="Button Button--primary Button--lg" ng-link="[$ctrl.editButtonRoute]">{{ $ctrl.editButtonText }}</button>
+								<button type="button" class="Button Button--primary Button--lg" ng-href="$ctrl.editButtonRoute">{{ $ctrl.editButtonText }}</button>
 								<a href="" ng-if="subscription.status === 'Active' && subscription.price > 0" ng-click="$ctrl.onCancelSubscription({subscription: subscription})">{{ $ctrl.cancelButtonText }}</a>
 								<a href="" ng-if="subscription.status === 'Canceled' || subscription.price <= 0" ng-click="$ctrl.onEnableSubscription({subscription: subscription})">{{ $ctrl.enableButtonText }}</a>
 							</div>

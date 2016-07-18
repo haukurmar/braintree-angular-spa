@@ -1,11 +1,11 @@
 <ul class="Nav Nav--tabs">
-	<li class="Nav-item" ng-class="{'is-active': $ctrl.selectedRoute === 'Subscription'}">
-		<a class="Nav-link" ng-link="['Subscription']">1. Subscription plan</a>
+	<li class="Nav-item" ng-class="{'is-active': $ctrl.selectedRoute === '/subscribe'}">
+		<a class="Nav-link" ng-href="/subscribe">1. Subscription plan</a>
 	</li>
-	<li class="Nav-item" ng-class="{'is-active': $ctrl.selectedRoute === 'Customer'}">
-		<a class="Nav-link" ng-link="['Customer']">2. Customer information</a>
+	<li class="Nav-item" ng-class="{'is-active': $ctrl.selectedRoute === '/customer'}">
+		<a class="Nav-link" ng-href="/customer">2. Customer information</a>
 	</li>
-	<li class="Nav-item" ng-class="{'is-active': $ctrl.selectedRoute === 'Cards'}">
-		<a class="Nav-link" ng-link="['Cards']">3. Payment method</a>
+	<li class="Nav-item" ng-class="{'is-active': $ctrl.selectedRoute === '/payment-methods'}">
+		<a class="Nav-link" ng-href="/payment-methods">3. Payment method</a>
 	</li>
 </ul>

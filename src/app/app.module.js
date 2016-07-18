@@ -19,12 +19,12 @@ ngModule
 	.run(appRun)
 	.config(appConfig)
 	.component('braintreeApp', AppComponent)
-	.component('appHome', AppHomeViewComponent)
-	.value('$routerRootComponent', 'braintreeApp');
+	.component('appHome', AppHomeViewComponent);
 
 /* @ngInject */
-function appConfig($locationProvider) {
-	$locationProvider.html5Mode(false);
+function appConfig() {
+
+
 }
 
 /* @ngInject */

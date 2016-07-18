@@ -2,7 +2,7 @@ import template from './customer.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService')
+@Inject('braintreeService', '$location')
 class BraintreeSubscriptionComponent {
 	constructor() {
 		this.state = {
@@ -106,7 +106,7 @@ class BraintreeSubscriptionComponent {
 					this.braintreeService.updateCustomerData(response.data.customer);
 
 					// Redirect to next step
-					this.$router.navigate([this.routes.nextRoute]);
+					this.$location.path([this.routes.nextRoute]);
 				},
 				(error) => {
 					// TODO: Handle errors better (use error.data.errors collection)
@@ -121,7 +121,7 @@ class BraintreeSubscriptionComponent {
 		} else {
 			this.braintreeService.updateCustomerData(customerModel);
 			// TODO: Update customer in Braintree
-			this.$router.navigate([this.routes.nextRoute]);
+			this.$location.path([this.routes.nextRoute]);
 		}
 	}
 }
@@ -129,7 +129,7 @@ class BraintreeSubscriptionComponent {
 // Component decorations
 let component = {
 	bindings: {
-		$router: '<'
+
 	},
 	template: template,
 	controller: BraintreeSubscriptionComponent

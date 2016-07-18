@@ -2,7 +2,7 @@
 
 <section>
 	<p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
-	<a ng-link="[$ctrl.state.message.link]" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
+	<a ng-href="{{ $ctrl.state.message.link }}" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
 
 	<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
 	<h2 class="Heading--two">Please fill out your card details</h2>

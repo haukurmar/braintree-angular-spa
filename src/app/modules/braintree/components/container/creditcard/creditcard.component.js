@@ -2,7 +2,7 @@ import template from './creditcard.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('$http', 'braintreeService')
+@Inject('$http', 'braintreeService', '$location')
 class CreditCardComponent {
 	constructor() {
 		this.state = {
@@ -110,7 +110,7 @@ class CreditCardComponent {
 				console.log('from vaultedPayment', response);
 				this.state.loading.isLoading = false;
 				this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
-				this.$router.navigate([this.state.nextRoute]);
+				this.$location.path([this.state.nextRoute]);
 			},
 			(error) => {
 				// TODO: Handle errors better
@@ -176,7 +176,7 @@ class CreditCardComponent {
 // Component decorations
 let component = {
 	bindings: {
-		$router: '<'
+
 	},
 	template: template,
 	controller: CreditCardComponent

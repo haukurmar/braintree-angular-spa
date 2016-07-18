@@ -12,27 +12,27 @@
 	<nav class="Page-aside--left">
 		<ul class="Nav Nav--vertical">
 			<li class="Nav-item">
-				<a class="Nav-link" ng-link="['./CustomerDetails']">Customer details</a>
+				<a class="Nav-link" ng-href="/customer-details">Customer details</a>
 			</li>
 			<li class="Nav-item">
-				<a class="Nav-link" ng-link="['./Subscription']">Subscribe</a>
+				<a class="Nav-link" ng-href="/subscribe">Subscribe</a>
 			</li>
 			<li class="Nav-item">
-				<a class="Nav-link" ng-link="['./Customer']">Create Customer</a>
+				<a class="Nav-link" ng-href="/customer">Create Customer</a>
 			</li>
 			<li class="Nav-item">
-				<a class="Nav-link" ng-link="['./Cards']">Pay with Credit or Debit Cards</a>
+				<a class="Nav-link" ng-href="/cards">Pay with Credit or Debit Cards</a>
 			</li>
 			<li class="Nav-item">
-				<a class="Nav-link" ng-link="['./Paypal']">Pay with Paypal</a>
+				<a class="Nav-link" ng-href="/paypal">Pay with Paypal</a>
 			</li>
 			<li class="Nav-item">
-				<a class="Nav-link" ng-link="['./Dropin']">Drop-in</a>
+				<a class="Nav-link" ng-href="/drop-in">Drop-in</a>
 			</li>
 		</ul>
 	</nav>
 	<main class="Page-main">
-		<ng-outlet></ng-outlet>
+		<div ng-view=""></div>
 	</main>
 </div>
 

@@ -2,7 +2,7 @@ import template from './payment-methods.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService')
+@Inject('braintreeService', '$location')
 class PaymentMethodsComponent {
 	constructor() {
 		// Used in template
@@ -27,9 +27,9 @@ class PaymentMethodsComponent {
 	// --------------------------------------------------
 	choosePaymentMethod(method) {
 		if(method === 'cards') {
-			this.$router.navigate([ROUTES.CARDS]);
+			this.$location.path([ROUTES.CARDS]);
 		} else if(method === 'paypal') {
-			this.$router.navigate([ROUTES.PAYPAL]);
+			this.$location.path([ROUTES.PAYPAL]);
 		}
 	}
 
@@ -41,14 +41,14 @@ class PaymentMethodsComponent {
 		this.braintreeService.updateCustomerData(customerData);
 
 		this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
-		this.$router.navigate([this.state.nextRoute]);
+		this.$location.path([this.state.nextRoute]);
 	}
 }
 
 // Component decorations
 let component = {
 	bindings: {
-		$router: '<'
+
 	},
 	template : template,
 	controller: PaymentMethodsComponent

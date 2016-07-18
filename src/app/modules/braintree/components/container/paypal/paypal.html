@@ -6,5 +6,5 @@
 
 <button class="Button Button--primary Button--lg" ng-click="$ctrl.pay($event)">Paypal</button>
 <span ng-if="$ctrl.state.backButtonVisible">
-	| <a ng-link="[$ctrl.state.backButtonRoute]">{{ $ctrl.state.backButtonText }}</a>
+	| <a ng-href="$ctrl.state.backButtonRoute">{{ $ctrl.state.backButtonText }}</a>
 </span>

@@ -39,6 +39,7 @@ let ngModule = angular.module('braintree-angular-spa.braintree.components', [
  * App Module
  */
 ngModule
+	.config(braintreeConfig)
 // Services
 	.service('braintreeService', BraintreeService)
 
@@ -66,5 +67,42 @@ ngModule
 
 	// View components
 	.component('braintreeHome', HomeViewComponent);
+
+
+/* @ngInject */
+function braintreeConfig($locationProvider, $routeProvider) {
+	$locationProvider.html5Mode(true);
+
+	// Route configs
+	// -----------------------------------------------------
+	$routeProvider
+		.when('/', {
+			template: '<braintree-customer-details></braintree-customer-details>',
+		})
+		.when('/customer-details', {
+			template: '<braintree-customer-details></braintree-customer-details>',
+		})
+		.when('/cards', {
+			template: '<braintree-credit-card></braintree-credit-card>',
+		})
+		.when('/drop-in', {
+			template: '<braintree-dropin></braintree-dropin>',
+		})
+		.when('/customer', {
+			template: '<braintree-customer></braintree-customer>',
+		})
+		.when('/payment-methods', {
+			template: '<braintree-payment-methods></braintree-payment-methods>',
+		})
+		.when('/paypal', {
+			template: '<braintree-paypal></braintree-paypal>',
+		})
+		.when('/subscribe', {
+			template: '<braintree-subscription></braintree-subscription>',
+		})
+		.when('/subscription-overview', {
+			template: '<braintree-subscription-overview></braintree-subscription-overview>',
+		})
+}
 
 export default ngModule;

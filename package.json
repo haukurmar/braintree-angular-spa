@@ -81,13 +81,13 @@
     "webpack-md5-hash": "0.0.4"
   },
   "dependencies": {
-    "@angular/router": "^0.2.0",
     "@iamadamjowett/angular-click-outside": "^2.8.3",
-    "angular": "^1.5.5",
+    "angular": "^1.5.7",
     "angular-animate": "^1.5.7",
     "angular-esc-action": "^1.1.4",
     "angular-moment": "^0.10.3",
     "angular-payments": "https://github.com/haukurmar/angular-payments.git",
+    "angular-route": "^1.5.7",
     "angular-sanitize": "^1.5.7",
     "braintree-web": "^2.24.0",
     "font-awesome-webpack": "0.0.4",
