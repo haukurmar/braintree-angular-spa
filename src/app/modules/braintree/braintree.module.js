@@ -30,7 +30,7 @@ import UIPaymentMethodComponent from './components/presentation/payment-method/p
 // View Components (Route Components)
 import HomeViewComponent from './components/view/braintree-home/braintree-home.component';
 
-let ngModule = angular.module('braintree-angular-spa.braintree.components', [
+let ngModule = angular.module('braintree-angular-spa.modules.braintree', [
 	CommonModule.name,
 	CoreModule.name
 ]);

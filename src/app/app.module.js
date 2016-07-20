@@ -7,7 +7,7 @@ import AppHomeViewComponent from './components/view/home/home.component';
 import BrainTreeModule from './modules/braintree/braintree.module';
 import CoreModule from './modules/core/core.module';
 
-let ngModule = angular.module('braintree-angular-spa', [
+let ngModule = angular.module('braintree-angular-spa.modules.app', [
 	BrainTreeModule.name,
 	CoreModule.name
 ]);
