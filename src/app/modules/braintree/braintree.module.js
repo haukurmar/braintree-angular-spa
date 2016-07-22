@@ -3,7 +3,8 @@ import CommonModule from '../common/common.module';
 import CoreModule from '../core/core.module';
 
 // Services
-import BraintreeService from './braintree.service';
+import BraintreeDataService from './services/braintree-data.service';
+import BraintreeConfigService from './services/braintree-config.service';
 
 // Container Components
 import CustomerComponent from './components/container/customer/customer.component';
@@ -29,6 +30,7 @@ import UIPaymentMethodComponent from './components/presentation/payment-method/p
 
 // View Components (Route Components)
 import HomeViewComponent from './components/view/braintree-home/braintree-home.component';
+import SubscribeViewComponent from './components/view/subscribe/subscribe-view.component';
 
 let ngModule = angular.module('braintree-angular-spa.modules.braintree', [
 	CommonModule.name,
@@ -40,8 +42,11 @@ let ngModule = angular.module('braintree-angular-spa.modules.braintree', [
  */
 ngModule
 	.config(braintreeConfig)
-// Services
-	.service('braintreeService', BraintreeService)
+	.run(braintreeRun)
+	// Services
+	// TODO: Rename to braintreeDataService
+	.service('braintreeService', BraintreeDataService)
+	.service('braintreeConfigService', BraintreeConfigService)
 
 	// Container components
 	.component('braintreeCustomer', CustomerComponent)
@@ -66,18 +71,19 @@ ngModule
 	.component('uiBraintreePaymentMethod', UIPaymentMethodComponent)
 
 	// View components
-	.component('braintreeHome', HomeViewComponent);
+	.component('braintreeHome', HomeViewComponent)
+	.component('braintreeSubscribeView', SubscribeViewComponent);
 
 
 /* @ngInject */
 function braintreeConfig($locationProvider, $routeProvider) {
-	$locationProvider.html5Mode(true);
+	$locationProvider.html5Mode(false);
 
 	// Route configs
 	// -----------------------------------------------------
 	$routeProvider
 		.when('/', {
-			template: '<braintree-customer-details></braintree-customer-details>',
+			template: '<braintree-subscription></braintree-subscription>',
 		})
 		.when('/customer-details', {
 			template: '<braintree-customer-details></braintree-customer-details>',
@@ -103,6 +109,13 @@ function braintreeConfig($locationProvider, $routeProvider) {
 		.when('/subscription-overview', {
 			template: '<braintree-subscription-overview></braintree-subscription-overview>',
 		})
+}
+
+/* @ngInject */
+function braintreeRun($route, $rootScope){
+	$rootScope.$on("$locationChangeStart", function(event, next, current) {
+
+	});
 }
 
 export default ngModule;
