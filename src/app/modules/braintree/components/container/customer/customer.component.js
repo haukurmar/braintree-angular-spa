@@ -2,7 +2,7 @@ import template from './customer.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService', '$location')
+@Inject('braintreeDataService', '$location')
 class BraintreeSubscriptionComponent {
 	constructor() {
 		this.state = {
@@ -35,10 +35,10 @@ class BraintreeSubscriptionComponent {
 	// --------------------------------------------------
 	$onInit() {
 		// Get Customer from service
-		this.customer = this.braintreeService.customer;
+		this.customer = this.braintreeDataService.customer;
 
 		// Subscription mode
-		let mode = this.braintreeService.mode;
+		let mode = this.braintreeDataService.mode;
 		if (mode.subscription) {
 			this.state.submitButtonText = 'Continue';
 			this.state.backButtonVisible = true;
@@ -68,10 +68,10 @@ class BraintreeSubscriptionComponent {
 		this.state.loading.isLoading = true;
 		this.state.loading.text = 'Fetching customer information...';
 		//Get Customer if logged in
-		this.braintreeService.getCustomer(customerId).then(
+		this.braintreeDataService.getCustomer(customerId).then(
 			(response) => {
 				console.log('success', response);
-				this.braintreeService.updateCustomerData(response.data.customer);
+				this.braintreeDataService.updateCustomerData(response.data.customer);
 				this.customerModel = response.data.customer;
 				this.state.loading.isLoading = false;
 
@@ -98,12 +98,12 @@ class BraintreeSubscriptionComponent {
 			this.state.loading.text = 'Creating customer...';
 			this.state.loading.isLoading = true;
 
-			this.braintreeService.createCustomer(customerModel).then(
+			this.braintreeDataService.createCustomer(customerModel).then(
 				(response) => {
 					this.state.loading.isLoading = false;
 
 					// Save customer data to service
-					this.braintreeService.updateCustomerData(response.data.customer);
+					this.braintreeDataService.updateCustomerData(response.data.customer);
 
 					// Redirect to next step
 					this.$location.path([this.routes.nextRoute]);
@@ -119,7 +119,7 @@ class BraintreeSubscriptionComponent {
 				}
 			);
 		} else {
-			this.braintreeService.updateCustomerData(customerModel);
+			this.braintreeDataService.updateCustomerData(customerModel);
 			// TODO: Update customer in Braintree
 			this.$location.path([this.routes.nextRoute]);
 		}

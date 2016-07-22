@@ -2,7 +2,7 @@ import template from './creditcard.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('$http', 'braintreeService', '$location')
+@Inject('$http', 'braintreeDataService', '$location')
 class CreditCardComponent {
 	constructor() {
 		this.state = {
@@ -37,10 +37,10 @@ class CreditCardComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		this.customer = this.braintreeService.customer;
+		this.customer = this.braintreeDataService.customer;
 
 		// Subscription mode
-		let mode = this.braintreeService.mode;
+		let mode = this.braintreeDataService.mode;
 		if (mode.subscription) {
 			this.state.backButtonVisible = true;
 			this.state.hideAmount = true;
@@ -66,14 +66,14 @@ class CreditCardComponent {
 		}
 
 		if (!customer.clientToken) {
-			this.braintreeService.getClientToken().then(
+			this.braintreeDataService.getClientToken().then(
 				(response) => {
-					this.braintreeService.$braintree.setup(response.data.client_token, "custom");
+					this.braintreeDataService.$braintree.setup(response.data.client_token, "custom");
 					let customer = {
 						clientToken: response.data.client_token
 					};
 
-					this.braintreeService.updateCustomerData(customer);
+					this.braintreeDataService.updateCustomerData(customer);
 				}
 			);
 		}
@@ -86,7 +86,7 @@ class CreditCardComponent {
 	 * @param paymentModel
 	 */
 	submitPayment(paymentModel) {
-		let mode = this.braintreeService.mode;
+		let mode = this.braintreeDataService.mode;
 		if (mode.subscription) {
 			this.createVaultedPayment(paymentModel);
 		} else {
@@ -102,10 +102,10 @@ class CreditCardComponent {
 		this.state.loading.text = 'Saving payment information...';
 		this.state.loading.isLoading = true;
 		this.state.showForm = false;
-		let customerId = this.braintreeService.customer.id;
+		let customerId = this.braintreeDataService.customer.id;
 
 		// Send request to get token, then use the token to tokenize credit card info and verify the card
-		this.braintreeService.createVaultedPayment(customerId, paymentModel).then(
+		this.braintreeDataService.createVaultedPayment(customerId, paymentModel).then(
 			(response) => {
 				console.log('from vaultedPayment', response);
 				this.state.loading.isLoading = false;
@@ -129,11 +129,11 @@ class CreditCardComponent {
 		this.state.loading.text = 'Processing payment...';
 		this.state.loading.isLoading = true;
 		this.state.showForm = false;
-		let clientToken = this.braintreeService.customer.clientToken;
+		let clientToken = this.braintreeDataService.customer.clientToken;
 
 		// Use the token to tokenize credit card info and process a transaction
 		// Create new client and tokenize card
-		let client = new this.braintreeService.$braintree.api.Client({clientToken: clientToken});
+		let client = new this.braintreeDataService.$braintree.api.Client({clientToken: clientToken});
 
 		client.tokenizeCard({
 			number: paymentModel.creditCardNumber,
@@ -145,7 +145,7 @@ class CreditCardComponent {
 				payment_method_nonce: nonce
 			};
 
-			this.braintreeService.processPayment(paymentData).then(
+			this.braintreeDataService.processPayment(paymentData).then(
 				(response) => {
 					console.log(response.data.success);
 					if (response.data.success) {

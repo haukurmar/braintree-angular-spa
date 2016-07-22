@@ -2,7 +2,7 @@ import template from './subscription.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService', '$location')
+@Inject('braintreeDataService', '$location')
 class SubscribeComponent {
 	constructor() {
 		this.message = '';
@@ -20,9 +20,9 @@ class SubscribeComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		this.customer = this.braintreeService.customer;
+		this.customer = this.braintreeDataService.customer;
 		if(!this.customer.clientToken) {
-			this.braintreeService.setup();
+			this.braintreeDataService.setup();
 		}
 
 		this._getAllSubscriptionPlans();
@@ -32,7 +32,7 @@ class SubscribeComponent {
 		this.state.loading = true;
 		this.loadingText = 'Fetching subscription plans...';
 
-		this.braintreeService.getAllSubscriptionPlans().then(
+		this.braintreeDataService.getAllSubscriptionPlans().then(
 			(response) => {
 				this.plans = response.data.plans;
 				this.state.loading = false;
@@ -56,7 +56,7 @@ class SubscribeComponent {
 			//newSubscriptionPlan: subscriptionPlanModel
 			subscriptionPlan: subscriptionPlanModel
 		};
-		this.braintreeService.updateCustomerData(customer);
+		this.braintreeDataService.updateCustomerData(customer);
 
 		this.state.nextRoute = ROUTES.CUSTOMER;
 
@@ -67,7 +67,7 @@ class SubscribeComponent {
 // Component decorations
 let component = {
 	bindings: {
-		
+
 	},
 	template: template,
 	controller: SubscribeComponent

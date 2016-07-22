@@ -2,7 +2,7 @@ import template from './payment-methods.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService', '$location')
+@Inject('braintreeDataService', '$location')
 class PaymentMethodsComponent {
 	constructor() {
 		// Used in template
@@ -20,7 +20,7 @@ class PaymentMethodsComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		this.customer = this.braintreeService.customer;
+		this.customer = this.braintreeDataService.customer;
 	}
 
 	// Public viewModel methods
@@ -38,7 +38,7 @@ class PaymentMethodsComponent {
 			paymentMethod: paymentMethod
 		};
 
-		this.braintreeService.updateCustomerData(customerData);
+		this.braintreeDataService.updateCustomerData(customerData);
 
 		this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
 		this.$location.path([this.state.nextRoute]);

@@ -2,7 +2,7 @@ import template from './braintree-home.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService', '$location')
+@Inject('braintreeDataService', '$location')
 class BraintreeHomeComponent {
 	constructor() {
 		this.state = {
@@ -20,16 +20,16 @@ class BraintreeHomeComponent {
 			//id: '27547087'
 			id: '37312055'
 		};
-		this.braintreeService.updateCustomerData(customer);
+		this.braintreeDataService.updateCustomerData(customer);
 	}
 
 	// Public viewModel methods
 	// --------------------------------------------------
 	initFlowMode() {
 		if(this.state.enableWizardMode) {
-			this.braintreeService.initMode('subscription');
+			this.braintreeDataService.initMode('subscription');
 		} else {
-			this.braintreeService.initMode('standAlone');
+			this.braintreeDataService.initMode('standAlone');
 		}
 	}
 

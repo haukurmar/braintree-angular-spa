@@ -1,7 +1,7 @@
 import template from './subscribe-view.html';
 
 // Inject dependencies
-@Inject('braintreeService')
+@Inject('braintreeDataService')
 class SubscribeViewComponent {
 	constructor() {
 	}
@@ -9,7 +9,7 @@ class SubscribeViewComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		this.braintreeService.initMode('subscription');
+		this.braintreeDataService.initMode('subscription');
 	}
 
 	// Public viewModel methods

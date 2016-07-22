@@ -2,7 +2,7 @@ import template from './paypal.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService', '$location')
+@Inject('braintreeDataService', '$location')
 class PaypalComponent {
 	constructor() {
 		this._checkout = null;
@@ -27,25 +27,25 @@ class PaypalComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		this.customer = this.braintreeService.customer;
+		this.customer = this.braintreeDataService.customer;
 
-		if(!this.braintreeService.customer.clientToken) {
-			this.braintreeService.getClientToken().then(
+		if(!this.braintreeDataService.customer.clientToken) {
+			this.braintreeDataService.getClientToken().then(
 				(response) => {
 					let customer = {
 						clientToken: response.data.client_token
 					};
-					this.braintreeService.updateCustomerData(customer);
+					this.braintreeDataService.updateCustomerData(customer);
 					this._setupPaypal(customer.clientToken);
 				}
 			);
 		} else {
-			this._setupPaypal(this.braintreeService.customer.clientToken);
+			this._setupPaypal(this.braintreeDataService.customer.clientToken);
 		}
 	}
 
 	_setupPaypal(clientToken) {
-		this.braintreeService.$braintree.setup(clientToken, "custom", {
+		this.braintreeDataService.$braintree.setup(clientToken, "custom", {
 			paypal: {
 				// currency: 'USD',
 				// locale: 'en_us',
@@ -68,15 +68,15 @@ class PaypalComponent {
 	_createPaymentOption(paymentMethod) {
 		console.log('onPaymentMethodReceived', paymentMethod);
 		let paymentMethodModel = {
-			customerId: this.braintreeService.customer.id,
+			customerId: this.braintreeDataService.customer.id,
 			paymentMethodNonce: paymentMethod.nonce
 		};
 
 		console.log('paymentMethodModel:', paymentMethodModel);
 
-		this.braintreeService.createPaymentMethod(paymentMethodModel).then(
+		this.braintreeDataService.createPaymentMethod(paymentMethodModel).then(
 			(response) => {
-				this.braintreeService.updateCustomerData(response.data.customer);
+				this.braintreeDataService.updateCustomerData(response.data.customer);
 
 				this.routes.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
 				this.$location.path([this.routes.nextRoute]);

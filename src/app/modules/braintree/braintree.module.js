@@ -45,7 +45,7 @@ ngModule
 	.run(braintreeRun)
 	// Services
 	// TODO: Rename to braintreeDataService
-	.service('braintreeService', BraintreeDataService)
+	.service('braintreeDataService', BraintreeDataService)
 	.service('braintreeConfigService', BraintreeConfigService)
 
 	// Container components

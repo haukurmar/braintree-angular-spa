@@ -1,7 +1,7 @@
 import template from './dropin.html';
 
 // Inject dependencies
-@Inject('$http', 'braintreeService')
+@Inject('$http', 'braintreeDataService')
 class DropinComponent {
 	constructor() {
 		this.message = '';
@@ -18,11 +18,11 @@ class DropinComponent {
 	}
 
 	_getToken() {
-		this.braintreeService.getClientToken().then(
+		this.braintreeDataService.getClientToken().then(
 			(response) => {
 				console.log('res', response.data);
 
-				this.braintreeService.$braintree.setup(response.data.client_token, 'dropin', {
+				this.braintreeDataService.$braintree.setup(response.data.client_token, 'dropin', {
 					// id of html tag for braintree dropin container
 					container: 'js-braintree-checkout-container',
 					// Form is not submitted by default when paymentMethodNonceReceived is implemented
@@ -36,7 +36,7 @@ class DropinComponent {
 						};
 
 						// Process payment
-						this.braintreeService.processPayment(paymentData).then(
+						this.braintreeDataService.processPayment(paymentData).then(
 							(response) => {
 								console.log('Success:', response.data);
 
