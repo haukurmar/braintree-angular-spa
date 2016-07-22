@@ -1,0 +1,52 @@
+/********************************************
+	Divider
+********************************************/
+
+/// Naming conventions:
+// LegoName
+// LegoName--modifierName
+// LegoName-descendantName
+// LegoName.is-stateOfLego
+// Variable names:
+// @legoModifier-property ex: @buttonPrimary-borderColor
+// @legoModifier-descendand-property ex: @listGroup-itemHeading-fontSize
+
+// -------------------- Variables --------------------
+@divider-border: 1px solid #d8d8d8;
+//@divider-default-margin: 1em 0rem;
+//@divider-icon-fontSize: 1em;
+
+
+// -------------------- Core LEGO --------------------
+.Divider {
+	.Divider();
+	border-top: none;
+
+	&.Divider--horizontal {
+		.Divider--horizontal();
+	}
+
+	&.Divider--vertical {
+		.Divider--vertical();
+	}
+}
+
+// -------------------- Descendants --------------------
+
+
+// -------------------- States --------------------
+
+
+// -------------------- Type modifiers --------------------
+.Divider--dotted {
+	&:extend(.Divider);
+	border-bottom: 1px dotted #d8d8d8;
+}
+
+.Divider--simple,
+.Divider--fittet {
+	margin: 0;
+}
+.Divider--clearing {
+	clear: both;
+}

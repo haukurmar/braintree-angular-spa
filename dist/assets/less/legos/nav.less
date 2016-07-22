@@ -1,0 +1,206 @@
+@import (reference) "heading";
+@import (reference) "grid";
+
+/********************************************
+	Nav
+********************************************/
+
+/// Naming conventions:
+// LegoName
+// LegoName--modifierName
+// LegoName-descendantName
+// LegoName.is-stateOfLego
+// Variable names:
+// @lego--modifier-property ex: @button--warning-borderColor
+// @lego--modifier-descendant-property ex: @listGroup-itemHeading-fontSize
+
+// ------------ Nav--menu variables --------------------
+@nav--menu-background: transparent;
+@nav--menu-border: none;
+@nav--menu-borderRadius: 0;
+
+// Item
+@nav--menu-item-background: none;
+@nav--menu-item-border: none;
+
+//menu link hover
+@nav--menu-item-hover-background: lighten(@nav--menu-background, 7%);
+@nav--menu-item-hover-border: none;
+
+// Link
+@nav--menu-link-color: inherit;
+@nav--menu-link-fontSize: @heading--six-fontSize;
+@nav--menu-link-fontWeight: normal;
+@nav--menu-link-padding: 0 40px;
+@nav--menu-link-height: 4;
+@nav--menu-link-lineHeight: @nav--menu-link-height;
+
+// Link hover
+@nav--menu-link-hover-color: @nav--menu-link-color;
+
+// Link focus
+@nav--menu-link-focus-borderColor: transparent;
+@nav--menu-link-active-focus-borderColor: transparent;
+
+// ------------ Nav--tab variables ---------------------
+@nav--tab-border: none;
+@nav--tab-marginRight: 0;
+@nav--tab-borderWeight: 0;
+@nav--tab-fontColor: @base-color--light;
+
+//tab link default
+@nav--tab-item-background: transparent;
+@nav--tab-link-fontSize: @heading--six-fontSize;
+@nav--tab-link-padding: 0;
+@nav--tab-link-lineHeight: 30px;
+@nav--tab-link-fontWeight: 700;
+
+//tab hover active
+@nav--tab-item-hover-fontColor: darken(@nav--tab-fontColor, 10%);
+
+//tab link active
+@nav--tab-item-active-background: transparent;
+@nav--tab-item-active-fontColor: @nav--tab-fontColor;
+
+// ------------ Nav--vertical variables ---------------------
+@nav--vertical-link-color: #919496;
+@nav--vertical-item-borderWidth: 0;
+@nav--vertical-item-borderColor: #919496;
+@nav--vertical-item-borderStyle: solid;
+@nav--vertical-link-lineHeight: 36px;
+@nav--vertical-link-sidePadding: 20px;
+
+// Hover
+@nav--vertical-link-hover-color: #fff;
+@nav--vertical-link-hover-backgroundColor: rgba(0, 0, 0, .3);
+
+// Active
+@nav--vertical-link-active-color: @nav--vertical-link-color;
+@nav--vertical-link-active-backgroundColor: @nav--vertical-link-hover-backgroundColor;
+
+@nav--vertical-link-focus-borderColor: @nav--menu-link-focus-borderColor;
+@nav--vertical-link-active-focus-borderColor: @nav--menu-link-active-focus-borderColor;
+
+// ------------ Nav--pills variables ---------------------
+@nav--pills-item-padding: 5px 10px;
+@nav--pills-item-borderRadius: 3px;
+@nav--pills-item-borderWidth: 1px;
+@nav--pills-item-borderStyle: solid;
+@nav--pills-item-borderColor: #999999;
+
+@nav--pills-item-color: rgba(0, 0, 0, .8);
+@nav--pills-item-backgroundColor: #fff;
+
+// Hover
+@nav--pills-item-hover-color: #fff;
+@nav--pills-item-hover-backgroundColor: #06a3d5;
+
+// Active
+@nav--pills-item-active-color: #fff;
+@nav--pills-item-active-backgroundColor: #06a3d5;
+
+// -------------------- Core LEGO --------------------
+.Nav {
+	.Nav();
+}
+
+// -------------------- Descendants --------------------
+.Nav-item {
+	.Nav-item();
+}
+
+.Nav-link {
+	.Nav-link();
+}
+
+// -------------------- Modifiers --------------------
+.Nav--menu {
+	.Nav--menu();
+	font-family: @base-heading-fontFamily;
+
+	// -------------------- States --------------------
+	.Nav-item {
+		&.is-active {
+			.Nav-link {
+				background-color: darken(@brand-primary, 7%);
+			}
+		}
+	}
+
+	.Nav-link {
+		text-decoration: none; // TODO: Move to Legolize
+
+		&:hover {
+			background-color: darken(@brand-primary, 5%);
+		}
+	}
+
+	.Icon {
+		vertical-align: sub; // tmp until we switch icons (baseline in webfont issues)
+		margin-right: 10px;
+		font-size: 30px;
+	}
+}
+
+.Nav--vertical {
+	.Nav--vertical();
+
+	.Nav-item {
+		position: relative;
+		border: none;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+		&.is-active,
+		&:hover {
+			&:before {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				width: 4px;
+				background: #1ed760;
+				content: '';
+			}
+		}
+
+	}
+
+	.Nav-link {
+		text-decoration: none;
+	}
+}
+
+.Nav--tabs {
+	.Nav--tabs();
+	font-family: @base-heading-fontFamily;
+	.height(8);
+
+	.Nav-item {
+		padding: 0 20px;
+
+		&.is-active {
+			.Nav-link {
+				border-bottom: 5px solid @brand-primary;
+			}
+		}
+	}
+
+	.Nav-link,
+	.Nav-link:visited {
+		font-weight: normal;
+		.line-height(7);
+		border-bottom: 5px solid transparent;
+
+		&:hover {
+			border-bottom: 5px solid lighten(@brand-primary, 7%);
+		}
+	}
+}
+
+.Nav--justified {
+	.Nav--justified();
+}
+
+.Nav--pills {
+	.Nav--pills();
+}

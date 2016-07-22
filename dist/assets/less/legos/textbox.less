@@ -1,0 +1,146 @@
+/********************************************
+	FormField
+********************************************/
+
+/// Naming conventions:
+// LegoName
+// LegoName--modifierName
+// LegoName-descendantName
+// LegoName.is-stateOfLego
+// Variable names:
+// @legoModifier-property ex: @buttonPrimary-borderColor
+// @legoModifier-descendand-property ex: @listGroup-itemHeading-fontSize
+
+// -------------------- Variables --------------------
+@textbox-fontSize: @base-fontSize;
+@textbox-lineHeight: @base-lineHeight;
+@textbox-paddingVertical: 0px;
+@textbox-placeholder-color: #bbbbbb;
+
+@textbox-borderRadius: 3px;
+@textbox-borderWidth: 1px;
+@textbox-borderStyle: solid;
+
+@textbox-backgroundColor: #fff;
+@textbox-borderColor: #d8d8d8;
+@textbox-color: #585858;
+@textbox-focus-borderColor: darken(@textbox-borderColor, 10%);
+
+@textbox-disabled-borderColor: #cacaca;
+@textbox-disabled-fontColor: #888;
+
+@textbox-transition: border 500ms ease-out;
+
+// ---------- Modifier variables ----------
+@textbox-default-borderColor: #dedede;
+@textbox-default-fontColor: #585858;
+
+@textbox-success-borderColor: #57a62f;
+@textbox-success-fontColor: #57a62f;
+
+@textbox-warning-borderColor: #ffae00;
+@textbox-warning-fontColor: #ffae00;
+
+@textbox--danger-borderColor: #d42020;
+@textbox--danger-fontColor: #d42020;
+
+@textbox--xs-fontSize: @base-fontSize--xs;
+@textbox--sm-fontSize: @base-fontSize--sm;
+@textbox--lg-fontSize: @base-fontSize--lg;
+@textbox--xl-fontSize: @base-fontSize--xl;
+
+@textbox--tiny-width: 50px;
+@textbox--short-width: 130px;
+@textbox--long-width: 130px;
+
+// -------------------- Core LEGO --------------------
+.Textbox {
+	.Textbox();
+
+	.margin-top(1);
+	.margin-bottom(1);
+
+	&:focus {
+		border-color: @textbox-success-borderColor;
+	}
+
+	//.ng-invalid {
+	//	border-color: #f00 !important;
+	//}
+
+	&.visa,
+	&.amex,
+	&.mastercard,
+	&.discover,
+	&.jcb,
+	&.maestro {
+		background-size: auto 80%;
+		background-repeat: no-repeat;
+		background-position: 98% 50%;
+	}
+
+	&.visa {
+		background-image: url('../../images/cards/visa.svg');
+		background-size: auto 50%;
+	}
+
+	&.amex {
+		background-image: url('../../images/cards/amex.svg');
+	}
+
+	&.mastercard {
+		background-image: url('../../images/cards/mastercard.svg');
+	}
+
+	&.discover {
+		background-image: url('../../images/cards/discover.svg');
+	}
+
+	&.jcb {
+		background-image: url('../../images/cards/jcb.svg');
+	}
+
+	&.maestro {
+		background-image: url('../../images/cards/maestro.svg');
+	}
+
+}
+
+// -------------------- Modifiers --------------------
+.Textbox--success {
+	.textboxVariant(@textbox-success-borderColor, @textbox-success-fontColor);
+}
+
+.Textbox--warning {
+	.textboxVariant(@textbox-warning-borderColor, @textbox-warning-fontColor);
+}
+
+.Textbox--danger {
+	.textboxVariant(@textbox--danger-borderColor, @textbox--danger-fontColor);
+}
+
+//Size modifiers
+.Textbox--xs {
+	.textboxSize(@textbox--xs-fontSize);
+}
+.Textbox--sm {
+	.textboxSize(@textbox--sm-fontSize);
+}
+.Textbox--lg {
+	.textboxSize(@textbox--lg-fontSize);
+}
+.Textbox--xl {
+	.textboxSize(@textbox--xl-fontSize);
+}
+
+.Textbox--tiny {
+	max-width: @textbox--tiny-width;
+}
+
+.Textbox--short {
+	max-width: @textbox--short-width;
+}
+
+.Textbox--long {
+	max-width: @textbox--long-width;
+}

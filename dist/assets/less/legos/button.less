@@ -1,0 +1,136 @@
+/********************************************
+	Button
+********************************************/
+
+/// Naming conventions:
+// LegoName
+// LegoName--modifierName
+// LegoName-descendantName
+// LegoName.is-stateOfLego
+// Variable names:
+// @legoModifier-property ex: @button--primary-borderColor
+// @legoModifier-descendant-property ex: @listGroup-itemHeading-fontSize
+
+//<button class="Button Button--myButton"></button>
+
+// -------------------- Variables --------------------
+@button-fontSize: @base-fontSize;
+@button-lineHeight: @base-lineHeight;
+@button-paddingVertical: 0px;
+@button-minWidth: 30px;
+
+@button-borderRadius: 2px;
+@button-borderWidth: 1px;
+@button-borderStyle: solid;
+@button-borderColor: transparent;
+@button-backgroundColor: #ccc;
+
+@button--link-color: inherit;
+@button--link-hover-color: inherit;
+
+// ---------- Type modifier variables ----------
+@button--default-color: @base-color;
+@button--default-backgroundColor: #f5f5f5;
+@button--default-borderColor: @base-borderColor;
+
+@button--primary-color: #fff;
+@button--primary-backgroundColor: #06a3d5;
+
+@button--secondary-color: #fff;
+@button--secondary-backgroundColor: #787878;
+
+@button--success-color: #fff;
+@button--success-backgroundColor: #57a62f;
+
+@button--warning-color: #fff;
+@button--warning-backgroundColor: @brand-warning;
+
+@button--danger-color: #fff;
+@button--danger-backgroundColor: #d42020;
+
+@button--cta-color: #fff;
+@button--cta-backgroundColor: #e47010;
+
+// Size modifiers
+@button--xs-fontSize: @base-fontSize--xs;
+@button--xs-borderRadius: 2px;
+@button--sm-fontSize: @base-fontSize--sm;
+@button--sm-borderRadius: 3px;
+@button--lg-fontSize: @base-fontSize--lg;
+@button--lg-borderRadius: 5px;
+@button--xl-fontSize: @base-fontSize--xl;
+@button--xl-borderRadius: 4px;
+
+
+// -------------------- Core LEGO --------------------
+.Button {
+	.Button();
+	padding-top: 0;
+	padding-bottom: 0;
+
+	//apply default style
+	.buttonVariant(@button--default-color, @button--default-backgroundColor, @button--default-borderColor);
+
+	&:hover {
+		background-color: @brand-success;
+	}
+
+	.margin-top(2);
+	.margin-bottom(2);
+}
+
+// -------------------- Descendants --------------------
+
+// -------------------- Modifiers --------------------
+.Button--link {
+	.Button--link();
+}
+
+// -------------------- States --------------------
+.Button.is-disabled {
+	.Button-is-disabled();
+}
+
+.Button.is-active {
+	.Button-is-active(@button--default-backgroundColor);
+}
+
+.Button.is-focus {
+	.Button-is-focus();
+}
+
+// -------------------- Type modifiers --------------------
+.Button--primary { .buttonVariant(@button--primary-color, @button--primary-backgroundColor); }
+.Button--secondary { .buttonVariant(@button--secondary-color, @button--secondary-backgroundColor); }
+.Button--success { .buttonVariant(@button--success-color, @button--success-backgroundColor); }
+.Button--warning { .buttonVariant(@button--warning-color, @button--warning-backgroundColor); }
+.Button--danger { .buttonVariant(@button--danger-color, @button--danger-backgroundColor); }
+.Button--cta { .buttonVariant(@button--cta-color, @button--cta-backgroundColor); }
+
+// Button layout modifiers
+.Button--block {
+	.Button--block();
+}
+
+.Button--center {
+	display: block;
+	margin: 10px auto;
+}
+
+
+// -------------------- Size Modifiers --------------------
+.Button--xs {
+	.buttonSize(@button--xs-fontSize, @button--xs-borderRadius);
+}
+
+.Button--sm {
+	.buttonSize(@button--sm-fontSize, @button--sm-borderRadius);
+}
+
+.Button--lg {
+	.buttonSize(@button--lg-fontSize, @button--lg-borderRadius);
+}
+
+.Button--xl {
+	.buttonSize(@button--xl-fontSize, @button--xl-borderRadius);
+}

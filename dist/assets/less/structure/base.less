@@ -1,0 +1,48 @@
+/********************************************
+	Base styles
+********************************************/
+// Includes normalize.css and baseline system in Legolize
+
+// Normalize
+.normalizeInit();
+// Normalize baseline grid system
+//.baselineInit();
+
+html, body {
+	min-height: 100%;
+	width: 100%;
+	overflow-x: hidden;
+}
+
+body {
+	background: @base-backgroundColor;
+	font-family: @base-fontFamily;
+	font-size: @base-fontSize;
+	color: @base-color;
+	.line-height(@base-lineHeight);
+
+	a {
+		color: @brand-primary;
+		text-decoration: underline;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
+p {
+	.margin-top(1);
+	.margin-bottom(1);
+}
+
+fieldset {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+///Hide when Angular is not yet loaded and initialized
+[ng-cloak] {
+	display: none;
+}

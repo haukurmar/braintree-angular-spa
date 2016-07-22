@@ -1,0 +1,37 @@
+//********************************************
+//	Form
+//********************************************/
+
+/// Naming conventions:
+// LegoName
+// LegoName--modifierName
+// LegoName-descendantName
+// LegoName.is-stateOfLego
+// Variable names:
+// @lego--modifier-property ex: @button--warning-borderColor
+// @lego--modifier-descendant-property ex: @listGroup-itemHeading-fontSize
+
+// --- Global ---
+// Either use baseline units or pixels for margin/padding/height
+
+@form-item-icon-bottom: 12px;
+@form-itemLabel-fontSize: @base-fontSize;
+@form-itemLabel-lineHeight: 18px;
+@form-itemLabel-paddingVertical: 0px;
+
+// -------------------- Core LEGO --------------------
+.Form {
+	.Form();
+}
+
+// -------------------- Descendands --------------------
+.Form-item {
+	.Form-item();
+	.margin-top(1);
+	.margin-bottom(1);
+}
+
+.Form-itemLabel {
+	.Form-itemLabel();
+	font-weight: bold;
+}
