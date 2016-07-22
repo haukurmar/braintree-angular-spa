@@ -10,6 +10,12 @@ class SubscribeViewComponent {
 	// --------------------------------------------------
 	$onInit() {
 		this.braintreeDataService.initMode('subscription');
+
+		var customer = {
+			id: this.customerId
+		};
+
+		this.braintreeDataService.updateCustomerData(customer);
 	}
 
 	// Public viewModel methods
@@ -18,7 +24,9 @@ class SubscribeViewComponent {
 
 // Component decorations
 let component = {
-	bindings: {},
+	bindings: {
+		customerId: '<'
+	},
 	template : template,
 	controller: SubscribeViewComponent
 };
