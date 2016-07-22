@@ -2,7 +2,7 @@ import template from './braintree-home.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService')
+@Inject('braintreeService', '$location')
 class BraintreeHomeComponent {
 	constructor() {
 		this.state = {
@@ -31,6 +31,10 @@ class BraintreeHomeComponent {
 		} else {
 			this.braintreeService.initMode('standAlone');
 		}
+	}
+
+	routeTo(path){
+		this.$location.url(path);
 	}
 }
 
