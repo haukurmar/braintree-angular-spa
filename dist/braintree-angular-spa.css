@@ -410,6 +410,8 @@ fieldset {
   -ms-flex-preferred-size: 240px;
       flex-basis: 240px;
   background: #1C1C1C;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 .Page-main {
   background: #F8F8F8;

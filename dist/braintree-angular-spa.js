@@ -331,89 +331,89 @@
 	
 	var _servicesBraintreeConfigService2 = _interopRequireDefault(_servicesBraintreeConfigService);
 	
+	var _servicesBraintreeAppService = __webpack_require__(98);
+	
+	var _servicesBraintreeAppService2 = _interopRequireDefault(_servicesBraintreeAppService);
+	
 	// Container Components
 	
-	var _componentsContainerCustomerCustomerComponent = __webpack_require__(98);
+	var _componentsContainerCustomerCustomerComponent = __webpack_require__(99);
 	
 	var _componentsContainerCustomerCustomerComponent2 = _interopRequireDefault(_componentsContainerCustomerCustomerComponent);
 	
-	var _componentsContainerCreditcardCreditcardComponent = __webpack_require__(101);
+	var _componentsContainerCreditcardCreditcardComponent = __webpack_require__(102);
 	
 	var _componentsContainerCreditcardCreditcardComponent2 = _interopRequireDefault(_componentsContainerCreditcardCreditcardComponent);
 	
-	var _componentsContainerDropinDropinComponent = __webpack_require__(103);
+	var _componentsContainerDropinDropinComponent = __webpack_require__(104);
 	
 	var _componentsContainerDropinDropinComponent2 = _interopRequireDefault(_componentsContainerDropinDropinComponent);
 	
-	var _componentsContainerPaypalPaypalComponent = __webpack_require__(105);
+	var _componentsContainerPaypalPaypalComponent = __webpack_require__(106);
 	
 	var _componentsContainerPaypalPaypalComponent2 = _interopRequireDefault(_componentsContainerPaypalPaypalComponent);
 	
-	var _componentsContainerPaypalButtonPaypalButtonComponent = __webpack_require__(107);
+	var _componentsContainerPaypalButtonPaypalButtonComponent = __webpack_require__(108);
 	
 	var _componentsContainerPaypalButtonPaypalButtonComponent2 = _interopRequireDefault(_componentsContainerPaypalButtonPaypalButtonComponent);
 	
-	var _componentsContainerSubscriptionSubscriptionComponent = __webpack_require__(109);
+	var _componentsContainerSubscriptionSubscriptionComponent = __webpack_require__(110);
 	
 	var _componentsContainerSubscriptionSubscriptionComponent2 = _interopRequireDefault(_componentsContainerSubscriptionSubscriptionComponent);
 	
-	var _componentsContainerSubscriptionOverviewSubscriptionOverviewComponent = __webpack_require__(111);
+	var _componentsContainerSubscriptionOverviewSubscriptionOverviewComponent = __webpack_require__(112);
 	
 	var _componentsContainerSubscriptionOverviewSubscriptionOverviewComponent2 = _interopRequireDefault(_componentsContainerSubscriptionOverviewSubscriptionOverviewComponent);
 	
-	var _componentsContainerPaymentMethodsPaymentMethodsComponent = __webpack_require__(113);
+	var _componentsContainerPaymentMethodsPaymentMethodsComponent = __webpack_require__(114);
 	
 	var _componentsContainerPaymentMethodsPaymentMethodsComponent2 = _interopRequireDefault(_componentsContainerPaymentMethodsPaymentMethodsComponent);
 	
-	var _componentsContainerCustomerDetailsCustomerDetailsComponent = __webpack_require__(115);
+	var _componentsContainerCustomerDetailsCustomerDetailsComponent = __webpack_require__(116);
 	
 	var _componentsContainerCustomerDetailsCustomerDetailsComponent2 = _interopRequireDefault(_componentsContainerCustomerDetailsCustomerDetailsComponent);
 	
 	// Presentation Components
 	
-	var _componentsPresentationCreditcardFormCreditcardFormComponent = __webpack_require__(117);
+	var _componentsPresentationCreditcardFormCreditcardFormComponent = __webpack_require__(118);
 	
 	var _componentsPresentationCreditcardFormCreditcardFormComponent2 = _interopRequireDefault(_componentsPresentationCreditcardFormCreditcardFormComponent);
 	
-	var _componentsPresentationCustomerFormCustomerFormComponent = __webpack_require__(119);
+	var _componentsPresentationCustomerFormCustomerFormComponent = __webpack_require__(120);
 	
 	var _componentsPresentationCustomerFormCustomerFormComponent2 = _interopRequireDefault(_componentsPresentationCustomerFormCustomerFormComponent);
 	
-	var _componentsPresentationSubscriptionPlanSubscriptionPlanComponent = __webpack_require__(121);
+	var _componentsPresentationSubscriptionPlanSubscriptionPlanComponent = __webpack_require__(122);
 	
 	var _componentsPresentationSubscriptionPlanSubscriptionPlanComponent2 = _interopRequireDefault(_componentsPresentationSubscriptionPlanSubscriptionPlanComponent);
 	
-	var _componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent = __webpack_require__(123);
+	var _componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent = __webpack_require__(124);
 	
 	var _componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent2 = _interopRequireDefault(_componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent);
 	
-	var _componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent = __webpack_require__(125);
+	var _componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent = __webpack_require__(126);
 	
 	var _componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent2 = _interopRequireDefault(_componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent);
 	
-	var _componentsPresentationSubscriptionProgressSubscriptionProgressComponent = __webpack_require__(127);
+	var _componentsPresentationSubscriptionProgressSubscriptionProgressComponent = __webpack_require__(128);
 	
 	var _componentsPresentationSubscriptionProgressSubscriptionProgressComponent2 = _interopRequireDefault(_componentsPresentationSubscriptionProgressSubscriptionProgressComponent);
 	
-	var _componentsPresentationSubscribeNavigationSubscribeNavigationComponent = __webpack_require__(129);
+	var _componentsPresentationSubscribeNavigationSubscribeNavigationComponent = __webpack_require__(130);
 	
 	var _componentsPresentationSubscribeNavigationSubscribeNavigationComponent2 = _interopRequireDefault(_componentsPresentationSubscribeNavigationSubscribeNavigationComponent);
 	
-	var _componentsPresentationCustomerDetailsCustomerDetailsComponent = __webpack_require__(131);
-	
-	var _componentsPresentationCustomerDetailsCustomerDetailsComponent2 = _interopRequireDefault(_componentsPresentationCustomerDetailsCustomerDetailsComponent);
-	
-	var _componentsPresentationPaymentMethodPaymentMethodComponent = __webpack_require__(133);
+	var _componentsPresentationPaymentMethodPaymentMethodComponent = __webpack_require__(132);
 	
 	var _componentsPresentationPaymentMethodPaymentMethodComponent2 = _interopRequireDefault(_componentsPresentationPaymentMethodPaymentMethodComponent);
 	
 	// View Components (Route Components)
 	
-	var _componentsViewBraintreeHomeBraintreeHomeComponent = __webpack_require__(135);
+	var _componentsViewBraintreeHomeBraintreeHomeComponent = __webpack_require__(134);
 	
 	var _componentsViewBraintreeHomeBraintreeHomeComponent2 = _interopRequireDefault(_componentsViewBraintreeHomeBraintreeHomeComponent);
 	
-	var _componentsViewSubscribeSubscribeViewComponent = __webpack_require__(137);
+	var _componentsViewSubscribeSubscribeViewComponent = __webpack_require__(136);
 	
 	var _componentsViewSubscribeSubscribeViewComponent2 = _interopRequireDefault(_componentsViewSubscribeSubscribeViewComponent);
 	
@@ -425,13 +425,13 @@
 	ngModule.config(braintreeConfig).run(braintreeRun)
 	// Services
 	// TODO: Rename to braintreeDataService
-	.service('braintreeDataService', _servicesBraintreeDataService2['default']).service('braintreeConfigService', _servicesBraintreeConfigService2['default'])
+	.service('braintreeDataService', _servicesBraintreeDataService2['default']).service('braintreeConfigService', _servicesBraintreeConfigService2['default']).service('braintreeAppService', _servicesBraintreeAppService2['default'])
 	
 	// Container components
 	.component('braintreeCustomer', _componentsContainerCustomerCustomerComponent2['default']).component('braintreeCustomerDetails', _componentsContainerCustomerDetailsCustomerDetailsComponent2['default']).component('braintreeCreditCard', _componentsContainerCreditcardCreditcardComponent2['default']).component('braintreeDropin', _componentsContainerDropinDropinComponent2['default']).component('braintreeSubscription', _componentsContainerSubscriptionSubscriptionComponent2['default']).component('braintreeSubscriptionOverview', _componentsContainerSubscriptionOverviewSubscriptionOverviewComponent2['default']).component('braintreePaymentMethods', _componentsContainerPaymentMethodsPaymentMethodsComponent2['default']).component('braintreePaypal', _componentsContainerPaypalPaypalComponent2['default']).component('braintreePaypalButton', _componentsContainerPaypalButtonPaypalButtonComponent2['default'])
 	
 	// Presentational components
-	.component('uiBraintreeCustomerDetails', _componentsPresentationCustomerDetailsCustomerDetailsComponent2['default']).component('uiBraintreeCustomerForm', _componentsPresentationCustomerFormCustomerFormComponent2['default']).component('uiBraintreeCreditcardForm', _componentsPresentationCreditcardFormCreditcardFormComponent2['default']).component('uiBraintreeSubscriptionDetails', _componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent2['default']).component('uiBraintreeSubscriptionNavigation', _componentsPresentationSubscribeNavigationSubscribeNavigationComponent2['default']).component('uiBraintreeSubscriptionPlan', _componentsPresentationSubscriptionPlanSubscriptionPlanComponent2['default']).component('uiBraintreeSubscriptionProgress', _componentsPresentationSubscriptionProgressSubscriptionProgressComponent2['default']).component('uiBraintreeSubscriptionOverview', _componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent2['default']).component('uiBraintreePaymentMethod', _componentsPresentationPaymentMethodPaymentMethodComponent2['default'])
+	.component('uiBraintreeCustomerForm', _componentsPresentationCustomerFormCustomerFormComponent2['default']).component('uiBraintreeCreditcardForm', _componentsPresentationCreditcardFormCreditcardFormComponent2['default']).component('uiBraintreeSubscriptionDetails', _componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent2['default']).component('uiBraintreeSubscriptionNavigation', _componentsPresentationSubscribeNavigationSubscribeNavigationComponent2['default']).component('uiBraintreeSubscriptionPlan', _componentsPresentationSubscriptionPlanSubscriptionPlanComponent2['default']).component('uiBraintreeSubscriptionProgress', _componentsPresentationSubscriptionProgressSubscriptionProgressComponent2['default']).component('uiBraintreeSubscriptionOverview', _componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent2['default']).component('uiBraintreePaymentMethod', _componentsPresentationPaymentMethodPaymentMethodComponent2['default'])
 	
 	// View components
 	.component('braintreeHome', _componentsViewBraintreeHomeBraintreeHomeComponent2['default']).component('braintreeSubscribeView', _componentsViewSubscribeSubscribeViewComponent2['default']);
@@ -11055,26 +11055,64 @@
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var Inject = __webpack_require__(82);
+	
+	var CoreService = (function () {
+		function CoreService($location) {
+			_classCallCheck(this, _CoreService);
+	
+			this.$location = $location;
+		}
+	
+		_createClass(CoreService, [{
+			key: 'routeTo',
+			value: function routeTo(path) {
+				this.$location.url(path);
+			}
+		}]);
+	
+		var _CoreService = CoreService;
+		CoreService = Inject('$location')(CoreService) || CoreService;
+		return CoreService;
+	})();
+	
+	exports['default'] = CoreService;
+	module.exports = exports['default'];
+
+/***/ },
+/* 99 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _customerHtml = __webpack_require__(99);
+	var _customerHtml = __webpack_require__(100);
 	
 	var _customerHtml2 = _interopRequireDefault(_customerHtml);
 	
-	var _braintreeConstants = __webpack_require__(100);
+	var _braintreeConstants = __webpack_require__(101);
 	
 	// Inject dependencies
 	
 	var Inject = __webpack_require__(82);
 	
 	var BraintreeSubscriptionComponent = (function () {
-		function BraintreeSubscriptionComponent(braintreeDataService, $location) {
+		function BraintreeSubscriptionComponent(braintreeDataService, braintreeAppService) {
 			_classCallCheck(this, _BraintreeSubscriptionComponent);
 	
 			this.braintreeDataService = braintreeDataService;
-			this.$location = $location;
+			this.braintreeAppService = braintreeAppService;
 	
 			this.state = {
 				backButtonText: 'Back',
@@ -11164,6 +11202,11 @@
 					_this.state.loading.isLoading = false;
 				});
 			}
+		}, {
+			key: 'routeTo',
+			value: function routeTo(path) {
+				this.braintreeAppService.routeTo(path);
+			}
 	
 			/**
 	   * Create a new customer or update an existing one
@@ -11188,7 +11231,7 @@
 						_this2.braintreeDataService.updateCustomerData(response.data.customer);
 	
 						// Redirect to next step
-						_this2.$location.path([_this2.routes.nextRoute]);
+						_this2.routeTo([_this2.routes.nextRoute]);
 					}, function (error) {
 						// TODO: Handle errors better (use error.data.errors collection)
 						_this2.state.message.text = error.data.message;
@@ -11201,13 +11244,13 @@
 				} else {
 					this.braintreeDataService.updateCustomerData(customerModel);
 					// TODO: Update customer in Braintree
-					this.$location.path([this.routes.nextRoute]);
+					this.routeTo([this.routes.nextRoute]);
 				}
 			}
 		}]);
 	
 		var _BraintreeSubscriptionComponent = BraintreeSubscriptionComponent;
-		BraintreeSubscriptionComponent = Inject('braintreeDataService', '$location')(BraintreeSubscriptionComponent) || BraintreeSubscriptionComponent;
+		BraintreeSubscriptionComponent = Inject('braintreeDataService', 'braintreeAppService')(BraintreeSubscriptionComponent) || BraintreeSubscriptionComponent;
 		return BraintreeSubscriptionComponent;
 	})();
 	
@@ -11221,13 +11264,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 99 */
+/* 100 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\" subscription-route=\"$ctrl.routes.subscription\"></ui-braintree-subscription-progress>\n\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<a ng-href=\"{{ $ctrl.state.message.link }}\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n<ui-braintree-customer-form\n\tcustomer-model=\"$ctrl.customerModel\"\n\ton-submit=\"$ctrl.saveCustomer(customerModel)\"\n\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\tback-button-text=\"$ctrl.state.backButtonText\"\n\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-customer-form>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n\n\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n<ui-braintree-customer-form\n\tcustomer-model=\"$ctrl.customerModel\"\n\ton-submit=\"$ctrl.saveCustomer(customerModel)\"\n\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\tback-button-text=\"$ctrl.state.backButtonText\"\n\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\troute-to=\"$ctrl.routeTo(route)\"\n\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-customer-form>\n"
 
 /***/ },
-/* 100 */
+/* 101 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -11249,7 +11292,7 @@
 	exports.ROUTES = ROUTES;
 
 /***/ },
-/* 101 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11264,23 +11307,23 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _creditcardHtml = __webpack_require__(102);
+	var _creditcardHtml = __webpack_require__(103);
 	
 	var _creditcardHtml2 = _interopRequireDefault(_creditcardHtml);
 	
-	var _braintreeConstants = __webpack_require__(100);
+	var _braintreeConstants = __webpack_require__(101);
 	
 	// Inject dependencies
 	
 	var Inject = __webpack_require__(82);
 	
 	var CreditCardComponent = (function () {
-		function CreditCardComponent($http, braintreeDataService, $location) {
+		function CreditCardComponent($http, braintreeDataService, braintreeAppService) {
 			_classCallCheck(this, _CreditCardComponent);
 	
 			this.$http = $http;
 			this.braintreeDataService = braintreeDataService;
-			this.$location = $location;
+			this.braintreeAppService = braintreeAppService;
 	
 			this.state = {
 				backButtonText: 'Back',
@@ -11362,6 +11405,12 @@
 	
 			// Public viewModel methods
 			// --------------------------------------------------
+		}, {
+			key: 'routeTo',
+			value: function routeTo(path) {
+				this.braintreeAppService.routeTo(path);
+			}
+	
 			/**
 	   * Determine whether to store payment method to vault or to process payment right away
 	   * @param paymentModel
@@ -11396,7 +11445,7 @@
 					console.log('from vaultedPayment', response);
 					_this2.state.loading.isLoading = false;
 					_this2.state.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
-					_this2.$location.path([_this2.state.nextRoute]);
+					_this2.routeTo([_this2.state.nextRoute]);
 				}, function (error) {
 					// TODO: Handle errors better
 					_this2.state.message.text = error;
@@ -11459,7 +11508,7 @@
 		}]);
 	
 		var _CreditCardComponent = CreditCardComponent;
-		CreditCardComponent = Inject('$http', 'braintreeDataService', '$location')(CreditCardComponent) || CreditCardComponent;
+		CreditCardComponent = Inject('$http', 'braintreeDataService', 'braintreeAppService')(CreditCardComponent) || CreditCardComponent;
 		return CreditCardComponent;
 	})();
 	
@@ -11473,13 +11522,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 102 */
+/* 103 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\" subscription-route=\"$ctrl.routes.subscription\"></ui-braintree-subscription-progress>\n\n<section>\n\t<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n\t<a ng-href=\"{{ $ctrl.state.message.link }}\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n\n\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\t<h2 class=\"Heading--two\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">Please fill out your card details</h2>\n\t<ui-braintree-creditcard-form\n\t\ton-submit=\"$ctrl.submitPayment(paymentModel)\"\n\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\thide-amount=\"$ctrl.state.hideAmount\"\n\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-creditcard-form>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n    route-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n\n<section>\n\t<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n\n\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\t<h2 class=\"Heading--two\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">Please fill out your card details</h2>\n\t<ui-braintree-creditcard-form\n\t\ton-submit=\"$ctrl.submitPayment(paymentModel)\"\n\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\thide-amount=\"$ctrl.state.hideAmount\"\n\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-creditcard-form>\n</section>\n"
 
 /***/ },
-/* 103 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11494,7 +11543,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _dropinHtml = __webpack_require__(104);
+	var _dropinHtml = __webpack_require__(105);
 	
 	var _dropinHtml2 = _interopRequireDefault(_dropinHtml);
 	
@@ -11594,13 +11643,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 104 */
+/* 105 */
 /***/ function(module, exports) {
 
 	module.exports = "<section ng-class=\"{'error': $ctrl.isError, 'success': $ctrl.isPaid}\">\n\t<h2 class=\"Heading--two\">Please use the form below to pay</h2>\n\t<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n\t<div ng-show=\"$ctrl.showDropinContainer\">\n\n\t\t<form name=\"payment\">\n\t\t\t<div class=\"Form-item\">\n\t\t\t\t<label class=\"Form-itemLabel\" for=\"txtAmount\">Amount (XX.XX)</label>\n\t\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtAmount\" ng-model=\"$ctrl.amount\" />\n\t\t\t</div>\n\n\t\t\t<!-- Add Dropin here -->\n\t\t\t<div id=\"js-braintree-checkout-container\"></div>\n\n\t\t\t<button class=\"Button Button--success Button--lg\" type=\"submit\">Pay Now</button>\n\t\t</form>\n\t</div>\n\n</section>\n"
 
 /***/ },
-/* 105 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11615,22 +11664,22 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _paypalHtml = __webpack_require__(106);
+	var _paypalHtml = __webpack_require__(107);
 	
 	var _paypalHtml2 = _interopRequireDefault(_paypalHtml);
 	
-	var _braintreeConstants = __webpack_require__(100);
+	var _braintreeConstants = __webpack_require__(101);
 	
 	// Inject dependencies
 	
 	var Inject = __webpack_require__(82);
 	
 	var PaypalComponent = (function () {
-		function PaypalComponent(braintreeDataService, $location) {
+		function PaypalComponent(braintreeDataService, braintreeAppService) {
 			_classCallCheck(this, _PaypalComponent);
 	
 			this.braintreeDataService = braintreeDataService;
-			this.$location = $location;
+			this.braintreeAppService = braintreeAppService;
 	
 			this._checkout = null;
 			this.state = {
@@ -11716,12 +11765,17 @@
 					_this3.braintreeDataService.updateCustomerData(response.data.customer);
 	
 					_this3.routes.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
-					_this3.$location.path([_this3.routes.nextRoute]);
+					_this3.routeTo([_this3.routes.nextRoute]);
 					console.log('Paypal Payment method created!', response);
 				}, function (error) {
 					_this3.state.message.text = 'Failed to create payment method:' + error.data.message;
 					console.log('Failed to create payment method:', error);
 				});
+			}
+		}, {
+			key: 'routeTo',
+			value: function routeTo(path) {
+				return this.braintreeAppService.routeTo(path);
 			}
 		}, {
 			key: 'pay',
@@ -11734,7 +11788,7 @@
 		}]);
 	
 		var _PaypalComponent = PaypalComponent;
-		PaypalComponent = Inject('braintreeDataService', '$location')(PaypalComponent) || PaypalComponent;
+		PaypalComponent = Inject('braintreeDataService', 'braintreeAppService')(PaypalComponent) || PaypalComponent;
 		return PaypalComponent;
 	})();
 	
@@ -11748,13 +11802,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 106 */
+/* 107 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\" subscription-route=\"$ctrl.routes.subscription\"></ui-braintree-subscription-progress>\n\n<h2 class=\"Heading--two\">Paypal</h2>\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n\n<button class=\"Button Button--primary Button--lg\" ng-click=\"$ctrl.pay($event)\">Paypal</button>\n<span ng-if=\"$ctrl.state.backButtonVisible\">\n\t| <a ng-href=\"$ctrl.state.backButtonRoute\">{{ $ctrl.state.backButtonText }}</a>\n</span>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n\n\n<h2 class=\"Heading--two\">Paypal</h2>\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n\n<button class=\"Button Button--primary Button--lg\" ng-click=\"$ctrl.pay($event)\">Paypal</button>\n<span ng-if=\"$ctrl.state.backButtonVisible\">\n\t| <a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.backButtonRoute)\">{{ $ctrl.state.backButtonText }}</a>\n</span>\n"
 
 /***/ },
-/* 107 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11769,11 +11823,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _paypalButtonHtml = __webpack_require__(108);
+	var _paypalButtonHtml = __webpack_require__(109);
 	
 	var _paypalButtonHtml2 = _interopRequireDefault(_paypalButtonHtml);
 	
-	var _braintreeConstants = __webpack_require__(100);
+	var _braintreeConstants = __webpack_require__(101);
 	
 	// Inject dependencies
 	
@@ -11892,13 +11946,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 108 */
+/* 109 */
 /***/ function(module, exports) {
 
 	module.exports = "<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n<button class=\"Button Button--primary\" ng-click=\"$ctrl.initAuthFlow($event)\">{{ $ctrl.buttonText }}</button>\n"
 
 /***/ },
-/* 109 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11913,22 +11967,22 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _subscriptionHtml = __webpack_require__(110);
+	var _subscriptionHtml = __webpack_require__(111);
 	
 	var _subscriptionHtml2 = _interopRequireDefault(_subscriptionHtml);
 	
-	var _braintreeConstants = __webpack_require__(100);
+	var _braintreeConstants = __webpack_require__(101);
 	
 	// Inject dependencies
 	
 	var Inject = __webpack_require__(82);
 	
 	var SubscribeComponent = (function () {
-		function SubscribeComponent(braintreeDataService, $location) {
+		function SubscribeComponent(braintreeDataService, braintreeAppService) {
 			_classCallCheck(this, _SubscribeComponent);
 	
 			this.braintreeDataService = braintreeDataService;
-			this.$location = $location;
+			this.braintreeAppService = braintreeAppService;
 	
 			this.message = '';
 			this.loadingText = '';
@@ -11992,12 +12046,17 @@
 	
 				this.state.nextRoute = _braintreeConstants.ROUTES.CUSTOMER;
 	
-				this.$location.path(_braintreeConstants.ROUTES.CUSTOMER);
+				this.routeTo(_braintreeConstants.ROUTES.CUSTOMER);
+			}
+		}, {
+			key: 'routeTo',
+			value: function routeTo(path) {
+				this.braintreeAppService.routeTo(path);
 			}
 		}]);
 	
 		var _SubscribeComponent = SubscribeComponent;
-		SubscribeComponent = Inject('braintreeDataService', '$location')(SubscribeComponent) || SubscribeComponent;
+		SubscribeComponent = Inject('braintreeDataService', 'braintreeAppService')(SubscribeComponent) || SubscribeComponent;
 		return SubscribeComponent;
 	})();
 	
@@ -12011,13 +12070,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 110 */
+/* 111 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n\n<h2 class=\"Heading--two\">Subscribe</h2>\n<hr class=\"Divider--dotted\">\n<ui-braintree-subscription-navigation selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--cta Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n\n<h2 class=\"Heading--two\">Subscribe</h2>\n<hr class=\"Divider--dotted\">\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--cta Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
 
 /***/ },
-/* 111 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12032,7 +12091,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _subscriptionOverviewHtml = __webpack_require__(112);
+	var _subscriptionOverviewHtml = __webpack_require__(113);
 	
 	var _subscriptionOverviewHtml2 = _interopRequireDefault(_subscriptionOverviewHtml);
 	
@@ -12124,13 +12183,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 112 */
+/* 113 */
 /***/ function(module, exports) {
 
 	module.exports = "<section>\n\t<h2 class=\"Heading--two\">Subscription overview</h2>\n\t<hr class=\"Divider--dotted\">\n\t<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n\t<ui-braintree-subscription-overview subscription-plan=\"$ctrl.subscriptionPlan\"></ui-braintree-subscription-overview>\n</section>\n"
 
 /***/ },
-/* 113 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12145,22 +12204,22 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _paymentMethodsHtml = __webpack_require__(114);
+	var _paymentMethodsHtml = __webpack_require__(115);
 	
 	var _paymentMethodsHtml2 = _interopRequireDefault(_paymentMethodsHtml);
 	
-	var _braintreeConstants = __webpack_require__(100);
+	var _braintreeConstants = __webpack_require__(101);
 	
 	// Inject dependencies
 	
 	var Inject = __webpack_require__(82);
 	
 	var PaymentMethodsComponent = (function () {
-		function PaymentMethodsComponent(braintreeDataService, $location) {
+		function PaymentMethodsComponent(braintreeDataService, braintreeAppService) {
 			_classCallCheck(this, _PaymentMethodsComponent);
 	
 			this.braintreeDataService = braintreeDataService;
-			this.$location = $location;
+			this.braintreeAppService = braintreeAppService;
 	
 			// Used in template
 			this.state = {
@@ -12168,6 +12227,12 @@
 					nextRoute: '',
 					subscription: _braintreeConstants.ROUTES.SUBSCRIPTION
 				}
+			};
+	
+			// Used in template
+			this.routes = {
+				nextRoute: '',
+				subscription: _braintreeConstants.ROUTES.SUBSCRIPTION
 			};
 	
 			this.customer = null;
@@ -12190,9 +12255,9 @@
 			key: 'choosePaymentMethod',
 			value: function choosePaymentMethod(method) {
 				if (method === 'cards') {
-					this.$location.path([_braintreeConstants.ROUTES.CARDS]);
+					this.routeTo([_braintreeConstants.ROUTES.CARDS]);
 				} else if (method === 'paypal') {
-					this.$location.path([_braintreeConstants.ROUTES.PAYPAL]);
+					this.routeTo([_braintreeConstants.ROUTES.PAYPAL]);
 				}
 			}
 		}, {
@@ -12205,12 +12270,17 @@
 				this.braintreeDataService.updateCustomerData(customerData);
 	
 				this.state.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
-				this.$location.path([this.state.nextRoute]);
+				this.routeTo([this.state.nextRoute]);
+			}
+		}, {
+			key: 'routeTo',
+			value: function routeTo(path) {
+				this.braintreeAppService.routeTo(path);
 			}
 		}]);
 	
 		var _PaymentMethodsComponent = PaymentMethodsComponent;
-		PaymentMethodsComponent = Inject('braintreeDataService', '$location')(PaymentMethodsComponent) || PaymentMethodsComponent;
+		PaymentMethodsComponent = Inject('braintreeDataService', 'braintreeAppService')(PaymentMethodsComponent) || PaymentMethodsComponent;
 		return PaymentMethodsComponent;
 	})();
 	
@@ -12224,13 +12294,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 114 */
+/* 115 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\" subscription-route=\"$ctrl.state.routes.subscription\"></ui-braintree-subscription-progress>\n\n<h2 class=\"Heading--two\">Choose your payment method</h2>\n<hr class=\"Divider--dotted\">\n\n<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t<h2 class=\"Heading--three\">Your stored payment methods</h2>\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\">\n\t\t\t<ui-braintree-payment-method\n\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\ton-card-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"\n\t\t\t\ton-paypal-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"></ui-braintree-payment-method>\n\t\t\t<hr class=\"Divider--dotted\">\n\t\t</div>\n\t</div>\n</div>\n\n<h2 class=\"Heading--three\" ng-if=\"$ctrl.customer.paymentMethods['0']\">New payment method</h2>\n<button class=\"Button Button--primary Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('cards')\">Credit or Debit card</button>\n<button class=\"Button Button--primary Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('paypal')\">Paypal</button>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n\n\n<h2 class=\"Heading--two\">Choose your payment method</h2>\n<hr class=\"Divider--dotted\">\n\n<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t<h2 class=\"Heading--three\">Your stored payment methods</h2>\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\">\n\t\t\t<ui-braintree-payment-method\n\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\ton-card-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"\n\t\t\t\ton-paypal-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"></ui-braintree-payment-method>\n\t\t\t<hr class=\"Divider--dotted\">\n\t\t</div>\n\t</div>\n</div>\n\n<h2 class=\"Heading--three\" ng-if=\"$ctrl.customer.paymentMethods['0']\">New payment method</h2>\n<button class=\"Button Button--primary Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('cards')\">Credit or Debit card</button>\n<button class=\"Button Button--primary Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('paypal')\">Paypal</button>\n"
 
 /***/ },
-/* 115 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12245,11 +12315,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _customerDetailsHtml = __webpack_require__(116);
+	var _customerDetailsHtml = __webpack_require__(117);
 	
 	var _customerDetailsHtml2 = _interopRequireDefault(_customerDetailsHtml);
 	
-	var _braintreeConstants = __webpack_require__(100);
+	var _braintreeConstants = __webpack_require__(101);
 	
 	// Inject dependencies
 	
@@ -12680,13 +12750,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 116 */
+/* 117 */
 /***/ function(module, exports) {
 
 	module.exports = "<h2 class=\"Heading--two\">Customer details</h2>\n<hr class=\"Divider--dotted\">\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span>\n</section>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section ng-if=\"$ctrl.customer\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel\">\n\t<!-- Profile -->\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--12\">\n\n\t\t\t<section class=\"Panel\">\n\t\t\t\t<h3 class=\"Panel-heading Heading--three\">Profile</h3>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<div class=\"Form-item\">\n\t\t\t\t\t\t<label class=\"Form-itemLabel\">Full name</label>\n\t\t\t\t\t\t<span ng-bind=\"$ctrl.customer.firstName\"></span> <span ng-bind=\"$ctrl.customer.lastName\"></span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"Form-item\">\n\t\t\t\t\t\t<label class=\"Form-itemLabel\">Email</label>\n\t\t\t\t\t\t<span ng-bind=\"$ctrl.customer.email\"></span>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t</div>\n\t</div>\n\n\t<!-- Subscriptions & Payment methods -->\n\t<div class=\"Grid-row\">\n\n\t\t<div class=\"Grid-col--12\">\n\t\t\t<section class=\"Panel\" ng-if=\"$ctrl.customer.subscriptions\">\n\t\t\t\t<h3 class=\"Panel-heading Heading--three\">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>\n\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<div ng-repeat=\"subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['-updatedAt']\">\n\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<ui-braintree-subscription-details subscription=\"subscription\"></ui-braintree-subscription-details>\n\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"Button Button--primary\" ng-click=\"$ctrl.getAllPlans(); showEditPlanModal = !showEditPlanModal\" ng-show=\"subscription.status.toLowerCase() === 'active'\">Edit Plan</button>\n\t\t\t\t\t\t\t\t<span ng-if=\"subscription.status.toLowerCase() === 'active'\">|</span>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price > 0\" ng-click=\"$ctrl.disableAutoRenew(subscription)\">Disable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price <= 0\" ng-click=\"$ctrl.enableAutoRenew(subscription)\">Enable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'pending'\" ng-click=\"$ctrl.cancelSubscription(subscription)\">Cancel subscription</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Payment method</h4>\n\t\t\t\t\t\t\t\t<ui-braintree-payment-method payment-method=\"subscription.defaultPaymentMethod\"></ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t<button class=\"Button Button--primary\"\n\t\t\t\t\t\t\t\t        ng-click=\"showEditPaymentMethodsModal = !showEditPaymentMethodsModal\"\n\t\t\t\t\t\t\t\t        ng-hide=\"subscription.status.toLowerCase() === 'canceled'\">Change Payment Method\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<!-- Edit plan -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'editPlanModal'\" modal-visible=\"showEditPlanModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t\t\t\t\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t\t\t\t\t\t\t\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t\t\t\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit subscription plan</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.plans.loading.isLoading\" text=\"$ctrl.state.plans.loading.text\"></ui-loading-icon>\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"plan.id === subscription.planId\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-css-modifier=\"plan.id === subscription.planId ? 'Button--success' : 'Button--cta'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"plan.id === subscription.planId ? 'Current plan' : 'Select plan'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-choose=\"$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)\"></ui-braintree-subscription-plan>\n\t\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\t\t\t\t\t\t<!-- Edit payment method -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'changePaymentMethodModal'\" modal-visible=\"showEditPaymentMethodsModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t\t\t\t\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t\t\t\t\t\t\t\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t\t\t\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit payment method</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Your stored payment methods</h5>\n\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"CustomerDetails-paymentMethodColumn Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\" ng-class=\"{'is-default' : paymentMethod.token === subscription.defaultPaymentMethod.token}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"paymentMethod.token === subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled-text=\"'Default payment method'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-text=\"'Delete'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-visible=\"paymentMethod.token !== subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-card-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-delete-click=\"$ctrl.deletePaymentMethod(paymentMethod)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t</ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Add a new payment method</h5>\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Credit or Debit Card</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-creditcard-form\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-submit=\"$ctrl.addCreditCard(paymentModel, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tback-button-visible=\"false\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubmit-button-text=\"'Save and choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\thide-amount=\"true\"></ui-braintree-creditcard-form>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Paypal</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<braintree-paypal-button button-text=\"'Connect with Paypal...'\" on-finish=\"$ctrl.addPaymentMethod(paymentModel, subscription)\"></braintree-paypal-button>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\n\t\t\t\t\t\t<!-- Transaction history -->\n\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t<h4 class=\"Panel-bodyHeading Heading--four\"\n\t\t\t\t\t\t    ui-toggle\n\t\t\t\t\t\t    toggle-el-css-class=\"js-transactionHistory\"\n\t\t\t\t\t\t    toggle-icon-css-class=\"js-toggleIcon\"\n\t\t\t\t\t\t    toggle-icon-css-class-hide=\"fa-chevron-down\"\n\t\t\t\t\t\t    toggle-icon-css-class-show=\"fa-chevron-right\">\n\t\t\t\t\t\t\t<i class=\"fa fa-chevron-right js-toggleIcon\"></i> Transaction history</h4>\n\n\t\t\t\t\t\t<div class=\"js-transactionHistory\" hidden>\n\t\t\t\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-repeat=\"transaction in subscription.transactions\">\n\t\t\t\t\t\t\t\t\t<header class=\"HeadingGroup\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--seven HeadingGroup-heading--top\">\n\t\t\t\t\t\t\t\t\t\t\t<time>{{ transaction.createdAt | date: longDate }}</time>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five u-textSuccess HeadingGroup-heading--main\">${{ transaction.amount }}\n\t\t\t\t\t\t\t\t\t\t\t<small class=\"u-textBase\" ng-if=\"transaction.discounts.length\">(Upgrade credit:\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-repeat=\"discount in transaction.discounts\" class=\"u-textSuccess\">${{ discount.amount }}</span>)\n\t\t\t\t\t\t\t\t\t\t\t</small>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t</header>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Status history</h5>\n\t\t\t\t\t\t\t\t\t<div ng-repeat=\"statusHistoryItem in transaction.statusHistory\">\n\t\t\t\t\t\t\t\t\t\t{{ statusHistoryItem.timestamp | date: longDate }}\n\t\t\t\t\t\t\t\t\t\t/ {{ statusHistoryItem.status }}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-if=\"!subscription.transactions.length\">\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--five\">No transactions were found.</h4>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t</div>\n\t</div>\n\n</section>\n"
 
 /***/ },
-/* 117 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12697,7 +12767,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _creditcardFormHtml = __webpack_require__(118);
+	var _creditcardFormHtml = __webpack_require__(119);
 	
 	var _creditcardFormHtml2 = _interopRequireDefault(_creditcardFormHtml);
 	
@@ -12709,7 +12779,8 @@
 			backButtonVisible: '<',
 			hideAmount: '<',
 			submitButtonText: '<',
-			onSubmit: '&'
+			onSubmit: '&',
+			routeTo: '&'
 		},
 		template: _creditcardFormHtml2['default']
 	};
@@ -12718,13 +12789,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 118 */
+/* 119 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n\t<form name=\"payment\" ng-submit=\"$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})\">\n\t\t<div class=\"Form-item\" ng-if=\"!$ctrl.hideAmount\">\n\t\t\t<label class=\"Form-itemLabel\">Amount</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" ng-model=\"$ctrl.paymentModel.amount\" size=\"8\" ng-required=\"true\" />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Card Number</label>\n\t\t\t<input type=\"text\"\n\t\t\t       style=\"width: 190px\"\n\t\t\t       class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.creditCardNumber\"\n\t\t\t       size=\"20\"\n\t\t\t       payments-validate=\"card\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"card\"\n\t\t\t       payments-length=\"card\"\n\t\t\t       ng-class=\"$ctrl.type\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Expiration Date</label>\n\t\t\t<input type=\"text\" class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.expirationDate\"\n\t\t\t       payments-validate=\"expiry\"\n\t\t\t       payments-format=\"expiry\"\n\t\t\t       size=\"8\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">CVV</label>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.cvv\"\n\t\t\t       payments-validate=\"cvc\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"cvc\"\n\t\t\t       size=\"4\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t</div>\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a ng-href=\"{{ $ctrl.backButtonRoute }}\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t</form>\n</section>\n"
+	module.exports = "<section>\n\t<form name=\"payment\" ng-submit=\"$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})\">\n\t\t<div class=\"Form-item\" ng-if=\"!$ctrl.hideAmount\">\n\t\t\t<label class=\"Form-itemLabel\">Amount</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" ng-model=\"$ctrl.paymentModel.amount\" size=\"8\" ng-required=\"true\" />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Card Number</label>\n\t\t\t<input type=\"text\"\n\t\t\t       style=\"width: 190px\"\n\t\t\t       class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.creditCardNumber\"\n\t\t\t       size=\"20\"\n\t\t\t       payments-validate=\"card\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"card\"\n\t\t\t       payments-length=\"card\"\n\t\t\t       ng-class=\"$ctrl.type\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Expiration Date</label>\n\t\t\t<input type=\"text\" class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.expirationDate\"\n\t\t\t       payments-validate=\"expiry\"\n\t\t\t       payments-format=\"expiry\"\n\t\t\t       size=\"8\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">CVV</label>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.cvv\"\n\t\t\t       payments-validate=\"cvc\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"cvc\"\n\t\t\t       size=\"4\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t</div>\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t</form>\n</section>\n"
 
 /***/ },
-/* 119 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12735,7 +12806,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _customerFormHtml = __webpack_require__(120);
+	var _customerFormHtml = __webpack_require__(121);
 	
 	var _customerFormHtml2 = _interopRequireDefault(_customerFormHtml);
 	
@@ -12746,7 +12817,8 @@
 			backButtonVisible: '<',
 			customerModel: '<',
 			onSubmit: '&',
-			submitButtonText: '<'
+			submitButtonText: '<',
+			routeTo: '&'
 		},
 		template: _customerFormHtml2['default']
 	};
@@ -12755,13 +12827,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 120 */
+/* 121 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n\t<h2 class=\"Heading--two\">Please fill out your information</h2>\n\t<form name=\"customer\" ng-submit=\"$ctrl.onSubmit({customerModel: $ctrl.customerModel})\">\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtFirstName\">First name</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtFirstName\" ng-model=\"$ctrl.customerModel.firstName\" required placeholder=\"First name\" />\n\t\t</div>\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtLastName\">Last name</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtLastName\" ng-model=\"$ctrl.customerModel.lastName\" required placeholder=\"Last name\" />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtEmail\">Email</label>\n\t\t\t<input type=\"email\" class=\"Textbox\" id=\"txtEmail\" ng-model=\"$ctrl.customerModel.email\" required placeholder=\"Email address\" />\n\t\t</div>\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a ng-href=\"{{ $ctrl.backButtonRoute }}\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t\t<input type=\"hidden\" id=\"txtCustomerId\" ng-model=\"$ctrl.customerModel.id\" />\n\t</form>\n</section>\n"
+	module.exports = "<section>\n\t<h2 class=\"Heading--two\">Please fill out your information</h2>\n\t<form name=\"customer\" ng-submit=\"$ctrl.onSubmit({customerModel: $ctrl.customerModel})\">\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtFirstName\">First name</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtFirstName\" ng-model=\"$ctrl.customerModel.firstName\" required placeholder=\"First name\" />\n\t\t</div>\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtLastName\">Last name</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtLastName\" ng-model=\"$ctrl.customerModel.lastName\" required placeholder=\"Last name\" />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtEmail\">Email</label>\n\t\t\t<input type=\"email\" class=\"Textbox\" id=\"txtEmail\" ng-model=\"$ctrl.customerModel.email\" required placeholder=\"Email address\" />\n\t\t</div>\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t\t<input type=\"hidden\" id=\"txtCustomerId\" ng-model=\"$ctrl.customerModel.id\" />\n\t</form>\n</section>\n"
 
 /***/ },
-/* 121 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12776,7 +12848,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _subscriptionPlanHtml = __webpack_require__(122);
+	var _subscriptionPlanHtml = __webpack_require__(123);
 	
 	var _subscriptionPlanHtml2 = _interopRequireDefault(_subscriptionPlanHtml);
 	
@@ -12824,13 +12896,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 122 */
+/* 123 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"{{ $ctrl.itemCssClass }}\">\n\t<h3 class=\"Heading--three\">\n\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span>\n\t</h3>\n\t<p ng-bind=\"$ctrl.subscriptionPlan.description\"></p>\n\t<button class=\"Button {{ $ctrl.buttonCssModifier }}\"\n\t        ng-click=\"$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})\"\n\t\t\tng-disabled=\"$ctrl.buttonDisabled\">{{ $ctrl.buttonText }}</button>\n</div>\n"
 
 /***/ },
-/* 123 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12841,7 +12913,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _subscriptionDetailsHtml = __webpack_require__(124);
+	var _subscriptionDetailsHtml = __webpack_require__(125);
 	
 	var _subscriptionDetailsHtml2 = _interopRequireDefault(_subscriptionDetailsHtml);
 	
@@ -12857,13 +12929,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 124 */
+/* 125 */
 /***/ function(module, exports) {
 
 	module.exports = "<h4 class=\"Heading--four\">{{ $ctrl.subscription.plan.name}} / {{ $ctrl.subscription.plan.description}}</h4>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Status</label>\n\t<strong ng-class=\"{\n\t'u-textSuccess' : $ctrl.subscription.status.toLowerCase() === 'active',\n\t'u-textDanger' : $ctrl.subscription.status.toLowerCase() === 'canceled',\n\t'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pastdue',\n\t'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pending'\n\t}\">\n\t\t<span ng-if=\"$ctrl.subscription.status.toLowerCase() !== 'active'\" ng-bind=\"$ctrl.subscription.status\"></span>\n\t\t<span ng-if=\"$ctrl.subscription.price > 0 && $ctrl.subscription.status.toLowerCase() === 'active'\" ng-bind=\"$ctrl.subscription.status\"></span>\n\t\t<span ng-if=\"$ctrl.subscription.price <= 0 && $ctrl.subscription.status.toLowerCase() === 'active'\" class=\"u-textWarning\">{{ $ctrl.subscription.status }} <span class=\"u-textBase u-textNormal\">( Auto renew disabled )</span></span>\n\t</strong>\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Billing amount</label>\n\t${{ $ctrl.subscription.price}}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Next billing amount</label>\n\t${{ $ctrl.subscription.nextBillAmount}}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Next billing period amount</label>\n\t${{ $ctrl.subscription.nextBillingPeriodAmount}}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Started</label>\n\t{{ $ctrl.subscription.createdAt | date: longDate }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Next billing date</label>\n\t{{ $ctrl.subscription.nextBillingDate | date: longDate }}\n</div>\n"
 
 /***/ },
-/* 125 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12874,7 +12946,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _subscriptionOverviewHtml = __webpack_require__(126);
+	var _subscriptionOverviewHtml = __webpack_require__(127);
 	
 	var _subscriptionOverviewHtml2 = _interopRequireDefault(_subscriptionOverviewHtml);
 	
@@ -12890,13 +12962,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 126 */
+/* 127 */
 /***/ function(module, exports) {
 
 	module.exports = "<section>\n\t<h3 class=\"Heading--three\" ng-bind=\"$ctrl.subscriptionPlan.name\"></h3>\n\t<p ng-bind=\"$ctrl.subscriptionPlan.description\"></p>\n</section>\n"
 
 /***/ },
-/* 127 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12907,7 +12979,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _subscriptionProgressHtml = __webpack_require__(128);
+	var _subscriptionProgressHtml = __webpack_require__(129);
 	
 	var _subscriptionProgressHtml2 = _interopRequireDefault(_subscriptionProgressHtml);
 	
@@ -12915,7 +12987,8 @@
 	var component = {
 		bindings: {
 			subscriptionPlan: '<',
-			subscriptionRoute: '<'
+			subscriptionRoute: '<',
+			routeTo: '&'
 		},
 		template: _subscriptionProgressHtml2['default']
 	};
@@ -12924,13 +12997,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 128 */
+/* 129 */
 /***/ function(module, exports) {
 
-	module.exports = "<section ng-if=\"$ctrl.subscriptionPlan\" class=\"Alert--info\">\n\t<p>Selected plan:\n\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span> / <span ng-bind=\"$ctrl.subscriptionPlan.description\"></span>\n\t\t<span ng-if=\"$ctrl.subscriptionRoute\">\n\t\t\t<a ng-href=\"{{ $ctrl.subscriptionRoute }}\">change plan</a>\n\t\t</span>\n\t</p>\n\t</section>\n</section>\n"
+	module.exports = "<section ng-if=\"$ctrl.subscriptionPlan\" class=\"Alert--info\">\n\t<p>Selected plan:\n\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span> / <span ng-bind=\"$ctrl.subscriptionPlan.description\"></span>\n\t\t<span ng-if=\"$ctrl.subscriptionRoute\">\n\t\t\t<a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.subscriptionRoute})\">change plan</a>\n\t\t</span>\n\t</p>\n\t</section>\n</section>\n"
 
 /***/ },
-/* 129 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12941,14 +13014,15 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _subscribeNavigationHtml = __webpack_require__(130);
+	var _subscribeNavigationHtml = __webpack_require__(131);
 	
 	var _subscribeNavigationHtml2 = _interopRequireDefault(_subscribeNavigationHtml);
 	
 	// Component decorations
 	var component = {
 		bindings: {
-			selectedRoute: '<'
+			selectedRoute: '<',
+			routeTo: '&'
 		},
 		template: _subscribeNavigationHtml2['default']
 	};
@@ -12957,52 +13031,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 130 */
+/* 131 */
 /***/ function(module, exports) {
 
-	module.exports = "<ul class=\"Nav Nav--tabs\">\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/subscribe'}\">\n\t\t<a class=\"Nav-link\" ng-href=\"/subscribe\">1. Subscription plan</a>\n\t</li>\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/customer'}\">\n\t\t<a class=\"Nav-link\" ng-href=\"/customer\">2. Customer information</a>\n\t</li>\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/payment-methods'}\">\n\t\t<a class=\"Nav-link\" ng-href=\"/payment-methods\">3. Payment method</a>\n\t</li>\n</ul>\n"
-
-/***/ },
-/* 131 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var _customerDetailsHtml = __webpack_require__(132);
-	
-	var _customerDetailsHtml2 = _interopRequireDefault(_customerDetailsHtml);
-	
-	// Component decorations
-	var component = {
-		bindings: {
-			customer: '<',
-			cancelButtonText: '<',
-			enableButtonText: '<',
-			editButtonRoute: '<',
-			editButtonText: '<',
-			onCancelSubscription: '&',
-			onEnableSubscription: '&'
-		},
-		template: _customerDetailsHtml2['default']
-	};
-	
-	exports['default'] = component;
-	module.exports = exports['default'];
+	module.exports = "<ul class=\"Nav Nav--tabs\">\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/subscribe'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/subscribe'})\">1. Subscription plan</a>\n\t</li>\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/customer'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/customer'})\">2. Customer information</a>\n\t</li>\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/payment-methods'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/payment-methods'})\">3. Payment method</a>\n\t</li>\n</ul>\n"
 
 /***/ },
 /* 132 */
-/***/ function(module, exports) {
-
-	module.exports = "<div>\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--12\">\n\n\t\t\t<section class=\"Panel\">\n\t\t\t\t<h3 class=\"Panel-heading Heading--three\">Profile</h3>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<div class=\"Form-item\">\n\t\t\t\t\t\t<label class=\"Form-itemLabel\">Full name</label>\n\t\t\t\t\t\t<span ng-bind=\"$ctrl.customer.firstName\"></span> <span ng-bind=\"$ctrl.customer.lastName\"></span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"Form-item\">\n\t\t\t\t\t\t<label class=\"Form-itemLabel\">Email</label>\n\t\t\t\t\t\t<span ng-bind=\"$ctrl.customer.email\"></span>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t</div>\n\t</div>\n\t<div class=\"Grid-row\">\n\n\t\t<div class=\"Grid-col--12\">\n\t\t\t<section class=\"Panel\" ng-if=\"$ctrl.customer.subscriptions\">\n\t\t\t\t<h3 class=\"Panel-heading Heading--three\">Subscriptions</h3>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<div ng-repeat=\"subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: 'status'\">\n\n\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<ui-braintree-subscription-details subscription=\"subscription\"></ui-braintree-subscription-details>\n\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"Button Button--primary Button--lg\" ng-href=\"$ctrl.editButtonRoute\">{{ $ctrl.editButtonText }}</button>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status === 'Active' && subscription.price > 0\" ng-click=\"$ctrl.onCancelSubscription({subscription: subscription})\">{{ $ctrl.cancelButtonText }}</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status === 'Canceled' || subscription.price <= 0\" ng-click=\"$ctrl.onEnableSubscription({subscription: subscription})\">{{ $ctrl.enableButtonText }}</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Payment method</h4>\n\t\t\t\t\t\t\t\t<ui-braintree-payment-method payment-method=\"subscription.defaultPaymentMethod\"></ui-braintree-payment-method>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\n\t\t\t\t\t\t<h4 class=\"Panel-bodyHeading Heading--four\"\n\t\t\t\t\t\t    ui-toggle\n\t\t\t\t\t\t    toggle-el-css-class=\"js-transactionHistory\"\n\t\t\t\t\t\t    toggle-icon-css-class=\"js-toggleIcon\"\n\t\t\t\t\t\t    toggle-icon-css-class-hide=\"fa-chevron-down\"\n\t\t\t\t\t\t\ttoggle-icon-css-class-show=\"fa-chevron-right\"><i class=\"fa fa-chevron-right js-toggleIcon\"></i> Transaction history</h4>\n\n\t\t\t\t\t\t<div class=\"js-transactionHistory\" hidden>\n\t\t\t\t\t\t\t<div class=\"Panel\" ng-repeat=\"transaction in subscription.transactions\">\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\t\t\t\t\t\t\t\t\t{{ transaction.createdAt | date: longDate }}\n\t\t\t\t\t\t\t\t\t${{ transaction.amount }}\n\t\t\t\t\t\t\t\t\t<hr class=\"divider--dotted\">\n\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Status history</h5>\n\t\t\t\t\t\t\t\t\t<div ng-repeat=\"statusHistoryItem in transaction.statusHistory\">\n\t\t\t\t\t\t\t\t\t\t{{ statusHistoryItem.timestamp | date: longDate }}\n\t\t\t\t\t\t\t\t\t\t/ {{ statusHistoryItem.status }}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t\t<section class=\"Panel\">\n\t\t\t\t<h3 class=\"Panel-heading Heading--three\"\n\t\t\t\t    ui-toggle\n\t\t\t\t    toggle-el-css-class=\"js-otherPaymentMethods\"\n\t\t\t\t    toggle-icon-css-class=\"js-toggleIcon\"\n\t\t\t\t    toggle-icon-css-class-hide=\"fa-chevron-down\"\n\t\t\t\t    toggle-icon-css-class-show=\"fa-chevron-right\"><i class=\"fa fa-chevron-right js-toggleIcon\"></i> Saved Payment Methods</h3>\n\t\t\t\t<div class=\"Panel-body js-otherPaymentMethods\" hidden>\n\n\t\t\t\t\t<h4 class=\"Panel-bodyHeading Heading--four\"><i class=\"fa fa-credit-card\"></i> Credit & debit cards</h4>\n\t\t\t\t\t<div ng-repeat=\"paymentMethod in $ctrl.customer.creditCards\">\n\t\t\t\t\t\t<ui-braintree-payment-method payment-method=\"paymentMethod\"></ui-braintree-payment-method>\n\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<h4 class=\"Panel-bodyHeading Heading--four\"><i class=\"fa fa-cc-paypal\"></i> Paypal accounts</h4>\n\t\t\t\t\t<div ng-repeat=\"paypalAccount in $ctrl.customer.paypalAccounts\">\n\t\t\t\t\t\t<ui-braintree-payment-method payment-method=\"paypalAccount\"></ui-braintree-payment-method>\n\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t</div>\n\t</div>\n</div>\n"
-
-/***/ },
-/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13013,7 +13048,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _paymentMethodHtml = __webpack_require__(134);
+	var _paymentMethodHtml = __webpack_require__(133);
 	
 	var _paymentMethodHtml2 = _interopRequireDefault(_paymentMethodHtml);
 	
@@ -13041,13 +13076,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 134 */
+/* 133 */
 /***/ function(module, exports) {
 
 	module.exports = "<div ng-if=\"$ctrl.paymentMethod.cardType\">\n\t<!-- Card -->\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Type</label>\n\t\t<i class=\"fa fa-credit-card\"></i> <span ng-bind=\"$ctrl.paymentMethod.cardType\"></span>\n\t\t<span ng-if=\"$ctrl.paymentMethod.debit === 'Yes'\">Debit Card</span>\n\t\t<span ng-if=\"$ctrl.paymentMethod.prepaid === 'Yes'\">(Prepaid)</span>\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Card number</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.maskedNumber\"></span>\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Expiration date</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.expirationDate | date:'MM / y'\"></span>\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Expired</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.expired\"></span>\n\t</div>\n\n\t<button class=\"Button Button--primary\"\n\t        ng-if=\"$ctrl.cardButtonVisible\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\"\n\t        ng-click=\"$ctrl.onCardButtonClick({paymentMethod: $ctrl.paymentMethod})\">\n\t\t{{ ($ctrl.buttonDisabled) ? $ctrl.buttonDisabledText : $ctrl.cardButtonText }}\n\t</button>\n\t<a href=\"\"\n\t   ng-if=\"$ctrl.deleteLinkVisible\"\n\t   confirm-message=\"'Are you sure you want to delete this payment method?'\"\n\t   ui-confirm-click=\"$ctrl.onDeleteClick({paymentMethod: $ctrl.paymentMethod})\">{{ $ctrl.deleteLinkText }}</a>\n</div>\n\n<div ng-if=\"$ctrl.paymentMethod.billingAgreementId\">\n\t<!-- Paypal -->\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Type</label>\n\t\t<i class=\"fa fa-cc-paypal\"></i> Paypal\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Email</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.email\"></span>\n\t</div>\n\n\t<button class=\"Button Button--primary\"\n\t        ng-if=\"$ctrl.paypalButtonVisible\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\"\n\t        ng-click=\"$ctrl.onPaypalButtonClick({paymentMethod: $ctrl.paymentMethod})\">\n\t\t{{ ($ctrl.buttonDisabled) ? $ctrl.buttonDisabledText : $ctrl.paypalButtonText }}\n\t</button>\n\t<a href=\"\"\n\t   ng-if=\"$ctrl.deleteLinkVisible\"\n\t   confirm-message=\"'Are you sure you want to delete this payment method?'\"\n\t   ui-confirm-click=\"$ctrl.onDeleteClick({paymentMethod: $ctrl.paymentMethod})\">{{ $ctrl.deleteLinkText }}</a>\n</div>\n"
 
 /***/ },
-/* 135 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13062,22 +13097,22 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _braintreeHomeHtml = __webpack_require__(136);
+	var _braintreeHomeHtml = __webpack_require__(135);
 	
 	var _braintreeHomeHtml2 = _interopRequireDefault(_braintreeHomeHtml);
 	
-	var _braintreeConstants = __webpack_require__(100);
+	var _braintreeConstants = __webpack_require__(101);
 	
 	// Inject dependencies
 	
 	var Inject = __webpack_require__(82);
 	
 	var BraintreeHomeComponent = (function () {
-		function BraintreeHomeComponent(braintreeDataService, $location) {
+		function BraintreeHomeComponent(braintreeDataService, braintreeAppService) {
 			_classCallCheck(this, _BraintreeHomeComponent);
 	
 			this.braintreeDataService = braintreeDataService;
-			this.$location = $location;
+			this.braintreeAppService = braintreeAppService;
 	
 			this.state = {
 				enableWizardMode: false
@@ -13117,12 +13152,12 @@
 		}, {
 			key: 'routeTo',
 			value: function routeTo(path) {
-				this.$location.url(path);
+				this.braintreeAppService.routeTo(path);
 			}
 		}]);
 	
 		var _BraintreeHomeComponent = BraintreeHomeComponent;
-		BraintreeHomeComponent = Inject('braintreeDataService', '$location')(BraintreeHomeComponent) || BraintreeHomeComponent;
+		BraintreeHomeComponent = Inject('braintreeDataService', 'braintreeAppService')(BraintreeHomeComponent) || BraintreeHomeComponent;
 		return BraintreeHomeComponent;
 	})();
 	
@@ -13147,13 +13182,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 136 */
+/* 135 */
 /***/ function(module, exports) {
 
-	module.exports = "<h1 class=\"Heading--one\">Braintree module</h1>\n<hr class=\"Divider--dotted\">\n\n<label>\n\t<input type=\"checkbox\" ng-click=\"$ctrl.initFlowMode()\" ng-model=\"$ctrl.state.enableWizardMode\"> Subscription wizard mode enabled\n</label>\n<p>\n\t<small>Note: Enable this to prevent going to other parts without choosing a the previous step.</small>\n</p>\n\n<div class=\"Page\">\n\t<nav class=\"Page-aside--left\">\n\t\t<ul class=\"Nav Nav--vertical\">\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/customer-details')\">Customer details</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/subscribe')\">Subscribe</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/customer')\">Create Customer</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/cards')\">Pay with Credit or Debit Cards</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/paypal')\">Pay with Paypal</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/drop-in')\">Drop-in</a>\n\t\t\t</li>\n\t\t</ul>\n\t</nav>\n\t<main class=\"Page-main\">\n\t\t<div ng-view=\"\"></div>\n\t</main>\n</div>\n\n\n\n"
+	module.exports = "<h1 class=\"Heading--one\">Braintree module</h1>\n<hr class=\"Divider--dotted\">\n\n<label>\n\t<input type=\"checkbox\" ng-click=\"$ctrl.initFlowMode()\" ng-model=\"$ctrl.state.enableWizardMode\"> Subscription wizard mode enabled\n</label>\n<p>\n\t<small>Note: Enable this to prevent going to other parts without choosing a the previous step.</small>\n</p>\n\n<div class=\"Page\">\n\t<nav class=\"Page-aside--left\">\n\t\t<ul class=\"Nav Nav--vertical\">\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/customer-details')\">Customer details</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/subscribe')\">Subscribe</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/customer')\">Create Customer</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/cards')\">Pay with Credit or Debit Card</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/paypal')\">Pay with Paypal</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/drop-in')\">Drop-in</a>\n\t\t\t</li>\n\t\t</ul>\n\t</nav>\n\t<main class=\"Page-main\">\n\t\t<div ng-view=\"\"></div>\n\t</main>\n</div>\n\n\n\n"
 
 /***/ },
-/* 137 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13168,7 +13203,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _subscribeViewHtml = __webpack_require__(138);
+	var _subscribeViewHtml = __webpack_require__(137);
 	
 	var _subscribeViewHtml2 = _interopRequireDefault(_subscribeViewHtml);
 	
@@ -13232,7 +13267,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 138 */
+/* 137 */
 /***/ function(module, exports) {
 
 	module.exports = "<div ng-view=\"\"></div>\n"
