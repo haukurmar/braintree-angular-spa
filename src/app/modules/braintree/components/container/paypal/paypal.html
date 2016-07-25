@@ -9,7 +9,7 @@
 <p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
 <input type="hidden" name="payment_method_nonce" />
 
-<button class="Button Button--primary Button--lg" ng-click="$ctrl.pay($event)">Paypal</button>
+<button class="Button Button--primary" ng-click="$ctrl.pay($event)">Connect with Paypal...</button>
 <span ng-if="$ctrl.state.backButtonVisible">
 	| <a href="" ng-click="$ctrl.routeTo($ctrl.state.backButtonRoute)">{{ $ctrl.state.backButtonText }}</a>
 </span>
