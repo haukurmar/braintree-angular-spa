@@ -29,6 +29,7 @@ class BraintreeSubscriptionComponent {
 
 		this.customer = null;
 		this.customerModel = {};
+		this.newCustomer = true;
 	}
 
 	// Private methods
@@ -36,6 +37,7 @@ class BraintreeSubscriptionComponent {
 	$onInit() {
 		// Get Customer from service
 		this.customer = this.braintreeDataService.customer;
+		this.customerModel = this.customer;
 
 		// Subscription mode
 		let mode = this.braintreeDataService.mode;
@@ -71,6 +73,7 @@ class BraintreeSubscriptionComponent {
 		this.braintreeDataService.getCustomer(customerId).then(
 			(response) => {
 				console.log('success', response);
+				this.newCustomer = false;
 				this.braintreeDataService.updateCustomerData(response.data.customer);
 				this.customerModel = response.data.customer;
 				this.state.loading.isLoading = false;
@@ -79,6 +82,7 @@ class BraintreeSubscriptionComponent {
 			},
 			(error) => {
 				console.log(error.data.message);
+				this.newCustomer = true;
 				this.state.loading.isLoading = false;
 			}
 		);
@@ -92,9 +96,7 @@ class BraintreeSubscriptionComponent {
 		this.state.showform = false;
 		this.routes.nextRoute = ROUTES.PAYMENT_METHODS;
 
-		console.log('customerModel', customerModel);
-
-		if (!this.customer.id) {
+		if (this.newCustomer) {
 			this.state.loading.text = 'Creating customer...';
 			this.state.loading.isLoading = true;
 
