@@ -11100,6 +11100,7 @@
 	
 			this.customer = null;
 			this.customerModel = {};
+			this.newCustomer = true;
 		}
 	
 		// Component decorations
@@ -11112,6 +11113,7 @@
 			value: function $onInit() {
 				// Get Customer from service
 				this.customer = this.braintreeDataService.customer;
+				this.customerModel = this.customer;
 	
 				// Subscription mode
 				var mode = this.braintreeDataService.mode;
@@ -11150,6 +11152,7 @@
 				//Get Customer if logged in
 				this.braintreeDataService.getCustomer(customerId).then(function (response) {
 					console.log('success', response);
+					_this.newCustomer = false;
 					_this.braintreeDataService.updateCustomerData(response.data.customer);
 					_this.customerModel = response.data.customer;
 					_this.state.loading.isLoading = false;
@@ -11157,6 +11160,7 @@
 					// TODO: What to do here?
 				}, function (error) {
 					console.log(error.data.message);
+					_this.newCustomer = true;
 					_this.state.loading.isLoading = false;
 				});
 			}
@@ -11173,9 +11177,7 @@
 				this.state.showform = false;
 				this.routes.nextRoute = _braintreeConstants.ROUTES.PAYMENT_METHODS;
 	
-				console.log('customerModel', customerModel);
-	
-				if (!this.customer.id) {
+				if (this.newCustomer) {
 					this.state.loading.text = 'Creating customer...';
 					this.state.loading.isLoading = true;
 	
@@ -12756,7 +12758,7 @@
 /* 120 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n\t<h2 class=\"Heading--two\">Please fill out your information</h2>\n\t<form name=\"customer\" ng-submit=\"$ctrl.onSubmit({customerModel: $ctrl.customerModel})\">\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtCustomerId\">CustomerId</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtCustomerId\" ng-model=\"$ctrl.customerModel.id\" placeholder=\"Username for example\" />\n\t\t</div>\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtFirstName\">First name</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtFirstName\" ng-model=\"$ctrl.customerModel.firstName\" required placeholder=\"First name\" />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtLastName\">Last name</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtLastName\" ng-model=\"$ctrl.customerModel.lastName\" required placeholder=\"Last name\" />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtEmail\">Email</label>\n\t\t\t<input type=\"email\" class=\"Textbox\" id=\"txtEmail\" ng-model=\"$ctrl.customerModel.email\" required placeholder=\"Email address\" />\n\t\t</div>\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a ng-href=\"{{ $ctrl.backButtonRoute }}\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t</form>\n</section>\n"
+	module.exports = "<section>\n\t<h2 class=\"Heading--two\">Please fill out your information</h2>\n\t<form name=\"customer\" ng-submit=\"$ctrl.onSubmit({customerModel: $ctrl.customerModel})\">\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtFirstName\">First name</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtFirstName\" ng-model=\"$ctrl.customerModel.firstName\" required placeholder=\"First name\" />\n\t\t</div>\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtLastName\">Last name</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtLastName\" ng-model=\"$ctrl.customerModel.lastName\" required placeholder=\"Last name\" />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\" for=\"txtEmail\">Email</label>\n\t\t\t<input type=\"email\" class=\"Textbox\" id=\"txtEmail\" ng-model=\"$ctrl.customerModel.email\" required placeholder=\"Email address\" />\n\t\t</div>\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a ng-href=\"{{ $ctrl.backButtonRoute }}\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t\t<input type=\"hidden\" id=\"txtCustomerId\" ng-model=\"$ctrl.customerModel.id\" />\n\t</form>\n</section>\n"
 
 /***/ },
 /* 121 */
@@ -13095,7 +13097,8 @@
 				// Init registered customer (debug)
 				var customer = {
 					//id: '27547087'
-					id: '37312055'
+					//id: '37312055',
+					//id: 'zickread123'
 				};
 				this.braintreeDataService.updateCustomerData(customer);
 			}
@@ -13189,10 +13192,21 @@
 			key: '$onInit',
 			value: function $onInit() {
 				this.braintreeDataService.initMode('subscription');
-	
-				var customer = {
-					id: this.customerId
-				};
+				var customer = {};
+				if (this.customer) {
+					if (this.customer.id) {
+						customer.id = this.customer.id;
+					}
+					if (this.customer.email) {
+						customer.email = this.customer.email;
+					}
+					if (this.customer.firstName) {
+						customer.firstName = this.customer.firstName;
+					}
+					if (this.customer.lastName) {
+						customer.lastName = this.customer.lastName;
+					}
+				}
 	
 				this.braintreeDataService.updateCustomerData(customer);
 			}
@@ -13208,7 +13222,7 @@
 	
 	var component = {
 		bindings: {
-			customerId: '<'
+			customer: '<'
 		},
 		template: _subscribeViewHtml2['default'],
 		controller: SubscribeViewComponent
