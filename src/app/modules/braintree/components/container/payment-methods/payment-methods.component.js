@@ -2,7 +2,7 @@ import template from './payment-methods.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeDataService', '$location')
+@Inject('braintreeDataService', 'braintreeAppService')
 class PaymentMethodsComponent {
 	constructor() {
 		// Used in template
@@ -11,6 +11,12 @@ class PaymentMethodsComponent {
 				nextRoute: '',
 				subscription: ROUTES.SUBSCRIPTION
 			}
+		};
+
+		// Used in template
+		this.routes = {
+			nextRoute: '',
+			subscription: ROUTES.SUBSCRIPTION
 		};
 
 		this.customer = null;
@@ -26,10 +32,10 @@ class PaymentMethodsComponent {
 	// Public viewModel methods
 	// --------------------------------------------------
 	choosePaymentMethod(method) {
-		if(method === 'cards') {
-			this.$location.path([ROUTES.CARDS]);
-		} else if(method === 'paypal') {
-			this.$location.path([ROUTES.PAYPAL]);
+		if (method === 'cards') {
+			this.routeTo([ROUTES.CARDS]);
+		} else if (method === 'paypal') {
+			this.routeTo([ROUTES.PAYPAL]);
 		}
 	}
 
@@ -41,16 +47,18 @@ class PaymentMethodsComponent {
 		this.braintreeDataService.updateCustomerData(customerData);
 
 		this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
-		this.$location.path([this.state.nextRoute]);
+		this.routeTo([this.state.nextRoute]);
+	}
+
+	routeTo(path) {
+		this.braintreeAppService.routeTo(path);
 	}
 }
 
 // Component decorations
 let component = {
-	bindings: {
-
-	},
-	template : template,
+	bindings: {},
+	template: template,
 	controller: PaymentMethodsComponent
 };
 

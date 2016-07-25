@@ -2,7 +2,7 @@
 	<p>Selected plan:
 		<span ng-bind="$ctrl.subscriptionPlan.name"></span> / <span ng-bind="$ctrl.subscriptionPlan.description"></span>
 		<span ng-if="$ctrl.subscriptionRoute">
-			<a ng-href="{{ $ctrl.subscriptionRoute }}">change plan</a>
+			<a href="" ng-click="$ctrl.routeTo({route: $ctrl.subscriptionRoute})">change plan</a>
 		</span>
 	</p>
 	</section>

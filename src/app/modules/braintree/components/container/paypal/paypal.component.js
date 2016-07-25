@@ -2,7 +2,7 @@ import template from './paypal.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeDataService', '$location')
+@Inject('braintreeDataService', 'braintreeAppService')
 class PaypalComponent {
 	constructor() {
 		this._checkout = null;
@@ -79,7 +79,7 @@ class PaypalComponent {
 				this.braintreeDataService.updateCustomerData(response.data.customer);
 
 				this.routes.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
-				this.$location.path([this.routes.nextRoute]);
+				this.routeTo([this.routes.nextRoute]);
 				console.log('Paypal Payment method created!', response);
 			},
 			(error) => {
@@ -87,6 +87,10 @@ class PaypalComponent {
 				console.log('Failed to create payment method:', error);
 			}
 		);
+	}
+
+	routeTo(path){
+		return this.braintreeAppService.routeTo(path);
 	}
 
 	pay(event) {

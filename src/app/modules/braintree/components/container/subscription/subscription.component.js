@@ -2,7 +2,7 @@ import template from './subscription.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeDataService', '$location')
+@Inject('braintreeDataService', 'braintreeAppService')
 class SubscribeComponent {
 	constructor() {
 		this.message = '';
@@ -60,7 +60,11 @@ class SubscribeComponent {
 
 		this.state.nextRoute = ROUTES.CUSTOMER;
 
-		this.$location.path(ROUTES.CUSTOMER);
+		this.routeTo(ROUTES.CUSTOMER);
+	}
+
+	routeTo(path){
+		this.braintreeAppService.routeTo(path);
 	}
 }
 

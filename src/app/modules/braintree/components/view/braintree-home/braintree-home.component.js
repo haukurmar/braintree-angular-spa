@@ -2,7 +2,7 @@ import template from './braintree-home.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeDataService', '$location')
+@Inject('braintreeDataService', 'braintreeAppService')
 class BraintreeHomeComponent {
 	constructor() {
 		this.state = {
@@ -18,7 +18,8 @@ class BraintreeHomeComponent {
 		// Init registered customer (debug)
 		let customer = {
 			//id: '27547087'
-			id: '37312055'
+			//id: '37312055',
+			//id: 'zickread123'
 		};
 		this.braintreeDataService.updateCustomerData(customer);
 	}
@@ -34,7 +35,7 @@ class BraintreeHomeComponent {
 	}
 
 	routeTo(path){
-		this.$location.url(path);
+		this.braintreeAppService.routeTo(path);
 	}
 }
 

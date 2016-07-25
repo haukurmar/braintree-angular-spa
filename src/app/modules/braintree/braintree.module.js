@@ -5,6 +5,7 @@ import CoreModule from '../core/core.module';
 // Services
 import BraintreeDataService from './services/braintree-data.service';
 import BraintreeConfigService from './services/braintree-config.service';
+import BraintreeAppService from './services/braintree-app.service';
 
 // Container Components
 import CustomerComponent from './components/container/customer/customer.component';
@@ -25,7 +26,6 @@ import UISubscriptionDetailsComponent from './components/presentation/subscripti
 import UISubscriptionOverviewComponent from './components/presentation/subscription-overview/subscription-overview.component';
 import UISubscriptionProgressComponent from './components/presentation/subscription-progress/subscription-progress.component';
 import UISubscriptionNavigationComponent from './components/presentation/subscribe-navigation/subscribe-navigation.component';
-import UICustomerDetailsComponent from './components/presentation/customer-details/customer-details.component';
 import UIPaymentMethodComponent from './components/presentation/payment-method/payment-method.component';
 
 // View Components (Route Components)
@@ -47,6 +47,7 @@ ngModule
 	// TODO: Rename to braintreeDataService
 	.service('braintreeDataService', BraintreeDataService)
 	.service('braintreeConfigService', BraintreeConfigService)
+	.service('braintreeAppService', BraintreeAppService)
 
 	// Container components
 	.component('braintreeCustomer', CustomerComponent)
@@ -60,7 +61,6 @@ ngModule
 	.component('braintreePaypalButton', PaypalButtonComponent)
 
 	// Presentational components
-	.component('uiBraintreeCustomerDetails', UICustomerDetailsComponent)
 	.component('uiBraintreeCustomerForm', UICustomerFormComponent)
 	.component('uiBraintreeCreditcardForm', UICreditCardFormComponent)
 	.component('uiBraintreeSubscriptionDetails', UISubscriptionDetailsComponent)

@@ -1,4 +1,9 @@
-<ui-braintree-subscription-progress subscription-plan="$ctrl.customer.subscriptionPlan" subscription-route="$ctrl.routes.subscription"></ui-braintree-subscription-progress>
+<ui-braintree-subscription-progress
+	subscription-plan="$ctrl.customer.subscriptionPlan"
+	subscription-route="$ctrl.routes.subscription"
+	route-to="$ctrl.routeTo(route)">
+</ui-braintree-subscription-progress>
+
 
 <h2 class="Heading--two">Paypal</h2>
 <p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
@@ -6,5 +11,5 @@
 
 <button class="Button Button--primary Button--lg" ng-click="$ctrl.pay($event)">Paypal</button>
 <span ng-if="$ctrl.state.backButtonVisible">
-	| <a ng-href="$ctrl.state.backButtonRoute">{{ $ctrl.state.backButtonText }}</a>
+	| <a href="" ng-click="$ctrl.routeTo($ctrl.state.backButtonRoute)">{{ $ctrl.state.backButtonText }}</a>
 </span>

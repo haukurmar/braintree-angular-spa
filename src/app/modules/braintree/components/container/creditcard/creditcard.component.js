@@ -2,7 +2,7 @@ import template from './creditcard.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('$http', 'braintreeDataService', '$location')
+@Inject('$http', 'braintreeDataService', 'braintreeAppService')
 class CreditCardComponent {
 	constructor() {
 		this.state = {
@@ -81,6 +81,11 @@ class CreditCardComponent {
 
 	// Public viewModel methods
 	// --------------------------------------------------
+	routeTo(path){
+		this.braintreeAppService.routeTo(path);
+	}
+
+
 	/**
 	 * Determine whether to store payment method to vault or to process payment right away
 	 * @param paymentModel
@@ -110,7 +115,7 @@ class CreditCardComponent {
 				console.log('from vaultedPayment', response);
 				this.state.loading.isLoading = false;
 				this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
-				this.$location.path([this.state.nextRoute]);
+				this.routeTo([this.state.nextRoute]);
 			},
 			(error) => {
 				// TODO: Handle errors better

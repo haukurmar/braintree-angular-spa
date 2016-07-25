@@ -47,7 +47,7 @@
 
 		<button class="Button Button--primary" type="submit">{{ $ctrl.submitButtonText }}</button>
 		<span ng-if="$ctrl.backButtonVisible">
-			| <a ng-href="{{ $ctrl.backButtonRoute }}">{{ $ctrl.backButtonText }}</a>
+			| <a href="" ng-click="$ctrl.routeTo({route: $ctrl.backButtonRoute})">{{ $ctrl.backButtonText }}</a>
 		</span>
 	</form>
 </section>

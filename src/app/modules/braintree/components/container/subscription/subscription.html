@@ -2,7 +2,7 @@
 
 <h2 class="Heading--two">Subscribe</h2>
 <hr class="Divider--dotted">
-<ui-braintree-subscription-navigation selected-route="'/subscribe'"></ui-braintree-subscription-navigation>
+<ui-braintree-subscription-navigation route-to="$ctrl.routeTo(route)" selected-route="'/subscribe'"></ui-braintree-subscription-navigation>
 
 <p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
 

@@ -7,7 +7,8 @@ let component = {
 		backButtonVisible: '<',
 		customerModel: '<',
 		onSubmit: '&',
-		submitButtonText: '<'
+		submitButtonText: '<',
+		routeTo: '&'
 	},
 	template: template
 };

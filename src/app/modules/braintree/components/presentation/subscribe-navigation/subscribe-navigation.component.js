@@ -3,7 +3,8 @@ import template from './subscribe-navigation.html';
 // Component decorations
 let component = {
 	bindings: {
-		selectedRoute: '<'
+		selectedRoute: '<',
+		routeTo: '&'
 	},
 	template : template
 };
