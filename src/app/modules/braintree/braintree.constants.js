@@ -1,12 +1,12 @@
 const ROUTES = {
-	CARDS: 'Cards',
-	CUSTOMER: 'Customer',
-	CUSTOMER_DETAILS: 'CustomerDetails',
-	DROPIN: 'Dropin',
-	PAYMENT_METHODS: 'PaymentMethods',
-	PAYPAL: 'Paypal',
-	SUBSCRIPTION: 'Subscription',
-	SUBSCRIPTION_OVERVIEW: 'SubscriptionOverview'
+	CARDS: '/cards',
+	CUSTOMER: '/customer',
+	CUSTOMER_DETAILS: '/customer-details',
+	DROPIN: '/drop-in',
+	PAYMENT_METHODS: '/payment-methods',
+	PAYPAL: '/paypal',
+	SUBSCRIPTION: '/subscribe',
+	SUBSCRIPTION_OVERVIEW: '/subscription-overview'
 };
 
 export {ROUTES};

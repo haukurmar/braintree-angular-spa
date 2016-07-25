@@ -8,7 +8,8 @@ let component = {
 		backButtonVisible: '<',
 		hideAmount: '<',
 		submitButtonText: '<',
-		onSubmit: '&'
+		onSubmit: '&',
+		routeTo: '&'
 	},
 	template: template
 };

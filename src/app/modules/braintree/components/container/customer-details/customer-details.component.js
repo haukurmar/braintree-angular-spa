@@ -2,7 +2,7 @@ import template from './customer-details.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService', 'moment')
+@Inject('braintreeDataService', 'moment')
 class CustomerDetailsComponent {
 	constructor() {
 		this.state = {
@@ -34,7 +34,7 @@ class CustomerDetailsComponent {
 	// --------------------------------------------------
 	$onInit() {
 		// Get Customer from service
-		this.customer = this.braintreeService.customer;
+		this.customer = this.braintreeDataService.customer;
 
 		// If we get a customerId, we fetch it from API
 		if (this.customer.id) {
@@ -60,7 +60,7 @@ class CustomerDetailsComponent {
 		this.state.plans.loading.isLoading = true;
 		this.state.plans.loading.text = 'Loading plans...';
 
-		this.braintreeService.getAllSubscriptionPlans().then(
+		this.braintreeDataService.getAllSubscriptionPlans().then(
 			(response) => {
 				this.plans = response.data.plans;
 				this._stopLoading();
@@ -113,10 +113,10 @@ class CustomerDetailsComponent {
 	addCreditCard(paymentMethod, subscription) {
 		this._clearMessage();
 		this._startLoading('Saving payment information...');
-		let customerId = this.braintreeService.customer.id;
+		let customerId = this.braintreeDataService.customer.id;
 
 		// Send request to get token, then use the token to tokenize credit card info and verify the card
-		this.braintreeService.createVaultedPayment(customerId, paymentMethod).then(
+		this.braintreeDataService.createVaultedPayment(customerId, paymentMethod).then(
 			(response) => {
 				this._stopLoading();
 
@@ -155,7 +155,7 @@ class CustomerDetailsComponent {
 		this._clearMessage();
 		this._startLoading('Canceling subscription...');
 
-		this.braintreeService.cancelSubscription(subscription.id).then(
+		this.braintreeDataService.cancelSubscription(subscription.id).then(
 			(response) => {
 				if (this.customer.id) {
 					this.getCustomerDetails(this.customer.id).then(
@@ -203,7 +203,7 @@ class CustomerDetailsComponent {
 		this._startLoading('Updating subscription plan...');
 
 		// Cancel the current subscription
-		this.braintreeService.cancelSubscription(currentSubscription.id).then(
+		this.braintreeDataService.cancelSubscription(currentSubscription.id).then(
 			(response) => {
 				if (this.customer.id) {
 					let subLessFrequent = (newSubscriptionPlan.billingFrequency > currentSubscription.plan.billingFrequency);
@@ -244,7 +244,7 @@ class CustomerDetailsComponent {
 					}
 
 					// Create a new subscription
-					this.braintreeService.createSubscription(newSubscriptionData).then(
+					this.braintreeDataService.createSubscription(newSubscriptionData).then(
 						(response) => {
 							console.log('response', response);
 							if (response.data.success) {
@@ -295,7 +295,7 @@ class CustomerDetailsComponent {
 		this._clearMessage();
 		this._startLoading('Deleting payment method...');
 
-		this.braintreeService.deletePaymentMethod(paymentMethod).then(
+		this.braintreeDataService.deletePaymentMethod(paymentMethod).then(
 			(response) => {
 				if (this.customer.id) {
 					this.getCustomerDetails(this.customer.id).then(
@@ -357,9 +357,9 @@ class CustomerDetailsComponent {
 		this._startLoading('Loading profile details...');
 
 		//Get Customer if logged in
-		return this.braintreeService.getCustomer(customerId, true).then(
+		return this.braintreeDataService.getCustomer(customerId, true).then(
 			(response) => {
-				this.braintreeService.updateCustomerData(response.data.customer);
+				this.braintreeDataService.updateCustomerData(response.data.customer);
 				this.customer = response.data.customer;
 				this._stopLoading();
 			},
@@ -375,7 +375,7 @@ class CustomerDetailsComponent {
 		this._clearMessage();
 		this._startLoading(loadingText);
 
-		this.braintreeService.updateSubscription(subscription.id, subscriptionChanges).then(
+		this.braintreeDataService.updateSubscription(subscription.id, subscriptionChanges).then(
 			(response) => {
 				this.getCustomerDetails(this.customer.id).then(
 					() => {

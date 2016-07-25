@@ -4,8 +4,6 @@ A Single Page Application used to handle payments and subscriptions for the [Bra
 
 Built with Angular 1 Components who each serve their own simple purpose, following best practices with Container/Presentational pattern. (smart and dumb components)
 
-Also makes use of the [Angular Component Router](https://github.com/angular/router).
-
 Functionality: 
 
 * Create customer (stand-alone)

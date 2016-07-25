@@ -1,0 +1,63 @@
+/********************************************
+	Grid
+********************************************/
+
+/// Naming conventions:
+// LegoName
+// LegoName--modifierName
+// LegoName-descendantName
+// LegoName.is-stateOfLego
+// Variable names:
+// @legoModifier-property ex: @buttonPrimary-borderColor
+// @legoModifier-descendant-property ex: @listGroup-itemHeading-fontSize
+
+//<button class="Button Button--myButton"></button>
+
+// -------------------- Variables --------------------
+
+// Outer margin
+@grid-margin: 20px;
+
+// Column gutter
+@grid-gutter: 16px;
+
+// Number of columns
+@grid-columns: 12;
+
+// -------------------- Core LEGO --------------------
+.Grid {
+	.Grid();
+}
+
+// -------------------- Descendands --------------------
+.Grid-row {
+	.Grid-row();
+}
+
+.Grid-col {
+	.Grid-col();
+}
+
+// -------------------- Columns --------------------
+// Mobile first
+.makeGridColumns();
+
+// 480+
+@media @base-screen--phablet--above {
+	.makeGridColumns(phablet);
+}
+
+// 600 +
+@media @base-screen--tabletSmall--above {
+	.makeGridColumns(tabletSmall);
+}
+
+// 768 +
+@media @base-screen--tablet--above {
+	.makeGridColumns(tablet);
+}
+
+// 960 +
+@media @base-screen--desktop--above {
+	.makeGridColumns(desktop);
+}

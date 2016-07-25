@@ -2,7 +2,7 @@ import template from './customer.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeService')
+@Inject('braintreeDataService', 'braintreeAppService')
 class BraintreeSubscriptionComponent {
 	constructor() {
 		this.state = {
@@ -29,16 +29,18 @@ class BraintreeSubscriptionComponent {
 
 		this.customer = null;
 		this.customerModel = {};
+		this.newCustomer = true;
 	}
 
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
 		// Get Customer from service
-		this.customer = this.braintreeService.customer;
+		this.customer = this.braintreeDataService.customer;
+		this.customerModel = this.customer;
 
 		// Subscription mode
-		let mode = this.braintreeService.mode;
+		let mode = this.braintreeDataService.mode;
 		if (mode.subscription) {
 			this.state.submitButtonText = 'Continue';
 			this.state.backButtonVisible = true;
@@ -68,10 +70,11 @@ class BraintreeSubscriptionComponent {
 		this.state.loading.isLoading = true;
 		this.state.loading.text = 'Fetching customer information...';
 		//Get Customer if logged in
-		this.braintreeService.getCustomer(customerId).then(
+		this.braintreeDataService.getCustomer(customerId).then(
 			(response) => {
 				console.log('success', response);
-				this.braintreeService.updateCustomerData(response.data.customer);
+				this.newCustomer = false;
+				this.braintreeDataService.updateCustomerData(response.data.customer);
 				this.customerModel = response.data.customer;
 				this.state.loading.isLoading = false;
 
@@ -79,9 +82,14 @@ class BraintreeSubscriptionComponent {
 			},
 			(error) => {
 				console.log(error.data.message);
+				this.newCustomer = true;
 				this.state.loading.isLoading = false;
 			}
 		);
+	}
+
+	routeTo(path){
+		this.braintreeAppService.routeTo(path);
 	}
 
 	/**
@@ -92,21 +100,19 @@ class BraintreeSubscriptionComponent {
 		this.state.showform = false;
 		this.routes.nextRoute = ROUTES.PAYMENT_METHODS;
 
-		console.log('customerModel', customerModel);
-
-		if (!this.customer.id) {
+		if (this.newCustomer) {
 			this.state.loading.text = 'Creating customer...';
 			this.state.loading.isLoading = true;
 
-			this.braintreeService.createCustomer(customerModel).then(
+			this.braintreeDataService.createCustomer(customerModel).then(
 				(response) => {
 					this.state.loading.isLoading = false;
 
 					// Save customer data to service
-					this.braintreeService.updateCustomerData(response.data.customer);
+					this.braintreeDataService.updateCustomerData(response.data.customer);
 
 					// Redirect to next step
-					this.$router.navigate([this.routes.nextRoute]);
+					this.routeTo([this.routes.nextRoute]);
 				},
 				(error) => {
 					// TODO: Handle errors better (use error.data.errors collection)
@@ -119,9 +125,9 @@ class BraintreeSubscriptionComponent {
 				}
 			);
 		} else {
-			this.braintreeService.updateCustomerData(customerModel);
+			this.braintreeDataService.updateCustomerData(customerModel);
 			// TODO: Update customer in Braintree
-			this.$router.navigate([this.routes.nextRoute]);
+			this.routeTo([this.routes.nextRoute]);
 		}
 	}
 }
@@ -129,7 +135,7 @@ class BraintreeSubscriptionComponent {
 // Component decorations
 let component = {
 	bindings: {
-		$router: '<'
+
 	},
 	template: template,
 	controller: BraintreeSubscriptionComponent

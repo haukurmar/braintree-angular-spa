@@ -1,8 +1,8 @@
 import braintree from 'braintree-web';
-@Inject('$http', 'CONFIG', '$q')
+@Inject('$http', 'braintreeConfigService', '$q')
 export default class BraintreeService {
 	constructor() {
-		this._apiUrl = this.CONFIG.braintreeApiUrl;
+		this._apiUrl = this.braintreeConfigService.apiUrl;
 		this._tokenPath = '/v1/token';
 		this._processPath = '/v1/process';
 		this._customerPath = '/v1/customers';

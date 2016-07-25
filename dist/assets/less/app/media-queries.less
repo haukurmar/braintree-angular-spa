@@ -1,0 +1,64 @@
+// -------------------- Media Queries variables --------------------
+// Our practice is to write code with "mobile first" in mind whenever possible
+// That's why our first minWidth is 480px since we don't need a media query for smaller devices
+
+// Please note: Code within media-queries also needs to be wrapped inside
+// @{base-isResponsive} or @{base-notResponsive} (as needed) so that it's possible to
+// configure whether or not the website should be responsive or not.
+
+@base-isResponsive: ~".is-responsive";
+@base-notResponsive: ~".not-responsive";
+
+// Small screen / phone
+@base-screen--xs-minWidth: 480px;
+// Small screen / tablet
+@base-screen--sm-minWidth: 600px;
+// Medium screen / desktop
+@base-screen--md-minWidth: 768px;
+// Large screen / wide desktop
+@base-screen--lg-minWidth: 960px;
+// XL screen / wide desktop
+@base-screen--xl-minWidth: 1200px;
+
+// Max width for each breakpoint
+@base-screen--xxs-maxWidth: (@base-screen--xs-minWidth - 1);
+@base-screen--xs-maxWidth: (@base-screen--sm-minWidth - 1);
+@base-screen--sm-maxWidth: (@base-screen--md-minWidth - 1);
+@base-screen--md-maxWidth: (@base-screen--lg-minWidth - 1);
+@base-screen--lg-maxWidth: (@base-screen--xl-minWidth - 1);
+
+// Above a specific breakpoint media queries
+@base-screen--xs--above: ~"only screen and (min-width: @{base-screen--xs-minWidth})";
+@base-screen--sm--above: ~"only screen and (min-width: @{base-screen--sm-minWidth})";
+@base-screen--md--above: ~"only screen and (min-width: @{base-screen--md-minWidth})";
+@base-screen--lg--above: ~"only screen and (min-width: @{base-screen--lg-minWidth})";
+@base-screen--xl--above: ~"only screen and (min-width: @{base-screen--xl-minWidth})";
+
+// Friendly names
+@base-screen--phablet--above: @base-screen--xs--above;
+@base-screen--tabletSmall--above: @base-screen--sm--above;
+@base-screen--tablet--above: @base-screen--md--above;
+@base-screen--desktop--above: @base-screen--lg--above;
+@base-screen--desktopWide--above: @base-screen--xl--above;
+
+
+// Specific breakpoint media queries
+@base-screen--xs--only: ~"only screen and (min-width: @{base-screen--xs-minWidth}) and (max-width: @{base-screen--xs-maxWidth})";
+@base-screen--sm--only: ~"only screen and (min-width: @{base-screen--sm-minWidth}) and (max-width: @{base-screen--sm-maxWidth})";
+@base-screen--md--only: ~"only screen and (min-width: @{base-screen--md-minWidth}) and (max-width: @{base-screen--md-maxWidth})";
+@base-screen--lg--only: ~"only screen and (min-width: @{base-screen--lg-minWidth}) and (max-width: @{base-screen--lg-maxWidth})";
+
+// Friendly names
+@base-screen--phablet--only: @base-screen--xs--only;
+@base-screen--tabletSmall--only: @base-screen--sm--only;
+@base-screen--thablet--only: @base-screen--md--only;
+@base-screen--desktop--only: @base-screen--lg--only;
+
+
+// Max width media queries
+@base-screen--xxs: ~"only screen and (max-width : @{base-screen--xxs-maxWidth})";
+@base-screen--xs: ~"only screen and (max-width : @{base-screen--xs-maxWidth})";
+@base-screen--sm: ~"only screen and (max-width : @{base-screen--sm-maxWidth})";
+@base-screen--md: ~"only screen and (max-width : @{base-screen--md-maxWidth})";
+@base-screen--lg: ~"only screen and (max-width : @{base-screen--lg-maxWidth})";
+@base-screen--xl: ~"only screen and (min-width : @{base-screen--xl-minWidth})";

@@ -4,7 +4,8 @@ import template from './subscription-progress.html';
 let component = {
 	bindings: {
 		subscriptionPlan: '<',
-		subscriptionRoute: '<'
+		subscriptionRoute: '<',
+		routeTo: '&'
 	},
 	template: template
 };

@@ -1,7 +1,7 @@
 import template from './subscription-overview.html';
 
 // Inject dependencies
-@Inject('braintreeService')
+@Inject('braintreeDataService')
 class SubscriptionOverviewComponent {
 	constructor() {
 		this.message = '';
@@ -17,7 +17,7 @@ class SubscriptionOverviewComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		let customer = this.braintreeService.customer;
+		let customer = this.braintreeDataService.customer;
 		if(customer.clientToken) {
 			this._confirmSubscription();
 		}
@@ -31,20 +31,20 @@ class SubscriptionOverviewComponent {
 
 		let subscriptionData = {
 			subscription: {
-				paymentMethodToken: this.braintreeService.customer.paymentMethod.token,
-				planId: this.braintreeService.customer.subscriptionPlan.id
+				paymentMethodToken: this.braintreeDataService.customer.paymentMethod.token,
+				planId: this.braintreeDataService.customer.subscriptionPlan.id
 			}
 		};
 
-		this.braintreeService.createSubscription(subscriptionData).then(
+		this.braintreeDataService.createSubscription(subscriptionData).then(
 			(response) => {
 				if (response.data.success) {
 					this.message = 'Subscription was created!';
 					this.state.loading = false;
-					this.subscriptionPlan = this.braintreeService.customer.subscriptionPlan;
+					this.subscriptionPlan = this.braintreeDataService.customer.subscriptionPlan;
 
 					// Clear the customer data
-					//this.braintreeService.initCustomerData();
+					//this.braintreeDataService.initCustomerData();
 				} else {
 					console.log('Error creating a sub', response.data.message);
 					// TODO: Handle different failures maybe?

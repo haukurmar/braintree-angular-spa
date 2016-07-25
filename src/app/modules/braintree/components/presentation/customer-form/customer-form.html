@@ -2,14 +2,9 @@
 	<h2 class="Heading--two">Please fill out your information</h2>
 	<form name="customer" ng-submit="$ctrl.onSubmit({customerModel: $ctrl.customerModel})">
 		<div class="Form-item">
-			<label class="Form-itemLabel" for="txtCustomerId">CustomerId</label>
-			<input type="text" class="Textbox" id="txtCustomerId" ng-model="$ctrl.customerModel.id" placeholder="Username for example" />
-		</div>
-		<div class="Form-item">
 			<label class="Form-itemLabel" for="txtFirstName">First name</label>
 			<input type="text" class="Textbox" id="txtFirstName" ng-model="$ctrl.customerModel.firstName" required placeholder="First name" />
 		</div>
-
 		<div class="Form-item">
 			<label class="Form-itemLabel" for="txtLastName">Last name</label>
 			<input type="text" class="Textbox" id="txtLastName" ng-model="$ctrl.customerModel.lastName" required placeholder="Last name" />
@@ -22,7 +17,8 @@
 
 		<button class="Button Button--primary" type="submit">{{ $ctrl.submitButtonText }}</button>
 		<span ng-if="$ctrl.backButtonVisible">
-			| <a ng-link="[$ctrl.backButtonRoute]">{{ $ctrl.backButtonText }}</a>
+			| <a href="" ng-click="$ctrl.routeTo({route: $ctrl.backButtonRoute})">{{ $ctrl.backButtonText }}</a>
 		</span>
+		<input type="hidden" id="txtCustomerId" ng-model="$ctrl.customerModel.id" />
 	</form>
 </section>

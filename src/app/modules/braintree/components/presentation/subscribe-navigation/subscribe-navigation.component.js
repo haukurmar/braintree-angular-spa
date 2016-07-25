@@ -3,8 +3,8 @@ import template from './subscribe-navigation.html';
 // Component decorations
 let component = {
 	bindings: {
-		$router: '<',
-		selectedRoute: '<'
+		selectedRoute: '<',
+		routeTo: '&'
 	},
 	template : template
 };
