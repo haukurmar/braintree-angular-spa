@@ -10,10 +10,21 @@ class SubscribeViewComponent {
 	// --------------------------------------------------
 	$onInit() {
 		this.braintreeDataService.initMode('subscription');
-
-		var customer = {
-			id: this.customerId
-		};
+		let customer = {};
+		if(this.customer) {
+			if(this.customer.id) {
+				customer.id = this.customer.id;
+			}
+			if(this.customer.email) {
+				customer.email = this.customer.email;
+			}
+			if(this.customer.firstName) {
+				customer.firstName = this.customer.firstName;
+			}
+			if(this.customer.lastName) {
+				customer.lastName = this.customer.lastName;
+			}
+		}
 
 		this.braintreeDataService.updateCustomerData(customer);
 	}
@@ -25,7 +36,7 @@ class SubscribeViewComponent {
 // Component decorations
 let component = {
 	bindings: {
-		customerId: '<'
+		customer: '<'
 	},
 	template : template,
 	controller: SubscribeViewComponent
