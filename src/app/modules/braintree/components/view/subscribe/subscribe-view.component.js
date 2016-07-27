@@ -11,18 +11,18 @@ class SubscribeViewComponent {
 	$onInit() {
 		this.braintreeDataService.initMode('subscription');
 		let customer = {};
-		if(this.customer) {
-			if(this.customer.id) {
-				customer.id = this.customer.id;
+		if(this.customerData) {
+			if(this.customerData.id) {
+				customer.id = this.customerData.id;
 			}
-			if(this.customer.email) {
-				customer.email = this.customer.email;
+			if(this.customerData.email) {
+				customer.email = this.customerData.email;
 			}
-			if(this.customer.firstName) {
-				customer.firstName = this.customer.firstName;
+			if(this.customerData.firstName) {
+				customer.firstName = this.customerData.firstName;
 			}
-			if(this.customer.lastName) {
-				customer.lastName = this.customer.lastName;
+			if(this.customerData.lastName) {
+				customer.lastName = this.customerData.lastName;
 			}
 		}
 
@@ -36,7 +36,7 @@ class SubscribeViewComponent {
 // Component decorations
 let component = {
 	bindings: {
-		customer: '<'
+		customerData: '<'
 	},
 	template : template,
 	controller: SubscribeViewComponent

@@ -33,8 +33,20 @@ class CustomerDetailsComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
+		let customer = {};
+		console.log('this.customerData', this.customerData);
+		if(this.customerData) {
+			if(this.customerData.id) {
+				customer.id = this.customerData.id;
+
+				// Update existing customer in service
+				this.braintreeDataService.updateCustomerData(customer);
+			}
+		}
+
 		// Get Customer from service
 		this.customer = this.braintreeDataService.customer;
+		console.log('customer', this.customer);
 
 		// If we get a customerId, we fetch it from API
 		if (this.customer.id) {
@@ -395,7 +407,9 @@ class CustomerDetailsComponent {
 
 // Component decorations
 let component = {
-	bindings: {},
+	bindings: {
+		customerData: '<'
+	},
 	template: template,
 	controller: CustomerDetailsComponent
 };
