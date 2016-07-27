@@ -11805,7 +11805,7 @@
 /* 107 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n\n\n<h2 class=\"Heading--two\">Paypal</h2>\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n\n<button class=\"Button Button--primary Button--lg\" ng-click=\"$ctrl.pay($event)\">Paypal</button>\n<span ng-if=\"$ctrl.state.backButtonVisible\">\n\t| <a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.backButtonRoute)\">{{ $ctrl.state.backButtonText }}</a>\n</span>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n\n\n<h2 class=\"Heading--two\">Paypal</h2>\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n\n<button class=\"Button Button--primary\" ng-click=\"$ctrl.pay($event)\">Connect with Paypal...</button>\n<span ng-if=\"$ctrl.state.backButtonVisible\">\n\t| <a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.backButtonRoute)\">{{ $ctrl.state.backButtonText }}</a>\n</span>\n"
 
 /***/ },
 /* 108 */
@@ -12073,7 +12073,7 @@
 /* 111 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n\n<h2 class=\"Heading--two\">Subscribe</h2>\n<hr class=\"Divider--dotted\">\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--cta Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n\n<!--<h2 class=\"Heading&#45;&#45;two\">Subscribe</h2>-->\n<hr class=\"Divider--dotted\">\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--cta Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 112 */
@@ -12297,7 +12297,7 @@
 /* 115 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n\n\n<h2 class=\"Heading--two\">Choose your payment method</h2>\n<hr class=\"Divider--dotted\">\n\n<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t<h2 class=\"Heading--three\">Your stored payment methods</h2>\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\">\n\t\t\t<ui-braintree-payment-method\n\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\ton-card-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"\n\t\t\t\ton-paypal-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"></ui-braintree-payment-method>\n\t\t\t<hr class=\"Divider--dotted\">\n\t\t</div>\n\t</div>\n</div>\n\n<h2 class=\"Heading--three\" ng-if=\"$ctrl.customer.paymentMethods['0']\">New payment method</h2>\n<button class=\"Button Button--primary Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('cards')\">Credit or Debit card</button>\n<button class=\"Button Button--primary Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('paypal')\">Paypal</button>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n\n\n<h2 class=\"Heading--two\">Choose your payment method</h2>\n<hr class=\"Divider--dotted\">\n\n<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t<h2 class=\"Heading--three\">Your stored payment methods</h2>\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\">\n\t\t\t<ui-braintree-payment-method\n\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\ton-card-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"\n\t\t\t\ton-paypal-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"></ui-braintree-payment-method>\n\t\t\t<hr class=\"Divider--dotted\">\n\t\t</div>\n\t</div>\n</div>\n\n<h2 class=\"Heading--three\" ng-if=\"$ctrl.customer.paymentMethods['0']\">New payment method</h2>\n<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('cards')\">Credit or Debit card</button>\n<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('paypal')\">Paypal</button>\n"
 
 /***/ },
 /* 116 */
@@ -12365,8 +12365,20 @@
 		_createClass(CustomerDetailsComponent, [{
 			key: '$onInit',
 			value: function $onInit() {
+				var customer = {};
+				console.log('this.customerData', this.customerData);
+				if (this.customerData) {
+					if (this.customerData.id) {
+						customer.id = this.customerData.id;
+	
+						// Update existing customer in service
+						this.braintreeDataService.updateCustomerData(customer);
+					}
+				}
+	
 				// Get Customer from service
 				this.customer = this.braintreeDataService.customer;
+				console.log('customer', this.customer);
 	
 				// If we get a customerId, we fetch it from API
 				if (this.customer.id) {
@@ -12741,7 +12753,9 @@
 	})();
 	
 	var component = {
-		bindings: {},
+		bindings: {
+			customerData: '<'
+		},
 		template: _customerDetailsHtml2['default'],
 		controller: CustomerDetailsComponent
 	};
@@ -13133,7 +13147,7 @@
 				var customer = {
 					//id: '27547087'
 					//id: '37312055',
-					//id: 'zickread123'
+					id: 'zickread123'
 				};
 				this.braintreeDataService.updateCustomerData(customer);
 			}
@@ -13228,18 +13242,18 @@
 			value: function $onInit() {
 				this.braintreeDataService.initMode('subscription');
 				var customer = {};
-				if (this.customer) {
-					if (this.customer.id) {
-						customer.id = this.customer.id;
+				if (this.customerData) {
+					if (this.customerData.id) {
+						customer.id = this.customerData.id;
 					}
-					if (this.customer.email) {
-						customer.email = this.customer.email;
+					if (this.customerData.email) {
+						customer.email = this.customerData.email;
 					}
-					if (this.customer.firstName) {
-						customer.firstName = this.customer.firstName;
+					if (this.customerData.firstName) {
+						customer.firstName = this.customerData.firstName;
 					}
-					if (this.customer.lastName) {
-						customer.lastName = this.customer.lastName;
+					if (this.customerData.lastName) {
+						customer.lastName = this.customerData.lastName;
 					}
 				}
 	
@@ -13257,7 +13271,7 @@
 	
 	var component = {
 		bindings: {
-			customer: '<'
+			customerData: '<'
 		},
 		template: _subscribeViewHtml2['default'],
 		controller: SubscribeViewComponent
