@@ -6,6 +6,10 @@ import {ROUTES} from '../../../braintree.constants';
 class CustomerDetailsComponent {
 	constructor() {
 		this.state = {
+			header: {
+				visible: true,
+				text: 'Customer overview'
+			},
 			loading: {
 				isLoading: false,
 				text: ''
@@ -51,6 +55,13 @@ class CustomerDetailsComponent {
 		// If we get a customerId, we fetch it from API
 		if (this.customer.id) {
 			this.getCustomerDetails(this.customer.id);
+		}
+
+		if(this.headerVisible === false) {
+			this.state.header.visible = false;
+		}
+		if(this.headerText) {
+			this.state.header.text = this.headerText;
 		}
 	}
 
@@ -408,7 +419,9 @@ class CustomerDetailsComponent {
 // Component decorations
 let component = {
 	bindings: {
-		customerData: '<'
+		customerData: '<',
+		headerText: '<',
+		headerVisible: '<'
 	},
 	template: template,
 	controller: CustomerDetailsComponent
