@@ -26,7 +26,7 @@ export default class BraintreeService {
 	// Public methods
 	// --------------------------------------------------
 	get apiUrl() {
-		return this._apiUrl
+		return this.braintreeConfigService.apiUrl
 	}
 
 	get $braintree() {
@@ -66,12 +66,12 @@ export default class BraintreeService {
 	 * @returns {*}
 	 */
 	createCustomer(customerData) {
-		return this.$http.post(this._apiUrl + this._customerPath, customerData);
+		return this.$http.post(this.apiUrl + this._customerPath, customerData);
 	}
 
 
 	cancelSubscription(subscriptionId) {
-		return this.$http.delete(this._apiUrl + this._subscriptionsPath + '/' + subscriptionId);
+		return this.$http.delete(this.apiUrl + this._subscriptionsPath + '/' + subscriptionId);
 	}
 
 	/**
@@ -83,7 +83,7 @@ export default class BraintreeService {
 	createSubscription(subscriptionData) {
 		// TODO: Find out what to do with a current subscriptionplan if user has any
 
-		return this.$http.post(this._apiUrl + this._subscriptionsPath, subscriptionData);
+		return this.$http.post(this.apiUrl + this._subscriptionsPath, subscriptionData);
 	}
 
 	createVaultedPayment(customerId, paymentModel) {
@@ -122,15 +122,15 @@ export default class BraintreeService {
 	 * @param paymentMethodModel
 	 */
 	createPaymentMethod(paymentMethodModel) {
-		return this.$http.post(this._apiUrl + this._paymentMethodsPath, paymentMethodModel);
+		return this.$http.post(this.apiUrl + this._paymentMethodsPath, paymentMethodModel);
 	}
 
 	deletePaymentMethod(paymentMethod) {
-		return this.$http.delete(this._apiUrl + this._paymentMethodsPath + '/' + paymentMethod.token);
+		return this.$http.delete(this.apiUrl + this._paymentMethodsPath + '/' + paymentMethod.token);
 	}
 
 	getAllSubscriptionPlans() {
-		return this.$http.get(this._apiUrl + this._subscriptionPlansPath);
+		return this.$http.get(this.apiUrl + this._subscriptionPlansPath);
 	}
 
 	/**
@@ -138,7 +138,7 @@ export default class BraintreeService {
 	 * @returns {promise}
 	 */
 	getClientToken() {
-		return this.$http.get(this._apiUrl + this._tokenPath);
+		return this.$http.get(this.apiUrl + this._tokenPath);
 	}
 
 	/**
@@ -147,7 +147,7 @@ export default class BraintreeService {
 	 * @returns {*}
 	 */
 	getCustomer(customerId, includeSubscriptions = false) {
-		let path = this._apiUrl + this._customerPath + '/' + customerId;
+		let path = this.apiUrl + this._customerPath + '/' + customerId;
 
 		if (includeSubscriptions) {
 			path += '/subscriptions';
@@ -211,7 +211,7 @@ export default class BraintreeService {
 	 * @returns {promise}
 	 */
 	processPayment(paymentData) {
-		return this.$http.post(this._apiUrl + this._processPath, paymentData);
+		return this.$http.post(this.apiUrl + this._processPath, paymentData);
 	}
 
 	updateCustomerData(customerModel) {
@@ -225,7 +225,7 @@ export default class BraintreeService {
 			subscriptionChanges: subscription
 		};
 
-		return this.$http.put(this._apiUrl + this._subscriptionsPath, requestBody);
+		return this.$http.put(this.apiUrl + this._subscriptionsPath, requestBody);
 	}
 
 	// TODO: Move somewhere else
