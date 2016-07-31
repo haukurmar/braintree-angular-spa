@@ -1,5 +1,12 @@
 import template from './subscription-plans-custom.html';
 import {ROUTES} from '../../../braintree.constants';
+import _ from 'underscore';
+
+/**
+ * This is a specific implementation to display only a set of predefined subscription plans
+ * No Reusability here
+ * To be removed later.
+ */
 
 // Inject dependencies
 @Inject('braintreeDataService', 'braintreeAppService')
@@ -14,7 +21,17 @@ class SubscriptionPlansCustomComponent {
 			nextRoute: ''
 		};
 
+		this.customPlans = {
+			premiumOne: {},
+			premiumThree: {},
+			premiumSix: {},
+			premiumTwelve: {},
+			premiumLifetime: {},
+		};
+
 		this.customer = null;
+
+		window.customPlans = this.customPlans;
 	}
 
 	// Private methods
@@ -35,6 +52,27 @@ class SubscriptionPlansCustomComponent {
 		this.braintreeDataService.getAllSubscriptionPlans().then(
 			(response) => {
 				this.plans = response.data.plans;
+
+				_.each(response.data.plans, (plan) => {
+					switch(plan.id) {
+					case 'premiumOne':
+						this.customPlans.premiumOne = plan;
+						break;
+					case 'premiumThree':
+						this.customPlans.premiumThree = plan;
+						break;
+					case 'premiumSix':
+						this.customPlans.premiumSix = plan;
+						break;
+					case 'premiumTwelve':
+						this.customPlans.premiumTwelve = plan;
+						break;
+					case 'premiumLifetime':
+						this.customPlans.premiumLifetime = plan;
+						break;
+					}
+				});
+
 				this.state.loading = false;
 			},
 			(error) => {

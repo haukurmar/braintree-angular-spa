@@ -28,7 +28,7 @@
 @panel-header-borderWidth : 0;
 @panel-header-borderStyle: solid;
 @panel-header-borderColor: transparent;
-@panel-header-backgroundColor: #fff;
+@panel-header-backgroundColor: #eee;
 
 // ----- Heading
 @panel-heading-fontFamily: inherit;
@@ -41,6 +41,7 @@
 // ----- Body
 @panel-body-paddingLeft: 20px;
 @panel-body-paddingRight: 20px;
+@panel-body--highlight-backgroundColor: #f4f4f4;
 
 // --- Custom modifiers ---
 @panel--warning-color: #fff;
@@ -81,15 +82,15 @@
 .Panel-heading {
 	.Panel-heading();
 	font-family: @base-heading-fontFamily;
-	border-bottom: 1px solid @base-borderColor;
+	//border-bottom: 1px solid @base-borderColor;
 	margin-left: @panel-body-paddingLeft;
 	margin-right: @panel-body-paddingRight;
-	.height(7); // Set the height because of the border to fit baseline
-	.line-height(7);
+	//.height(7); // Set the height because of the border to fit baseline
+	//.line-height(7);
 
 	&.Heading--two {
 		color: @base-color;
-		.line-height(7);
+		//.line-height(7);
 	}
 }
 
@@ -107,6 +108,7 @@
 // Modifier on body descendand
 .Panel-body--highlight {
 	.Panel-body--highlight();
+	background-color: @panel-body--highlight-backgroundColor;
 }
 
 .Panel--transparent {

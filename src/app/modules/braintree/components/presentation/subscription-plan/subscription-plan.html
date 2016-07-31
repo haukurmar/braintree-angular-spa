@@ -1,9 +1,17 @@
 <div class="{{ $ctrl.itemCssClass }}">
-	<h3 class="Heading--three">
-		<span ng-bind="$ctrl.subscriptionPlan.name"></span>
-	</h3>
-	<p ng-bind="$ctrl.subscriptionPlan.description"></p>
+	<header class="HeadingGroup">
+		<h3 class="Heading--four mb--1">
+			<span ng-bind="$ctrl.subscriptionPlan.name"></span>
+		</h3>
+		<h4 class="Heading--seven Heading--light mt--0">
+			$<span ng-bind="$ctrl.subscriptionPlan.price"></span>
+		</h4>
+	</header>
+	<hr class="Divider--dotted">
+	<h4 class="Heading--four u-textSuccess mb--0" ng-bind="$ctrl.subscriptionPlan.description"></h4>
+	<p class="mt--0">/month</p>
 	<button class="Button {{ $ctrl.buttonCssModifier }}"
 	        ng-click="$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})"
-			ng-disabled="$ctrl.buttonDisabled">{{ $ctrl.buttonText }}</button>
+	        ng-disabled="$ctrl.buttonDisabled">{{ $ctrl.buttonText }}
+	</button>
 </div>

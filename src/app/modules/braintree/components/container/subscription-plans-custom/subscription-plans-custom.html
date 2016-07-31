@@ -1,19 +1,73 @@
 <ui-braintree-subscription-progress subscription-plan="$ctrl.customer.subscriptionPlan"></ui-braintree-subscription-progress>
 <ui-braintree-subscription-navigation route-to="$ctrl.routeTo(route)" selected-route="'/subscribe'"></ui-braintree-subscription-navigation>
 
+
 <p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
 <ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading" text="$ctrl.loadingText"></ui-loading-icon>
 
-<section class="Panel">
+
+<section class="Panel" ng-if="$ctrl.plans.length">
 	<div class="Panel-body">
+		<h2 class="Heading--two Heading--light u-textCenter">Select your subscription plan</h2>
 		<div class="Grid-row">
-			<div class="Grid-col--4" ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
+			<div class="Grid-col--4">
 				<ui-braintree-subscription-plan
-					button-css-modifier="'Button--cta Button--lg'"
+					button-css-modifier="'Button--primary Button--lg'"
 					button-text="'Select plan'"
-					subscription-plan="plan"
+					subscription-plan="$ctrl.customPlans.premiumThree"
+					item-css-class="'u-textCenter mt--9'"
 					on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
-				<hr class="Divider--dotted">
+			</div>
+
+			<div class="Grid-col--4">
+				<div class="Panel">
+					<header class="Panel-header u-textCenter">
+						<h2 class="Heading--six Panel-heading">Most popular</h2>
+					</header>
+					<div class="Panel-body Panel-body--highlight">
+						<ui-braintree-subscription-plan
+							button-css-modifier="'Button--success Button--lg'"
+							button-text="'Select plan'"
+							subscription-plan="$ctrl.customPlans.premiumSix"
+							item-css-class="'u-textCenter'"
+							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading">
+						</ui-braintree-subscription-plan>
+					</div>
+				</div>
+			</div>
+
+			<div class="Grid-col--4">
+				<ui-braintree-subscription-plan
+					button-css-modifier="'Button--primary Button--lg'"
+					button-text="'Select plan'"
+					subscription-plan="$ctrl.customPlans.premiumTwelve"
+					item-css-class="'u-textCenter mt--9'"
+					on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+			</div>
+		</div>
+
+		<hr class="Divider--dotted">
+		<div class="Grid-row Grid-row--alignCenter">
+			<div class="Grid-col--12 ">
+				<h3 class="Heading--three Heading--light">Premium for life?</h3>
+				<h4 class="Heading--five">Lifetime licence</h4>
+				<h5 class="Heading--three u-textWarning mb--0">${{ $ctrl.customPlans.premiumLifetime.price }}</h5>
+				<p class="mt--0">One time payment</p>
+				<button class="Button Button--cta Button--lg" ng-click="$ctrl.chooseSubscriptionPlan($ctrl.customPlans.premiumLifetime)">
+					Go All In!
+				</button>
+			</div>
+		</div>
+
+		<hr class="Divider--dotted">
+
+		<div class="Grid-row Grid-row--alignCenter">
+			<div class="Grid-col--12">
+				<p>or<br> pay monthly<br>
+					<button class="Button Button--secondary" ng-click="$ctrl.chooseSubscriptionPlan($ctrl.customPlans.premiumOne)">
+						${{ $ctrl.customPlans.premiumOne.price }} / month
+					</button>
+				</p>
 			</div>
 		</div>
 	</div>

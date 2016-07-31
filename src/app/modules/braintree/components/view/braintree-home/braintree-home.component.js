@@ -19,7 +19,7 @@ class BraintreeHomeComponent {
 		let customer = {
 			//id: '27547087'
 			//id: '37312055',
-			//id: 'zickread123'
+			id: 'zickread123'
 		};
 		this.braintreeDataService.updateCustomerData(customer);
 	}
