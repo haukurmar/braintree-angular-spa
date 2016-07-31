@@ -1,4 +1,4 @@
-import template from './subscription.html';
+import template from './subscription-plans.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies

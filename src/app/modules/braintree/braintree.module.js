@@ -13,7 +13,7 @@ import CreditCardComponent from './components/container/creditcard/creditcard.co
 import DropinComponent from './components/container/dropin/dropin.component';
 import PaypalComponent from './components/container/paypal/paypal.component';
 import PaypalButtonComponent from './components/container/paypal-button/paypal-button.component';
-import SubscriptionComponent from './components/container/subscription/subscription.component';
+import SubscriptionPlansComponent from './components/container/subscription-plans/subscription-plans.component';
 import SubscriptionOverviewComponent from './components/container/subscription-overview/subscription-overview.component';
 import PaymentMethodsComponent from './components/container/payment-methods/payment-methods.component';
 import CustomerDetailsComponent from './components/container/customer-details/customer-details.component';
@@ -54,7 +54,7 @@ ngModule
 	.component('braintreeCustomerDetails', CustomerDetailsComponent)
 	.component('braintreeCreditCard', CreditCardComponent)
 	.component('braintreeDropin', DropinComponent)
-	.component('braintreeSubscription', SubscriptionComponent)
+	.component('braintreeSubscriptionPlans', SubscriptionPlansComponent)
 	.component('braintreeSubscriptionOverview', SubscriptionOverviewComponent)
 	.component('braintreePaymentMethods', PaymentMethodsComponent)
 	.component('braintreePaypal', PaypalComponent)
@@ -83,7 +83,7 @@ function braintreeConfig($locationProvider, $routeProvider) {
 	// -----------------------------------------------------
 	$routeProvider
 		.when('/', {
-			template: '<braintree-subscription></braintree-subscription>',
+			template: '<braintree-subscription-plans></braintree-subscription-plans>',
 		})
 		.when('/customer-details', {
 			template: '<braintree-customer-details></braintree-customer-details>',
@@ -104,7 +104,7 @@ function braintreeConfig($locationProvider, $routeProvider) {
 			template: '<braintree-paypal></braintree-paypal>',
 		})
 		.when('/subscribe', {
-			template: '<braintree-subscription></braintree-subscription>',
+			template: '<braintree-subscription-plans></braintree-subscription-plans>',
 		})
 		.when('/subscription-overview', {
 			template: '<braintree-subscription-overview></braintree-subscription-overview>',
