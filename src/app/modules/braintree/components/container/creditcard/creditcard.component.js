@@ -11,6 +11,9 @@ class CreditCardComponent {
 			backButtonVisible: false,
 			error: false,
 			hideAmount: false,
+			mode: {
+				subscription: false
+			},
 			loading: {
 				isLoading: false,
 				text: ''
@@ -38,6 +41,7 @@ class CreditCardComponent {
 	// --------------------------------------------------
 	$onInit() {
 		this.customer = this.braintreeDataService.customer;
+		this.state.mode = this.braintreeDataService.mode;
 
 		// Subscription mode
 		let mode = this.braintreeDataService.mode;

@@ -1,7 +1,7 @@
 const ROUTES = {
 	CARDS: '/cards',
 	CUSTOMER: '/customer',
-	CUSTOMER_DETAILS: '/customer-details',
+	CUSTOMER_DETAILS: '/billing-overview',
 	DROPIN: '/drop-in',
 	PAYMENT_METHODS: '/payment-methods',
 	PAYPAL: '/paypal',

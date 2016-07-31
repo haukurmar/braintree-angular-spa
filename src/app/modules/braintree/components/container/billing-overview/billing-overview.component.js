@@ -1,4 +1,4 @@
-import template from './customer-details.html';
+import template from './billing-overview.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
@@ -8,7 +8,7 @@ class CustomerDetailsComponent {
 		this.state = {
 			header: {
 				visible: true,
-				text: 'Customer overview'
+				text: 'Billing overview'
 			},
 			loading: {
 				isLoading: false,

@@ -3,13 +3,23 @@
 	subscription-route="$ctrl.routes.subscription"
 	route-to="$ctrl.routeTo(route)">
 </ui-braintree-subscription-progress>
+<ui-braintree-subscription-navigation
+	route-to="$ctrl.routeTo(route)"
+	selected-route="'/payment-methods'"
+	ng-if="$ctrl.state.mode.subscription">
+</ui-braintree-subscription-navigation>
 
-
-<h2 class="Heading--two">Paypal</h2>
 <p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
 <input type="hidden" name="payment_method_nonce" />
 
-<button class="Button Button--primary" ng-click="$ctrl.pay($event)">Connect with Paypal...</button>
-<span ng-if="$ctrl.state.backButtonVisible">
-	| <a href="" ng-click="$ctrl.routeTo($ctrl.state.backButtonRoute)">{{ $ctrl.state.backButtonText }}</a>
-</span>
+<section class="Panel">
+	<div class="Panel-body">
+		<h2 class="Heading--two Heading--light u-textCenter">Connect with Paypal</h2>
+		<hr class="Divider--dotted">
+
+		<button class="Button Button--primary" ng-click="$ctrl.pay($event)">Connect with Paypal...</button>
+		<span ng-if="$ctrl.state.backButtonVisible">
+			| <a href="" ng-click="$ctrl.routeTo($ctrl.state.backButtonRoute)">{{ $ctrl.state.backButtonText }}</a>
+		</span>
+	</div>
+</section>

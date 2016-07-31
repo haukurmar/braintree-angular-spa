@@ -1,14 +1,15 @@
 import template from './subscription-overview.html';
 
 // Inject dependencies
-@Inject('braintreeDataService')
+@Inject('braintreeDataService', 'braintreeAppService')
 class SubscriptionOverviewComponent {
 	constructor() {
 		this.message = '';
 		this.loadingText = '';
 		this.state = {
 			error: false,
-			loading: false
+			loading: false,
+			success: false
 		};
 
 		this.subscriptionPlan = null;
@@ -39,7 +40,8 @@ class SubscriptionOverviewComponent {
 		this.braintreeDataService.createSubscription(subscriptionData).then(
 			(response) => {
 				if (response.data.success) {
-					this.message = 'Subscription was created!';
+					this.state.message = '';
+					this.state.success = true;
 					this.state.loading = false;
 					this.subscriptionPlan = this.braintreeDataService.customer.subscriptionPlan;
 
@@ -58,6 +60,10 @@ class SubscriptionOverviewComponent {
 				this.state.loading = false;
 			}
 		);
+	}
+
+	routeTo(path){
+		return this.braintreeAppService.routeTo(path);
 	}
 }
 

@@ -1,8 +1,8 @@
 <section>
-	<h2 class="Heading--two">Subscription overview</h2>
-	<hr class="Divider--dotted">
+	<div ng-if="$ctrl.state.success">
+		<h2 class="Heading--two" ng-if="$ctrl.state.success">Your subscription has been created!</h2>
+		Go to <a href="" ng-click="$ctrl.routeTo('/billing-overview')">billing overview</a> for more details.
+	</div>
 	<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
 	<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading" text="$ctrl.loadingText"></ui-loading-icon>
-
-	<ui-braintree-subscription-overview subscription-plan="$ctrl.subscriptionPlan"></ui-braintree-subscription-overview>
 </section>

@@ -19,7 +19,10 @@ class BraintreeSubscriptionComponent {
 				linkText: ''
 			},
 			showForm: true,
-			submitButtonText: 'Create customer'
+			submitButtonText: 'Create customer',
+			mode: {
+				subscription: false
+			}
 		};
 
 		this.routes = {
@@ -38,10 +41,10 @@ class BraintreeSubscriptionComponent {
 		// Get Customer from service
 		this.customer = this.braintreeDataService.customer;
 		this.customerModel = this.customer;
+		this.state.mode = this.braintreeDataService.mode;
 
 		// Subscription mode
-		let mode = this.braintreeDataService.mode;
-		if (mode.subscription) {
+		if (this.state.mode.subscription) {
 			this.state.submitButtonText = 'Continue';
 			this.state.backButtonVisible = true;
 

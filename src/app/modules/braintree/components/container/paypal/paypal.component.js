@@ -12,6 +12,9 @@ class PaypalComponent {
 			backButtonVisible: true,
 			message: {
 				text: ''
+			},
+			mode: {
+				subscription: false
 			}
 		};
 
@@ -28,6 +31,7 @@ class PaypalComponent {
 	// --------------------------------------------------
 	$onInit() {
 		this.customer = this.braintreeDataService.customer;
+		this.state.mode = this.braintreeDataService.mode;
 
 		if(!this.braintreeDataService.customer.clientToken) {
 			this.braintreeDataService.getClientToken().then(

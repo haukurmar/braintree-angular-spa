@@ -1,22 +1,33 @@
 <ui-braintree-subscription-progress
 	subscription-plan="$ctrl.customer.subscriptionPlan"
 	subscription-route="$ctrl.routes.subscription"
-    route-to="$ctrl.routeTo(route)">
+	route-to="$ctrl.routeTo(route)">
 </ui-braintree-subscription-progress>
+<ui-braintree-subscription-navigation
+	route-to="$ctrl.routeTo(route)"
+	selected-route="'/payment-methods'"
+	ng-if="$ctrl.state.mode.subscription">
+</ui-braintree-subscription-navigation>
 
-<section>
-	<p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
-	<a href="" ng-click="$ctrl.routeTo($ctrl.state.message.link)" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
+<p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
+<a href="" ng-click="$ctrl.routeTo($ctrl.state.message.link)" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
 
-	<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
-	<h2 class="Heading--two" ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showForm">Please fill out your card details</h2>
-	<ui-braintree-creditcard-form
-		on-submit="$ctrl.submitPayment(paymentModel)"
-		back-button-text="$ctrl.state.backButtonText"
-		back-button-route="$ctrl.state.backButtonRoute"
-		back-button-visible="$ctrl.state.backButtonVisible"
-		submit-button-text="$ctrl.state.submitButtonText"
-		hide-amount="$ctrl.state.hideAmount"
-		route-to="$ctrl.routeTo(route)"
-		ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showForm"></ui-braintree-creditcard-form>
+<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
+
+<section class="Panel" ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showForm">
+	<div class="Panel-body">
+		<h2 class="Heading--two Heading--light u-textCenter">Fill out your card details</h2>
+		<hr class="Divider--dotted">
+
+		<ui-braintree-creditcard-form
+			on-submit="$ctrl.submitPayment(paymentModel)"
+			back-button-text="$ctrl.state.backButtonText"
+			back-button-route="$ctrl.state.backButtonRoute"
+			back-button-visible="$ctrl.state.backButtonVisible"
+			submit-button-text="$ctrl.state.submitButtonText"
+			hide-amount="$ctrl.state.hideAmount"
+			route-to="$ctrl.routeTo(route)"
+			ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showForm">
+		</ui-braintree-creditcard-form>
+	</div>
 </section>

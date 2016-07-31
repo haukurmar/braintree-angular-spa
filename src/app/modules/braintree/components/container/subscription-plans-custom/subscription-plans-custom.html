@@ -9,6 +9,8 @@
 <section class="Panel" ng-if="$ctrl.plans.length">
 	<div class="Panel-body">
 		<h2 class="Heading--two Heading--light u-textCenter">Select your subscription plan</h2>
+		<hr class="Divider--dotted">
+
 		<div class="Grid-row">
 			<div class="Grid-col--4">
 				<ui-braintree-subscription-plan
@@ -22,7 +24,7 @@
 			<div class="Grid-col--4">
 				<div class="Panel">
 					<header class="Panel-header u-textCenter">
-						<h2 class="Heading--six Panel-heading">Most popular</h2>
+						<h2 class="Heading--six Panel-heading Heading--light">Most popular</h2>
 					</header>
 					<div class="Panel-body Panel-body--highlight">
 						<ui-braintree-subscription-plan

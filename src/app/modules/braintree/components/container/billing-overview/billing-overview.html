@@ -2,7 +2,7 @@
 	<h2 class="Heading--two" ng-bind="$ctrl.state.header.text"></h2>
 	<hr class="Divider--dotted">
 </header>
-	<section class="Alert Alert--{{ $ctrl.state.message.type }}" ng-if="$ctrl.state.message.text">
+<section class="Alert Alert--{{ $ctrl.state.message.type }}" ng-if="$ctrl.state.message.text">
 	<p>
 		<i class="Alert-icon fa fa-warning fa-lg"></i>
 		<span ng-bind="$ctrl.state.message.text"></span>
@@ -15,23 +15,23 @@
 <section ng-if="$ctrl.customer" ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel">
 	<!-- Profile -->
 	<!--<div class="Grid-row">-->
-		<!--<div class="Grid-col&#45;&#45;12">-->
+	<!--<div class="Grid-col&#45;&#45;12">-->
 
-			<!--<section class="Panel">-->
-				<!--<h3 class="Panel-heading Heading&#45;&#45;three">Profile</h3>-->
-				<!--<div class="Panel-body">-->
-					<!--<div class="Form-item">-->
-						<!--<label class="Form-itemLabel">Full name</label>-->
-						<!--<span ng-bind="$ctrl.customer.firstName"></span> <span ng-bind="$ctrl.customer.lastName"></span>-->
-					<!--</div>-->
-					<!--<div class="Form-item">-->
-						<!--<label class="Form-itemLabel">Email</label>-->
-						<!--<span ng-bind="$ctrl.customer.email"></span>-->
-					<!--</div>-->
-				<!--</div>-->
-			<!--</section>-->
+	<!--<section class="Panel">-->
+	<!--<h3 class="Panel-heading Heading&#45;&#45;three">Profile</h3>-->
+	<!--<div class="Panel-body">-->
+	<!--<div class="Form-item">-->
+	<!--<label class="Form-itemLabel">Full name</label>-->
+	<!--<span ng-bind="$ctrl.customer.firstName"></span> <span ng-bind="$ctrl.customer.lastName"></span>-->
+	<!--</div>-->
+	<!--<div class="Form-item">-->
+	<!--<label class="Form-itemLabel">Email</label>-->
+	<!--<span ng-bind="$ctrl.customer.email"></span>-->
+	<!--</div>-->
+	<!--</div>-->
+	<!--</section>-->
 
-		<!--</div>-->
+	<!--</div>-->
 	<!--</div>-->
 
 	<!-- Subscriptions & Payment methods -->
@@ -39,8 +39,9 @@
 
 		<div class="Grid-col--12">
 			<section class="Panel" ng-if="$ctrl.customer.subscriptions">
-				<h3 class="Panel-heading Heading--three">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>
-
+				<header class="Panel-header">
+					<h3 class="Panel-heading Heading--three">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>
+				</header>
 				<div class="Panel-body">
 					<div ng-repeat="subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['-updatedAt']">
 						<div class="Grid-row">

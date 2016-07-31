@@ -17,7 +17,7 @@ import SubscriptionPlansComponent from './components/container/subscription-plan
 import SubscriptionPlansCustomComponent from './components/container/subscription-plans-custom/subscription-plans-custom.component';
 import SubscriptionOverviewComponent from './components/container/subscription-overview/subscription-overview.component';
 import PaymentMethodsComponent from './components/container/payment-methods/payment-methods.component';
-import CustomerDetailsComponent from './components/container/customer-details/customer-details.component';
+import BillingOverviewComponent from './components/container/billing-overview/billing-overview.component';
 
 // Presentation Components
 import UICreditCardFormComponent from './components/presentation/creditcard-form/creditcard-form.component';
@@ -51,8 +51,8 @@ ngModule
 	.service('braintreeAppService', BraintreeAppService)
 
 	// Container components
+	.component('braintreeBillingOverview', BillingOverviewComponent)
 	.component('braintreeCustomer', CustomerComponent)
-	.component('braintreeCustomerDetails', CustomerDetailsComponent)
 	.component('braintreeCreditCard', CreditCardComponent)
 	.component('braintreeDropin', DropinComponent)
 	.component('braintreeSubscriptionPlans', SubscriptionPlansComponent)
@@ -87,8 +87,8 @@ function braintreeConfig($locationProvider, $routeProvider) {
 		.when('/', {
 			template: '<braintree-subscription-plans-custom></braintree-subscription-plans-custom>',
 		})
-		.when('/customer-details', {
-			template: '<braintree-customer-details></braintree-customer-details>',
+		.when('/billing-overview', {
+			template: '<braintree-billing-overview></braintree-billing-overview>',
 		})
 		.when('/cards', {
 			template: '<braintree-credit-card></braintree-credit-card>',

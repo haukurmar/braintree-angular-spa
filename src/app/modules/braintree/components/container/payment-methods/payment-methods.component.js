@@ -10,6 +10,9 @@ class PaymentMethodsComponent {
 			routes: {
 				nextRoute: '',
 				subscription: ROUTES.SUBSCRIPTION
+			},
+			mode: {
+				subscription: false
 			}
 		};
 
@@ -27,6 +30,7 @@ class PaymentMethodsComponent {
 	// --------------------------------------------------
 	$onInit() {
 		this.customer = this.braintreeDataService.customer;
+		this.state.mode = this.braintreeDataService.mode;
 	}
 
 	// Public viewModel methods

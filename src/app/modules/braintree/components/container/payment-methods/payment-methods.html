@@ -3,28 +3,37 @@
 	subscription-route="$ctrl.routes.subscription"
 	route-to="$ctrl.routeTo(route)">
 </ui-braintree-subscription-progress>
+<ui-braintree-subscription-navigation
+	route-to="$ctrl.routeTo(route)"
+	selected-route="'/payment-methods'"
+	ng-if="$ctrl.state.mode.subscription">
+</ui-braintree-subscription-navigation>
 
+<section class="Panel" ng-hide="$ctrl.state.loading.isLoading">
+	<div class="Panel-body">
+		<h2 class="Heading--two Heading--light u-textCenter">Choose your payment method</h2>
+		<hr class="Divider--dotted">
 
-<h2 class="Heading--two">Choose your payment method</h2>
-<hr class="Divider--dotted">
-
-<div ng-if="$ctrl.customer.paymentMethods['0']">
-	<h2 class="Heading--three">Your stored payment methods</h2>
-	<div class="Grid-row">
-		<div class="Grid-col--4" ng-repeat="paymentMethod in $ctrl.customer.paymentMethods">
-			<ui-braintree-payment-method
-				payment-method="paymentMethod"
-				card-button-text="'Choose card'"
-				card-button-visible="true"
-				paypal-button-text="'Choose paypal'"
-				paypal-button-visible="true"
-				on-card-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"
-				on-paypal-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"></ui-braintree-payment-method>
-			<hr class="Divider--dotted">
+		<div ng-if="$ctrl.customer.paymentMethods['0']">
+			<h2 class="Heading--five">Stored payment methods</h2>
+			<div class="Grid-row">
+				<div class="Grid-col--4" ng-repeat="paymentMethod in $ctrl.customer.paymentMethods">
+					<ui-braintree-payment-method
+						payment-method="paymentMethod"
+						card-button-text="'Choose card'"
+						card-button-visible="true"
+						paypal-button-text="'Choose paypal'"
+						paypal-button-visible="true"
+						on-card-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"
+						on-paypal-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"></ui-braintree-payment-method>
+					<hr class="Divider--dotted">
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
 
-<h2 class="Heading--three" ng-if="$ctrl.customer.paymentMethods['0']">New payment method</h2>
-<button class="Button Button--cta Button--lg" ng-click="$ctrl.choosePaymentMethod('cards')">Credit or Debit card</button>
-<button class="Button Button--cta Button--lg" ng-click="$ctrl.choosePaymentMethod('paypal')">Paypal</button>
+		<h2 class="Heading--five" ng-if="$ctrl.customer.paymentMethods['0']">New payment method</h2>
+		<button class="Button Button--cta Button--lg" ng-click="$ctrl.choosePaymentMethod('cards')">Credit or Debit card</button>
+		<button class="Button Button--cta Button--lg" ng-click="$ctrl.choosePaymentMethod('paypal')">Paypal</button>
+
+	</div>
+</section>
