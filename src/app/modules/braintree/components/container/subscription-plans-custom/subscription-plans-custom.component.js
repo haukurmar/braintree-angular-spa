@@ -1,9 +1,9 @@
-import template from './subscription-plans.html';
+import template from './subscription-plans-custom.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
 @Inject('braintreeDataService', 'braintreeAppService')
-class SubscriptionPlansComponent {
+class SubscriptionPlansCustomComponent {
 	constructor() {
 		this.message = '';
 		this.loadingText = '';
@@ -74,7 +74,7 @@ let component = {
 
 	},
 	template: template,
-	controller: SubscriptionPlansComponent
+	controller: SubscriptionPlansCustomComponent
 };
 
 export default component;
