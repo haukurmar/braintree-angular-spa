@@ -36,8 +36,15 @@
 
 	<!-- Subscriptions & Payment methods -->
 	<div class="Grid-row">
-
 		<div class="Grid-col--12">
+			<section class="Panel" ng-if="!$ctrl.customer.subscriptions">
+				<header class="Panel-header">
+					<h3 class="Panel-heading Heading--three">You have no subscriptions.</h3>
+				</header>
+				<div class="Panel-body">
+					<button class="Button Button--success Button--lg" ng-click="$ctrl.routeTo('/subscribe');">Subscribe now...</button>
+				</div>
+			</section>
 			<section class="Panel" ng-if="$ctrl.customer.subscriptions">
 				<header class="Panel-header">
 					<h3 class="Panel-heading Heading--three">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>

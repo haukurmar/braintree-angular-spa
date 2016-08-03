@@ -2,7 +2,7 @@ import template from './billing-overview.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeDataService', 'moment')
+@Inject('braintreeDataService', 'braintreeAppService', 'moment')
 class CustomerDetailsComponent {
 	constructor() {
 		this.state = {
@@ -413,6 +413,10 @@ class CustomerDetailsComponent {
 				this._displayMessage(error.data.message, 'danger');
 			}
 		);
+	}
+
+	routeTo(path){
+		return this.braintreeAppService.routeTo(path);
 	}
 }
 
