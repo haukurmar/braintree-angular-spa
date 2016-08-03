@@ -2,7 +2,7 @@ import template from './billing-overview.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeDataService', 'braintreeAppService', 'moment')
+@Inject('braintreeDataService', 'braintreeAppService', 'moment', '$animate')
 class CustomerDetailsComponent {
 	constructor() {
 		this.state = {
@@ -63,6 +63,9 @@ class CustomerDetailsComponent {
 		if(this.headerText) {
 			this.state.header.text = this.headerText;
 		}
+
+		// Disable animation (tmp because of implementation problems)
+		this.$animate.enabled(false);
 	}
 
 	_clearMessage() {
