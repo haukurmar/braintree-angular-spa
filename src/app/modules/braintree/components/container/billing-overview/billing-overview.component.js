@@ -261,7 +261,7 @@ class CustomerDetailsComponent {
 							add: [{
 								amount: discount,
 								numberOfBillingCycles: 1,
-								inheritedFromId: 'testDiscount'
+								inheritedFromId: 'upgradeDiscount'
 							}]
 						};
 					} else {
