@@ -101,7 +101,8 @@ module.exports = {
 				exclude: /node_modules/
 			},
 
-			{ test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loaders: ['file?name=images/[name].[ext]'] },
+			{ test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loaders: ['url-loader'] },
+
 
 			{
 				test: /\.(woff|woff2|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
