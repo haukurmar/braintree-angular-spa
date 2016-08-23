@@ -11079,7 +11079,7 @@
 			_classCallCheck(this, _ConfigService);
 	
 			this._apiUrl = 'https://haukurmar-braintree-node-api.herokuapp.com/api';
-			//this._braintreeApiUrl = 'http://127.0.0.1:5000/api';
+			//this._apiUrl = 'http://127.0.0.1:5000/api';
 		}
 	
 		_createClass(ConfigService, [{
@@ -11129,6 +11129,38 @@
 			key: 'routeTo',
 			value: function routeTo(path) {
 				this.$location.url(path);
+			}
+		}, {
+			key: 'getCurrencySymbol',
+			value: function getCurrencySymbol(currencyIsoCode) {
+				switch (currencyIsoCode) {
+					case 'USD':
+						return '$';
+						break;
+					case 'EUR':
+						return '€';
+						break;
+					case 'GBP':
+						return '£';
+						break;
+					case 'ISK':
+						return 'kr';
+						break;
+					default:
+						return '$';
+				}
+			}
+		}, {
+			key: 'formatCurrencyAmount',
+			value: function formatCurrencyAmount(amount, currencyIsoCode) {
+				// TODO: Call external multi-use method to return this
+				var currencySymbol = this.getCurrencySymbol(currencyIsoCode);
+	
+				if (currencyIsoCode.toLowerCase() === 'isk') {
+					return amount + currencySymbol;
+				}
+	
+				return currencySymbol + amount;
 			}
 		}]);
 	
@@ -12136,6 +12168,11 @@
 				this.routeTo(_braintreeConstants.ROUTES.CUSTOMER);
 			}
 		}, {
+			key: 'formatCurrencyAmount',
+			value: function formatCurrencyAmount(amount, currencyIsoCode) {
+				return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
+			}
+		}, {
 			key: 'routeTo',
 			value: function routeTo(path) {
 				this.braintreeAppService.routeTo(path);
@@ -12160,7 +12197,7 @@
 /* 111 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n\n<!--<h2 class=\"Heading&#45;&#45;two\">Subscribe</h2>-->\n<hr class=\"Divider--dotted\">\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--cta Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n\n<!--<h2 class=\"Heading&#45;&#45;two\">Subscribe</h2>-->\n<hr class=\"Divider--dotted\">\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--cta Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 112 */
@@ -12376,9 +12413,9 @@
 				});
 			}
 		}, {
-			key: 'testChanged',
-			value: function testChanged() {
-				console.log('this.state.test', this.state.test);
+			key: 'formatCurrencyAmount',
+			value: function formatCurrencyAmount(amount, currencyIsoCode) {
+				return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
 			}
 		}, {
 			key: 'showSelectedCurrencyPlans',
@@ -12457,7 +12494,7 @@
 /* 113 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n\n<section class=\"Panel\" ng-if=\"$ctrl.plans.length\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Select a subscription plan</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignRight\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccountsArray.length\">\n\t\t\t\t\t<label class=\"Form-itemLabel\">Currency\n\n\t\t\t\t\t\t<!--<select name=\"selectedCurrency\" id=\"selectedCurrency\"-->\n\t\t\t\t\t\t        <!--class=\"Selectbox\"-->\n\t\t\t\t\t\t        <!--ng-change=\"$ctrl.showSelectedCurrencyPlans()\"-->\n\t\t\t\t\t\t        <!--ng-model=\"$ctrl.state.selectedCurrency\"-->\n\t\t\t\t\t\t        <!--ng-options=\"merchantAccount.name as merchantAccount.currencyName for merchantAccount in $ctrl.merchantAccountsArray track by merchantAccount.id\">-->\n\t\t\t\t\t\t<!--</select>-->\n\n\t\t\t\t\t\t<select name=\"selectedCurrency\" id=\"selectedCurrency\"\n\t\t\t\t\t\t        class=\"Selectbox\"\n\t\t\t\t\t\t        ng-change=\"$ctrl.showSelectedCurrencyPlans($ctrl.state.selectedCurrencyModel)\"\n\t\t\t\t\t\t        ng-model=\"$ctrl.state.selectedCurrencyModel\">\n\t\t\t\t\t\t\t<option value=\"jivaroUSD\">US Dollar (USD)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroEUR\" ng-selected=\"true\">EUR (EUR)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroGBP\">British Pound (GBP)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroISK\">Icelandic Krona (ISK)</option>\n\t\t\t\t\t\t</select>\n\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumThree\"\n\t\t\t\t\titem-css-class=\"'u-textCenter mt--9'\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t<header class=\"Panel-header u-textCenter\">\n\t\t\t\t\t\t<h2 class=\"Heading--six Panel-heading Heading--light\">Most popular</h2>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\tbutton-css-modifier=\"'Button--success Button--lg'\"\n\t\t\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumSix\"\n\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\">\n\t\t\t\t\t\t</ui-braintree-subscription-plan>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumTwelve\"\n\t\t\t\t\titem-css-class=\"'u-textCenter mt--9'\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!--<hr class=\"Divider&#45;&#45;dotted\">-->\n\t\t<!--<div class=\"Grid-row Grid-row&#45;&#45;alignCenter\">-->\n\t\t\t<!--<div class=\"Grid-col&#45;&#45;12 \">-->\n\t\t\t\t<!--<h3 class=\"Heading&#45;&#45;three Heading&#45;&#45;light\">Premium for life?</h3>-->\n\t\t\t\t<!--<h4 class=\"Heading&#45;&#45;five\">Lifetime licence</h4>-->\n\t\t\t\t<!--<h5 class=\"Heading&#45;&#45;three u-textWarning mb&#45;&#45;0\">{{ $ctrl.state.selectedCurrency.currencySymbol }}{{ $ctrl.plansDisplayed.premiumLifetime.price }}</h5>-->\n\t\t\t\t<!--<p class=\"mt&#45;&#45;0\">One time payment</p>-->\n\t\t\t\t<!--<button class=\"Button Button&#45;&#45;cta Button&#45;&#45;lg\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumLifetime)\">-->\n\t\t\t\t\t<!--Go All In!-->\n\t\t\t\t<!--</button>-->\n\t\t\t<!--</div>-->\n\t\t<!--</div>-->\n\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignCenter\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<p>or<br> pay monthly<br>\n\t\t\t\t\t<button class=\"Button Button--secondary\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumOne)\">\n\t\t\t\t\t\t{{ $ctrl.state.selectedCurrency.currencySymbol }}{{ $ctrl.plansDisplayed.premiumOne.price }} / month\n\t\t\t\t\t</button>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n\n<section class=\"Panel\" ng-if=\"$ctrl.plans.length\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Select a subscription plan</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignRight\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccountsArray.length\">\n\t\t\t\t\t<label class=\"Form-itemLabel\">Currency\n\n\t\t\t\t\t\t<!--<select name=\"selectedCurrency\" id=\"selectedCurrency\"-->\n\t\t\t\t\t\t        <!--class=\"Selectbox\"-->\n\t\t\t\t\t\t        <!--ng-change=\"$ctrl.showSelectedCurrencyPlans()\"-->\n\t\t\t\t\t\t        <!--ng-model=\"$ctrl.state.selectedCurrency\"-->\n\t\t\t\t\t\t        <!--ng-options=\"merchantAccount.name as merchantAccount.currencyName for merchantAccount in $ctrl.merchantAccountsArray track by merchantAccount.id\">-->\n\t\t\t\t\t\t<!--</select>-->\n\n\t\t\t\t\t\t<select name=\"selectedCurrency\" id=\"selectedCurrency\"\n\t\t\t\t\t\t        class=\"Selectbox\"\n\t\t\t\t\t\t        ng-change=\"$ctrl.showSelectedCurrencyPlans($ctrl.state.selectedCurrencyModel)\"\n\t\t\t\t\t\t        ng-model=\"$ctrl.state.selectedCurrencyModel\">\n\t\t\t\t\t\t\t<option value=\"jivaroUSD\">US Dollar (USD)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroEUR\" ng-selected=\"true\">EUR (EUR)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroGBP\">British Pound (GBP)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroISK\">Icelandic Krona (ISK)</option>\n\t\t\t\t\t\t</select>\n\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumThree\"\n\t\t\t\t\titem-css-class=\"'u-textCenter mt--9'\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t<header class=\"Panel-header u-textCenter\">\n\t\t\t\t\t\t<h2 class=\"Heading--six Panel-heading Heading--light\">Most popular</h2>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\tbutton-css-modifier=\"'Button--success Button--lg'\"\n\t\t\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumSix\"\n\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\">\n\t\t\t\t\t\t</ui-braintree-subscription-plan>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumTwelve\"\n\t\t\t\t\titem-css-class=\"'u-textCenter mt--9'\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!--<hr class=\"Divider&#45;&#45;dotted\">-->\n\t\t<!--<div class=\"Grid-row Grid-row&#45;&#45;alignCenter\">-->\n\t\t\t<!--<div class=\"Grid-col&#45;&#45;12 \">-->\n\t\t\t\t<!--<h3 class=\"Heading&#45;&#45;three Heading&#45;&#45;light\">Premium for life?</h3>-->\n\t\t\t\t<!--<h4 class=\"Heading&#45;&#45;five\">Lifetime licence</h4>-->\n\t\t\t\t<!--<h5 class=\"Heading&#45;&#45;three u-textWarning mb&#45;&#45;0\">{{ $ctrl.state.selectedCurrency.currencySymbol }}{{ $ctrl.plansDisplayed.premiumLifetime.price }}</h5>-->\n\t\t\t\t<!--<p class=\"mt&#45;&#45;0\">One time payment</p>-->\n\t\t\t\t<!--<button class=\"Button Button&#45;&#45;cta Button&#45;&#45;lg\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumLifetime)\">-->\n\t\t\t\t\t<!--Go All In!-->\n\t\t\t\t<!--</button>-->\n\t\t\t<!--</div>-->\n\t\t<!--</div>-->\n\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignCenter\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<p>or<br> pay monthly<br>\n\t\t\t\t\t<button class=\"Button Button--secondary\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumOne)\">\n\t\t\t\t\t\t{{ $ctrl.formatCurrencyAmount($ctrl.plansDisplayed.premiumOne.price, $ctrl.plansDisplayed.premiumOne.currencyIsoCode) }}\n\t\t\t\t\t\t/ month\n\t\t\t\t\t</button>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 114 */
@@ -14387,33 +14424,12 @@
 		}, {
 			key: 'getCurrencySymbol',
 			value: function getCurrencySymbol(currencyIsoCode) {
-				switch (currencyIsoCode) {
-					case 'USD':
-						return '$';
-						break;
-					case 'EUR':
-						return '€';
-						break;
-					case 'GBP':
-						return '£';
-						break;
-					case 'ISK':
-						return 'kr';
-						break;
-					default:
-						return '$';
-				}
+				return this.braintreeAppService.getCurrencySymbol(currencyIsoCode);
 			}
 		}, {
 			key: 'formatCurrencyAmount',
 			value: function formatCurrencyAmount(amount, currencyIsoCode) {
-				var currencySymbol = this.getCurrencySymbol(currencyIsoCode);
-	
-				if (currencyIsoCode.toLowerCase() === 'isk') {
-					return amount + currencySymbol;
-				}
-	
-				return currencySymbol + amount;
+				return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
 			}
 		}, {
 			key: '_startLoading',
@@ -14891,6 +14907,7 @@
 			itemCssClass: '<',
 			subscriptionPlan: '<',
 			currency: '<',
+			formatCurrencyAmount: '&',
 			onChoose: '&'
 		},
 		template: _subscriptionPlanHtml2['default'],
@@ -14904,7 +14921,7 @@
 /* 126 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"{{ $ctrl.itemCssClass }}\">\n\t<header class=\"HeadingGroup\">\n\t\t<h3 class=\"Heading--four mb--1\">\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span>\n\t\t</h3>\n\t\t<h4 class=\"Heading--seven Heading--light mt--0\">\n\t\t\t{{ $ctrl.currency.currencySymbol }}<span ng-bind=\"$ctrl.subscriptionPlan.price\"></span>\n\t\t</h4>\n\t</header>\n\t<hr class=\"Divider--dotted\">\n\t<h4 class=\"Heading--four u-textSuccess mb--0\" ng-bind=\"$ctrl.subscriptionPlan.description\"></h4>\n\t<p class=\"mt--0\">/month</p>\n\t<button class=\"Button {{ $ctrl.buttonCssModifier }}\"\n\t        ng-click=\"$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\">{{ $ctrl.buttonText }}\n\t</button>\n</div>\n"
+	module.exports = "<div class=\"{{ $ctrl.itemCssClass }}\">\n\t<header class=\"HeadingGroup\">\n\t\t<h3 class=\"Heading--four mb--1\">\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span>\n\t\t</h3>\n\t\t<h4 class=\"Heading--seven Heading--light mt--0\">\n\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t</h4>\n\t</header>\n\t<hr class=\"Divider--dotted\">\n\t<h4 class=\"Heading--four u-textSuccess mb--0\" ng-bind=\"$ctrl.subscriptionPlan.description\"></h4>\n\t<p class=\"mt--0\">/month</p>\n\t<button class=\"Button {{ $ctrl.buttonCssModifier }}\"\n\t        ng-click=\"$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\">{{ $ctrl.buttonText }}\n\t</button>\n</div>\n"
 
 /***/ },
 /* 127 */
