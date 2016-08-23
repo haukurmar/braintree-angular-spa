@@ -2563,6 +2563,71 @@
   max-width: 130px;
 }
 /********************************************
+	Selectbox Lego
+********************************************/
+.Selectbox {
+  border-radius: 3px;
+  border: 1px solid #585858;
+  outline: none;
+  background-color: #fff;
+  max-width: 100%;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  z-index: 0;
+  line-height: 24px;
+  height: 26px;
+}
+.Selectbox:after {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  font-family: "Menicon";
+  font-weight: normal;
+  font-size: 10px;
+  content: "\E63C";
+  z-index: 0;
+}
+.lte9 .Selectbox:after {
+  content: '';
+}
+.Selectbox:after {
+  line-height: inherit;
+}
+.Selectbox .Selectbox-input {
+  font-size: 14px;
+}
+.Selectbox-input {
+  border-radius: 3px;
+  font-size: 12px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 18px;
+  padding-left: 3px;
+  color: #585858;
+  border: 0;
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  z-index: 1;
+  position: relative;
+  text-indent: 0.1px;
+  text-overflow: '';
+}
+.Selectbox-input:focus {
+  outline: none;
+}
+.lte9 .Selectbox-input {
+  border: none;
+  overflow: hidden;
+  padding-right: 0;
+}
+.Selectbox-input::-ms-expand {
+  display: none;
+}
+/********************************************
 	CustomerDetails Component
 ********************************************/
 .CustomerDetails-paymentMethodColumn.is-default {
