@@ -25,6 +25,7 @@ class PaypalComponent {
 		};
 
 		this.customer = null;
+		this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
 	}
 
 	// Private methods
@@ -49,11 +50,11 @@ class PaypalComponent {
 	}
 
 	_setupPaypal(clientToken) {
+		let currencyCode = this.selectedMerchantAccount.currencyIsoCode;
 		this.braintreeDataService.$braintree.setup(clientToken, "custom", {
 			paypal: {
-				// currency: 'USD',
-				// locale: 'en_us',
-				enableShippingAddress: true,
+				currency: currencyCode,
+				enableShippingAddress: false,
 				headless: true
 			},
 			onReady: (integration) => {
@@ -76,7 +77,7 @@ class PaypalComponent {
 			paymentMethodNonce: paymentMethod.nonce
 		};
 
-		console.log('paymentMethodModel:', paymentMethodModel);
+		console.log('Paypal paymentModel:', paymentMethodModel);
 
 		this.braintreeDataService.createPaymentMethod(paymentMethodModel).then(
 			(response) => {

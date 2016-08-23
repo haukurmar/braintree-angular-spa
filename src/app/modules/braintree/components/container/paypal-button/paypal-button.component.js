@@ -36,15 +36,20 @@ class PaypalButtonComponent {
 	}
 
 	_setupPaypal(clientToken) {
+		//let currencyCode = this.currency;
 		this.braintreeDataService.$braintree.setup(clientToken, "custom", {
 			paypal: {
-				// currency: 'USD',
-				// locale: 'en_us',
-				enableShippingAddress: true,
+				//currency: currency.currencyIsoCode,
+				// TODO: Add approriate currency
+				currency: 'USD',
+				enableShippingAddress: false,
 				headless: true
 			},
+			onCancelled: (obj) => {
+				console.log('cancelled', obj);
+			},
 			onReady: (integration) => {
-				console.log('Paypal is ready');
+				console.log('Paypal button is ready');
 				this._checkout = integration;
 			},
 			onAuthorizationDismissed: (obj) => {
@@ -89,6 +94,7 @@ class PaypalButtonComponent {
 let component = {
 	bindings: {
 		buttonText: '<',
+		currency: '<',
 		onFinish: '&'
 	},
 	template : template,
