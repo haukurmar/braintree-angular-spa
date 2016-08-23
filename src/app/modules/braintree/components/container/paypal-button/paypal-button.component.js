@@ -36,12 +36,10 @@ class PaypalButtonComponent {
 	}
 
 	_setupPaypal(clientToken) {
-		//let currencyCode = this.currency;
+		let currencyIsoCode = this.currencyIsoCode || 'USD';
 		this.braintreeDataService.$braintree.setup(clientToken, "custom", {
 			paypal: {
-				//currency: currency.currencyIsoCode,
-				// TODO: Add approriate currency
-				currency: 'USD',
+				currency: currencyIsoCode,
 				enableShippingAddress: false,
 				headless: true
 			},
@@ -94,7 +92,7 @@ class PaypalButtonComponent {
 let component = {
 	bindings: {
 		buttonText: '<',
-		currency: '<',
+		currencyIsoCode: '<',
 		onFinish: '&'
 	},
 	template : template,
