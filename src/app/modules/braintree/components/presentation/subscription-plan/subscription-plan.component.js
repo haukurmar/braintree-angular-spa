@@ -23,6 +23,7 @@ let component = {
 		buttonText: '<',
 		itemCssClass: '<',
 		subscriptionPlan: '<',
+		currency: '<',
 		onChoose: '&'
 	},
 	template : template,

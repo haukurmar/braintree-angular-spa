@@ -8,7 +8,7 @@ import _ from 'underscore';
  * To be removed later.
  */
 
-// Inject dependencies
+	// Inject dependencies
 @Inject('braintreeDataService', 'braintreeAppService')
 class SubscriptionPlansCustomComponent {
 	constructor() {
@@ -18,27 +18,68 @@ class SubscriptionPlansCustomComponent {
 		this.state = {
 			error: false,
 			loading: false,
-			nextRoute: ''
+			nextRoute: '',
+			selectedCurrency: {
+				currencyIsoCode: '',
+				currencySymbol: '',
+				currencyName: '',
+				currencyLongName: ''
+			},
+			selectedCurrencyModel: null
 		};
 
 		this.customPlans = {
+			USD: {
+				premiumOne: {},
+				premiumThree: {},
+				premiumSix: {},
+				premiumTwelve: {},
+				premiumLifetime: {},
+			},
+			EUR: {
+				premiumOne: {},
+				premiumThree: {},
+				premiumSix: {},
+				premiumTwelve: {},
+				premiumLifetime: {},
+			},
+			GBP: {
+				premiumOne: {},
+				premiumThree: {},
+				premiumSix: {},
+				premiumTwelve: {},
+				premiumLifetime: {},
+			},
+			ISK: {
+				premiumOne: {},
+				premiumThree: {},
+				premiumSix: {},
+				premiumTwelve: {},
+				premiumLifetime: {},
+			},
+		};
+
+		this.plansDisplayed = {
 			premiumOne: {},
 			premiumThree: {},
 			premiumSix: {},
 			premiumTwelve: {},
-			premiumLifetime: {},
+			premiumLifetime: {}
 		};
 
 		this.customer = null;
 
 		window.customPlans = this.customPlans;
+		this.merchantAccounts = this.braintreeDataService.merchantAccounts;
+		this.merchantAccountsArray = this.braintreeDataService.merchantAccountsArray;
+		this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
 	}
 
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
 		this.customer = this.braintreeDataService.customer;
-		if(!this.customer.clientToken) {
+		if (!this.customer.clientToken) {
 			this.braintreeDataService.setup();
 		}
 
@@ -54,25 +95,78 @@ class SubscriptionPlansCustomComponent {
 				this.plans = response.data.plans;
 
 				_.each(response.data.plans, (plan) => {
-					switch(plan.id) {
-					case 'premiumOne':
-						this.customPlans.premiumOne = plan;
+					switch (plan.id) {
+					// USD
+					case 'premiumOneUSD':
+						this.customPlans.USD.premiumOne = plan;
 						break;
-					case 'premiumThree':
-						this.customPlans.premiumThree = plan;
+					case 'premiumThreeUSD':
+						this.customPlans.USD.premiumThree = plan;
 						break;
-					case 'premiumSix':
-						this.customPlans.premiumSix = plan;
+					case 'premiumSixUSD':
+						this.customPlans.USD.premiumSix = plan;
 						break;
-					case 'premiumTwelve':
-						this.customPlans.premiumTwelve = plan;
+					case 'premiumTwelveUSD':
+						this.customPlans.USD.premiumTwelve = plan;
 						break;
-					case 'premiumLifetime':
-						this.customPlans.premiumLifetime = plan;
+					case 'premiumLifetimeUSD':
+						this.customPlans.USD.premiumLifetime = plan;
+						break;
+
+					// EUR
+					case 'premiumOneEUR':
+						this.customPlans.EUR.premiumOne = plan;
+						break;
+					case 'premiumThreeEUR':
+						this.customPlans.EUR.premiumThree = plan;
+						break;
+					case 'premiumSixEUR':
+						this.customPlans.EUR.premiumSix = plan;
+						break;
+					case 'premiumTwelveEUR':
+						this.customPlans.EUR.premiumTwelve = plan;
+						break;
+					case 'premiumLifetimeEUR':
+						this.customPlans.EUR.premiumLifetime = plan;
+						break;
+
+					// GBP
+					case 'premiumOneGBP':
+						this.customPlans.GBP.premiumOne = plan;
+						break;
+					case 'premiumThreeGBP':
+						this.customPlans.GBP.premiumThree = plan;
+						break;
+					case 'premiumSixGBP':
+						this.customPlans.GBP.premiumSix = plan;
+						break;
+					case 'premiumTwelveGBP':
+						this.customPlans.GBP.premiumTwelve = plan;
+						break;
+					case 'premiumLifetimeGBP':
+						this.customPlans.GBP.premiumLifetime = plan;
+						break;
+
+					// ISK
+					case 'premiumOneISK':
+						this.customPlans.ISK.premiumOne = plan;
+						break;
+					case 'premiumThreeISK':
+						this.customPlans.ISK.premiumThree = plan;
+						break;
+					case 'premiumSixISK':
+						this.customPlans.ISK.premiumSix = plan;
+						break;
+					case 'premiumTwelveISK':
+						this.customPlans.ISK.premiumTwelve = plan;
+						break;
+					case 'premiumLifetimeISK':
+						this.customPlans.ISK.premiumLifetime = plan;
 						break;
 					}
 				});
 
+				this.showSelectedCurrencyPlans(this.selectedMerchantAccount.id);
 				this.state.loading = false;
 			},
 			(error) => {
@@ -82,6 +176,42 @@ class SubscriptionPlansCustomComponent {
 				this.state.error = true;
 			}
 		);
+	}
+
+	testChanged() {
+		console.log('this.state.test', this.state.test);
+	}
+
+	showSelectedCurrencyPlans(merchantAccountId) {
+		console.log('this.state.selectedCurrencyModel', this.state.selectedCurrencyModel);
+
+		switch (merchantAccountId) {
+		case this.braintreeDataService.merchantAccounts.USD.id:
+			this.plansDisplayed = this.customPlans.USD;
+			this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.USD);
+			this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.USD;
+
+			break;
+
+		case this.braintreeDataService.merchantAccounts.EUR.id:
+			this.plansDisplayed = this.customPlans.EUR;
+			this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.EUR);
+			this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.EUR;
+
+			break;
+
+		case this.braintreeDataService.merchantAccounts.GBP.id:
+			this.plansDisplayed = this.customPlans.GBP;
+			this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.GBP);
+			this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.GBP;
+			break;
+
+		case this.braintreeDataService.merchantAccounts.ISK.id:
+			this.plansDisplayed = this.customPlans.ISK;
+			this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.ISK);
+			this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.ISK;
+			break;
+		}
 	}
 
 	// Public viewModel methods
@@ -101,16 +231,14 @@ class SubscriptionPlansCustomComponent {
 		this.routeTo(ROUTES.CUSTOMER);
 	}
 
-	routeTo(path){
+	routeTo(path) {
 		this.braintreeAppService.routeTo(path);
 	}
 }
 
 // Component decorations
 let component = {
-	bindings: {
-
-	},
+	bindings: {},
 	template: template,
 	controller: SubscriptionPlansCustomComponent
 };

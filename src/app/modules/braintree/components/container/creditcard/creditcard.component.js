@@ -36,7 +36,7 @@ class CreditCardComponent {
 		this.customer = null;
 
 		this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
-		this.merchantAccounts = this.braintreeDataService.merchantAccounts;
+		this.merchantAccountsArray = this.braintreeDataService.merchantAccountsArray;
 	}
 
 	// Private methods

@@ -12,13 +12,46 @@ export default class BraintreeService {
 		this._customerData = {
 			customer: {}
 		};
-		this._selectedMerchantAccount = {id: 'jivaroISK', currencyIsoCode: 'ISK'};
-		this._merchantAccounts = [
-			{id: 'jivaroUSD', currencyIsoCode: 'USD'},
-			{id: 'jivaroEUR', currencyIsoCode: 'EUR'},
-			{id: 'jivaroGBP', currencyIsoCode: 'GBP'},
-			{id: 'jivaroISK', currencyIsoCode: 'ISK'}
+
+		this._merchantAccounts = {
+			USD: {
+				id: 'jivaroUSD',
+				currencyIsoCode: 'USD',
+				currencySymbol: '$',
+				currencyName: 'US Dollar',
+				currencyLongName: 'US Dollar (USD)'
+			},
+			EUR: {
+				id: 'jivaroEUR',
+				currencyIsoCode: 'EUR',
+				currencySymbol: '€',
+				currencyName: 'Euro',
+				currencyLongName: 'Euro (EUR)'
+			},
+			GBP: {
+				id: 'jivaroGBP',
+				currencyIsoCode: 'GBP',
+				currencySymbol: '£',
+				currencyName: 'British Pound',
+				currencyLongName: 'British Pound (GBP)'
+			},
+			ISK: {
+				id: 'jivaroISK',
+				currencyIsoCode: 'ISK',
+				currencySymbol: 'kr',
+				currencyName: 'Icelandic Krona',
+				currencyLongName: 'Icelandic Krona (ISK)'
+			}
+		};
+
+		this._merchantAccountsArray = [
+			this._merchantAccounts.USD,
+			this._merchantAccounts.EUR,
+			this._merchantAccounts.GBP,
+			this._merchantAccounts.ISK
 		];
+
+		this._selectedMerchantAccount = this._merchantAccounts.EUR;
 
 		this._mode = {
 			subscription: false
@@ -48,12 +81,12 @@ export default class BraintreeService {
 		return this._merchantAccounts;
 	}
 
-	get selectedMerchantAccount() {
-		return this._selectedMerchantAccount;
+	get merchantAccountsArray() {
+		return this._merchantAccountsArray;
 	}
 
-	set selectedMerchantAccount(account) {
-		this._selectedMerchantAccount = account;
+	get selectedMerchantAccount() {
+		return this._selectedMerchantAccount;
 	}
 
 	/**
@@ -87,7 +120,6 @@ export default class BraintreeService {
 	createCustomer(customerData) {
 		return this.$http.post(this.apiUrl + this._customerPath, customerData);
 	}
-
 
 	cancelSubscription(subscriptionId) {
 		return this.$http.delete(this.apiUrl + this._subscriptionsPath + '/' + subscriptionId);
@@ -245,6 +277,10 @@ export default class BraintreeService {
 		};
 
 		return this.$http.put(this.apiUrl + this._subscriptionsPath, requestBody);
+	}
+
+	setSelectedMerchantAccount(account) {
+		this._selectedMerchantAccount = account;
 	}
 
 	// TODO: Move somewhere else

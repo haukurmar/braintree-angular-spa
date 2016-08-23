@@ -4,7 +4,7 @@
 			<span ng-bind="$ctrl.subscriptionPlan.name"></span>
 		</h3>
 		<h4 class="Heading--seven Heading--light mt--0">
-			$<span ng-bind="$ctrl.subscriptionPlan.price"></span>
+			{{ $ctrl.currency.currencySymbol }}<span ng-bind="$ctrl.subscriptionPlan.price"></span>
 		</h4>
 	</header>
 	<hr class="Divider--dotted">
