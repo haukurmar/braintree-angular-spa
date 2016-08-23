@@ -12,6 +12,13 @@ export default class BraintreeService {
 		this._customerData = {
 			customer: {}
 		};
+		this._selectedMerchantAccount = {id: 'jivaroISK', currencyIsoCode: 'ISK'};
+		this._merchantAccounts = [
+			{id: 'jivaroUSD', currencyIsoCode: 'USD'},
+			{id: 'jivaroEUR', currencyIsoCode: 'EUR'},
+			{id: 'jivaroGBP', currencyIsoCode: 'GBP'},
+			{id: 'jivaroISK', currencyIsoCode: 'ISK'}
+		];
 
 		this._mode = {
 			subscription: false
@@ -35,6 +42,18 @@ export default class BraintreeService {
 
 	get customer() {
 		return this._customerData.customer;
+	}
+
+	get merchantAccounts() {
+		return this._merchantAccounts;
+	}
+
+	get selectedMerchantAccount() {
+		return this._selectedMerchantAccount;
+	}
+
+	set selectedMerchantAccount(account) {
+		this._selectedMerchantAccount = account;
 	}
 
 	/**

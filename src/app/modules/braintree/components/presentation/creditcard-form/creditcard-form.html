@@ -1,5 +1,17 @@
 <section>
 	<form name="payment" ng-submit="$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})">
+		<div class="Form-item" ng-if="$ctrl.merchantAccounts.length && !$ctrl.selectedMerchantAccount">
+			<label class="Form-itemLabel">Currency</label>
+			<label ng-repeat="merchantAccount in $ctrl.merchantAccounts">
+				<input type="radio" name="merchantAccountId" ng-value="merchantAccount.id" ng-model="$ctrl.paymentModel.merchantAccountId" required>
+				{{ merchantAccount.currencyIsoCode }}
+			</label>
+		</div>
+		<div class="Form-item" ng-if="$ctrl.selectedMerchantAccount && !$ctrl.hideCurrency">
+			<label class="Form-itemLabel">Currency</label>
+			{{ $ctrl.selectedMerchantAccount.currencyIsoCode }}
+		</div>
+
 		<div class="Form-item" ng-if="!$ctrl.hideAmount">
 			<label class="Form-itemLabel">Amount</label>
 			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.amount" size="8" ng-required="true" />

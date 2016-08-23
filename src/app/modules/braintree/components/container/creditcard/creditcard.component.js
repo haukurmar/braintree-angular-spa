@@ -35,6 +35,8 @@ class CreditCardComponent {
 
 		this.customer = null;
 
+		this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
+		this.merchantAccounts = this.braintreeDataService.merchantAccounts;
 	}
 
 	// Private methods
@@ -85,10 +87,9 @@ class CreditCardComponent {
 
 	// Public viewModel methods
 	// --------------------------------------------------
-	routeTo(path){
+	routeTo(path) {
 		this.braintreeAppService.routeTo(path);
 	}
-
 
 	/**
 	 * Determine whether to store payment method to vault or to process payment right away
@@ -140,9 +141,17 @@ class CreditCardComponent {
 		this.state.showForm = false;
 		let clientToken = this.braintreeDataService.customer.clientToken;
 
+		// Get selected merchant account if it has been initialized
+		let selectedMerchantAccount = this.selectedMerchantAccount || {};
+
 		// Use the token to tokenize credit card info and process a transaction
 		// Create new client and tokenize card
 		let client = new this.braintreeDataService.$braintree.api.Client({clientToken: clientToken});
+
+		// If radio buttons in view are used
+		if (paymentModel.merchantAccountId) {
+			selectedMerchantAccount.id = paymentModel.merchantAccountId;
+		}
 
 		client.tokenizeCard({
 			number: paymentModel.creditCardNumber,
@@ -151,7 +160,8 @@ class CreditCardComponent {
 		}, (err, nonce) => {
 			let paymentData = {
 				amount: paymentModel.amount,
-				payment_method_nonce: nonce
+				payment_method_nonce: nonce,
+				merchantAccountId: selectedMerchantAccount.id
 			};
 
 			this.braintreeDataService.processPayment(paymentData).then(
@@ -184,9 +194,7 @@ class CreditCardComponent {
 
 // Component decorations
 let component = {
-	bindings: {
-
-	},
+	bindings: {},
 	template: template,
 	controller: CreditCardComponent
 };

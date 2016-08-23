@@ -7,6 +7,9 @@ let component = {
 		backButtonRoute: '<',
 		backButtonVisible: '<',
 		hideAmount: '<',
+		hideCurrency: '<',
+		selectedMerchantAccount: '<',
+		merchantAccounts: '<',
 		submitButtonText: '<',
 		onSubmit: '&',
 		routeTo: '&'
