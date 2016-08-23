@@ -14,15 +14,15 @@
 </div>
 <div class="Form-item">
 	<label class="Form-itemLabel">Billing amount</label>
-	${{ $ctrl.subscription.price}}
+	{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.price, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}
 </div>
 <div class="Form-item">
 	<label class="Form-itemLabel">Next billing amount</label>
-	${{ $ctrl.subscription.nextBillAmount}}
+	{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.nextBillAmount, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}
 </div>
 <div class="Form-item">
 	<label class="Form-itemLabel">Next billing period amount</label>
-	${{ $ctrl.subscription.nextBillingPeriodAmount}}
+	{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.nextBillingPeriodAmount, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}
 </div>
 <div class="Form-item">
 	<label class="Form-itemLabel">Started</label>

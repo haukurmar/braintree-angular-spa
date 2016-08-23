@@ -3,7 +3,8 @@ import template from './subscription-details.html';
 // Component decorations
 let component = {
 	bindings: {
-		subscription: '<'
+		subscription: '<',
+		formatCurrencyAmount: '&'
 	},
 	template : template
 };

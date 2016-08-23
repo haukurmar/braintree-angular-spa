@@ -99,7 +99,7 @@ class CustomerDetailsComponent {
 		);
 	}
 
-	_getCurrencySymbol(currencyIsoCode) {
+	getCurrencySymbol(currencyIsoCode) {
 		switch (currencyIsoCode) {
 		case 'USD':
 			return '$';
@@ -110,9 +110,22 @@ class CustomerDetailsComponent {
 		case 'GBP':
 			return '£';
 			break;
+		case 'ISK':
+			return 'kr';
+			break;
 		default:
 			return '$';
 		}
+	}
+
+	formatCurrencyAmount(amount, currencyIsoCode) {
+		let currencySymbol = this.getCurrencySymbol(currencyIsoCode);
+
+		if(currencyIsoCode.toLowerCase() === 'isk') {
+			return amount + currencySymbol;
+		}
+
+		return currencySymbol + amount;
 	}
 
 	_startLoading(text) {
@@ -280,7 +293,7 @@ class CustomerDetailsComponent {
 
 										if (response.data.subscription.transactions.length) {
 											let transactionAmount = response.data.subscription.transactions[0].amount;
-											let currencySymbol = this._getCurrencySymbol(response.data.subscription.transactions[0].currencyIsoCode);
+											let currencySymbol = this.getCurrencySymbol(response.data.subscription.transactions[0].currencyIsoCode);
 
 											if (discount > 0) {
 												descriptionHtml = '<p>A payment of ' + currencySymbol + transactionAmount + ' has been submitted, Your previous subscription credit of ' + currencySymbol + discount + ' was deducted from the full amount.</p>';

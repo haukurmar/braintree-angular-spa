@@ -53,7 +53,7 @@
 					<div ng-repeat="subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['-updatedAt']">
 						<div class="Grid-row">
 							<div class="Grid-col--6">
-								<ui-braintree-subscription-details subscription="subscription"></ui-braintree-subscription-details>
+								<ui-braintree-subscription-details subscription="subscription" format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"></ui-braintree-subscription-details>
 
 								<button type="button" class="Button Button--primary" ng-click="$ctrl.getAllPlans(); showEditPlanModal = !showEditPlanModal" ng-show="subscription.status.toLowerCase() === 'active'">Edit Plan</button>
 								<span ng-if="subscription.status.toLowerCase() === 'active'">|</span>
@@ -154,7 +154,10 @@
 											</div>
 											<div class="Grid-col--6">
 												<h2 class="Heading--six">Paypal</h2>
-												<braintree-paypal-button button-text="'Connect with Paypal...'" on-finish="$ctrl.addPaymentMethod(paymentModel, subscription)"></braintree-paypal-button>
+												<braintree-paypal-button
+													button-text="'Connect with Paypal...'"
+													currency=""
+													on-finish="$ctrl.addPaymentMethod(paymentModel, subscription)"></braintree-paypal-button>
 											</div>
 										</div>
 									</div>
@@ -181,9 +184,9 @@
 										<h5 class="Heading--seven HeadingGroup-heading--top">
 											<time>{{ transaction.createdAt | date: longDate }}</time>
 										</h5>
-										<h5 class="Heading--five u-textSuccess HeadingGroup-heading--main">${{ transaction.amount }}
+										<h5 class="Heading--five u-textSuccess HeadingGroup-heading--main">{{ $ctrl.formatCurrencyAmount(transaction.amount, transaction.currencyIsoCode) }}
 											<small class="u-textBase" ng-if="transaction.discounts.length">(Upgrade credit:
-												<span ng-repeat="discount in transaction.discounts" class="u-textSuccess">${{ discount.amount }}</span>)
+												<span ng-repeat="discount in transaction.discounts" class="u-textSuccess">$ctrl.formatCurrencyAmount(discount.amount, transaction.currencyIsoCode)</span>)
 											</small>
 										</h5>
 									</header>
