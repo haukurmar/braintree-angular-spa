@@ -47,6 +47,7 @@
 					currency="$ctrl.state.selectedCurrency"
 					subscription-plan="$ctrl.plansDisplayed.premiumThree"
 					item-css-class="'u-textCenter mt--9'"
+					format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
 					on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
 			</div>
 
@@ -62,6 +63,7 @@
 							currency="$ctrl.state.selectedCurrency"
 							subscription-plan="$ctrl.plansDisplayed.premiumSix"
 							item-css-class="'u-textCenter'"
+							format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
 							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading">
 						</ui-braintree-subscription-plan>
 					</div>
@@ -75,6 +77,7 @@
 					currency="$ctrl.state.selectedCurrency"
 					subscription-plan="$ctrl.plansDisplayed.premiumTwelve"
 					item-css-class="'u-textCenter mt--9'"
+					format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
 					on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
 			</div>
 		</div>
@@ -98,7 +101,8 @@
 			<div class="Grid-col--12">
 				<p>or<br> pay monthly<br>
 					<button class="Button Button--secondary" ng-click="$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumOne)">
-						{{ $ctrl.state.selectedCurrency.currencySymbol }}{{ $ctrl.plansDisplayed.premiumOne.price }} / month
+						{{ $ctrl.formatCurrencyAmount($ctrl.plansDisplayed.premiumOne.price, $ctrl.plansDisplayed.premiumOne.currencyIsoCode) }}
+						/ month
 					</button>
 				</p>
 			</div>

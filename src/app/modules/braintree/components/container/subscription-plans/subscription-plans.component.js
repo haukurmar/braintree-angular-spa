@@ -63,6 +63,10 @@ class SubscriptionPlansComponent {
 		this.routeTo(ROUTES.CUSTOMER);
 	}
 
+	formatCurrencyAmount(amount, currencyIsoCode) {
+		return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
+	}
+
 	routeTo(path){
 		this.braintreeAppService.routeTo(path);
 	}

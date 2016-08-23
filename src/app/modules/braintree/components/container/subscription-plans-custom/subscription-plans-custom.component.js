@@ -178,8 +178,8 @@ class SubscriptionPlansCustomComponent {
 		);
 	}
 
-	testChanged() {
-		console.log('this.state.test', this.state.test);
+	formatCurrencyAmount(amount, currencyIsoCode) {
+		return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
 	}
 
 	showSelectedCurrencyPlans(merchantAccountId) {

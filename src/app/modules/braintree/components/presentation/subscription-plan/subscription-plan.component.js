@@ -24,6 +24,7 @@ let component = {
 		itemCssClass: '<',
 		subscriptionPlan: '<',
 		currency: '<',
+		formatCurrencyAmount: '&',
 		onChoose: '&'
 	},
 	template : template,
