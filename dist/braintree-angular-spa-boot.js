@@ -998,7 +998,8 @@
 					_this2.getPaymentMethodNonce(paymentModel).then(function (nonce) {
 						var paymentMethodModel = {
 							customerId: customerId,
-							paymentMethodNonce: nonce
+							paymentMethodNonce: nonce,
+							verificationMerchantAccountId: paymentModel.verificationMerchantAccountId
 						};
 						console.log('Vault payment data', paymentMethodModel);
 	
@@ -11078,8 +11079,8 @@
 		function ConfigService() {
 			_classCallCheck(this, _ConfigService);
 	
-			this._apiUrl = 'https://haukurmar-braintree-node-api.herokuapp.com/api';
-			//this._apiUrl = 'http://127.0.0.1:5000/api';
+			//this._apiUrl = 'https://haukurmar-braintree-node-api.herokuapp.com/api';
+			this._apiUrl = 'http://127.0.0.1:5000/api';
 		}
 	
 		_createClass(ConfigService, [{
@@ -11435,7 +11436,8 @@
 				message: {
 					text: '',
 					link: '',
-					linkText: ''
+					linkText: '',
+					descriptionHtml: ''
 				},
 				paid: false,
 				showForm: true,
@@ -11475,7 +11477,7 @@
 	
 					// If the user has not chosen a subscription plan (or refreshed the page)
 					if (!this.customer.subscriptionPlan) {
-						this.state.message.text = 'You need to choose a subscription plan before you proceed';
+						this._displayMessage('You need to choose a subscription plan before you proceed', 'warning');
 						this.state.message.linkText = 'Go to subscription page';
 						this.state.message.link = _braintreeConstants.ROUTES.SUBSCRIPTION;
 						this.state.showForm = false;
@@ -11484,7 +11486,7 @@
 	
 					// If the user has no customer ID
 					if (!this.customer.id) {
-						this.state.message.text = 'You need to fill out customer information before you proceed';
+						this._displayMessage('You need to fill out customer information before you proceed');
 						this.state.message.linkText = 'Go to customer page';
 						this.state.message.link = _braintreeConstants.ROUTES.CUSTOMER;
 						this.state.showForm = false;
@@ -11502,6 +11504,30 @@
 						_this.braintreeDataService.updateCustomerData(customer);
 					});
 				}
+			}
+		}, {
+			key: '_clearMessage',
+			value: function _clearMessage() {
+				this.state.message.text = '';
+			}
+		}, {
+			key: '_displayMessage',
+			value: function _displayMessage(text, type, descriptionHtml) {
+				this.state.message.type = type;
+				this.state.message.text = text;
+				this.state.message.descriptionHtml = descriptionHtml;
+			}
+		}, {
+			key: '_startLoading',
+			value: function _startLoading(text) {
+				this.state.loading.isLoading = true;
+				this.state.loading.text = text;
+			}
+		}, {
+			key: '_stopLoading',
+			value: function _stopLoading() {
+				this.state.loading.isLoading = false;
+				this.state.loading.text = '';
 			}
 	
 			// Public viewModel methods
@@ -11536,21 +11562,22 @@
 			value: function createVaultedPayment(paymentModel) {
 				var _this2 = this;
 	
-				this.state.loading.text = 'Saving payment information...';
-				this.state.loading.isLoading = true;
+				this._startLoading('Saving payment information...');
 				this.state.showForm = false;
 				var customerId = this.braintreeDataService.customer.id;
+	
+				paymentModel.verificationMerchantAccountId = this.selectedMerchantAccount.id;
 	
 				// Send request to get token, then use the token to tokenize credit card info and verify the card
 				this.braintreeDataService.createVaultedPayment(customerId, paymentModel).then(function (response) {
 					console.log('from vaultedPayment', response);
-					_this2.state.loading.isLoading = false;
+					_this2._stopLoading();
 					_this2.state.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
 					_this2.routeTo([_this2.state.nextRoute]);
 				}, function (error) {
 					// TODO: Handle errors better
-					_this2.state.message.text = error;
-					_this2.state.loading.isLoading = false;
+					_this2._displayMessage(error, 'warning');
+					_this2._stopLoading();
 					_this2.state.showForm = true;
 				});
 			}
@@ -11564,8 +11591,7 @@
 			value: function processPayment(paymentModel) {
 				var _this3 = this;
 	
-				this.state.loading.text = 'Processing payment...';
-				this.state.loading.isLoading = true;
+				this._startLoading('Processing payment...');
 				this.state.showForm = false;
 				var clientToken = this.braintreeDataService.customer.clientToken;
 	
@@ -11595,22 +11621,23 @@
 					_this3.braintreeDataService.processPayment(paymentData).then(function (response) {
 						console.log(response.data.success);
 						if (response.data.success) {
-							_this3.state.message.text = 'Payment authorized, thanks.';
 							_this3.state.paid = true;
 							_this3.state.error = false;
-							_this3.state.loading.isLoading = false;
-							_this3.state.showForm = false;
+	
+							_this3._displayMessage('Payment authorized, thanks.', 'success');
+							_this3._stopLoading();
 						} else {
 							// TODO: Handle different payment failures
-							_this3.state.message.text = 'Payment failed: ' + response.data.message + ' Please refresh the page and try again.';
 							_this3.state.error = true;
-							_this3.state.loading.isLoading = false;
+	
+							_this3._displayMessage('Payment failed: ' + response.data.message + ' Please refresh the page and try again.', 'warning');
+							_this3._stopLoading();
 							_this3.state.showForm = true;
 						}
 					}, function (error) {
-						_this3.state.message.text = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
 						_this3.state.error = true;
-						_this3.state.loading.isLoading = false;
+						_this3._displayMessage('Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data, 'warning');
+						_this3._stopLoading();
 						_this3.state.showForm = true;
 					});
 				});
@@ -11635,7 +11662,7 @@
 /* 103 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your card details</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-creditcard-form\n\t\t\ton-submit=\"$ctrl.submitPayment(paymentModel)\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\thide-amount=\"$ctrl.state.hideAmount\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tmerchant-accounts=\"$ctrl.merchantAccountsArray\"\n\t\t\tselected-merchant-account=\"$ctrl.selectedMerchantAccount\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t\t</ui-braintree-creditcard-form>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span><br>\n\n\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n</section>\n\n\n\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your card details</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-creditcard-form\n\t\t\ton-submit=\"$ctrl.submitPayment(paymentModel)\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\thide-amount=\"$ctrl.state.hideAmount\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tmerchant-accounts=\"$ctrl.merchantAccountsArray\"\n\t\t\tselected-merchant-account=\"$ctrl.selectedMerchantAccount\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t\t</ui-braintree-creditcard-form>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 104 */
@@ -14348,6 +14375,7 @@
 	
 			this.customer = null;
 			this.plans = [];
+			this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
 		}
 	
 		// Component decorations
@@ -14463,6 +14491,8 @@
 				this._clearMessage();
 				this._startLoading('Saving payment information...');
 				var customerId = this.braintreeDataService.customer.id;
+	
+				paymentMethod.verificationMerchantAccountId = this.selectedMerchantAccount.id;
 	
 				// Send request to get token, then use the token to tokenize credit card info and verify the card
 				this.braintreeDataService.createVaultedPayment(customerId, paymentMethod).then(function (response) {
@@ -14812,7 +14842,7 @@
 /* 122 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n\t<form name=\"payment\" ng-submit=\"$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})\">\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccounts.length && !$ctrl.selectedMerchantAccount\">\n\t\t\t<label class=\"Form-itemLabel\">Currency</label>\n\t\t\t<label ng-repeat=\"merchantAccount in $ctrl.merchantAccounts\">\n\t\t\t\t<input type=\"radio\" name=\"merchantAccountId\" ng-value=\"merchantAccount.id\" ng-model=\"$ctrl.paymentModel.merchantAccountId\" required>\n\t\t\t\t{{ merchantAccount.currencyIsoCode }}\n\t\t\t</label>\n\t\t</div>\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.selectedMerchantAccount && !$ctrl.hideCurrency\">\n\t\t\t<label class=\"Form-itemLabel\">Currency</label>\n\t\t\t{{ $ctrl.selectedMerchantAccount.currencyIsoCode }}\n\t\t</div>\n\n\t\t<div class=\"Form-item\" ng-if=\"!$ctrl.hideAmount\">\n\t\t\t<label class=\"Form-itemLabel\">Amount</label>\n\t\t\t<input type=\"text\" class=\"Textbox\" ng-model=\"$ctrl.paymentModel.amount\" size=\"8\" ng-required=\"true\" />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Card Number</label>\n\t\t\t<input type=\"text\"\n\t\t\t       style=\"width: 190px\"\n\t\t\t       class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.creditCardNumber\"\n\t\t\t       size=\"20\"\n\t\t\t       payments-validate=\"card\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"card\"\n\t\t\t       payments-length=\"card\"\n\t\t\t       ng-class=\"$ctrl.type\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Expiration Date</label>\n\t\t\t<input type=\"text\" class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.expirationDate\"\n\t\t\t       payments-validate=\"expiry\"\n\t\t\t       payments-format=\"expiry\"\n\t\t\t       size=\"8\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">CVV</label>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.cvv\"\n\t\t\t       payments-validate=\"cvc\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"cvc\"\n\t\t\t       size=\"4\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t</div>\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t</form>\n</section>\n"
+	module.exports = "<section>\n\t<form name=\"payment\" ng-submit=\"$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})\">\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccounts.length && !$ctrl.selectedMerchantAccount\">\n\t\t\t<label class=\"Form-itemLabel\">Currency</label>\n\t\t\t<label ng-repeat=\"merchantAccount in $ctrl.merchantAccounts\">\n\t\t\t\t<input type=\"radio\" name=\"merchantAccountId\" ng-value=\"merchantAccount.id\" ng-model=\"$ctrl.paymentModel.merchantAccountId\" required>\n\t\t\t\t{{ merchantAccount.currencyIsoCode }}\n\t\t\t</label>\n\t\t</div>\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.selectedMerchantAccount && !$ctrl.hideCurrency\">\n\t\t\t<label class=\"Form-itemLabel\">Currency</label>\n\t\t\t{{ $ctrl.selectedMerchantAccount.currencyIsoCode }}\n\t\t</div>\n\n\t\t<div class=\"Form-item\" ng-if=\"!$ctrl.hideAmount\">\n\t\t\t<label class=\"Form-itemLabel\">Amount<br>\n\t\t\t\t<input type=\"text\" class=\"Textbox\" ng-model=\"$ctrl.paymentModel.amount\" size=\"8\" ng-required=\"true\" />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Card Number<br>\n\t\t\t<input type=\"text\"\n\t\t\t       style=\"width: 190px\"\n\t\t\t       class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.creditCardNumber\"\n\t\t\t       size=\"20\"\n\t\t\t       payments-validate=\"card\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"card\"\n\t\t\t       payments-length=\"card\"\n\t\t\t       ng-class=\"$ctrl.type\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Expiration Date<br>\n\t\t\t<input type=\"text\" class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.expirationDate\"\n\t\t\t       payments-validate=\"expiry\"\n\t\t\t       payments-format=\"expiry\"\n\t\t\t       size=\"8\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">CVV<br>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.cvv\"\n\t\t\t       payments-validate=\"cvc\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"cvc\"\n\t\t\t       size=\"4\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t</form>\n</section>\n"
 
 /***/ },
 /* 123 */
