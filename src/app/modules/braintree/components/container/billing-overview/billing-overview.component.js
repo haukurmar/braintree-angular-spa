@@ -346,7 +346,6 @@ class CustomerDetailsComponent {
 
 	getPlansByCurrency(currencyIsoCode) {
 		this._startLoading('Loading subscription plans...');
-		console.log('getPlansByCurrency', currencyIsoCode);
 		this.braintreeDataService.getSubscriptionPlansForCurrency(currencyIsoCode).then(
 			(response) => {
 				this.plans = response.data.plans;
