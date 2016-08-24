@@ -134,6 +134,8 @@ class CreditCardComponent {
 		this.state.showForm = false;
 		let customerId = this.braintreeDataService.customer.id;
 
+		paymentModel.verificationMerchantAccountId = this.selectedMerchantAccount.id;
+
 		// Send request to get token, then use the token to tokenize credit card info and verify the card
 		this.braintreeDataService.createVaultedPayment(customerId, paymentModel).then(
 			(response) => {

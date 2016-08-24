@@ -144,7 +144,8 @@ export default class BraintreeService {
 				(nonce) => {
 					let paymentMethodModel = {
 						customerId: customerId,
-						paymentMethodNonce: nonce
+						paymentMethodNonce: nonce,
+						verificationMerchantAccountId: paymentModel.verificationMerchantAccountId
 					};
 					console.log('Vault payment data', paymentMethodModel);
 

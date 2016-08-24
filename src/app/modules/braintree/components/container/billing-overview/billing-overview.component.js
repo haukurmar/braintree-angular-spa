@@ -32,6 +32,7 @@ class CustomerDetailsComponent {
 
 		this.customer = null;
 		this.plans = [];
+		this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
 	}
 
 	// Private methods
@@ -132,6 +133,8 @@ class CustomerDetailsComponent {
 		this._clearMessage();
 		this._startLoading('Saving payment information...');
 		let customerId = this.braintreeDataService.customer.id;
+
+		paymentMethod.verificationMerchantAccountId = this.selectedMerchantAccount.id;
 
 		// Send request to get token, then use the token to tokenize credit card info and verify the card
 		this.braintreeDataService.createVaultedPayment(customerId, paymentMethod).then(
