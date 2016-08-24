@@ -1,4 +1,6 @@
 import braintree from 'braintree-web';
+import _ from 'underscore';
+
 @Inject('$http', 'braintreeConfigService', '$q')
 export default class BraintreeService {
 	constructor() {
@@ -183,6 +185,44 @@ export default class BraintreeService {
 
 	getAllSubscriptionPlans() {
 		return this.$http.get(this.apiUrl + this._subscriptionPlansPath);
+	}
+
+	getSubscriptionPlansForCurrency(currencyIsoCode) {
+		console.log('getSubscriptionPlansForCurrency...');
+		let responseObject = {
+			data: {
+				plans: [],
+				message: '',
+				success: false
+			}
+		};
+
+		// Since Braintree offers no filtering we need to fetch all plans and filter them
+		return this.$q((resolve, reject) => {
+			this.getAllSubscriptionPlans().then(
+				(response) => {
+					if (!response.data || !response.data.plans) {
+						responseObject.data.message = 'No subscription plans found.';
+						reject(responseObject);
+					} else {
+						let currencyPlans = _.where(response.data.plans, {currencyIsoCode: currencyIsoCode});
+
+						if (!currencyPlans.length) {
+							responseObject.data.message = 'No plans found for currency: ' + currencyIsoCode;
+							reject(responseObject);
+						} else {
+							responseObject.data.success = true;
+							responseObject.data.plans = currencyPlans;
+							resolve(responseObject);
+						}
+					}
+				},
+				(error) => {
+					responseObject.data.message = error;
+					reject(responseObject);
+				}
+			);
+		});
 	}
 
 	/**

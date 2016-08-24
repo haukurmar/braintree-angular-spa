@@ -79,27 +79,6 @@ class CustomerDetailsComponent {
 		this.state.message.descriptionHtml = descriptionHtml;
 	}
 
-	_getAllSubscriptionPlans() {
-		if (this.plans.length > 0) {
-			return;
-		}
-
-		this.state.plans.loading.isLoading = true;
-		this.state.plans.loading.text = 'Loading plans...';
-
-		this.braintreeDataService.getAllSubscriptionPlans().then(
-			(response) => {
-				this.plans = response.data.plans;
-				this._stopLoading();
-			},
-			(error) => {
-				// TODO: Notify development team or do it via api
-				this._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
-				this._stopLoading();
-			}
-		);
-	}
-
 	getCurrencySymbol(currencyIsoCode) {
 		return this.braintreeAppService.getCurrencySymbol(currencyIsoCode);
 	}
@@ -350,7 +329,35 @@ class CustomerDetailsComponent {
 	}
 
 	getAllPlans() {
-		this._getAllSubscriptionPlans();
+		this._startLoading('Loading subscription plans...');
+
+		this.braintreeDataService.getAllSubscriptionPlans().then(
+			(response) => {
+				this.plans = response.data.plans;
+				this._stopLoading();
+			},
+			(error) => {
+				// TODO: Notify development team or do it via api
+				this._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
+				this._stopLoading();
+			}
+		);
+	}
+
+	getPlansByCurrency(currencyIsoCode) {
+		this._startLoading('Loading subscription plans...');
+		console.log('getPlansByCurrency', currencyIsoCode);
+		this.braintreeDataService.getSubscriptionPlansForCurrency(currencyIsoCode).then(
+			(response) => {
+				this.plans = response.data.plans;
+				this._stopLoading();
+			},
+			(error) => {
+				// TODO: Notify development team or do it via api
+				this._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
+				this._stopLoading();
+			}
+		);
 	}
 
 	/**

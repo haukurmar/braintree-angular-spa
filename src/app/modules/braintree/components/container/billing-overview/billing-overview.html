@@ -55,7 +55,7 @@
 							<div class="Grid-col--6">
 								<ui-braintree-subscription-details subscription="subscription" format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"></ui-braintree-subscription-details>
 
-								<button type="button" class="Button Button--primary" ng-click="$ctrl.getAllPlans(); showEditPlanModal = !showEditPlanModal" ng-show="subscription.status.toLowerCase() === 'active'">Edit Plan</button>
+								<button type="button" class="Button Button--primary" ng-click="$ctrl.getPlansByCurrency(subscription.plan.currencyIsoCode); showEditPlanModal = !showEditPlanModal" ng-show="subscription.status.toLowerCase() === 'active'">Edit Plan</button>
 								<span ng-if="subscription.status.toLowerCase() === 'active'">|</span>
 								<a href="" ng-if="subscription.status.toLowerCase() === 'active' && subscription.price > 0" ng-click="$ctrl.disableAutoRenew(subscription)">Disable Auto Renew</a>
 								<a href="" ng-if="subscription.status.toLowerCase() === 'active' && subscription.price <= 0" ng-click="$ctrl.enableAutoRenew(subscription)">Enable Auto Renew</a>
