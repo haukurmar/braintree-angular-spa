@@ -327,41 +327,41 @@
 	
 	var _servicesBraintreeDataService2 = _interopRequireDefault(_servicesBraintreeDataService);
 	
-	var _servicesBraintreeConfigService = __webpack_require__(97);
+	var _servicesBraintreeConfigService = __webpack_require__(98);
 	
 	var _servicesBraintreeConfigService2 = _interopRequireDefault(_servicesBraintreeConfigService);
 	
-	var _servicesBraintreeAppService = __webpack_require__(98);
+	var _servicesBraintreeAppService = __webpack_require__(99);
 	
 	var _servicesBraintreeAppService2 = _interopRequireDefault(_servicesBraintreeAppService);
 	
 	// Container Components
 	
-	var _componentsContainerCustomerCustomerComponent = __webpack_require__(99);
+	var _componentsContainerCustomerCustomerComponent = __webpack_require__(100);
 	
 	var _componentsContainerCustomerCustomerComponent2 = _interopRequireDefault(_componentsContainerCustomerCustomerComponent);
 	
-	var _componentsContainerCreditcardCreditcardComponent = __webpack_require__(102);
+	var _componentsContainerCreditcardCreditcardComponent = __webpack_require__(103);
 	
 	var _componentsContainerCreditcardCreditcardComponent2 = _interopRequireDefault(_componentsContainerCreditcardCreditcardComponent);
 	
-	var _componentsContainerDropinDropinComponent = __webpack_require__(104);
+	var _componentsContainerDropinDropinComponent = __webpack_require__(105);
 	
 	var _componentsContainerDropinDropinComponent2 = _interopRequireDefault(_componentsContainerDropinDropinComponent);
 	
-	var _componentsContainerPaypalPaypalComponent = __webpack_require__(106);
+	var _componentsContainerPaypalPaypalComponent = __webpack_require__(107);
 	
 	var _componentsContainerPaypalPaypalComponent2 = _interopRequireDefault(_componentsContainerPaypalPaypalComponent);
 	
-	var _componentsContainerPaypalButtonPaypalButtonComponent = __webpack_require__(108);
+	var _componentsContainerPaypalButtonPaypalButtonComponent = __webpack_require__(109);
 	
 	var _componentsContainerPaypalButtonPaypalButtonComponent2 = _interopRequireDefault(_componentsContainerPaypalButtonPaypalButtonComponent);
 	
-	var _componentsContainerSubscriptionPlansSubscriptionPlansComponent = __webpack_require__(110);
+	var _componentsContainerSubscriptionPlansSubscriptionPlansComponent = __webpack_require__(111);
 	
 	var _componentsContainerSubscriptionPlansSubscriptionPlansComponent2 = _interopRequireDefault(_componentsContainerSubscriptionPlansSubscriptionPlansComponent);
 	
-	var _componentsContainerSubscriptionPlansCustomSubscriptionPlansCustomComponent = __webpack_require__(112);
+	var _componentsContainerSubscriptionPlansCustomSubscriptionPlansCustomComponent = __webpack_require__(113);
 	
 	var _componentsContainerSubscriptionPlansCustomSubscriptionPlansCustomComponent2 = _interopRequireDefault(_componentsContainerSubscriptionPlansCustomSubscriptionPlansCustomComponent);
 	
@@ -873,6 +873,10 @@
 	
 	var _braintreeWeb2 = _interopRequireDefault(_braintreeWeb);
 	
+	var _underscore = __webpack_require__(97);
+	
+	var _underscore2 = _interopRequireDefault(_underscore);
+	
 	var Inject = __webpack_require__(82);
 	
 	var BraintreeService = (function () {
@@ -1037,6 +1041,44 @@
 			value: function getAllSubscriptionPlans() {
 				return this.$http.get(this.apiUrl + this._subscriptionPlansPath);
 			}
+		}, {
+			key: 'getSubscriptionPlansForCurrency',
+			value: function getSubscriptionPlansForCurrency(currencyIsoCode) {
+				var _this3 = this;
+	
+				console.log('getSubscriptionPlansForCurrency...');
+				var responseObject = {
+					data: {
+						plans: [],
+						message: '',
+						success: false
+					}
+				};
+	
+				// Since Braintree offers no filtering we need to fetch all plans and filter them
+				return this.$q(function (resolve, reject) {
+					_this3.getAllSubscriptionPlans().then(function (response) {
+						if (!response.data || !response.data.plans) {
+							responseObject.data.message = 'No subscription plans found.';
+							reject(responseObject);
+						} else {
+							var currencyPlans = _underscore2['default'].where(response.data.plans, { currencyIsoCode: currencyIsoCode });
+	
+							if (!currencyPlans.length) {
+								responseObject.data.message = 'No plans found for currency: ' + currencyIsoCode;
+								reject(responseObject);
+							} else {
+								responseObject.data.success = true;
+								responseObject.data.plans = currencyPlans;
+								resolve(responseObject);
+							}
+						}
+					}, function (error) {
+						responseObject.data.message = error;
+						reject(responseObject);
+					});
+				});
+			}
 	
 			/**
 	   * Get the client token which is generated on the server
@@ -1074,12 +1116,12 @@
 		}, {
 			key: 'getPaymentMethodNonce',
 			value: function getPaymentMethodNonce(paymentModel) {
-				var _this3 = this;
+				var _this4 = this;
 	
 				return this.$q(function (resolve, reject) {
-					_this3.getClientToken().then(function (response) {
+					_this4.getClientToken().then(function (response) {
 						// Create new client and tokenize card
-						var client = new _this3.$braintree.api.Client({ clientToken: response.data.client_token });
+						var client = new _this4.$braintree.api.Client({ clientToken: response.data.client_token });
 	
 						client.tokenizeCard({
 							number: paymentModel.creditCardNumber,
@@ -11063,1470 +11105,6 @@
 /* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var Inject = __webpack_require__(82);
-	
-	var ConfigService = (function () {
-		function ConfigService() {
-			_classCallCheck(this, _ConfigService);
-	
-			//this._apiUrl = 'https://haukurmar-braintree-node-api.herokuapp.com/api';
-			this._apiUrl = 'http://127.0.0.1:5000/api';
-		}
-	
-		_createClass(ConfigService, [{
-			key: 'setApiUrl',
-			value: function setApiUrl(url) {
-				this._apiUrl = url;
-			}
-		}, {
-			key: 'apiUrl',
-			get: function get() {
-				return this._apiUrl;
-			}
-		}]);
-	
-		var _ConfigService = ConfigService;
-		ConfigService = Inject()(ConfigService) || ConfigService;
-		return ConfigService;
-	})();
-	
-	exports['default'] = ConfigService;
-	module.exports = exports['default'];
-
-/***/ },
-/* 98 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var Inject = __webpack_require__(82);
-	
-	var CoreService = (function () {
-		function CoreService($location) {
-			_classCallCheck(this, _CoreService);
-	
-			this.$location = $location;
-		}
-	
-		_createClass(CoreService, [{
-			key: 'routeTo',
-			value: function routeTo(path) {
-				this.$location.url(path);
-			}
-		}, {
-			key: 'getCurrencySymbol',
-			value: function getCurrencySymbol(currencyIsoCode) {
-				switch (currencyIsoCode) {
-					case 'USD':
-						return '$';
-						break;
-					case 'EUR':
-						return '€';
-						break;
-					case 'GBP':
-						return '£';
-						break;
-					case 'ISK':
-						return 'kr';
-						break;
-					default:
-						return '$';
-				}
-			}
-		}, {
-			key: 'formatCurrencyAmount',
-			value: function formatCurrencyAmount(amount, currencyIsoCode) {
-				// TODO: Call external multi-use method to return this
-				var currencySymbol = this.getCurrencySymbol(currencyIsoCode);
-	
-				if (currencyIsoCode.toLowerCase() === 'isk') {
-					return amount + currencySymbol;
-				}
-	
-				return currencySymbol + amount;
-			}
-		}]);
-	
-		var _CoreService = CoreService;
-		CoreService = Inject('$location')(CoreService) || CoreService;
-		return CoreService;
-	})();
-	
-	exports['default'] = CoreService;
-	module.exports = exports['default'];
-
-/***/ },
-/* 99 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var _customerHtml = __webpack_require__(100);
-	
-	var _customerHtml2 = _interopRequireDefault(_customerHtml);
-	
-	var _braintreeConstants = __webpack_require__(101);
-	
-	// Inject dependencies
-	
-	var Inject = __webpack_require__(82);
-	
-	var BraintreeSubscriptionComponent = (function () {
-		function BraintreeSubscriptionComponent(braintreeDataService, braintreeAppService) {
-			_classCallCheck(this, _BraintreeSubscriptionComponent);
-	
-			this.braintreeDataService = braintreeDataService;
-			this.braintreeAppService = braintreeAppService;
-	
-			this.state = {
-				backButtonText: 'Back',
-				backButtonRoute: _braintreeConstants.ROUTES.SUBSCRIPTION,
-				backButtonVisible: false,
-				loading: {
-					isLoading: false,
-					text: ''
-				},
-				message: {
-					text: '',
-					link: '',
-					linkText: ''
-				},
-				showForm: true,
-				submitButtonText: 'Create customer',
-				mode: {
-					subscription: false
-				}
-			};
-	
-			this.routes = {
-				nextRoute: '',
-				subscription: _braintreeConstants.ROUTES.SUBSCRIPTION
-			};
-	
-			this.customer = null;
-			this.customerModel = {};
-			this.newCustomer = true;
-		}
-	
-		// Component decorations
-	
-		// Private methods
-		// --------------------------------------------------
-	
-		_createClass(BraintreeSubscriptionComponent, [{
-			key: '$onInit',
-			value: function $onInit() {
-				// Get Customer from service
-				this.customer = this.braintreeDataService.customer;
-				this.customerModel = this.customer;
-				this.state.mode = this.braintreeDataService.mode;
-	
-				// Subscription mode
-				if (this.state.mode.subscription) {
-					this.state.submitButtonText = 'Continue';
-					this.state.backButtonVisible = true;
-	
-					// If the user has not chosen a subscription plan (or refreshed the page)
-					if (!this.customer.subscriptionPlan) {
-						this.state.message.text = 'You need to choose a subscription plan before you proceed';
-						this.state.message.linkText = 'Go to subscription page';
-						this.state.message.link = _braintreeConstants.ROUTES.SUBSCRIPTION;
-						this.state.showForm = false;
-					}
-				}
-	
-				// If we get a customerId, we fetch it from API
-				if (this.customer.id) {
-					this.getCustomerDetails(this.customer.id);
-				}
-			}
-	
-			// Public viewModel methods
-			// --------------------------------------------------
-			/**
-	   * Get Customer details, including current subscription plans, payment methods etc.
-	   * @param customerId
-	   */
-		}, {
-			key: 'getCustomerDetails',
-			value: function getCustomerDetails(customerId) {
-				var _this = this;
-	
-				this.state.loading.isLoading = true;
-				this.state.loading.text = 'Fetching customer information...';
-				//Get Customer if logged in
-				this.braintreeDataService.getCustomer(customerId).then(function (response) {
-					console.log('success', response);
-					_this.newCustomer = false;
-					_this.braintreeDataService.updateCustomerData(response.data.customer);
-					_this.customerModel = response.data.customer;
-					_this.state.loading.isLoading = false;
-	
-					// TODO: What to do here?
-				}, function (error) {
-					console.log(error.data.message);
-					_this.newCustomer = true;
-					_this.state.loading.isLoading = false;
-				});
-			}
-		}, {
-			key: 'routeTo',
-			value: function routeTo(path) {
-				this.braintreeAppService.routeTo(path);
-			}
-	
-			/**
-	   * Create a new customer or update an existing one
-	   * @param customerModel
-	   */
-		}, {
-			key: 'saveCustomer',
-			value: function saveCustomer(customerModel) {
-				var _this2 = this;
-	
-				this.state.showform = false;
-				this.routes.nextRoute = _braintreeConstants.ROUTES.PAYMENT_METHODS;
-	
-				if (this.newCustomer) {
-					this.state.loading.text = 'Creating customer...';
-					this.state.loading.isLoading = true;
-	
-					this.braintreeDataService.createCustomer(customerModel).then(function (response) {
-						_this2.state.loading.isLoading = false;
-	
-						// Save customer data to service
-						_this2.braintreeDataService.updateCustomerData(response.data.customer);
-	
-						// Redirect to next step
-						_this2.routeTo([_this2.routes.nextRoute]);
-					}, function (error) {
-						// TODO: Handle errors better (use error.data.errors collection)
-						_this2.state.message.text = error.data.message;
-						_this2.state.loading.isLoading = false;
-						_this2.state.showform = true;
-	
-						console.log('Error message', error.data.message);
-						console.log('Errors:', error.data.errors);
-					});
-				} else {
-					this.braintreeDataService.updateCustomerData(customerModel);
-					// TODO: Update customer in Braintree
-					this.routeTo([this.routes.nextRoute]);
-				}
-			}
-		}]);
-	
-		var _BraintreeSubscriptionComponent = BraintreeSubscriptionComponent;
-		BraintreeSubscriptionComponent = Inject('braintreeDataService', 'braintreeAppService')(BraintreeSubscriptionComponent) || BraintreeSubscriptionComponent;
-		return BraintreeSubscriptionComponent;
-	})();
-	
-	var component = {
-		bindings: {},
-		template: _customerHtml2['default'],
-		controller: BraintreeSubscriptionComponent
-	};
-	
-	exports['default'] = component;
-	module.exports = exports['default'];
-
-/***/ },
-/* 100 */
-/***/ function(module, exports) {
-
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/customer'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your contact information</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-customer-form\n\t\t\tcustomer-model=\"$ctrl.customerModel\"\n\t\t\ton-submit=\"$ctrl.saveCustomer(customerModel)\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-customer-form>\n\t</div>\n</section>\n"
-
-/***/ },
-/* 101 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	var ROUTES = {
-		CARDS: '/cards',
-		CUSTOMER: '/customer',
-		CUSTOMER_DETAILS: '/billing-overview',
-		DROPIN: '/drop-in',
-		PAYMENT_METHODS: '/payment-methods',
-		PAYPAL: '/paypal',
-		SUBSCRIPTION: '/subscribe',
-		SUBSCRIPTION_OVERVIEW: '/subscription-overview'
-	};
-	
-	exports.ROUTES = ROUTES;
-
-/***/ },
-/* 102 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var _creditcardHtml = __webpack_require__(103);
-	
-	var _creditcardHtml2 = _interopRequireDefault(_creditcardHtml);
-	
-	var _braintreeConstants = __webpack_require__(101);
-	
-	// Inject dependencies
-	
-	var Inject = __webpack_require__(82);
-	
-	var CreditCardComponent = (function () {
-		function CreditCardComponent($http, braintreeDataService, braintreeAppService) {
-			_classCallCheck(this, _CreditCardComponent);
-	
-			this.$http = $http;
-			this.braintreeDataService = braintreeDataService;
-			this.braintreeAppService = braintreeAppService;
-	
-			this.state = {
-				backButtonText: 'Back',
-				backButtonRoute: _braintreeConstants.ROUTES.PAYMENT_METHODS,
-				backButtonVisible: false,
-				error: false,
-				hideAmount: false,
-				mode: {
-					subscription: false
-				},
-				loading: {
-					isLoading: false,
-					text: ''
-				},
-				message: {
-					text: '',
-					link: '',
-					linkText: '',
-					descriptionHtml: ''
-				},
-				paid: false,
-				showForm: true,
-				submitButtonText: 'Pay now'
-			};
-	
-			// Used in template
-			this.routes = {
-				subscription: _braintreeConstants.ROUTES.SUBSCRIPTION
-			};
-	
-			this.customer = null;
-	
-			this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
-			this.merchantAccountsArray = this.braintreeDataService.merchantAccountsArray;
-		}
-	
-		// Component decorations
-	
-		// Private methods
-		// --------------------------------------------------
-	
-		_createClass(CreditCardComponent, [{
-			key: '$onInit',
-			value: function $onInit() {
-				var _this = this;
-	
-				this.customer = this.braintreeDataService.customer;
-				this.state.mode = this.braintreeDataService.mode;
-	
-				// Subscription mode
-				var mode = this.braintreeDataService.mode;
-				if (mode.subscription) {
-					this.state.backButtonVisible = true;
-					this.state.hideAmount = true;
-					this.state.submitButtonText = 'Continue';
-	
-					// If the user has not chosen a subscription plan (or refreshed the page)
-					if (!this.customer.subscriptionPlan) {
-						this._displayMessage('You need to choose a subscription plan before you proceed', 'warning');
-						this.state.message.linkText = 'Go to subscription page';
-						this.state.message.link = _braintreeConstants.ROUTES.SUBSCRIPTION;
-						this.state.showForm = false;
-						return;
-					}
-	
-					// If the user has no customer ID
-					if (!this.customer.id) {
-						this._displayMessage('You need to fill out customer information before you proceed');
-						this.state.message.linkText = 'Go to customer page';
-						this.state.message.link = _braintreeConstants.ROUTES.CUSTOMER;
-						this.state.showForm = false;
-						return;
-					}
-				}
-	
-				if (!customer.clientToken) {
-					this.braintreeDataService.getClientToken().then(function (response) {
-						_this.braintreeDataService.$braintree.setup(response.data.client_token, "custom");
-						var customer = {
-							clientToken: response.data.client_token
-						};
-	
-						_this.braintreeDataService.updateCustomerData(customer);
-					});
-				}
-			}
-		}, {
-			key: '_clearMessage',
-			value: function _clearMessage() {
-				this.state.message.text = '';
-			}
-		}, {
-			key: '_displayMessage',
-			value: function _displayMessage(text, type, descriptionHtml) {
-				this.state.message.type = type;
-				this.state.message.text = text;
-				this.state.message.descriptionHtml = descriptionHtml;
-			}
-		}, {
-			key: '_startLoading',
-			value: function _startLoading(text) {
-				this.state.loading.isLoading = true;
-				this.state.loading.text = text;
-			}
-		}, {
-			key: '_stopLoading',
-			value: function _stopLoading() {
-				this.state.loading.isLoading = false;
-				this.state.loading.text = '';
-			}
-	
-			// Public viewModel methods
-			// --------------------------------------------------
-		}, {
-			key: 'routeTo',
-			value: function routeTo(path) {
-				this.braintreeAppService.routeTo(path);
-			}
-	
-			/**
-	   * Determine whether to store payment method to vault or to process payment right away
-	   * @param paymentModel
-	   */
-		}, {
-			key: 'submitPayment',
-			value: function submitPayment(paymentModel) {
-				var mode = this.braintreeDataService.mode;
-				if (mode.subscription) {
-					this.createVaultedPayment(paymentModel);
-				} else {
-					this.processPayment(paymentModel);
-				}
-			}
-	
-			/**
-	   * Creates a saved paymentMethod to the vault and then redirects to SubscriptionOverview
-	   * @param paymentModel
-	   */
-		}, {
-			key: 'createVaultedPayment',
-			value: function createVaultedPayment(paymentModel) {
-				var _this2 = this;
-	
-				this._startLoading('Saving payment information...');
-				this.state.showForm = false;
-				var customerId = this.braintreeDataService.customer.id;
-	
-				paymentModel.verificationMerchantAccountId = this.selectedMerchantAccount.id;
-	
-				// Send request to get token, then use the token to tokenize credit card info and verify the card
-				this.braintreeDataService.createVaultedPayment(customerId, paymentModel).then(function (response) {
-					console.log('from vaultedPayment', response);
-					_this2._stopLoading();
-					_this2.state.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
-					_this2.routeTo([_this2.state.nextRoute]);
-				}, function (error) {
-					// TODO: Handle errors better
-					_this2._displayMessage(error, 'warning');
-					_this2._stopLoading();
-					_this2.state.showForm = true;
-				});
-			}
-	
-			/**
-	   * Processes the payment
-	   * @param paymentModel
-	   */
-		}, {
-			key: 'processPayment',
-			value: function processPayment(paymentModel) {
-				var _this3 = this;
-	
-				this._startLoading('Processing payment...');
-				this.state.showForm = false;
-				var clientToken = this.braintreeDataService.customer.clientToken;
-	
-				// Get selected merchant account if it has been initialized
-				var selectedMerchantAccount = this.selectedMerchantAccount || {};
-	
-				// Use the token to tokenize credit card info and process a transaction
-				// Create new client and tokenize card
-				var client = new this.braintreeDataService.$braintree.api.Client({ clientToken: clientToken });
-	
-				// If radio buttons in view are used
-				if (paymentModel.merchantAccountId) {
-					selectedMerchantAccount.id = paymentModel.merchantAccountId;
-				}
-	
-				client.tokenizeCard({
-					number: paymentModel.creditCardNumber,
-					expirationDate: paymentModel.expirationDate,
-					cvv: paymentModel.cvv
-				}, function (err, nonce) {
-					var paymentData = {
-						amount: paymentModel.amount,
-						payment_method_nonce: nonce,
-						merchantAccountId: selectedMerchantAccount.id
-					};
-	
-					_this3.braintreeDataService.processPayment(paymentData).then(function (response) {
-						console.log(response.data.success);
-						if (response.data.success) {
-							_this3.state.paid = true;
-							_this3.state.error = false;
-	
-							_this3._displayMessage('Payment authorized, thanks.', 'success');
-							_this3._stopLoading();
-						} else {
-							// TODO: Handle different payment failures
-							_this3.state.error = true;
-	
-							_this3._displayMessage('Payment failed: ' + response.data.message + ' Please refresh the page and try again.', 'warning');
-							_this3._stopLoading();
-							_this3.state.showForm = true;
-						}
-					}, function (error) {
-						_this3.state.error = true;
-						_this3._displayMessage('Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data, 'warning');
-						_this3._stopLoading();
-						_this3.state.showForm = true;
-					});
-				});
-			}
-		}]);
-	
-		var _CreditCardComponent = CreditCardComponent;
-		CreditCardComponent = Inject('$http', 'braintreeDataService', 'braintreeAppService')(CreditCardComponent) || CreditCardComponent;
-		return CreditCardComponent;
-	})();
-	
-	var component = {
-		bindings: {},
-		template: _creditcardHtml2['default'],
-		controller: CreditCardComponent
-	};
-	
-	exports['default'] = component;
-	module.exports = exports['default'];
-
-/***/ },
-/* 103 */
-/***/ function(module, exports) {
-
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span><br>\n\n\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n</section>\n\n\n\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your card details</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-creditcard-form\n\t\t\ton-submit=\"$ctrl.submitPayment(paymentModel)\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\thide-amount=\"$ctrl.state.hideAmount\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tmerchant-accounts=\"$ctrl.merchantAccountsArray\"\n\t\t\tselected-merchant-account=\"$ctrl.selectedMerchantAccount\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t\t</ui-braintree-creditcard-form>\n\t</div>\n</section>\n"
-
-/***/ },
-/* 104 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var _dropinHtml = __webpack_require__(105);
-	
-	var _dropinHtml2 = _interopRequireDefault(_dropinHtml);
-	
-	// Inject dependencies
-	
-	var Inject = __webpack_require__(82);
-	
-	var DropinComponent = (function () {
-		function DropinComponent($http, braintreeDataService) {
-			_classCallCheck(this, _DropinComponent);
-	
-			this.$http = $http;
-			this.braintreeDataService = braintreeDataService;
-	
-			this.message = '';
-			this.showDropinContainer = true;
-			this.isError = false;
-			this.isPaid = false;
-		}
-	
-		// Component decorations
-	
-		// Private methods
-		// --------------------------------------------------
-	
-		_createClass(DropinComponent, [{
-			key: '$onInit',
-			value: function $onInit() {
-				console.log('Braintree Dropin Component...');
-				this._getToken();
-			}
-		}, {
-			key: '_getToken',
-			value: function _getToken() {
-				var _this = this;
-	
-				this.braintreeDataService.getClientToken().then(function (response) {
-					console.log('res', response.data);
-	
-					_this.braintreeDataService.$braintree.setup(response.data.client_token, 'dropin', {
-						// id of html tag for braintree dropin container
-						container: 'js-braintree-checkout-container',
-						// Form is not submitted by default when paymentMethodNonceReceived is implemented
-						paymentMethodNonceReceived: function paymentMethodNonceReceived(event, nonce) {
-							_this.message = 'Processing your payment...';
-							_this.showDropinContainer = false;
-	
-							var paymentData = {
-								amount: _this.amount,
-								payment_method_nonce: nonce
-							};
-	
-							// Process payment
-							_this.braintreeDataService.processPayment(paymentData).then(function (response) {
-								console.log('Success:', response.data);
-	
-								if (response.data.success) {
-									_this.message = 'Payment was authorized!';
-									_this.showDropinContainer = false;
-									_this.isError = false;
-									_this.isPaid = true;
-								} else {
-									// TODO: Handle different payment failures
-									_this.message = 'Payment failed: ' + response.data.message + ' Please refresh the page and try again.';
-									_this.isError = true;
-								}
-							}, function (error) {
-								_this.message = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
-								_this.showDropinContainer = false;
-								_this.isError = true;
-							});
-						}
-					});
-				}, function (error) {
-					_this.message = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
-					_this.showDropinContainer = false;
-					_this.isError = true;
-				});
-			}
-	
-			// Public viewModel methods
-			// --------------------------------------------------
-		}]);
-	
-		var _DropinComponent = DropinComponent;
-		DropinComponent = Inject('$http', 'braintreeDataService')(DropinComponent) || DropinComponent;
-		return DropinComponent;
-	})();
-	
-	var component = {
-		bindings: {},
-		template: _dropinHtml2['default'],
-		controller: DropinComponent
-	};
-	
-	exports['default'] = component;
-	module.exports = exports['default'];
-
-/***/ },
-/* 105 */
-/***/ function(module, exports) {
-
-	module.exports = "<section ng-class=\"{'error': $ctrl.isError, 'success': $ctrl.isPaid}\">\n\t<h2 class=\"Heading--two\">Please use the form below to pay</h2>\n\t<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n\t<div ng-show=\"$ctrl.showDropinContainer\">\n\n\t\t<form name=\"payment\">\n\t\t\t<div class=\"Form-item\">\n\t\t\t\t<label class=\"Form-itemLabel\" for=\"txtAmount\">Amount (XX.XX)</label>\n\t\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtAmount\" ng-model=\"$ctrl.amount\" />\n\t\t\t</div>\n\n\t\t\t<!-- Add Dropin here -->\n\t\t\t<div id=\"js-braintree-checkout-container\"></div>\n\n\t\t\t<button class=\"Button Button--success Button--lg\" type=\"submit\">Pay Now</button>\n\t\t</form>\n\t</div>\n\n</section>\n"
-
-/***/ },
-/* 106 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var _paypalHtml = __webpack_require__(107);
-	
-	var _paypalHtml2 = _interopRequireDefault(_paypalHtml);
-	
-	var _braintreeConstants = __webpack_require__(101);
-	
-	// Inject dependencies
-	
-	var Inject = __webpack_require__(82);
-	
-	var PaypalComponent = (function () {
-		function PaypalComponent(braintreeDataService, braintreeAppService) {
-			_classCallCheck(this, _PaypalComponent);
-	
-			this.braintreeDataService = braintreeDataService;
-			this.braintreeAppService = braintreeAppService;
-	
-			this._checkout = null;
-			this.state = {
-				backButtonText: 'Back',
-				backButtonRoute: _braintreeConstants.ROUTES.PAYMENT_METHODS,
-				backButtonVisible: true,
-				message: {
-					text: ''
-				},
-				mode: {
-					subscription: false
-				}
-			};
-	
-			// Used in template
-			this.routes = {
-				nextRoute: '',
-				subscription: _braintreeConstants.ROUTES.SUBSCRIPTION
-			};
-	
-			this.customer = null;
-			this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
-		}
-	
-		// Component decorations
-	
-		// Private methods
-		// --------------------------------------------------
-	
-		_createClass(PaypalComponent, [{
-			key: '$onInit',
-			value: function $onInit() {
-				var _this = this;
-	
-				this.customer = this.braintreeDataService.customer;
-				this.state.mode = this.braintreeDataService.mode;
-	
-				if (!this.braintreeDataService.customer.clientToken) {
-					this.braintreeDataService.getClientToken().then(function (response) {
-						var customer = {
-							clientToken: response.data.client_token
-						};
-						_this.braintreeDataService.updateCustomerData(customer);
-						_this._setupPaypal(customer.clientToken);
-					});
-				} else {
-					this._setupPaypal(this.braintreeDataService.customer.clientToken);
-				}
-			}
-		}, {
-			key: '_setupPaypal',
-			value: function _setupPaypal(clientToken) {
-				var _this2 = this;
-	
-				var currencyCode = this.selectedMerchantAccount.currencyIsoCode;
-				this.braintreeDataService.$braintree.setup(clientToken, "custom", {
-					paypal: {
-						currency: currencyCode,
-						enableShippingAddress: false,
-						headless: true
-					},
-					onReady: function onReady(integration) {
-						console.log('Paypal is ready');
-						_this2._checkout = integration;
-					},
-					onAuthorizationDismissed: function onAuthorizationDismissed(obj) {
-						console.log('onAuthorizationDismissed', obj);
-					},
-					onPaymentMethodReceived: function onPaymentMethodReceived(obj) {
-						_this2._createPaymentOption(obj);
-					}
-				});
-			}
-		}, {
-			key: '_createPaymentOption',
-			value: function _createPaymentOption(paymentMethod) {
-				var _this3 = this;
-	
-				console.log('onPaymentMethodReceived', paymentMethod);
-				var paymentMethodModel = {
-					customerId: this.braintreeDataService.customer.id,
-					paymentMethodNonce: paymentMethod.nonce
-				};
-	
-				console.log('Paypal paymentModel:', paymentMethodModel);
-	
-				this.braintreeDataService.createPaymentMethod(paymentMethodModel).then(function (response) {
-					_this3.braintreeDataService.updateCustomerData(response.data.customer);
-	
-					_this3.routes.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
-					_this3.routeTo([_this3.routes.nextRoute]);
-					console.log('Paypal Payment method created!', response);
-				}, function (error) {
-					_this3.state.message.text = 'Failed to create payment method:' + error.data.message;
-					console.log('Failed to create payment method:', error);
-				});
-			}
-		}, {
-			key: 'routeTo',
-			value: function routeTo(path) {
-				return this.braintreeAppService.routeTo(path);
-			}
-		}, {
-			key: 'pay',
-			value: function pay(event) {
-				this._checkout.paypal.initAuthFlow();
-			}
-	
-			// Public viewModel methods
-			// --------------------------------------------------
-		}]);
-	
-		var _PaypalComponent = PaypalComponent;
-		PaypalComponent = Inject('braintreeDataService', 'braintreeAppService')(PaypalComponent) || PaypalComponent;
-		return PaypalComponent;
-	})();
-	
-	var component = {
-		bindings: {},
-		template: _paypalHtml2['default'],
-		controller: PaypalComponent
-	};
-	
-	exports['default'] = component;
-	module.exports = exports['default'];
-
-/***/ },
-/* 107 */
-/***/ function(module, exports) {
-
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Connect with Paypal</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<button class=\"Button Button--primary\" ng-click=\"$ctrl.pay($event)\">Connect with Paypal...</button>\n\t\t<span ng-if=\"$ctrl.state.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.backButtonRoute)\">{{ $ctrl.state.backButtonText }}</a>\n\t\t</span>\n\t</div>\n</section>\n"
-
-/***/ },
-/* 108 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var _paypalButtonHtml = __webpack_require__(109);
-	
-	var _paypalButtonHtml2 = _interopRequireDefault(_paypalButtonHtml);
-	
-	var _braintreeConstants = __webpack_require__(101);
-	
-	// Inject dependencies
-	
-	var Inject = __webpack_require__(82);
-	
-	var PaypalButtonComponent = (function () {
-		function PaypalButtonComponent(braintreeDataService) {
-			_classCallCheck(this, _PaypalButtonComponent);
-	
-			this.braintreeDataService = braintreeDataService;
-	
-			this._checkout = null;
-			this.state = {
-				message: {
-					text: ''
-				}
-			};
-	
-			this.customer = null;
-		}
-	
-		// Component decorations
-	
-		// Private methods
-		// --------------------------------------------------
-	
-		_createClass(PaypalButtonComponent, [{
-			key: '$onInit',
-			value: function $onInit() {
-				var _this = this;
-	
-				this.customer = this.braintreeDataService.customer;
-	
-				if (!this.braintreeDataService.customer.clientToken) {
-					this.braintreeDataService.getClientToken().then(function (response) {
-						var customer = {
-							clientToken: response.data.client_token
-						};
-						_this.braintreeDataService.updateCustomerData(customer);
-						_this._setupPaypal(customer.clientToken);
-					});
-				} else {
-					this._setupPaypal(this.braintreeDataService.customer.clientToken);
-				}
-			}
-		}, {
-			key: '_setupPaypal',
-			value: function _setupPaypal(clientToken) {
-				var _this2 = this;
-	
-				var currencyIsoCode = this.currencyIsoCode || 'USD';
-				this.braintreeDataService.$braintree.setup(clientToken, "custom", {
-					paypal: {
-						currency: currencyIsoCode,
-						enableShippingAddress: false,
-						headless: true
-					},
-					onCancelled: function onCancelled(obj) {
-						console.log('cancelled', obj);
-					},
-					onReady: function onReady(integration) {
-						console.log('Paypal button is ready');
-						_this2._checkout = integration;
-					},
-					onAuthorizationDismissed: function onAuthorizationDismissed(obj) {
-						console.log('onAuthorizationDismissed', obj);
-					},
-					onPaymentMethodReceived: function onPaymentMethodReceived(obj) {
-						_this2._createPaymentOption(obj);
-					}
-				});
-			}
-		}, {
-			key: '_createPaymentOption',
-			value: function _createPaymentOption(paymentMethod) {
-				var _this3 = this;
-	
-				console.log('onPaymentMethodReceived', paymentMethod);
-				var paymentMethodModel = {
-					customerId: this.braintreeDataService.customer.id,
-					paymentMethodNonce: paymentMethod.nonce
-				};
-	
-				this.braintreeDataService.createPaymentMethod(paymentMethodModel).then(function (response) {
-					_this3.braintreeDataService.updateCustomerData(response.data.customer);
-					_this3.onFinish({ paymentModel: response.data.customer.paymentMethod });
-	
-					console.log('Paypal Payment method created!', response);
-				}, function (error) {
-					_this3.state.message.text = 'Failed to create payment method:' + error.data.message;
-					console.log('Failed to create payment method:', error);
-				});
-			}
-		}, {
-			key: 'initAuthFlow',
-			value: function initAuthFlow(event) {
-				this._checkout.paypal.initAuthFlow();
-			}
-	
-			// Public viewModel methods
-			// --------------------------------------------------
-		}]);
-	
-		var _PaypalButtonComponent = PaypalButtonComponent;
-		PaypalButtonComponent = Inject('braintreeDataService')(PaypalButtonComponent) || PaypalButtonComponent;
-		return PaypalButtonComponent;
-	})();
-	
-	var component = {
-		bindings: {
-			buttonText: '<',
-			currencyIsoCode: '<',
-			onFinish: '&'
-		},
-		template: _paypalButtonHtml2['default'],
-		controller: PaypalButtonComponent
-	};
-	
-	exports['default'] = component;
-	module.exports = exports['default'];
-
-/***/ },
-/* 109 */
-/***/ function(module, exports) {
-
-	module.exports = "<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n<button class=\"Button Button--primary\" ng-click=\"$ctrl.initAuthFlow($event)\">{{ $ctrl.buttonText }}</button>\n"
-
-/***/ },
-/* 110 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var _subscriptionPlansHtml = __webpack_require__(111);
-	
-	var _subscriptionPlansHtml2 = _interopRequireDefault(_subscriptionPlansHtml);
-	
-	var _braintreeConstants = __webpack_require__(101);
-	
-	// Inject dependencies
-	
-	var Inject = __webpack_require__(82);
-	
-	var SubscriptionPlansComponent = (function () {
-		function SubscriptionPlansComponent(braintreeDataService, braintreeAppService) {
-			_classCallCheck(this, _SubscriptionPlansComponent);
-	
-			this.braintreeDataService = braintreeDataService;
-			this.braintreeAppService = braintreeAppService;
-	
-			this.message = '';
-			this.loadingText = '';
-			this.plans = [];
-			this.state = {
-				error: false,
-				loading: false,
-				nextRoute: ''
-			};
-	
-			this.customer = null;
-		}
-	
-		// Component decorations
-	
-		// Private methods
-		// --------------------------------------------------
-	
-		_createClass(SubscriptionPlansComponent, [{
-			key: '$onInit',
-			value: function $onInit() {
-				this.customer = this.braintreeDataService.customer;
-				if (!this.customer.clientToken) {
-					this.braintreeDataService.setup();
-				}
-	
-				this._getAllSubscriptionPlans();
-			}
-		}, {
-			key: '_getAllSubscriptionPlans',
-			value: function _getAllSubscriptionPlans() {
-				var _this = this;
-	
-				this.state.loading = true;
-				this.loadingText = 'Fetching subscription plans...';
-	
-				this.braintreeDataService.getAllSubscriptionPlans().then(function (response) {
-					_this.plans = response.data.plans;
-					_this.state.loading = false;
-				}, function (error) {
-					// TODO: Notify development team or do it via api
-					_this.message = 'Unable to get subscription plans, the development team has been notified, please try again later.';
-					_this.state.loading = false;
-					_this.state.error = true;
-				});
-			}
-	
-			// Public viewModel methods
-			// --------------------------------------------------
-		}, {
-			key: 'chooseSubscriptionPlan',
-			value: function chooseSubscriptionPlan(subscriptionPlanModel) {
-				console.log('plan chosen', subscriptionPlanModel);
-	
-				// TODO: Fix If a customer is already signed in and has a subscription plan
-				var customer = {
-					//newSubscriptionPlan: subscriptionPlanModel
-					subscriptionPlan: subscriptionPlanModel
-				};
-				this.braintreeDataService.updateCustomerData(customer);
-	
-				this.state.nextRoute = _braintreeConstants.ROUTES.CUSTOMER;
-	
-				this.routeTo(_braintreeConstants.ROUTES.CUSTOMER);
-			}
-		}, {
-			key: 'formatCurrencyAmount',
-			value: function formatCurrencyAmount(amount, currencyIsoCode) {
-				return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
-			}
-		}, {
-			key: 'routeTo',
-			value: function routeTo(path) {
-				this.braintreeAppService.routeTo(path);
-			}
-		}]);
-	
-		var _SubscriptionPlansComponent = SubscriptionPlansComponent;
-		SubscriptionPlansComponent = Inject('braintreeDataService', 'braintreeAppService')(SubscriptionPlansComponent) || SubscriptionPlansComponent;
-		return SubscriptionPlansComponent;
-	})();
-	
-	var component = {
-		bindings: {},
-		template: _subscriptionPlansHtml2['default'],
-		controller: SubscriptionPlansComponent
-	};
-	
-	exports['default'] = component;
-	module.exports = exports['default'];
-
-/***/ },
-/* 111 */
-/***/ function(module, exports) {
-
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n\n<!--<h2 class=\"Heading&#45;&#45;two\">Subscribe</h2>-->\n<hr class=\"Divider--dotted\">\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--cta Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
-
-/***/ },
-/* 112 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-		value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var _subscriptionPlansCustomHtml = __webpack_require__(113);
-	
-	var _subscriptionPlansCustomHtml2 = _interopRequireDefault(_subscriptionPlansCustomHtml);
-	
-	var _braintreeConstants = __webpack_require__(101);
-	
-	var _underscore = __webpack_require__(114);
-	
-	var _underscore2 = _interopRequireDefault(_underscore);
-	
-	/**
-	 * This is a specific implementation to display only a set of predefined subscription plans
-	 * No Reusability here
-	 * To be removed later.
-	 */
-	
-	// Inject dependencies
-	
-	var Inject = __webpack_require__(82);
-	
-	var SubscriptionPlansCustomComponent = (function () {
-		function SubscriptionPlansCustomComponent(braintreeDataService, braintreeAppService) {
-			_classCallCheck(this, _SubscriptionPlansCustomComponent);
-	
-			this.braintreeDataService = braintreeDataService;
-			this.braintreeAppService = braintreeAppService;
-	
-			this.message = '';
-			this.loadingText = '';
-			this.plans = [];
-			this.state = {
-				error: false,
-				loading: false,
-				nextRoute: '',
-				selectedCurrency: {
-					currencyIsoCode: '',
-					currencySymbol: '',
-					currencyName: '',
-					currencyLongName: ''
-				},
-				selectedCurrencyModel: null
-			};
-	
-			this.customPlans = {
-				USD: {
-					premiumOne: {},
-					premiumThree: {},
-					premiumSix: {},
-					premiumTwelve: {},
-					premiumLifetime: {}
-				},
-				EUR: {
-					premiumOne: {},
-					premiumThree: {},
-					premiumSix: {},
-					premiumTwelve: {},
-					premiumLifetime: {}
-				},
-				GBP: {
-					premiumOne: {},
-					premiumThree: {},
-					premiumSix: {},
-					premiumTwelve: {},
-					premiumLifetime: {}
-				},
-				ISK: {
-					premiumOne: {},
-					premiumThree: {},
-					premiumSix: {},
-					premiumTwelve: {},
-					premiumLifetime: {}
-				}
-			};
-	
-			this.plansDisplayed = {
-				premiumOne: {},
-				premiumThree: {},
-				premiumSix: {},
-				premiumTwelve: {},
-				premiumLifetime: {}
-			};
-	
-			this.customer = null;
-	
-			window.customPlans = this.customPlans;
-			this.merchantAccounts = this.braintreeDataService.merchantAccounts;
-			this.merchantAccountsArray = this.braintreeDataService.merchantAccountsArray;
-			this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
-		}
-	
-		// Component decorations
-	
-		// Private methods
-		// --------------------------------------------------
-	
-		_createClass(SubscriptionPlansCustomComponent, [{
-			key: '$onInit',
-			value: function $onInit() {
-				this.customer = this.braintreeDataService.customer;
-				if (!this.customer.clientToken) {
-					this.braintreeDataService.setup();
-				}
-	
-				this._getAllSubscriptionPlans();
-			}
-		}, {
-			key: '_getAllSubscriptionPlans',
-			value: function _getAllSubscriptionPlans() {
-				var _this = this;
-	
-				this.state.loading = true;
-				this.loadingText = 'Fetching subscription plans...';
-	
-				this.braintreeDataService.getAllSubscriptionPlans().then(function (response) {
-					_this.plans = response.data.plans;
-	
-					_underscore2['default'].each(response.data.plans, function (plan) {
-						switch (plan.id) {
-							// USD
-							case 'premiumOneUSD':
-								_this.customPlans.USD.premiumOne = plan;
-								break;
-							case 'premiumThreeUSD':
-								_this.customPlans.USD.premiumThree = plan;
-								break;
-							case 'premiumSixUSD':
-								_this.customPlans.USD.premiumSix = plan;
-								break;
-							case 'premiumTwelveUSD':
-								_this.customPlans.USD.premiumTwelve = plan;
-								break;
-							case 'premiumLifetimeUSD':
-								_this.customPlans.USD.premiumLifetime = plan;
-								break;
-	
-							// EUR
-							case 'premiumOneEUR':
-								_this.customPlans.EUR.premiumOne = plan;
-								break;
-							case 'premiumThreeEUR':
-								_this.customPlans.EUR.premiumThree = plan;
-								break;
-							case 'premiumSixEUR':
-								_this.customPlans.EUR.premiumSix = plan;
-								break;
-							case 'premiumTwelveEUR':
-								_this.customPlans.EUR.premiumTwelve = plan;
-								break;
-							case 'premiumLifetimeEUR':
-								_this.customPlans.EUR.premiumLifetime = plan;
-								break;
-	
-							// GBP
-							case 'premiumOneGBP':
-								_this.customPlans.GBP.premiumOne = plan;
-								break;
-							case 'premiumThreeGBP':
-								_this.customPlans.GBP.premiumThree = plan;
-								break;
-							case 'premiumSixGBP':
-								_this.customPlans.GBP.premiumSix = plan;
-								break;
-							case 'premiumTwelveGBP':
-								_this.customPlans.GBP.premiumTwelve = plan;
-								break;
-							case 'premiumLifetimeGBP':
-								_this.customPlans.GBP.premiumLifetime = plan;
-								break;
-	
-							// ISK
-							case 'premiumOneISK':
-								_this.customPlans.ISK.premiumOne = plan;
-								break;
-							case 'premiumThreeISK':
-								_this.customPlans.ISK.premiumThree = plan;
-								break;
-							case 'premiumSixISK':
-								_this.customPlans.ISK.premiumSix = plan;
-								break;
-							case 'premiumTwelveISK':
-								_this.customPlans.ISK.premiumTwelve = plan;
-								break;
-							case 'premiumLifetimeISK':
-								_this.customPlans.ISK.premiumLifetime = plan;
-								break;
-						}
-					});
-	
-					_this.showSelectedCurrencyPlans(_this.selectedMerchantAccount.id);
-					_this.state.loading = false;
-				}, function (error) {
-					// TODO: Notify development team or do it via api
-					_this.message = 'Unable to get subscription plans, the development team has been notified, please try again later.';
-					_this.state.loading = false;
-					_this.state.error = true;
-				});
-			}
-		}, {
-			key: 'formatCurrencyAmount',
-			value: function formatCurrencyAmount(amount, currencyIsoCode) {
-				return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
-			}
-		}, {
-			key: 'showSelectedCurrencyPlans',
-			value: function showSelectedCurrencyPlans(merchantAccountId) {
-				console.log('this.state.selectedCurrencyModel', this.state.selectedCurrencyModel);
-	
-				switch (merchantAccountId) {
-					case this.braintreeDataService.merchantAccounts.USD.id:
-						this.plansDisplayed = this.customPlans.USD;
-						this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.USD);
-						this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.USD;
-	
-						break;
-	
-					case this.braintreeDataService.merchantAccounts.EUR.id:
-						this.plansDisplayed = this.customPlans.EUR;
-						this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.EUR);
-						this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.EUR;
-	
-						break;
-	
-					case this.braintreeDataService.merchantAccounts.GBP.id:
-						this.plansDisplayed = this.customPlans.GBP;
-						this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.GBP);
-						this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.GBP;
-						break;
-	
-					case this.braintreeDataService.merchantAccounts.ISK.id:
-						this.plansDisplayed = this.customPlans.ISK;
-						this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.ISK);
-						this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.ISK;
-						break;
-				}
-			}
-	
-			// Public viewModel methods
-			// --------------------------------------------------
-		}, {
-			key: 'chooseSubscriptionPlan',
-			value: function chooseSubscriptionPlan(subscriptionPlanModel) {
-				console.log('plan chosen', subscriptionPlanModel);
-	
-				// TODO: Fix If a customer is already signed in and has a subscription plan
-				var customer = {
-					//newSubscriptionPlan: subscriptionPlanModel
-					subscriptionPlan: subscriptionPlanModel
-				};
-				this.braintreeDataService.updateCustomerData(customer);
-	
-				this.state.nextRoute = _braintreeConstants.ROUTES.CUSTOMER;
-	
-				this.routeTo(_braintreeConstants.ROUTES.CUSTOMER);
-			}
-		}, {
-			key: 'routeTo',
-			value: function routeTo(path) {
-				this.braintreeAppService.routeTo(path);
-			}
-		}]);
-	
-		var _SubscriptionPlansCustomComponent = SubscriptionPlansCustomComponent;
-		SubscriptionPlansCustomComponent = Inject('braintreeDataService', 'braintreeAppService')(SubscriptionPlansCustomComponent) || SubscriptionPlansCustomComponent;
-		return SubscriptionPlansCustomComponent;
-	})();
-	
-	var component = {
-		bindings: {},
-		template: _subscriptionPlansCustomHtml2['default'],
-		controller: SubscriptionPlansCustomComponent
-	};
-	
-	exports['default'] = component;
-	module.exports = exports['default'];
-
-/***/ },
-/* 113 */
-/***/ function(module, exports) {
-
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n\n<section class=\"Panel\" ng-if=\"$ctrl.plans.length\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Select a subscription plan</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignRight\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccountsArray.length\">\n\t\t\t\t\t<label class=\"Form-itemLabel\">Currency\n\n\t\t\t\t\t\t<!--<select name=\"selectedCurrency\" id=\"selectedCurrency\"-->\n\t\t\t\t\t\t        <!--class=\"Selectbox\"-->\n\t\t\t\t\t\t        <!--ng-change=\"$ctrl.showSelectedCurrencyPlans()\"-->\n\t\t\t\t\t\t        <!--ng-model=\"$ctrl.state.selectedCurrency\"-->\n\t\t\t\t\t\t        <!--ng-options=\"merchantAccount.name as merchantAccount.currencyName for merchantAccount in $ctrl.merchantAccountsArray track by merchantAccount.id\">-->\n\t\t\t\t\t\t<!--</select>-->\n\n\t\t\t\t\t\t<select name=\"selectedCurrency\" id=\"selectedCurrency\"\n\t\t\t\t\t\t        class=\"Selectbox\"\n\t\t\t\t\t\t        ng-change=\"$ctrl.showSelectedCurrencyPlans($ctrl.state.selectedCurrencyModel)\"\n\t\t\t\t\t\t        ng-model=\"$ctrl.state.selectedCurrencyModel\">\n\t\t\t\t\t\t\t<option value=\"jivaroUSD\">US Dollar (USD)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroEUR\" ng-selected=\"true\">EUR (EUR)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroGBP\">British Pound (GBP)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroISK\">Icelandic Krona (ISK)</option>\n\t\t\t\t\t\t</select>\n\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumThree\"\n\t\t\t\t\titem-css-class=\"'u-textCenter mt--9'\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t<header class=\"Panel-header u-textCenter\">\n\t\t\t\t\t\t<h2 class=\"Heading--six Panel-heading Heading--light\">Most popular</h2>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\tbutton-css-modifier=\"'Button--success Button--lg'\"\n\t\t\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumSix\"\n\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\">\n\t\t\t\t\t\t</ui-braintree-subscription-plan>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumTwelve\"\n\t\t\t\t\titem-css-class=\"'u-textCenter mt--9'\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!--<hr class=\"Divider&#45;&#45;dotted\">-->\n\t\t<!--<div class=\"Grid-row Grid-row&#45;&#45;alignCenter\">-->\n\t\t\t<!--<div class=\"Grid-col&#45;&#45;12 \">-->\n\t\t\t\t<!--<h3 class=\"Heading&#45;&#45;three Heading&#45;&#45;light\">Premium for life?</h3>-->\n\t\t\t\t<!--<h4 class=\"Heading&#45;&#45;five\">Lifetime licence</h4>-->\n\t\t\t\t<!--<h5 class=\"Heading&#45;&#45;three u-textWarning mb&#45;&#45;0\">{{ $ctrl.state.selectedCurrency.currencySymbol }}{{ $ctrl.plansDisplayed.premiumLifetime.price }}</h5>-->\n\t\t\t\t<!--<p class=\"mt&#45;&#45;0\">One time payment</p>-->\n\t\t\t\t<!--<button class=\"Button Button&#45;&#45;cta Button&#45;&#45;lg\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumLifetime)\">-->\n\t\t\t\t\t<!--Go All In!-->\n\t\t\t\t<!--</button>-->\n\t\t\t<!--</div>-->\n\t\t<!--</div>-->\n\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignCenter\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<p>or<br> pay monthly<br>\n\t\t\t\t\t<button class=\"Button Button--secondary\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumOne)\">\n\t\t\t\t\t\t{{ $ctrl.formatCurrencyAmount($ctrl.plansDisplayed.premiumOne.price, $ctrl.plansDisplayed.premiumOne.currencyIsoCode) }}\n\t\t\t\t\t\t/ month\n\t\t\t\t\t</button>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
-
-/***/ },
-/* 114 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
 	//     http://underscorejs.org
 	//     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -14078,6 +12656,1470 @@
 
 
 /***/ },
+/* 98 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var Inject = __webpack_require__(82);
+	
+	var ConfigService = (function () {
+		function ConfigService() {
+			_classCallCheck(this, _ConfigService);
+	
+			//this._apiUrl = 'https://haukurmar-braintree-node-api.herokuapp.com/api';
+			this._apiUrl = 'http://127.0.0.1:5000/api';
+		}
+	
+		_createClass(ConfigService, [{
+			key: 'setApiUrl',
+			value: function setApiUrl(url) {
+				this._apiUrl = url;
+			}
+		}, {
+			key: 'apiUrl',
+			get: function get() {
+				return this._apiUrl;
+			}
+		}]);
+	
+		var _ConfigService = ConfigService;
+		ConfigService = Inject()(ConfigService) || ConfigService;
+		return ConfigService;
+	})();
+	
+	exports['default'] = ConfigService;
+	module.exports = exports['default'];
+
+/***/ },
+/* 99 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var Inject = __webpack_require__(82);
+	
+	var CoreService = (function () {
+		function CoreService($location) {
+			_classCallCheck(this, _CoreService);
+	
+			this.$location = $location;
+		}
+	
+		_createClass(CoreService, [{
+			key: 'routeTo',
+			value: function routeTo(path) {
+				this.$location.url(path);
+			}
+		}, {
+			key: 'getCurrencySymbol',
+			value: function getCurrencySymbol(currencyIsoCode) {
+				switch (currencyIsoCode) {
+					case 'USD':
+						return '$';
+						break;
+					case 'EUR':
+						return '€';
+						break;
+					case 'GBP':
+						return '£';
+						break;
+					case 'ISK':
+						return 'kr';
+						break;
+					default:
+						return '$';
+				}
+			}
+		}, {
+			key: 'formatCurrencyAmount',
+			value: function formatCurrencyAmount(amount, currencyIsoCode) {
+				// TODO: Call external multi-use method to return this
+				var currencySymbol = this.getCurrencySymbol(currencyIsoCode);
+	
+				if (currencyIsoCode.toLowerCase() === 'isk') {
+					return amount + currencySymbol;
+				}
+	
+				return currencySymbol + amount;
+			}
+		}]);
+	
+		var _CoreService = CoreService;
+		CoreService = Inject('$location')(CoreService) || CoreService;
+		return CoreService;
+	})();
+	
+	exports['default'] = CoreService;
+	module.exports = exports['default'];
+
+/***/ },
+/* 100 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _customerHtml = __webpack_require__(101);
+	
+	var _customerHtml2 = _interopRequireDefault(_customerHtml);
+	
+	var _braintreeConstants = __webpack_require__(102);
+	
+	// Inject dependencies
+	
+	var Inject = __webpack_require__(82);
+	
+	var BraintreeSubscriptionComponent = (function () {
+		function BraintreeSubscriptionComponent(braintreeDataService, braintreeAppService) {
+			_classCallCheck(this, _BraintreeSubscriptionComponent);
+	
+			this.braintreeDataService = braintreeDataService;
+			this.braintreeAppService = braintreeAppService;
+	
+			this.state = {
+				backButtonText: 'Back',
+				backButtonRoute: _braintreeConstants.ROUTES.SUBSCRIPTION,
+				backButtonVisible: false,
+				loading: {
+					isLoading: false,
+					text: ''
+				},
+				message: {
+					text: '',
+					link: '',
+					linkText: ''
+				},
+				showForm: true,
+				submitButtonText: 'Create customer',
+				mode: {
+					subscription: false
+				}
+			};
+	
+			this.routes = {
+				nextRoute: '',
+				subscription: _braintreeConstants.ROUTES.SUBSCRIPTION
+			};
+	
+			this.customer = null;
+			this.customerModel = {};
+			this.newCustomer = true;
+		}
+	
+		// Component decorations
+	
+		// Private methods
+		// --------------------------------------------------
+	
+		_createClass(BraintreeSubscriptionComponent, [{
+			key: '$onInit',
+			value: function $onInit() {
+				// Get Customer from service
+				this.customer = this.braintreeDataService.customer;
+				this.customerModel = this.customer;
+				this.state.mode = this.braintreeDataService.mode;
+	
+				// Subscription mode
+				if (this.state.mode.subscription) {
+					this.state.submitButtonText = 'Continue';
+					this.state.backButtonVisible = true;
+	
+					// If the user has not chosen a subscription plan (or refreshed the page)
+					if (!this.customer.subscriptionPlan) {
+						this.state.message.text = 'You need to choose a subscription plan before you proceed';
+						this.state.message.linkText = 'Go to subscription page';
+						this.state.message.link = _braintreeConstants.ROUTES.SUBSCRIPTION;
+						this.state.showForm = false;
+					}
+				}
+	
+				// If we get a customerId, we fetch it from API
+				if (this.customer.id) {
+					this.getCustomerDetails(this.customer.id);
+				}
+			}
+	
+			// Public viewModel methods
+			// --------------------------------------------------
+			/**
+	   * Get Customer details, including current subscription plans, payment methods etc.
+	   * @param customerId
+	   */
+		}, {
+			key: 'getCustomerDetails',
+			value: function getCustomerDetails(customerId) {
+				var _this = this;
+	
+				this.state.loading.isLoading = true;
+				this.state.loading.text = 'Fetching customer information...';
+				//Get Customer if logged in
+				this.braintreeDataService.getCustomer(customerId).then(function (response) {
+					console.log('success', response);
+					_this.newCustomer = false;
+					_this.braintreeDataService.updateCustomerData(response.data.customer);
+					_this.customerModel = response.data.customer;
+					_this.state.loading.isLoading = false;
+	
+					// TODO: What to do here?
+				}, function (error) {
+					console.log(error.data.message);
+					_this.newCustomer = true;
+					_this.state.loading.isLoading = false;
+				});
+			}
+		}, {
+			key: 'routeTo',
+			value: function routeTo(path) {
+				this.braintreeAppService.routeTo(path);
+			}
+	
+			/**
+	   * Create a new customer or update an existing one
+	   * @param customerModel
+	   */
+		}, {
+			key: 'saveCustomer',
+			value: function saveCustomer(customerModel) {
+				var _this2 = this;
+	
+				this.state.showform = false;
+				this.routes.nextRoute = _braintreeConstants.ROUTES.PAYMENT_METHODS;
+	
+				if (this.newCustomer) {
+					this.state.loading.text = 'Creating customer...';
+					this.state.loading.isLoading = true;
+	
+					this.braintreeDataService.createCustomer(customerModel).then(function (response) {
+						_this2.state.loading.isLoading = false;
+	
+						// Save customer data to service
+						_this2.braintreeDataService.updateCustomerData(response.data.customer);
+	
+						// Redirect to next step
+						_this2.routeTo([_this2.routes.nextRoute]);
+					}, function (error) {
+						// TODO: Handle errors better (use error.data.errors collection)
+						_this2.state.message.text = error.data.message;
+						_this2.state.loading.isLoading = false;
+						_this2.state.showform = true;
+	
+						console.log('Error message', error.data.message);
+						console.log('Errors:', error.data.errors);
+					});
+				} else {
+					this.braintreeDataService.updateCustomerData(customerModel);
+					// TODO: Update customer in Braintree
+					this.routeTo([this.routes.nextRoute]);
+				}
+			}
+		}]);
+	
+		var _BraintreeSubscriptionComponent = BraintreeSubscriptionComponent;
+		BraintreeSubscriptionComponent = Inject('braintreeDataService', 'braintreeAppService')(BraintreeSubscriptionComponent) || BraintreeSubscriptionComponent;
+		return BraintreeSubscriptionComponent;
+	})();
+	
+	var component = {
+		bindings: {},
+		template: _customerHtml2['default'],
+		controller: BraintreeSubscriptionComponent
+	};
+	
+	exports['default'] = component;
+	module.exports = exports['default'];
+
+/***/ },
+/* 101 */
+/***/ function(module, exports) {
+
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/customer'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your contact information</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-customer-form\n\t\t\tcustomer-model=\"$ctrl.customerModel\"\n\t\t\ton-submit=\"$ctrl.saveCustomer(customerModel)\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-customer-form>\n\t</div>\n</section>\n"
+
+/***/ },
+/* 102 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	var ROUTES = {
+		CARDS: '/cards',
+		CUSTOMER: '/customer',
+		CUSTOMER_DETAILS: '/billing-overview',
+		DROPIN: '/drop-in',
+		PAYMENT_METHODS: '/payment-methods',
+		PAYPAL: '/paypal',
+		SUBSCRIPTION: '/subscribe',
+		SUBSCRIPTION_OVERVIEW: '/subscription-overview'
+	};
+	
+	exports.ROUTES = ROUTES;
+
+/***/ },
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _creditcardHtml = __webpack_require__(104);
+	
+	var _creditcardHtml2 = _interopRequireDefault(_creditcardHtml);
+	
+	var _braintreeConstants = __webpack_require__(102);
+	
+	// Inject dependencies
+	
+	var Inject = __webpack_require__(82);
+	
+	var CreditCardComponent = (function () {
+		function CreditCardComponent($http, braintreeDataService, braintreeAppService) {
+			_classCallCheck(this, _CreditCardComponent);
+	
+			this.$http = $http;
+			this.braintreeDataService = braintreeDataService;
+			this.braintreeAppService = braintreeAppService;
+	
+			this.state = {
+				backButtonText: 'Back',
+				backButtonRoute: _braintreeConstants.ROUTES.PAYMENT_METHODS,
+				backButtonVisible: false,
+				error: false,
+				hideAmount: false,
+				mode: {
+					subscription: false
+				},
+				loading: {
+					isLoading: false,
+					text: ''
+				},
+				message: {
+					text: '',
+					link: '',
+					linkText: '',
+					descriptionHtml: ''
+				},
+				paid: false,
+				showForm: true,
+				submitButtonText: 'Pay now'
+			};
+	
+			// Used in template
+			this.routes = {
+				subscription: _braintreeConstants.ROUTES.SUBSCRIPTION
+			};
+	
+			this.customer = null;
+	
+			this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
+			this.merchantAccountsArray = this.braintreeDataService.merchantAccountsArray;
+		}
+	
+		// Component decorations
+	
+		// Private methods
+		// --------------------------------------------------
+	
+		_createClass(CreditCardComponent, [{
+			key: '$onInit',
+			value: function $onInit() {
+				var _this = this;
+	
+				this.customer = this.braintreeDataService.customer;
+				this.state.mode = this.braintreeDataService.mode;
+	
+				// Subscription mode
+				var mode = this.braintreeDataService.mode;
+				if (mode.subscription) {
+					this.state.backButtonVisible = true;
+					this.state.hideAmount = true;
+					this.state.submitButtonText = 'Continue';
+	
+					// If the user has not chosen a subscription plan (or refreshed the page)
+					if (!this.customer.subscriptionPlan) {
+						this._displayMessage('You need to choose a subscription plan before you proceed', 'warning');
+						this.state.message.linkText = 'Go to subscription page';
+						this.state.message.link = _braintreeConstants.ROUTES.SUBSCRIPTION;
+						this.state.showForm = false;
+						return;
+					}
+	
+					// If the user has no customer ID
+					if (!this.customer.id) {
+						this._displayMessage('You need to fill out customer information before you proceed');
+						this.state.message.linkText = 'Go to customer page';
+						this.state.message.link = _braintreeConstants.ROUTES.CUSTOMER;
+						this.state.showForm = false;
+						return;
+					}
+				}
+	
+				if (!customer.clientToken) {
+					this.braintreeDataService.getClientToken().then(function (response) {
+						_this.braintreeDataService.$braintree.setup(response.data.client_token, "custom");
+						var customer = {
+							clientToken: response.data.client_token
+						};
+	
+						_this.braintreeDataService.updateCustomerData(customer);
+					});
+				}
+			}
+		}, {
+			key: '_clearMessage',
+			value: function _clearMessage() {
+				this.state.message.text = '';
+			}
+		}, {
+			key: '_displayMessage',
+			value: function _displayMessage(text, type, descriptionHtml) {
+				this.state.message.type = type;
+				this.state.message.text = text;
+				this.state.message.descriptionHtml = descriptionHtml;
+			}
+		}, {
+			key: '_startLoading',
+			value: function _startLoading(text) {
+				this.state.loading.isLoading = true;
+				this.state.loading.text = text;
+			}
+		}, {
+			key: '_stopLoading',
+			value: function _stopLoading() {
+				this.state.loading.isLoading = false;
+				this.state.loading.text = '';
+			}
+	
+			// Public viewModel methods
+			// --------------------------------------------------
+		}, {
+			key: 'routeTo',
+			value: function routeTo(path) {
+				this.braintreeAppService.routeTo(path);
+			}
+	
+			/**
+	   * Determine whether to store payment method to vault or to process payment right away
+	   * @param paymentModel
+	   */
+		}, {
+			key: 'submitPayment',
+			value: function submitPayment(paymentModel) {
+				var mode = this.braintreeDataService.mode;
+				if (mode.subscription) {
+					this.createVaultedPayment(paymentModel);
+				} else {
+					this.processPayment(paymentModel);
+				}
+			}
+	
+			/**
+	   * Creates a saved paymentMethod to the vault and then redirects to SubscriptionOverview
+	   * @param paymentModel
+	   */
+		}, {
+			key: 'createVaultedPayment',
+			value: function createVaultedPayment(paymentModel) {
+				var _this2 = this;
+	
+				this._startLoading('Saving payment information...');
+				this.state.showForm = false;
+				var customerId = this.braintreeDataService.customer.id;
+	
+				paymentModel.verificationMerchantAccountId = this.selectedMerchantAccount.id;
+	
+				// Send request to get token, then use the token to tokenize credit card info and verify the card
+				this.braintreeDataService.createVaultedPayment(customerId, paymentModel).then(function (response) {
+					console.log('from vaultedPayment', response);
+					_this2._stopLoading();
+					_this2.state.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
+					_this2.routeTo([_this2.state.nextRoute]);
+				}, function (error) {
+					// TODO: Handle errors better
+					_this2._displayMessage(error, 'warning');
+					_this2._stopLoading();
+					_this2.state.showForm = true;
+				});
+			}
+	
+			/**
+	   * Processes the payment
+	   * @param paymentModel
+	   */
+		}, {
+			key: 'processPayment',
+			value: function processPayment(paymentModel) {
+				var _this3 = this;
+	
+				this._startLoading('Processing payment...');
+				this.state.showForm = false;
+				var clientToken = this.braintreeDataService.customer.clientToken;
+	
+				// Get selected merchant account if it has been initialized
+				var selectedMerchantAccount = this.selectedMerchantAccount || {};
+	
+				// Use the token to tokenize credit card info and process a transaction
+				// Create new client and tokenize card
+				var client = new this.braintreeDataService.$braintree.api.Client({ clientToken: clientToken });
+	
+				// If radio buttons in view are used
+				if (paymentModel.merchantAccountId) {
+					selectedMerchantAccount.id = paymentModel.merchantAccountId;
+				}
+	
+				client.tokenizeCard({
+					number: paymentModel.creditCardNumber,
+					expirationDate: paymentModel.expirationDate,
+					cvv: paymentModel.cvv
+				}, function (err, nonce) {
+					var paymentData = {
+						amount: paymentModel.amount,
+						payment_method_nonce: nonce,
+						merchantAccountId: selectedMerchantAccount.id
+					};
+	
+					_this3.braintreeDataService.processPayment(paymentData).then(function (response) {
+						console.log(response.data.success);
+						if (response.data.success) {
+							_this3.state.paid = true;
+							_this3.state.error = false;
+	
+							_this3._displayMessage('Payment authorized, thanks.', 'success');
+							_this3._stopLoading();
+						} else {
+							// TODO: Handle different payment failures
+							_this3.state.error = true;
+	
+							_this3._displayMessage('Payment failed: ' + response.data.message + ' Please refresh the page and try again.', 'warning');
+							_this3._stopLoading();
+							_this3.state.showForm = true;
+						}
+					}, function (error) {
+						_this3.state.error = true;
+						_this3._displayMessage('Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data, 'warning');
+						_this3._stopLoading();
+						_this3.state.showForm = true;
+					});
+				});
+			}
+		}]);
+	
+		var _CreditCardComponent = CreditCardComponent;
+		CreditCardComponent = Inject('$http', 'braintreeDataService', 'braintreeAppService')(CreditCardComponent) || CreditCardComponent;
+		return CreditCardComponent;
+	})();
+	
+	var component = {
+		bindings: {},
+		template: _creditcardHtml2['default'],
+		controller: CreditCardComponent
+	};
+	
+	exports['default'] = component;
+	module.exports = exports['default'];
+
+/***/ },
+/* 104 */
+/***/ function(module, exports) {
+
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span><br>\n\n\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n</section>\n\n\n\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your card details</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-creditcard-form\n\t\t\ton-submit=\"$ctrl.submitPayment(paymentModel)\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\thide-amount=\"$ctrl.state.hideAmount\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tmerchant-accounts=\"$ctrl.merchantAccountsArray\"\n\t\t\tselected-merchant-account=\"$ctrl.selectedMerchantAccount\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t\t</ui-braintree-creditcard-form>\n\t</div>\n</section>\n"
+
+/***/ },
+/* 105 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _dropinHtml = __webpack_require__(106);
+	
+	var _dropinHtml2 = _interopRequireDefault(_dropinHtml);
+	
+	// Inject dependencies
+	
+	var Inject = __webpack_require__(82);
+	
+	var DropinComponent = (function () {
+		function DropinComponent($http, braintreeDataService) {
+			_classCallCheck(this, _DropinComponent);
+	
+			this.$http = $http;
+			this.braintreeDataService = braintreeDataService;
+	
+			this.message = '';
+			this.showDropinContainer = true;
+			this.isError = false;
+			this.isPaid = false;
+		}
+	
+		// Component decorations
+	
+		// Private methods
+		// --------------------------------------------------
+	
+		_createClass(DropinComponent, [{
+			key: '$onInit',
+			value: function $onInit() {
+				console.log('Braintree Dropin Component...');
+				this._getToken();
+			}
+		}, {
+			key: '_getToken',
+			value: function _getToken() {
+				var _this = this;
+	
+				this.braintreeDataService.getClientToken().then(function (response) {
+					console.log('res', response.data);
+	
+					_this.braintreeDataService.$braintree.setup(response.data.client_token, 'dropin', {
+						// id of html tag for braintree dropin container
+						container: 'js-braintree-checkout-container',
+						// Form is not submitted by default when paymentMethodNonceReceived is implemented
+						paymentMethodNonceReceived: function paymentMethodNonceReceived(event, nonce) {
+							_this.message = 'Processing your payment...';
+							_this.showDropinContainer = false;
+	
+							var paymentData = {
+								amount: _this.amount,
+								payment_method_nonce: nonce
+							};
+	
+							// Process payment
+							_this.braintreeDataService.processPayment(paymentData).then(function (response) {
+								console.log('Success:', response.data);
+	
+								if (response.data.success) {
+									_this.message = 'Payment was authorized!';
+									_this.showDropinContainer = false;
+									_this.isError = false;
+									_this.isPaid = true;
+								} else {
+									// TODO: Handle different payment failures
+									_this.message = 'Payment failed: ' + response.data.message + ' Please refresh the page and try again.';
+									_this.isError = true;
+								}
+							}, function (error) {
+								_this.message = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
+								_this.showDropinContainer = false;
+								_this.isError = true;
+							});
+						}
+					});
+				}, function (error) {
+					_this.message = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
+					_this.showDropinContainer = false;
+					_this.isError = true;
+				});
+			}
+	
+			// Public viewModel methods
+			// --------------------------------------------------
+		}]);
+	
+		var _DropinComponent = DropinComponent;
+		DropinComponent = Inject('$http', 'braintreeDataService')(DropinComponent) || DropinComponent;
+		return DropinComponent;
+	})();
+	
+	var component = {
+		bindings: {},
+		template: _dropinHtml2['default'],
+		controller: DropinComponent
+	};
+	
+	exports['default'] = component;
+	module.exports = exports['default'];
+
+/***/ },
+/* 106 */
+/***/ function(module, exports) {
+
+	module.exports = "<section ng-class=\"{'error': $ctrl.isError, 'success': $ctrl.isPaid}\">\n\t<h2 class=\"Heading--two\">Please use the form below to pay</h2>\n\t<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n\t<div ng-show=\"$ctrl.showDropinContainer\">\n\n\t\t<form name=\"payment\">\n\t\t\t<div class=\"Form-item\">\n\t\t\t\t<label class=\"Form-itemLabel\" for=\"txtAmount\">Amount (XX.XX)</label>\n\t\t\t\t<input type=\"text\" class=\"Textbox\" id=\"txtAmount\" ng-model=\"$ctrl.amount\" />\n\t\t\t</div>\n\n\t\t\t<!-- Add Dropin here -->\n\t\t\t<div id=\"js-braintree-checkout-container\"></div>\n\n\t\t\t<button class=\"Button Button--success Button--lg\" type=\"submit\">Pay Now</button>\n\t\t</form>\n\t</div>\n\n</section>\n"
+
+/***/ },
+/* 107 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _paypalHtml = __webpack_require__(108);
+	
+	var _paypalHtml2 = _interopRequireDefault(_paypalHtml);
+	
+	var _braintreeConstants = __webpack_require__(102);
+	
+	// Inject dependencies
+	
+	var Inject = __webpack_require__(82);
+	
+	var PaypalComponent = (function () {
+		function PaypalComponent(braintreeDataService, braintreeAppService) {
+			_classCallCheck(this, _PaypalComponent);
+	
+			this.braintreeDataService = braintreeDataService;
+			this.braintreeAppService = braintreeAppService;
+	
+			this._checkout = null;
+			this.state = {
+				backButtonText: 'Back',
+				backButtonRoute: _braintreeConstants.ROUTES.PAYMENT_METHODS,
+				backButtonVisible: true,
+				message: {
+					text: ''
+				},
+				mode: {
+					subscription: false
+				}
+			};
+	
+			// Used in template
+			this.routes = {
+				nextRoute: '',
+				subscription: _braintreeConstants.ROUTES.SUBSCRIPTION
+			};
+	
+			this.customer = null;
+			this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
+		}
+	
+		// Component decorations
+	
+		// Private methods
+		// --------------------------------------------------
+	
+		_createClass(PaypalComponent, [{
+			key: '$onInit',
+			value: function $onInit() {
+				var _this = this;
+	
+				this.customer = this.braintreeDataService.customer;
+				this.state.mode = this.braintreeDataService.mode;
+	
+				if (!this.braintreeDataService.customer.clientToken) {
+					this.braintreeDataService.getClientToken().then(function (response) {
+						var customer = {
+							clientToken: response.data.client_token
+						};
+						_this.braintreeDataService.updateCustomerData(customer);
+						_this._setupPaypal(customer.clientToken);
+					});
+				} else {
+					this._setupPaypal(this.braintreeDataService.customer.clientToken);
+				}
+			}
+		}, {
+			key: '_setupPaypal',
+			value: function _setupPaypal(clientToken) {
+				var _this2 = this;
+	
+				var currencyCode = this.selectedMerchantAccount.currencyIsoCode;
+				this.braintreeDataService.$braintree.setup(clientToken, "custom", {
+					paypal: {
+						currency: currencyCode,
+						enableShippingAddress: false,
+						headless: true
+					},
+					onReady: function onReady(integration) {
+						console.log('Paypal is ready');
+						_this2._checkout = integration;
+					},
+					onAuthorizationDismissed: function onAuthorizationDismissed(obj) {
+						console.log('onAuthorizationDismissed', obj);
+					},
+					onPaymentMethodReceived: function onPaymentMethodReceived(obj) {
+						_this2._createPaymentOption(obj);
+					}
+				});
+			}
+		}, {
+			key: '_createPaymentOption',
+			value: function _createPaymentOption(paymentMethod) {
+				var _this3 = this;
+	
+				console.log('onPaymentMethodReceived', paymentMethod);
+				var paymentMethodModel = {
+					customerId: this.braintreeDataService.customer.id,
+					paymentMethodNonce: paymentMethod.nonce
+				};
+	
+				console.log('Paypal paymentModel:', paymentMethodModel);
+	
+				this.braintreeDataService.createPaymentMethod(paymentMethodModel).then(function (response) {
+					_this3.braintreeDataService.updateCustomerData(response.data.customer);
+	
+					_this3.routes.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
+					_this3.routeTo([_this3.routes.nextRoute]);
+					console.log('Paypal Payment method created!', response);
+				}, function (error) {
+					_this3.state.message.text = 'Failed to create payment method:' + error.data.message;
+					console.log('Failed to create payment method:', error);
+				});
+			}
+		}, {
+			key: 'routeTo',
+			value: function routeTo(path) {
+				return this.braintreeAppService.routeTo(path);
+			}
+		}, {
+			key: 'pay',
+			value: function pay(event) {
+				this._checkout.paypal.initAuthFlow();
+			}
+	
+			// Public viewModel methods
+			// --------------------------------------------------
+		}]);
+	
+		var _PaypalComponent = PaypalComponent;
+		PaypalComponent = Inject('braintreeDataService', 'braintreeAppService')(PaypalComponent) || PaypalComponent;
+		return PaypalComponent;
+	})();
+	
+	var component = {
+		bindings: {},
+		template: _paypalHtml2['default'],
+		controller: PaypalComponent
+	};
+	
+	exports['default'] = component;
+	module.exports = exports['default'];
+
+/***/ },
+/* 108 */
+/***/ function(module, exports) {
+
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.customer.subscriptionPlan\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Connect with Paypal</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<button class=\"Button Button--primary\" ng-click=\"$ctrl.pay($event)\">Connect with Paypal...</button>\n\t\t<span ng-if=\"$ctrl.state.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.backButtonRoute)\">{{ $ctrl.state.backButtonText }}</a>\n\t\t</span>\n\t</div>\n</section>\n"
+
+/***/ },
+/* 109 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _paypalButtonHtml = __webpack_require__(110);
+	
+	var _paypalButtonHtml2 = _interopRequireDefault(_paypalButtonHtml);
+	
+	var _braintreeConstants = __webpack_require__(102);
+	
+	// Inject dependencies
+	
+	var Inject = __webpack_require__(82);
+	
+	var PaypalButtonComponent = (function () {
+		function PaypalButtonComponent(braintreeDataService) {
+			_classCallCheck(this, _PaypalButtonComponent);
+	
+			this.braintreeDataService = braintreeDataService;
+	
+			this._checkout = null;
+			this.state = {
+				message: {
+					text: ''
+				}
+			};
+	
+			this.customer = null;
+		}
+	
+		// Component decorations
+	
+		// Private methods
+		// --------------------------------------------------
+	
+		_createClass(PaypalButtonComponent, [{
+			key: '$onInit',
+			value: function $onInit() {
+				var _this = this;
+	
+				this.customer = this.braintreeDataService.customer;
+	
+				if (!this.braintreeDataService.customer.clientToken) {
+					this.braintreeDataService.getClientToken().then(function (response) {
+						var customer = {
+							clientToken: response.data.client_token
+						};
+						_this.braintreeDataService.updateCustomerData(customer);
+						_this._setupPaypal(customer.clientToken);
+					});
+				} else {
+					this._setupPaypal(this.braintreeDataService.customer.clientToken);
+				}
+			}
+		}, {
+			key: '_setupPaypal',
+			value: function _setupPaypal(clientToken) {
+				var _this2 = this;
+	
+				var currencyIsoCode = this.currencyIsoCode || 'USD';
+				this.braintreeDataService.$braintree.setup(clientToken, "custom", {
+					paypal: {
+						currency: currencyIsoCode,
+						enableShippingAddress: false,
+						headless: true
+					},
+					onCancelled: function onCancelled(obj) {
+						console.log('cancelled', obj);
+					},
+					onReady: function onReady(integration) {
+						console.log('Paypal button is ready');
+						_this2._checkout = integration;
+					},
+					onAuthorizationDismissed: function onAuthorizationDismissed(obj) {
+						console.log('onAuthorizationDismissed', obj);
+					},
+					onPaymentMethodReceived: function onPaymentMethodReceived(obj) {
+						_this2._createPaymentOption(obj);
+					}
+				});
+			}
+		}, {
+			key: '_createPaymentOption',
+			value: function _createPaymentOption(paymentMethod) {
+				var _this3 = this;
+	
+				console.log('onPaymentMethodReceived', paymentMethod);
+				var paymentMethodModel = {
+					customerId: this.braintreeDataService.customer.id,
+					paymentMethodNonce: paymentMethod.nonce
+				};
+	
+				this.braintreeDataService.createPaymentMethod(paymentMethodModel).then(function (response) {
+					_this3.braintreeDataService.updateCustomerData(response.data.customer);
+					_this3.onFinish({ paymentModel: response.data.customer.paymentMethod });
+	
+					console.log('Paypal Payment method created!', response);
+				}, function (error) {
+					_this3.state.message.text = 'Failed to create payment method:' + error.data.message;
+					console.log('Failed to create payment method:', error);
+				});
+			}
+		}, {
+			key: 'initAuthFlow',
+			value: function initAuthFlow(event) {
+				this._checkout.paypal.initAuthFlow();
+			}
+	
+			// Public viewModel methods
+			// --------------------------------------------------
+		}]);
+	
+		var _PaypalButtonComponent = PaypalButtonComponent;
+		PaypalButtonComponent = Inject('braintreeDataService')(PaypalButtonComponent) || PaypalButtonComponent;
+		return PaypalButtonComponent;
+	})();
+	
+	var component = {
+		bindings: {
+			buttonText: '<',
+			currencyIsoCode: '<',
+			onFinish: '&'
+		},
+		template: _paypalButtonHtml2['default'],
+		controller: PaypalButtonComponent
+	};
+	
+	exports['default'] = component;
+	module.exports = exports['default'];
+
+/***/ },
+/* 110 */
+/***/ function(module, exports) {
+
+	module.exports = "<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n<button class=\"Button Button--primary\" ng-click=\"$ctrl.initAuthFlow($event)\">{{ $ctrl.buttonText }}</button>\n"
+
+/***/ },
+/* 111 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _subscriptionPlansHtml = __webpack_require__(112);
+	
+	var _subscriptionPlansHtml2 = _interopRequireDefault(_subscriptionPlansHtml);
+	
+	var _braintreeConstants = __webpack_require__(102);
+	
+	// Inject dependencies
+	
+	var Inject = __webpack_require__(82);
+	
+	var SubscriptionPlansComponent = (function () {
+		function SubscriptionPlansComponent(braintreeDataService, braintreeAppService) {
+			_classCallCheck(this, _SubscriptionPlansComponent);
+	
+			this.braintreeDataService = braintreeDataService;
+			this.braintreeAppService = braintreeAppService;
+	
+			this.message = '';
+			this.loadingText = '';
+			this.plans = [];
+			this.state = {
+				error: false,
+				loading: false,
+				nextRoute: ''
+			};
+	
+			this.customer = null;
+		}
+	
+		// Component decorations
+	
+		// Private methods
+		// --------------------------------------------------
+	
+		_createClass(SubscriptionPlansComponent, [{
+			key: '$onInit',
+			value: function $onInit() {
+				this.customer = this.braintreeDataService.customer;
+				if (!this.customer.clientToken) {
+					this.braintreeDataService.setup();
+				}
+	
+				this._getAllSubscriptionPlans();
+			}
+		}, {
+			key: '_getAllSubscriptionPlans',
+			value: function _getAllSubscriptionPlans() {
+				var _this = this;
+	
+				this.state.loading = true;
+				this.loadingText = 'Fetching subscription plans...';
+	
+				this.braintreeDataService.getAllSubscriptionPlans().then(function (response) {
+					_this.plans = response.data.plans;
+					_this.state.loading = false;
+				}, function (error) {
+					// TODO: Notify development team or do it via api
+					_this.message = 'Unable to get subscription plans, the development team has been notified, please try again later.';
+					_this.state.loading = false;
+					_this.state.error = true;
+				});
+			}
+	
+			// Public viewModel methods
+			// --------------------------------------------------
+		}, {
+			key: 'chooseSubscriptionPlan',
+			value: function chooseSubscriptionPlan(subscriptionPlanModel) {
+				console.log('plan chosen', subscriptionPlanModel);
+	
+				// TODO: Fix If a customer is already signed in and has a subscription plan
+				var customer = {
+					//newSubscriptionPlan: subscriptionPlanModel
+					subscriptionPlan: subscriptionPlanModel
+				};
+				this.braintreeDataService.updateCustomerData(customer);
+	
+				this.state.nextRoute = _braintreeConstants.ROUTES.CUSTOMER;
+	
+				this.routeTo(_braintreeConstants.ROUTES.CUSTOMER);
+			}
+		}, {
+			key: 'formatCurrencyAmount',
+			value: function formatCurrencyAmount(amount, currencyIsoCode) {
+				return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
+			}
+		}, {
+			key: 'routeTo',
+			value: function routeTo(path) {
+				this.braintreeAppService.routeTo(path);
+			}
+		}]);
+	
+		var _SubscriptionPlansComponent = SubscriptionPlansComponent;
+		SubscriptionPlansComponent = Inject('braintreeDataService', 'braintreeAppService')(SubscriptionPlansComponent) || SubscriptionPlansComponent;
+		return SubscriptionPlansComponent;
+	})();
+	
+	var component = {
+		bindings: {},
+		template: _subscriptionPlansHtml2['default'],
+		controller: SubscriptionPlansComponent
+	};
+	
+	exports['default'] = component;
+	module.exports = exports['default'];
+
+/***/ },
+/* 112 */
+/***/ function(module, exports) {
+
+	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n\n<!--<h2 class=\"Heading&#45;&#45;two\">Subscribe</h2>-->\n<hr class=\"Divider--dotted\">\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--cta Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
+
+/***/ },
+/* 113 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _subscriptionPlansCustomHtml = __webpack_require__(114);
+	
+	var _subscriptionPlansCustomHtml2 = _interopRequireDefault(_subscriptionPlansCustomHtml);
+	
+	var _braintreeConstants = __webpack_require__(102);
+	
+	var _underscore = __webpack_require__(97);
+	
+	var _underscore2 = _interopRequireDefault(_underscore);
+	
+	/**
+	 * This is a specific implementation to display only a set of predefined subscription plans
+	 * No Reusability here
+	 * To be removed later.
+	 */
+	
+	// Inject dependencies
+	
+	var Inject = __webpack_require__(82);
+	
+	var SubscriptionPlansCustomComponent = (function () {
+		function SubscriptionPlansCustomComponent(braintreeDataService, braintreeAppService) {
+			_classCallCheck(this, _SubscriptionPlansCustomComponent);
+	
+			this.braintreeDataService = braintreeDataService;
+			this.braintreeAppService = braintreeAppService;
+	
+			this.message = '';
+			this.loadingText = '';
+			this.plans = [];
+			this.state = {
+				error: false,
+				loading: false,
+				nextRoute: '',
+				selectedCurrency: {
+					currencyIsoCode: '',
+					currencySymbol: '',
+					currencyName: '',
+					currencyLongName: ''
+				},
+				selectedCurrencyModel: null
+			};
+	
+			this.customPlans = {
+				USD: {
+					premiumOne: {},
+					premiumThree: {},
+					premiumSix: {},
+					premiumTwelve: {},
+					premiumLifetime: {}
+				},
+				EUR: {
+					premiumOne: {},
+					premiumThree: {},
+					premiumSix: {},
+					premiumTwelve: {},
+					premiumLifetime: {}
+				},
+				GBP: {
+					premiumOne: {},
+					premiumThree: {},
+					premiumSix: {},
+					premiumTwelve: {},
+					premiumLifetime: {}
+				},
+				ISK: {
+					premiumOne: {},
+					premiumThree: {},
+					premiumSix: {},
+					premiumTwelve: {},
+					premiumLifetime: {}
+				}
+			};
+	
+			this.plansDisplayed = {
+				premiumOne: {},
+				premiumThree: {},
+				premiumSix: {},
+				premiumTwelve: {},
+				premiumLifetime: {}
+			};
+	
+			this.customer = null;
+	
+			window.customPlans = this.customPlans;
+			this.merchantAccounts = this.braintreeDataService.merchantAccounts;
+			this.merchantAccountsArray = this.braintreeDataService.merchantAccountsArray;
+			this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
+		}
+	
+		// Component decorations
+	
+		// Private methods
+		// --------------------------------------------------
+	
+		_createClass(SubscriptionPlansCustomComponent, [{
+			key: '$onInit',
+			value: function $onInit() {
+				this.customer = this.braintreeDataService.customer;
+				if (!this.customer.clientToken) {
+					this.braintreeDataService.setup();
+				}
+	
+				this._getAllSubscriptionPlans();
+			}
+		}, {
+			key: '_getAllSubscriptionPlans',
+			value: function _getAllSubscriptionPlans() {
+				var _this = this;
+	
+				this.state.loading = true;
+				this.loadingText = 'Fetching subscription plans...';
+	
+				this.braintreeDataService.getAllSubscriptionPlans().then(function (response) {
+					_this.plans = response.data.plans;
+	
+					_underscore2['default'].each(response.data.plans, function (plan) {
+						switch (plan.id) {
+							// USD
+							case 'premiumOneUSD':
+								_this.customPlans.USD.premiumOne = plan;
+								break;
+							case 'premiumThreeUSD':
+								_this.customPlans.USD.premiumThree = plan;
+								break;
+							case 'premiumSixUSD':
+								_this.customPlans.USD.premiumSix = plan;
+								break;
+							case 'premiumTwelveUSD':
+								_this.customPlans.USD.premiumTwelve = plan;
+								break;
+							case 'premiumLifetimeUSD':
+								_this.customPlans.USD.premiumLifetime = plan;
+								break;
+	
+							// EUR
+							case 'premiumOneEUR':
+								_this.customPlans.EUR.premiumOne = plan;
+								break;
+							case 'premiumThreeEUR':
+								_this.customPlans.EUR.premiumThree = plan;
+								break;
+							case 'premiumSixEUR':
+								_this.customPlans.EUR.premiumSix = plan;
+								break;
+							case 'premiumTwelveEUR':
+								_this.customPlans.EUR.premiumTwelve = plan;
+								break;
+							case 'premiumLifetimeEUR':
+								_this.customPlans.EUR.premiumLifetime = plan;
+								break;
+	
+							// GBP
+							case 'premiumOneGBP':
+								_this.customPlans.GBP.premiumOne = plan;
+								break;
+							case 'premiumThreeGBP':
+								_this.customPlans.GBP.premiumThree = plan;
+								break;
+							case 'premiumSixGBP':
+								_this.customPlans.GBP.premiumSix = plan;
+								break;
+							case 'premiumTwelveGBP':
+								_this.customPlans.GBP.premiumTwelve = plan;
+								break;
+							case 'premiumLifetimeGBP':
+								_this.customPlans.GBP.premiumLifetime = plan;
+								break;
+	
+							// ISK
+							case 'premiumOneISK':
+								_this.customPlans.ISK.premiumOne = plan;
+								break;
+							case 'premiumThreeISK':
+								_this.customPlans.ISK.premiumThree = plan;
+								break;
+							case 'premiumSixISK':
+								_this.customPlans.ISK.premiumSix = plan;
+								break;
+							case 'premiumTwelveISK':
+								_this.customPlans.ISK.premiumTwelve = plan;
+								break;
+							case 'premiumLifetimeISK':
+								_this.customPlans.ISK.premiumLifetime = plan;
+								break;
+						}
+					});
+	
+					_this.showSelectedCurrencyPlans(_this.selectedMerchantAccount.id);
+					_this.state.loading = false;
+				}, function (error) {
+					// TODO: Notify development team or do it via api
+					_this.message = 'Unable to get subscription plans, the development team has been notified, please try again later.';
+					_this.state.loading = false;
+					_this.state.error = true;
+				});
+			}
+		}, {
+			key: 'formatCurrencyAmount',
+			value: function formatCurrencyAmount(amount, currencyIsoCode) {
+				return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
+			}
+		}, {
+			key: 'showSelectedCurrencyPlans',
+			value: function showSelectedCurrencyPlans(merchantAccountId) {
+				console.log('this.state.selectedCurrencyModel', this.state.selectedCurrencyModel);
+	
+				switch (merchantAccountId) {
+					case this.braintreeDataService.merchantAccounts.USD.id:
+						this.plansDisplayed = this.customPlans.USD;
+						this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.USD);
+						this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.USD;
+	
+						break;
+	
+					case this.braintreeDataService.merchantAccounts.EUR.id:
+						this.plansDisplayed = this.customPlans.EUR;
+						this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.EUR);
+						this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.EUR;
+	
+						break;
+	
+					case this.braintreeDataService.merchantAccounts.GBP.id:
+						this.plansDisplayed = this.customPlans.GBP;
+						this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.GBP);
+						this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.GBP;
+						break;
+	
+					case this.braintreeDataService.merchantAccounts.ISK.id:
+						this.plansDisplayed = this.customPlans.ISK;
+						this.braintreeDataService.setSelectedMerchantAccount(this.braintreeDataService.merchantAccounts.ISK);
+						this.state.selectedCurrency = this.braintreeDataService.merchantAccounts.ISK;
+						break;
+				}
+			}
+	
+			// Public viewModel methods
+			// --------------------------------------------------
+		}, {
+			key: 'chooseSubscriptionPlan',
+			value: function chooseSubscriptionPlan(subscriptionPlanModel) {
+				console.log('plan chosen', subscriptionPlanModel);
+	
+				// TODO: Fix If a customer is already signed in and has a subscription plan
+				var customer = {
+					//newSubscriptionPlan: subscriptionPlanModel
+					subscriptionPlan: subscriptionPlanModel
+				};
+				this.braintreeDataService.updateCustomerData(customer);
+	
+				this.state.nextRoute = _braintreeConstants.ROUTES.CUSTOMER;
+	
+				this.routeTo(_braintreeConstants.ROUTES.CUSTOMER);
+			}
+		}, {
+			key: 'routeTo',
+			value: function routeTo(path) {
+				this.braintreeAppService.routeTo(path);
+			}
+		}]);
+	
+		var _SubscriptionPlansCustomComponent = SubscriptionPlansCustomComponent;
+		SubscriptionPlansCustomComponent = Inject('braintreeDataService', 'braintreeAppService')(SubscriptionPlansCustomComponent) || SubscriptionPlansCustomComponent;
+		return SubscriptionPlansCustomComponent;
+	})();
+	
+	var component = {
+		bindings: {},
+		template: _subscriptionPlansCustomHtml2['default'],
+		controller: SubscriptionPlansCustomComponent
+	};
+	
+	exports['default'] = component;
+	module.exports = exports['default'];
+
+/***/ },
+/* 114 */
+/***/ function(module, exports) {
+
+	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.customer.subscriptionPlan\"></ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n\n<section class=\"Panel\" ng-if=\"$ctrl.plans.length\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Select a subscription plan</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignRight\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccountsArray.length\">\n\t\t\t\t\t<label class=\"Form-itemLabel\">Currency\n\n\t\t\t\t\t\t<!--<select name=\"selectedCurrency\" id=\"selectedCurrency\"-->\n\t\t\t\t\t\t        <!--class=\"Selectbox\"-->\n\t\t\t\t\t\t        <!--ng-change=\"$ctrl.showSelectedCurrencyPlans()\"-->\n\t\t\t\t\t\t        <!--ng-model=\"$ctrl.state.selectedCurrency\"-->\n\t\t\t\t\t\t        <!--ng-options=\"merchantAccount.name as merchantAccount.currencyName for merchantAccount in $ctrl.merchantAccountsArray track by merchantAccount.id\">-->\n\t\t\t\t\t\t<!--</select>-->\n\n\t\t\t\t\t\t<select name=\"selectedCurrency\" id=\"selectedCurrency\"\n\t\t\t\t\t\t        class=\"Selectbox\"\n\t\t\t\t\t\t        ng-change=\"$ctrl.showSelectedCurrencyPlans($ctrl.state.selectedCurrencyModel)\"\n\t\t\t\t\t\t        ng-model=\"$ctrl.state.selectedCurrencyModel\">\n\t\t\t\t\t\t\t<option value=\"jivaroUSD\">US Dollar (USD)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroEUR\" ng-selected=\"true\">EUR (EUR)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroGBP\">British Pound (GBP)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroISK\">Icelandic Krona (ISK)</option>\n\t\t\t\t\t\t</select>\n\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumThree\"\n\t\t\t\t\titem-css-class=\"'u-textCenter mt--9'\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t<header class=\"Panel-header u-textCenter\">\n\t\t\t\t\t\t<h2 class=\"Heading--six Panel-heading Heading--light\">Most popular</h2>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\tbutton-css-modifier=\"'Button--success Button--lg'\"\n\t\t\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumSix\"\n\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\">\n\t\t\t\t\t\t</ui-braintree-subscription-plan>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumTwelve\"\n\t\t\t\t\titem-css-class=\"'u-textCenter mt--9'\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!--<hr class=\"Divider&#45;&#45;dotted\">-->\n\t\t<!--<div class=\"Grid-row Grid-row&#45;&#45;alignCenter\">-->\n\t\t\t<!--<div class=\"Grid-col&#45;&#45;12 \">-->\n\t\t\t\t<!--<h3 class=\"Heading&#45;&#45;three Heading&#45;&#45;light\">Premium for life?</h3>-->\n\t\t\t\t<!--<h4 class=\"Heading&#45;&#45;five\">Lifetime licence</h4>-->\n\t\t\t\t<!--<h5 class=\"Heading&#45;&#45;three u-textWarning mb&#45;&#45;0\">{{ $ctrl.state.selectedCurrency.currencySymbol }}{{ $ctrl.plansDisplayed.premiumLifetime.price }}</h5>-->\n\t\t\t\t<!--<p class=\"mt&#45;&#45;0\">One time payment</p>-->\n\t\t\t\t<!--<button class=\"Button Button&#45;&#45;cta Button&#45;&#45;lg\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumLifetime)\">-->\n\t\t\t\t\t<!--Go All In!-->\n\t\t\t\t<!--</button>-->\n\t\t\t<!--</div>-->\n\t\t<!--</div>-->\n\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignCenter\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<p>or<br> pay monthly<br>\n\t\t\t\t\t<button class=\"Button Button--secondary\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumOne)\">\n\t\t\t\t\t\t{{ $ctrl.formatCurrencyAmount($ctrl.plansDisplayed.premiumOne.price, $ctrl.plansDisplayed.premiumOne.currencyIsoCode) }}\n\t\t\t\t\t\t/ month\n\t\t\t\t\t</button>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
+
+/***/ },
 /* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -14218,7 +14260,7 @@
 	
 	var _paymentMethodsHtml2 = _interopRequireDefault(_paymentMethodsHtml);
 	
-	var _braintreeConstants = __webpack_require__(101);
+	var _braintreeConstants = __webpack_require__(102);
 	
 	// Inject dependencies
 	
@@ -14333,7 +14375,7 @@
 	
 	var _billingOverviewHtml2 = _interopRequireDefault(_billingOverviewHtml);
 	
-	var _braintreeConstants = __webpack_require__(101);
+	var _braintreeConstants = __webpack_require__(102);
 	
 	// Inject dependencies
 	
@@ -14429,27 +14471,6 @@
 				this.state.message.descriptionHtml = descriptionHtml;
 			}
 		}, {
-			key: '_getAllSubscriptionPlans',
-			value: function _getAllSubscriptionPlans() {
-				var _this = this;
-	
-				if (this.plans.length > 0) {
-					return;
-				}
-	
-				this.state.plans.loading.isLoading = true;
-				this.state.plans.loading.text = 'Loading plans...';
-	
-				this.braintreeDataService.getAllSubscriptionPlans().then(function (response) {
-					_this.plans = response.data.plans;
-					_this._stopLoading();
-				}, function (error) {
-					// TODO: Notify development team or do it via api
-					_this._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
-					_this._stopLoading();
-				});
-			}
-		}, {
 			key: 'getCurrencySymbol',
 			value: function getCurrencySymbol(currencyIsoCode) {
 				return this.braintreeAppService.getCurrencySymbol(currencyIsoCode);
@@ -14486,7 +14507,7 @@
 		}, {
 			key: 'addCreditCard',
 			value: function addCreditCard(paymentMethod, subscription) {
-				var _this2 = this;
+				var _this = this;
 	
 				this._clearMessage();
 				this._startLoading('Saving payment information...');
@@ -14496,14 +14517,14 @@
 	
 				// Send request to get token, then use the token to tokenize credit card info and verify the card
 				this.braintreeDataService.createVaultedPayment(customerId, paymentMethod).then(function (response) {
-					_this2._stopLoading();
+					_this._stopLoading();
 	
-					_this2.addPaymentMethod(response.data.customer.paymentMethod, subscription);
+					_this.addPaymentMethod(response.data.customer.paymentMethod, subscription);
 				}, function (error) {
 					// TODO: Handle errors better
-					_this2._displayMessage(error, 'danger');
-					_this2._stopLoading();
-					_this2.state.showForm = true;
+					_this._displayMessage(error, 'danger');
+					_this._stopLoading();
+					_this.state.showForm = true;
 				});
 			}
 	
@@ -14532,20 +14553,20 @@
 		}, {
 			key: 'cancelSubscription',
 			value: function cancelSubscription(subscription) {
-				var _this3 = this;
+				var _this2 = this;
 	
 				this._clearMessage();
 				this._startLoading('Canceling subscription...');
 	
 				this.braintreeDataService.cancelSubscription(subscription.id).then(function (response) {
-					if (_this3.customer.id) {
-						_this3.getCustomerDetails(_this3.customer.id).then(function () {
-							_this3._displayMessage('Subscription has been canceled.', 'success');
+					if (_this2.customer.id) {
+						_this2.getCustomerDetails(_this2.customer.id).then(function () {
+							_this2._displayMessage('Subscription has been canceled.', 'success');
 						});
 					}
 				}, function (error) {
-					_this3._stopLoading();
-					_this3._displayMessage(error.data.message, 'danger');
+					_this2._stopLoading();
+					_this2._displayMessage(error.data.message, 'danger');
 				});
 			}
 	
@@ -14578,7 +14599,7 @@
 		}, {
 			key: 'changeSubscriptionPlan',
 			value: function changeSubscriptionPlan(newSubscriptionPlan, currentSubscription) {
-				var _this4 = this;
+				var _this3 = this;
 	
 				console.log('plan chosen', newSubscriptionPlan, currentSubscription);
 	
@@ -14587,7 +14608,7 @@
 	
 				// Cancel the current subscription
 				this.braintreeDataService.cancelSubscription(currentSubscription.id).then(function (response) {
-					if (_this4.customer.id) {
+					if (_this3.customer.id) {
 						(function () {
 							var subLessFrequent = newSubscriptionPlan.billingFrequency > currentSubscription.plan.billingFrequency;
 							var discount = 0;
@@ -14603,9 +14624,9 @@
 							// Calculate discount if we are going to a less frequent billing cycle.
 							if (subLessFrequent) {
 								// Get remaining days of current subscription
-								var nextBillingDate = _this4.moment(currentSubscription.nextBillingDate).startOf('days');
-								var today = _this4.moment(_this4.moment().startOf('days'));
-								var duration = _this4.moment.duration(nextBillingDate.diff(today));
+								var nextBillingDate = _this3.moment(currentSubscription.nextBillingDate).startOf('days');
+								var today = _this3.moment(_this3.moment().startOf('days'));
+								var duration = _this3.moment.duration(nextBillingDate.diff(today));
 								var remainingDays = duration.asDays();
 								var billingCycleDays = currentSubscription.plan.billingFrequency * 31;
 	
@@ -14627,39 +14648,39 @@
 							}
 	
 							// Create a new subscription
-							_this4.braintreeDataService.createSubscription(newSubscriptionData).then(function (response) {
+							_this3.braintreeDataService.createSubscription(newSubscriptionData).then(function (response) {
 								console.log('response', response);
 								if (response.data.success) {
-									_this4.getCustomerDetails(_this4.customer.id).then(function () {
+									_this3.getCustomerDetails(_this3.customer.id).then(function () {
 										var descriptionHtml = '';
 	
 										if (response.data.subscription.transactions.length) {
 											var transactionAmount = response.data.subscription.transactions[0].amount;
-											var currencySymbol = _this4.getCurrencySymbol(response.data.subscription.transactions[0].currencyIsoCode);
+											var currencySymbol = _this3.getCurrencySymbol(response.data.subscription.transactions[0].currencyIsoCode);
 	
 											if (discount > 0) {
 												descriptionHtml = '<p>A payment of ' + currencySymbol + transactionAmount + ' has been submitted, Your previous subscription credit of ' + currencySymbol + discount + ' was deducted from the full amount.</p>';
 											}
 										}
 	
-										_this4._displayMessage('Your subscription has been changed to the new plan.', 'success', descriptionHtml);
+										_this3._displayMessage('Your subscription has been changed to the new plan.', 'success', descriptionHtml);
 									});
 								} else {
 									console.log('Error creating a sub', response.data.message);
 									// TODO: Handle different failures maybe?
-									_this4._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'danger');
-									_this4._stopLoading();
+									_this3._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'danger');
+									_this3._stopLoading();
 								}
 							}, function (error) {
 								console.log('Error creating a subcription', error);
-								_this4._displayMessage(error.data.message, 'danger');
-								_this4._stopLoading();
+								_this3._displayMessage(error.data.message, 'danger');
+								_this3._stopLoading();
 							});
 						})();
 					}
 				}, function (error) {
-					_this4._stopLoading();
-					_this4._displayMessage(error.data.message, 'danger');
+					_this3._stopLoading();
+					_this3._displayMessage(error.data.message, 'danger');
 				});
 			}
 	
@@ -14671,20 +14692,20 @@
 		}, {
 			key: 'deletePaymentMethod',
 			value: function deletePaymentMethod(paymentMethod) {
-				var _this5 = this;
+				var _this4 = this;
 	
 				this._clearMessage();
 				this._startLoading('Deleting payment method...');
 	
 				this.braintreeDataService.deletePaymentMethod(paymentMethod).then(function (response) {
-					if (_this5.customer.id) {
-						_this5.getCustomerDetails(_this5.customer.id).then(function () {
-							_this5._displayMessage('Payment method has been deleted, and all connected subscriptions have been cancelled.', 'success');
+					if (_this4.customer.id) {
+						_this4.getCustomerDetails(_this4.customer.id).then(function () {
+							_this4._displayMessage('Payment method has been deleted, and all connected subscriptions have been cancelled.', 'success');
 						});
 					}
 				}, function (error) {
-					_this5._stopLoading();
-					_this5._displayMessage(error.data.message, 'danger');
+					_this4._stopLoading();
+					_this4._displayMessage(error.data.message, 'danger');
 				});
 			}
 	
@@ -14708,7 +14729,33 @@
 		}, {
 			key: 'getAllPlans',
 			value: function getAllPlans() {
-				this._getAllSubscriptionPlans();
+				var _this5 = this;
+	
+				this._startLoading('Loading subscription plans...');
+	
+				this.braintreeDataService.getAllSubscriptionPlans().then(function (response) {
+					_this5.plans = response.data.plans;
+					_this5._stopLoading();
+				}, function (error) {
+					// TODO: Notify development team or do it via api
+					_this5._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
+					_this5._stopLoading();
+				});
+			}
+		}, {
+			key: 'getPlansByCurrency',
+			value: function getPlansByCurrency(currencyIsoCode) {
+				var _this6 = this;
+	
+				this._startLoading('Loading subscription plans...');
+				this.braintreeDataService.getSubscriptionPlansForCurrency(currencyIsoCode).then(function (response) {
+					_this6.plans = response.data.plans;
+					_this6._stopLoading();
+				}, function (error) {
+					// TODO: Notify development team or do it via api
+					_this6._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
+					_this6._stopLoading();
+				});
 			}
 	
 			/**
@@ -14737,18 +14784,18 @@
 		}, {
 			key: 'getCustomerDetails',
 			value: function getCustomerDetails(customerId) {
-				var _this6 = this;
+				var _this7 = this;
 	
 				this._startLoading('Loading profile details...');
 	
 				//Get Customer if logged in
 				return this.braintreeDataService.getCustomer(customerId, true).then(function (response) {
-					_this6.braintreeDataService.updateCustomerData(response.data.customer);
-					_this6.customer = response.data.customer;
-					_this6._stopLoading();
+					_this7.braintreeDataService.updateCustomerData(response.data.customer);
+					_this7.customer = response.data.customer;
+					_this7._stopLoading();
 				}, function (error) {
-					_this6._stopLoading();
-					_this6._displayMessage(error.data.message, 'danger');
+					_this7._stopLoading();
+					_this7._displayMessage(error.data.message, 'danger');
 				});
 			}
 	
@@ -14756,19 +14803,19 @@
 		}, {
 			key: 'updateSubscription',
 			value: function updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText) {
-				var _this7 = this;
+				var _this8 = this;
 	
 				this._clearMessage();
 				this._startLoading(loadingText);
 	
 				this.braintreeDataService.updateSubscription(subscription.id, subscriptionChanges).then(function (response) {
-					_this7.getCustomerDetails(_this7.customer.id).then(function () {
-						_this7._displayMessage(messageSuccessText, 'success');
+					_this8.getCustomerDetails(_this8.customer.id).then(function () {
+						_this8._displayMessage(messageSuccessText, 'success');
 					});
 				}, function (error) {
 					console.log(error.data.message);
-					_this7._stopLoading();
-					_this7._displayMessage(error.data.message, 'danger');
+					_this8._stopLoading();
+					_this8._displayMessage(error.data.message, 'danger');
 				});
 			}
 		}, {
@@ -14800,7 +14847,7 @@
 /* 120 */
 /***/ function(module, exports) {
 
-	module.exports = "<header ng-if=\"$ctrl.state.header.visible\">\n\t<h2 class=\"Heading--two\" ng-bind=\"$ctrl.state.header.text\"></h2>\n\t<hr class=\"Divider--dotted\">\n</header>\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span>\n</section>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section ng-if=\"$ctrl.customer\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel\">\n\t<!-- Profile -->\n\t<!--<div class=\"Grid-row\">-->\n\t<!--<div class=\"Grid-col&#45;&#45;12\">-->\n\n\t<!--<section class=\"Panel\">-->\n\t<!--<h3 class=\"Panel-heading Heading&#45;&#45;three\">Profile</h3>-->\n\t<!--<div class=\"Panel-body\">-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Full name</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.firstName\"></span> <span ng-bind=\"$ctrl.customer.lastName\"></span>-->\n\t<!--</div>-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Email</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.email\"></span>-->\n\t<!--</div>-->\n\t<!--</div>-->\n\t<!--</section>-->\n\n\t<!--</div>-->\n\t<!--</div>-->\n\n\t<!-- Subscriptions & Payment methods -->\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--12\">\n\t\t\t<section class=\"Panel\" ng-if=\"!$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">You have no subscriptions.</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<button class=\"Button Button--success Button--lg\" ng-click=\"$ctrl.routeTo('/subscribe');\">Subscribe now...</button>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<section class=\"Panel\" ng-if=\"$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<div ng-repeat=\"subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['-updatedAt']\">\n\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<ui-braintree-subscription-details subscription=\"subscription\" format-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"></ui-braintree-subscription-details>\n\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"Button Button--primary\" ng-click=\"$ctrl.getAllPlans(); showEditPlanModal = !showEditPlanModal\" ng-show=\"subscription.status.toLowerCase() === 'active'\">Edit Plan</button>\n\t\t\t\t\t\t\t\t<span ng-if=\"subscription.status.toLowerCase() === 'active'\">|</span>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price > 0\" ng-click=\"$ctrl.disableAutoRenew(subscription)\">Disable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price <= 0\" ng-click=\"$ctrl.enableAutoRenew(subscription)\">Enable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'pending'\" ng-click=\"$ctrl.cancelSubscription(subscription)\">Cancel subscription</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Payment method</h4>\n\t\t\t\t\t\t\t\t<ui-braintree-payment-method payment-method=\"subscription.defaultPaymentMethod\"></ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t<button class=\"Button Button--primary\"\n\t\t\t\t\t\t\t\t        ng-click=\"showEditPaymentMethodsModal = !showEditPaymentMethodsModal\"\n\t\t\t\t\t\t\t\t        ng-hide=\"subscription.status.toLowerCase() === 'canceled'\">Change Payment Method\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<!-- Edit plan -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'editPlanModal'\" modal-visible=\"showEditPlanModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t\t\t\t\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t\t\t\t\t\t\t\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t\t\t\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit subscription plan</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.plans.loading.isLoading\" text=\"$ctrl.state.plans.loading.text\"></ui-loading-icon>\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"plan.id === subscription.planId\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-css-modifier=\"plan.id === subscription.planId ? 'Button--success' : 'Button--cta'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"plan.id === subscription.planId ? 'Current plan' : 'Select plan'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-choose=\"$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)\"></ui-braintree-subscription-plan>\n\t\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\t\t\t\t\t\t<!-- Edit payment method -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'changePaymentMethodModal'\" modal-visible=\"showEditPaymentMethodsModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t\t\t\t\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t\t\t\t\t\t\t\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t\t\t\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit payment method</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Your stored payment methods</h5>\n\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"CustomerDetails-paymentMethodColumn Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\" ng-class=\"{'is-default' : paymentMethod.token === subscription.defaultPaymentMethod.token}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"paymentMethod.token === subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled-text=\"'Default payment method'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-text=\"'Delete'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-visible=\"paymentMethod.token !== subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-card-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-delete-click=\"$ctrl.deletePaymentMethod(paymentMethod)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t</ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Add a new payment method</h5>\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Credit or Debit Card</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-creditcard-form\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-submit=\"$ctrl.addCreditCard(paymentModel, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tback-button-visible=\"false\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubmit-button-text=\"'Save and choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\thide-amount=\"true\"></ui-braintree-creditcard-form>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Paypal</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<braintree-paypal-button\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"'Connect with Paypal...'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tcurrency-iso-code=\"subscription.plan.currencyIsoCode\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-finish=\"$ctrl.addPaymentMethod(paymentModel, subscription)\"></braintree-paypal-button>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\n\t\t\t\t\t\t<!-- Transaction history -->\n\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t<h4 class=\"Panel-bodyHeading Heading--four\"\n\t\t\t\t\t\t    ui-toggle\n\t\t\t\t\t\t    toggle-el-css-class=\"js-transactionHistory\"\n\t\t\t\t\t\t    toggle-icon-css-class=\"js-toggleIcon\"\n\t\t\t\t\t\t    toggle-icon-css-class-hide=\"fa-chevron-down\"\n\t\t\t\t\t\t    toggle-icon-css-class-show=\"fa-chevron-right\">\n\t\t\t\t\t\t\t<i class=\"fa fa-chevron-right js-toggleIcon\"></i> Transaction history</h4>\n\n\t\t\t\t\t\t<div class=\"js-transactionHistory\" hidden>\n\t\t\t\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-repeat=\"transaction in subscription.transactions\">\n\t\t\t\t\t\t\t\t\t<header class=\"HeadingGroup\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--seven HeadingGroup-heading--top\">\n\t\t\t\t\t\t\t\t\t\t\t<time>{{ transaction.createdAt | date: longDate }}</time>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five u-textSuccess HeadingGroup-heading--main\">{{ $ctrl.formatCurrencyAmount(transaction.amount, transaction.currencyIsoCode) }}\n\t\t\t\t\t\t\t\t\t\t\t<small class=\"u-textBase\" ng-if=\"transaction.discounts.length\">(Upgrade credit:\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-repeat=\"discount in transaction.discounts\" class=\"u-textSuccess\">$ctrl.formatCurrencyAmount(discount.amount, transaction.currencyIsoCode)</span>)\n\t\t\t\t\t\t\t\t\t\t\t</small>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t</header>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Status history</h5>\n\t\t\t\t\t\t\t\t\t<div ng-repeat=\"statusHistoryItem in transaction.statusHistory\">\n\t\t\t\t\t\t\t\t\t\t{{ statusHistoryItem.timestamp | date: longDate }}\n\t\t\t\t\t\t\t\t\t\t/ {{ statusHistoryItem.status }}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-if=\"!subscription.transactions.length\">\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--five\">No transactions were found.</h4>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t</div>\n\t</div>\n\n</section>\n"
+	module.exports = "<header ng-if=\"$ctrl.state.header.visible\">\n\t<h2 class=\"Heading--two\" ng-bind=\"$ctrl.state.header.text\"></h2>\n\t<hr class=\"Divider--dotted\">\n</header>\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span>\n</section>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section ng-if=\"$ctrl.customer\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel\">\n\t<!-- Profile -->\n\t<!--<div class=\"Grid-row\">-->\n\t<!--<div class=\"Grid-col&#45;&#45;12\">-->\n\n\t<!--<section class=\"Panel\">-->\n\t<!--<h3 class=\"Panel-heading Heading&#45;&#45;three\">Profile</h3>-->\n\t<!--<div class=\"Panel-body\">-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Full name</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.firstName\"></span> <span ng-bind=\"$ctrl.customer.lastName\"></span>-->\n\t<!--</div>-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Email</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.email\"></span>-->\n\t<!--</div>-->\n\t<!--</div>-->\n\t<!--</section>-->\n\n\t<!--</div>-->\n\t<!--</div>-->\n\n\t<!-- Subscriptions & Payment methods -->\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--12\">\n\t\t\t<section class=\"Panel\" ng-if=\"!$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">You have no subscriptions.</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<button class=\"Button Button--success Button--lg\" ng-click=\"$ctrl.routeTo('/subscribe');\">Subscribe now...</button>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<section class=\"Panel\" ng-if=\"$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<div ng-repeat=\"subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['-updatedAt']\">\n\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<ui-braintree-subscription-details subscription=\"subscription\" format-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"></ui-braintree-subscription-details>\n\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"Button Button--primary\" ng-click=\"$ctrl.getPlansByCurrency(subscription.plan.currencyIsoCode); showEditPlanModal = !showEditPlanModal\" ng-show=\"subscription.status.toLowerCase() === 'active'\">Edit Plan</button>\n\t\t\t\t\t\t\t\t<span ng-if=\"subscription.status.toLowerCase() === 'active'\">|</span>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price > 0\" ng-click=\"$ctrl.disableAutoRenew(subscription)\">Disable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price <= 0\" ng-click=\"$ctrl.enableAutoRenew(subscription)\">Enable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'pending'\" ng-click=\"$ctrl.cancelSubscription(subscription)\">Cancel subscription</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Payment method</h4>\n\t\t\t\t\t\t\t\t<ui-braintree-payment-method payment-method=\"subscription.defaultPaymentMethod\"></ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t<button class=\"Button Button--primary\"\n\t\t\t\t\t\t\t\t        ng-click=\"showEditPaymentMethodsModal = !showEditPaymentMethodsModal\"\n\t\t\t\t\t\t\t\t        ng-hide=\"subscription.status.toLowerCase() === 'canceled'\">Change Payment Method\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<!-- Edit plan -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'editPlanModal'\" modal-visible=\"showEditPlanModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t\t\t\t\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t\t\t\t\t\t\t\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t\t\t\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit subscription plan</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.plans.loading.isLoading\" text=\"$ctrl.state.plans.loading.text\"></ui-loading-icon>\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"plan.id === subscription.planId\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-css-modifier=\"plan.id === subscription.planId ? 'Button--success' : 'Button--cta'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"plan.id === subscription.planId ? 'Current plan' : 'Select plan'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-choose=\"$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)\"></ui-braintree-subscription-plan>\n\t\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\t\t\t\t\t\t<!-- Edit payment method -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'changePaymentMethodModal'\" modal-visible=\"showEditPaymentMethodsModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t\t\t\t\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t\t\t\t\t\t\t\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t\t\t\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit payment method</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Your stored payment methods</h5>\n\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"CustomerDetails-paymentMethodColumn Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\" ng-class=\"{'is-default' : paymentMethod.token === subscription.defaultPaymentMethod.token}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"paymentMethod.token === subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled-text=\"'Default payment method'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-text=\"'Delete'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-visible=\"paymentMethod.token !== subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-card-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-delete-click=\"$ctrl.deletePaymentMethod(paymentMethod)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t</ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Add a new payment method</h5>\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Credit or Debit Card</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-creditcard-form\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-submit=\"$ctrl.addCreditCard(paymentModel, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tback-button-visible=\"false\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubmit-button-text=\"'Save and choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\thide-amount=\"true\"></ui-braintree-creditcard-form>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Paypal</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<braintree-paypal-button\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"'Connect with Paypal...'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tcurrency-iso-code=\"subscription.plan.currencyIsoCode\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-finish=\"$ctrl.addPaymentMethod(paymentModel, subscription)\"></braintree-paypal-button>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\n\t\t\t\t\t\t<!-- Transaction history -->\n\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t<h4 class=\"Panel-bodyHeading Heading--four\"\n\t\t\t\t\t\t    ui-toggle\n\t\t\t\t\t\t    toggle-el-css-class=\"js-transactionHistory\"\n\t\t\t\t\t\t    toggle-icon-css-class=\"js-toggleIcon\"\n\t\t\t\t\t\t    toggle-icon-css-class-hide=\"fa-chevron-down\"\n\t\t\t\t\t\t    toggle-icon-css-class-show=\"fa-chevron-right\">\n\t\t\t\t\t\t\t<i class=\"fa fa-chevron-right js-toggleIcon\"></i> Transaction history</h4>\n\n\t\t\t\t\t\t<div class=\"js-transactionHistory\" hidden>\n\t\t\t\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-repeat=\"transaction in subscription.transactions\">\n\t\t\t\t\t\t\t\t\t<header class=\"HeadingGroup\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--seven HeadingGroup-heading--top\">\n\t\t\t\t\t\t\t\t\t\t\t<time>{{ transaction.createdAt | date: longDate }}</time>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five HeadingGroup-heading--main\" ng-class=\"{'u-textSuccess': !transaction.refundId, 'u-textDanger': transaction.refundId }\">\n\t\t\t\t\t\t\t\t\t\t\t<span ng-if=\"transaction.refundId\">Refund: <span>-</span></span>{{ $ctrl.formatCurrencyAmount(transaction.amount, transaction.currencyIsoCode) }}\n\t\t\t\t\t\t\t\t\t\t\t<small class=\"u-textBase\" ng-if=\"transaction.discounts.length\">(Upgrade credit:\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-repeat=\"discount in transaction.discounts\" class=\"u-textSuccess\">{{ $ctrl.formatCurrencyAmount(discount.amount, transaction.currencyIsoCode) }}</span>)\n\t\t\t\t\t\t\t\t\t\t\t</small>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t</header>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Status history</h5>\n\t\t\t\t\t\t\t\t\t<div ng-repeat=\"statusHistoryItem in transaction.statusHistory\">\n\t\t\t\t\t\t\t\t\t\t{{ statusHistoryItem.timestamp | date: longDate }}\n\t\t\t\t\t\t\t\t\t\t/ {{ statusHistoryItem.status }}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-if=\"!subscription.transactions.length\">\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--five\">No transactions were found.</h4>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t</div>\n\t</div>\n\n</section>\n"
 
 /***/ },
 /* 121 */
@@ -15154,7 +15201,7 @@
 	
 	var _braintreeHomeHtml2 = _interopRequireDefault(_braintreeHomeHtml);
 	
-	var _braintreeConstants = __webpack_require__(101);
+	var _braintreeConstants = __webpack_require__(102);
 	
 	// Inject dependencies
 	
@@ -15188,6 +15235,7 @@
 					//id: '37312055',
 					//id: 'zickread123'
 					//id: 'haukur-basic'
+					//id: 'haukur-empty'
 				};
 				this.braintreeDataService.updateCustomerData(customer);
 			}
