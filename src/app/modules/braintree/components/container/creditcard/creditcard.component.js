@@ -21,7 +21,8 @@ class CreditCardComponent {
 			message: {
 				text: '',
 				link: '',
-				linkText: ''
+				linkText: '',
+				descriptionHtml:''
 			},
 			paid: false,
 			showForm: true,
@@ -54,7 +55,7 @@ class CreditCardComponent {
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
 			if (!this.customer.subscriptionPlan) {
-				this.state.message.text = 'You need to choose a subscription plan before you proceed';
+				this._displayMessage('You need to choose a subscription plan before you proceed', 'warning');
 				this.state.message.linkText = 'Go to subscription page';
 				this.state.message.link = ROUTES.SUBSCRIPTION;
 				this.state.showForm = false;
@@ -63,7 +64,7 @@ class CreditCardComponent {
 
 			// If the user has no customer ID
 			if (!this.customer.id) {
-				this.state.message.text = 'You need to fill out customer information before you proceed';
+				this._displayMessage('You need to fill out customer information before you proceed');
 				this.state.message.linkText = 'Go to customer page';
 				this.state.message.link = ROUTES.CUSTOMER;
 				this.state.showForm = false;
@@ -83,6 +84,26 @@ class CreditCardComponent {
 				}
 			);
 		}
+	}
+
+	_clearMessage() {
+		this.state.message.text = '';
+	}
+
+	_displayMessage(text, type, descriptionHtml) {
+		this.state.message.type = type;
+		this.state.message.text = text;
+		this.state.message.descriptionHtml = descriptionHtml;
+	}
+
+	_startLoading(text) {
+		this.state.loading.isLoading = true;
+		this.state.loading.text = text;
+	}
+
+	_stopLoading() {
+		this.state.loading.isLoading = false;
+		this.state.loading.text = '';
 	}
 
 	// Public viewModel methods
@@ -109,8 +130,7 @@ class CreditCardComponent {
 	 * @param paymentModel
 	 */
 	createVaultedPayment(paymentModel) {
-		this.state.loading.text = 'Saving payment information...';
-		this.state.loading.isLoading = true;
+		this._startLoading('Saving payment information...');
 		this.state.showForm = false;
 		let customerId = this.braintreeDataService.customer.id;
 
@@ -118,14 +138,14 @@ class CreditCardComponent {
 		this.braintreeDataService.createVaultedPayment(customerId, paymentModel).then(
 			(response) => {
 				console.log('from vaultedPayment', response);
-				this.state.loading.isLoading = false;
+				this._stopLoading();
 				this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
 				this.routeTo([this.state.nextRoute]);
 			},
 			(error) => {
 				// TODO: Handle errors better
-				this.state.message.text = error;
-				this.state.loading.isLoading = false;
+				this._displayMessage(error, 'warning');
+				this._stopLoading();
 				this.state.showForm = true;
 			}
 		);
@@ -136,8 +156,7 @@ class CreditCardComponent {
 	 * @param paymentModel
 	 */
 	processPayment(paymentModel) {
-		this.state.loading.text = 'Processing payment...';
-		this.state.loading.isLoading = true;
+		this._startLoading('Processing payment...');
 		this.state.showForm = false;
 		let clientToken = this.braintreeDataService.customer.clientToken;
 
@@ -168,23 +187,25 @@ class CreditCardComponent {
 				(response) => {
 					console.log(response.data.success);
 					if (response.data.success) {
-						this.state.message.text = 'Payment authorized, thanks.';
 						this.state.paid = true;
 						this.state.error = false;
-						this.state.loading.isLoading = false;
-						this.state.showForm = false;
+
+						this._displayMessage('Payment authorized, thanks.', 'success');
+						this._stopLoading();
 					} else {
 						// TODO: Handle different payment failures
-						this.state.message.text = 'Payment failed: ' + response.data.message + ' Please refresh the page and try again.';
 						this.state.error = true;
-						this.state.loading.isLoading = false;
+
+						this._displayMessage('Payment failed: ' + response.data.message + ' Please refresh the page and try again.', 'warning');
+						this._stopLoading();
 						this.state.showForm = true;
+
 					}
 				},
 				(error) => {
-					this.state.message.text = 'Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data;
 					this.state.error = true;
-					this.state.loading.isLoading = false;
+					this._displayMessage('Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data, 'warning');
+					this._stopLoading();
 					this.state.showForm = true;
 				}
 			);

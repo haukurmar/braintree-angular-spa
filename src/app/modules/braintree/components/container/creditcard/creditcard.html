@@ -9,8 +9,18 @@
 	ng-if="$ctrl.state.mode.subscription">
 </ui-braintree-subscription-navigation>
 
-<p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
-<a href="" ng-click="$ctrl.routeTo($ctrl.state.message.link)" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
+<section class="Alert Alert--{{ $ctrl.state.message.type }}" ng-if="$ctrl.state.message.text">
+	<p>
+		<i class="Alert-icon fa fa-warning fa-lg"></i>
+		<span ng-bind="$ctrl.state.message.text"></span>
+	</p>
+	<span ng-bind-html="$ctrl.state.message.descriptionHtml"></span><br>
+
+	<a href="" ng-click="$ctrl.routeTo($ctrl.state.message.link)" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
+</section>
+
+
+
 
 <ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
 
