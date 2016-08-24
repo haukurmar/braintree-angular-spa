@@ -13,12 +13,13 @@
 		</div>
 
 		<div class="Form-item" ng-if="!$ctrl.hideAmount">
-			<label class="Form-itemLabel">Amount</label>
-			<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.amount" size="8" ng-required="true" />
+			<label class="Form-itemLabel">Amount<br>
+				<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.amount" size="8" ng-required="true" />
+			</label>
 		</div>
 
 		<div class="Form-item">
-			<label class="Form-itemLabel">Card Number</label>
+			<label class="Form-itemLabel">Card Number<br>
 			<input type="text"
 			       style="width: 190px"
 			       class="Textbox"
@@ -31,10 +32,11 @@
 			       ng-class="$ctrl.type"
 			       ng-required="true"
 			        />
+			</label>
 		</div>
 
 		<div class="Form-item">
-			<label class="Form-itemLabel">Expiration Date</label>
+			<label class="Form-itemLabel">Expiration Date<br>
 			<input type="text" class="Textbox"
 			       ng-model="$ctrl.paymentModel.expirationDate"
 			       payments-validate="expiry"
@@ -42,10 +44,11 @@
 			       size="8"
 			       ng-required="true"
 			        />
+			</label>
 		</div>
 
 		<div class="Form-item">
-			<label class="Form-itemLabel">CVV</label>
+			<label class="Form-itemLabel">CVV<br>
 			<input type="text"
 			       class="Textbox"
 			       ng-model="$ctrl.paymentModel.cvv"
@@ -55,7 +58,9 @@
 			       size="4"
 			       ng-required="true"
 			        />
+			</label>
 		</div>
+
 
 		<button class="Button Button--primary" type="submit">{{ $ctrl.submitButtonText }}</button>
 		<span ng-if="$ctrl.backButtonVisible">
