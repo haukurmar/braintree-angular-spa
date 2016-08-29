@@ -53,7 +53,7 @@ export default class BraintreeService {
 			this._merchantAccounts.ISK
 		];
 
-		this._selectedMerchantAccount = this._merchantAccounts.EUR;
+		this._selectedMerchantAccount = this._merchantAccounts.USD;
 
 		this._mode = {
 			subscription: false
