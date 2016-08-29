@@ -14159,6 +14159,7 @@
 			};
 	
 			this.subscriptionPlan = null;
+			this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
 		}
 	
 		// Component decorations
@@ -14188,7 +14189,8 @@
 				var subscriptionData = {
 					subscription: {
 						paymentMethodToken: this.braintreeDataService.customer.paymentMethod.token,
-						planId: this.braintreeDataService.customer.subscriptionPlan.id
+						planId: this.braintreeDataService.customer.subscriptionPlan.id,
+						merchantAccountId: this.selectedMerchantAccount.id
 					}
 				};
 	
