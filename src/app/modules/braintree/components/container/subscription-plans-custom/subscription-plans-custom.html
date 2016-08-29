@@ -27,10 +27,10 @@
 						        class="Selectbox"
 						        ng-change="$ctrl.showSelectedCurrencyPlans($ctrl.state.selectedCurrencyModel)"
 						        ng-model="$ctrl.state.selectedCurrencyModel">
-							<option value="jivaroUSD">US Dollar (USD)</option>
-							<option value="jivaroEUR" ng-selected="true">EUR (EUR)</option>
-							<option value="jivaroGBP">British Pound (GBP)</option>
-							<option value="jivaroISK">Icelandic Krona (ISK)</option>
+							<option value="jivaroUSD" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroUSD'">US Dollar (USD)</option>
+							<option value="jivaroEUR" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroEUR'">EUR (EUR)</option>
+							<option value="jivaroGBP" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroGBP'">British Pound (GBP)</option>
+							<option value="jivaroISK" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroISK'">Icelandic Krona (ISK)</option>
 						</select>
 
 					</label>
