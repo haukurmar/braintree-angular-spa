@@ -54,6 +54,7 @@ export default class BraintreeService {
 		];
 
 		this._selectedSubscription = {
+			//currencyDiscounts: [],
 			//firstBillingDate: '2016-09-29'
 			//selectedMerchantAccount: this._merchantAccounts.USD // TODO: Maybe Refactor components to use this instead of this._selectedMerchantAccount
 		};
@@ -65,6 +66,7 @@ export default class BraintreeService {
 		};
 
 		window.customer = this._customerData;
+		window.selectedSubscription = this._selectedSubscription;
 	}
 
 	// Private methods
@@ -121,6 +123,28 @@ export default class BraintreeService {
 				this.updateCustomerData(customer);
 			}
 		);
+	}
+
+	addCurrencyDiscountsToSelectedSubscription(discountArray) {
+		if(!this._selectedSubscription.currencyDiscounts) {
+			this._selectedSubscription.currencyDiscounts = [];
+		}
+
+		_.each(discountArray, (discount) => {
+			this._selectedSubscription.currencyDiscounts.push(discount);
+		});
+	}
+
+	addDiscountToSelectedSubscription(discountModel) {
+		if(!this._selectedSubscription.discounts) {
+			this._selectedSubscription.discounts = {};
+		}
+
+		if(!this._selectedSubscription.discounts.add) {
+			this._selectedSubscription.discounts.add = [];
+		}
+
+		this._selectedSubscription.discounts.add.push(discountModel);
 	}
 
 	/**
@@ -194,6 +218,17 @@ export default class BraintreeService {
 
 	getAllSubscriptionPlans() {
 		return this.$http.get(this.apiUrl + this._subscriptionPlansPath);
+	}
+
+	getCurrencyForMerchantAccountId(merchantAccountId) {
+		let currency;
+		let merchantAccount = _.find(this._merchantAccountsArray, {id: merchantAccountId});
+
+		if(merchantAccount) {
+			currency = merchantAccount.currencyIsoCode;
+		}
+
+		return currency;
 	}
 
 	getSubscriptionPlansForCurrency(currencyIsoCode) {
