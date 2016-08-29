@@ -13,6 +13,7 @@ class SubscriptionOverviewComponent {
 		};
 
 		this.subscriptionPlan = null;
+		this.selectedSubscription = this.braintreeDataService.selectedSubscription;
 		this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
 	}
 
@@ -34,10 +35,15 @@ class SubscriptionOverviewComponent {
 		let subscriptionData = {
 			subscription: {
 				paymentMethodToken: this.braintreeDataService.customer.paymentMethod.token,
-				planId: this.braintreeDataService.customer.subscriptionPlan.id,
+				planId: this.selectedSubscription.id,
 				merchantAccountId: this.selectedMerchantAccount.id
 			}
 		};
+
+		// If billing date is set in the future (for promotions and such)
+		if(this.selectedSubscription.firstBillingDate) {
+			subscriptionData.subscription.firstBillingDate = this.selectedSubscription.firstBillingDate;
+		}
 
 		this.braintreeDataService.createSubscription(subscriptionData).then(
 			(response) => {
@@ -45,7 +51,10 @@ class SubscriptionOverviewComponent {
 					this.state.message = '';
 					this.state.success = true;
 					this.state.loading = false;
-					this.subscriptionPlan = this.braintreeDataService.customer.subscriptionPlan;
+					this.subscriptionPlan = this.selectedSubscription; // TODO: should this not take response object instead?
+
+					// Clear the selected subscription which has now been created
+					this.braintreeDataService.initSelectedSubscriptionData();
 
 					// Clear the customer data
 					//this.braintreeDataService.initCustomerData();

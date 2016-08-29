@@ -73,6 +73,7 @@ class SubscriptionPlansCustomComponent {
 		this.merchantAccounts = this.braintreeDataService.merchantAccounts;
 		this.merchantAccountsArray = this.braintreeDataService.merchantAccountsArray;
 		this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
+		this.selectedSubscription = this.braintreeDataService.selectedSubscription;
 	}
 
 	// Private methods
@@ -218,13 +219,7 @@ class SubscriptionPlansCustomComponent {
 	// --------------------------------------------------
 	chooseSubscriptionPlan(subscriptionPlanModel) {
 		console.log('plan chosen', subscriptionPlanModel);
-
-		// TODO: Fix If a customer is already signed in and has a subscription plan
-		let customer = {
-			//newSubscriptionPlan: subscriptionPlanModel
-			subscriptionPlan: subscriptionPlanModel
-		};
-		this.braintreeDataService.updateCustomerData(customer);
+		this.braintreeDataService.updateSelectedSubscription(subscriptionPlanModel);
 
 		this.state.nextRoute = ROUTES.CUSTOMER;
 

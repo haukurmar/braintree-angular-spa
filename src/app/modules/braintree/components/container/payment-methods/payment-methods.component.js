@@ -23,7 +23,7 @@ class PaymentMethodsComponent {
 		};
 
 		this.customer = null;
-
+		this.selectedSubscription = this.braintreeDataService.selectedSubscription;
 	}
 
 	// Private methods

@@ -33,6 +33,7 @@ class BraintreeSubscriptionComponent {
 		this.customer = null;
 		this.customerModel = {};
 		this.newCustomer = true;
+		this.selectedSubscription = this.braintreeDataService.selectedSubscription;
 	}
 
 	// Private methods
@@ -49,7 +50,7 @@ class BraintreeSubscriptionComponent {
 			this.state.backButtonVisible = true;
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
-			if (!this.customer.subscriptionPlan) {
+			if (!this.selectedSubscription.id) {
 				this.state.message.text = 'You need to choose a subscription plan before you proceed';
 				this.state.message.linkText = 'Go to subscription page';
 				this.state.message.link = ROUTES.SUBSCRIPTION;
@@ -91,7 +92,7 @@ class BraintreeSubscriptionComponent {
 		);
 	}
 
-	routeTo(path){
+	routeTo(path) {
 		this.braintreeAppService.routeTo(path);
 	}
 
@@ -137,9 +138,7 @@ class BraintreeSubscriptionComponent {
 
 // Component decorations
 let component = {
-	bindings: {
-
-	},
+	bindings: {},
 	template: template,
 	controller: BraintreeSubscriptionComponent
 };

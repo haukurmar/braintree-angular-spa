@@ -35,6 +35,7 @@ class CreditCardComponent {
 		};
 
 		this.customer = null;
+		this.selectedSubscription = this.braintreeDataService.selectedSubscription;
 
 		this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
 		this.merchantAccountsArray = this.braintreeDataService.merchantAccountsArray;
@@ -54,7 +55,7 @@ class CreditCardComponent {
 			this.state.submitButtonText = 'Continue';
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
-			if (!this.customer.subscriptionPlan) {
+			if (!this.selectedSubscription.id) {
 				this._displayMessage('You need to choose a subscription plan before you proceed', 'warning');
 				this.state.message.linkText = 'Go to subscription page';
 				this.state.message.link = ROUTES.SUBSCRIPTION;

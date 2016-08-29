@@ -15,6 +15,7 @@ class SubscriptionPlansComponent {
 		};
 
 		this.customer = null;
+		this.selectedSubscription = this.braintreeDataService.selectedSubscription;
 	}
 
 	// Private methods
@@ -50,13 +51,7 @@ class SubscriptionPlansComponent {
 	// --------------------------------------------------
 	chooseSubscriptionPlan(subscriptionPlanModel) {
 		console.log('plan chosen', subscriptionPlanModel);
-
-		// TODO: Fix If a customer is already signed in and has a subscription plan
-		let customer = {
-			//newSubscriptionPlan: subscriptionPlanModel
-			subscriptionPlan: subscriptionPlanModel
-		};
-		this.braintreeDataService.updateCustomerData(customer);
+		this.braintreeDataService.updateSelectedSubscription(subscriptionPlanModel);
 
 		this.state.nextRoute = ROUTES.CUSTOMER;
 

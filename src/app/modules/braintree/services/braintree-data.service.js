@@ -53,6 +53,11 @@ export default class BraintreeService {
 			this._merchantAccounts.ISK
 		];
 
+		this._selectedSubscription = {
+			//firstBillingDate: '2016-09-29'
+			//selectedMerchantAccount: this._merchantAccounts.USD // TODO: Maybe Refactor components to use this instead of this._selectedMerchantAccount
+		};
+
 		this._selectedMerchantAccount = this._merchantAccounts.USD;
 
 		this._mode = {
@@ -85,6 +90,10 @@ export default class BraintreeService {
 
 	get merchantAccountsArray() {
 		return this._merchantAccountsArray;
+	}
+
+	get selectedSubscription() {
+		return this._selectedSubscription;
 	}
 
 	get selectedMerchantAccount() {
@@ -297,6 +306,10 @@ export default class BraintreeService {
 		};
 	}
 
+	initSelectedSubscriptionData() {
+		this._selectedSubscription = {};
+	}
+
 	/**
 	 * Process the payment
 	 * @param paymentData
@@ -309,6 +322,11 @@ export default class BraintreeService {
 	updateCustomerData(customerModel) {
 		this.setObjectValues(this._customerData.customer, customerModel);
 		console.log('customer model updated in service', customerModel);
+	}
+
+	updateSelectedSubscription(model) {
+		this.setObjectValues(this._selectedSubscription, model);
+		console.log('selected subscription model updated in service', model);
 	}
 
 	updateSubscription(currentSubscriptionId, subscription) {

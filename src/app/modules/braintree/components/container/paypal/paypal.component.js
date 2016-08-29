@@ -26,6 +26,7 @@ class PaypalComponent {
 
 		this.customer = null;
 		this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
+		this.selectedSubscription = this.braintreeDataService.selectedSubscription;
 	}
 
 	// Private methods
