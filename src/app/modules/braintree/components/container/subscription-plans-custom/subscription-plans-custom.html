@@ -16,12 +16,12 @@
 				<div class="Form-item" ng-if="$ctrl.merchantAccountsArray.length">
 					<label class="Form-itemLabel">Currency
 
-						<!--<select name="selectedCurrency" id="selectedCurrency"-->
-						        <!--class="Selectbox"-->
-						        <!--ng-change="$ctrl.showSelectedCurrencyPlans()"-->
-						        <!--ng-model="$ctrl.state.selectedCurrency"-->
-						        <!--ng-options="merchantAccount.name as merchantAccount.currencyName for merchantAccount in $ctrl.merchantAccountsArray track by merchantAccount.id">-->
-						<!--</select>-->
+					                              <!--<select name="selectedCurrency" id="selectedCurrency"-->
+					                              <!--class="Selectbox"-->
+					                              <!--ng-change="$ctrl.showSelectedCurrencyPlans()"-->
+					                              <!--ng-model="$ctrl.state.selectedCurrency"-->
+					                              <!--ng-options="merchantAccount.name as merchantAccount.currencyName for merchantAccount in $ctrl.merchantAccountsArray track by merchantAccount.id">-->
+					                              <!--</select>-->
 
 						<select name="selectedCurrency" id="selectedCurrency"
 						        class="Selectbox"
@@ -40,23 +40,30 @@
 		</div>
 
 		<div class="Grid-row">
-			<div class="Grid-col--4">
-				<ui-braintree-subscription-plan
-					button-css-modifier="'Button--primary Button--lg'"
-					button-text="'Select plan'"
-					currency="$ctrl.state.selectedCurrency"
-					subscription-plan="$ctrl.plansDisplayed.premiumThree"
-					item-css-class="'u-textCenter mt--9'"
-					format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
-					on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+			<div class="Grid-col--4 CustomPlan-col--premiumThree">
+				<div class="Panel">
+					<header class="CustomPlan-panelHeader">
+						<h2 class="CustomPlan-panelHeading">&nbsp;</h2>
+					</header>
+					<div class="CustomPlan-panelBody">
+						<ui-braintree-subscription-plan
+							button-css-modifier="'Button--primary Button--lg'"
+							button-text="'Select plan'"
+							currency="$ctrl.state.selectedCurrency"
+							subscription-plan="$ctrl.plansDisplayed.premiumThree"
+							item-css-class="'u-textCenter'"
+							format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
+							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+					</div>
+				</div>
 			</div>
 
-			<div class="Grid-col--4">
+			<div class="Grid-col--4 CustomPlan-col--premiumSix">
 				<div class="Panel">
-					<header class="Panel-header u-textCenter">
-						<h2 class="Heading--six Panel-heading Heading--light">Most popular</h2>
+					<header class="CustomPlan-panelHeader">
+						<h2 class="CustomPlan-panelHeading">Most popular</h2>
 					</header>
-					<div class="Panel-body Panel-body--highlight">
+					<div class="CustomPlan-panelBody">
 						<ui-braintree-subscription-plan
 							button-css-modifier="'Button--success Button--lg'"
 							button-text="'Select plan'"
@@ -70,34 +77,41 @@
 				</div>
 			</div>
 
-			<div class="Grid-col--4">
-				<ui-braintree-subscription-plan
-					button-css-modifier="'Button--primary Button--lg'"
-					button-text="'Select plan'"
-					currency="$ctrl.state.selectedCurrency"
-					subscription-plan="$ctrl.plansDisplayed.premiumTwelve"
-					item-css-class="'u-textCenter mt--9'"
-					format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
-					on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+			<div class="Grid-col--4 CustomPlan-col--premiumTwelve">
+				<div class="Panel">
+					<header class="CustomPlan-panelHeader">
+						<h2 class="CustomPlan-panelHeading">&nbsp;</h2>
+					</header>
+					<div class="CustomPlan-panelBody">
+						<ui-braintree-subscription-plan
+							button-css-modifier="'Button--primary Button--lg'"
+							button-text="'Select plan'"
+							currency="$ctrl.state.selectedCurrency"
+							subscription-plan="$ctrl.plansDisplayed.premiumTwelve"
+							item-css-class="'u-textCenter'"
+							format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
+							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+					</div>
+				</div>
 			</div>
 		</div>
 
 		<!--<hr class="Divider&#45;&#45;dotted">-->
 		<!--<div class="Grid-row Grid-row&#45;&#45;alignCenter">-->
-			<!--<div class="Grid-col&#45;&#45;12 ">-->
-				<!--<h3 class="Heading&#45;&#45;three Heading&#45;&#45;light">Premium for life?</h3>-->
-				<!--<h4 class="Heading&#45;&#45;five">Lifetime licence</h4>-->
-				<!--<h5 class="Heading&#45;&#45;three u-textWarning mb&#45;&#45;0">{{ $ctrl.state.selectedCurrency.currencySymbol }}{{ $ctrl.plansDisplayed.premiumLifetime.price }}</h5>-->
-				<!--<p class="mt&#45;&#45;0">One time payment</p>-->
-				<!--<button class="Button Button&#45;&#45;cta Button&#45;&#45;lg" ng-click="$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumLifetime)">-->
-					<!--Go All In!-->
-				<!--</button>-->
-			<!--</div>-->
+		<!--<div class="Grid-col&#45;&#45;12 ">-->
+		<!--<h3 class="Heading&#45;&#45;three Heading&#45;&#45;light">Premium for life?</h3>-->
+		<!--<h4 class="Heading&#45;&#45;five">Lifetime licence</h4>-->
+		<!--<h5 class="Heading&#45;&#45;three u-textWarning mb&#45;&#45;0">{{ $ctrl.state.selectedCurrency.currencySymbol }}{{ $ctrl.plansDisplayed.premiumLifetime.price }}</h5>-->
+		<!--<p class="mt&#45;&#45;0">One time payment</p>-->
+		<!--<button class="Button Button&#45;&#45;cta Button&#45;&#45;lg" ng-click="$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumLifetime)">-->
+		<!--Go All In!-->
+		<!--</button>-->
+		<!--</div>-->
 		<!--</div>-->
 
 		<hr class="Divider--dotted">
 
-		<div class="Grid-row Grid-row--alignCenter">
+		<div class="Grid-row Grid-row--alignCenter CustomPlan-row--premiumOne">
 			<div class="Grid-col--12">
 				<p>or<br> pay monthly<br>
 					<button class="Button Button--secondary" ng-click="$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumOne)">
