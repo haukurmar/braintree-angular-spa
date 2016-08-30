@@ -85,6 +85,9 @@ class SubscriptionPlansCustomComponent {
 		}
 
 		this._getAllSubscriptionPlans();
+
+		// Clear the selected subscription data TODO: Look into if we might need to do this
+		//this.braintreeDataService.initSelectedSubscriptionData();
 	}
 
 	_getAllSubscriptionPlans() {
@@ -97,7 +100,7 @@ class SubscriptionPlansCustomComponent {
 
 				_.each(response.data.plans, (plan) => {
 					switch (plan.id) {
-					// USD
+						// USD
 					case 'premiumOneUSD':
 						this.customPlans.USD.premiumOne = plan;
 						break;
@@ -114,7 +117,7 @@ class SubscriptionPlansCustomComponent {
 						this.customPlans.USD.premiumLifetime = plan;
 						break;
 
-					// EUR
+						// EUR
 					case 'premiumOneEUR':
 						this.customPlans.EUR.premiumOne = plan;
 						break;
@@ -131,7 +134,7 @@ class SubscriptionPlansCustomComponent {
 						this.customPlans.EUR.premiumLifetime = plan;
 						break;
 
-					// GBP
+						// GBP
 					case 'premiumOneGBP':
 						this.customPlans.GBP.premiumOne = plan;
 						break;
@@ -148,7 +151,7 @@ class SubscriptionPlansCustomComponent {
 						this.customPlans.GBP.premiumLifetime = plan;
 						break;
 
-					// ISK
+						// ISK
 					case 'premiumOneISK':
 						this.customPlans.ISK.premiumOne = plan;
 						break;
