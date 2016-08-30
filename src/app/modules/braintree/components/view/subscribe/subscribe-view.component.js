@@ -11,22 +11,28 @@ class SubscribeViewComponent {
 	$onInit() {
 		this.braintreeDataService.initMode('subscription');
 		let customer = {};
-		if(this.customerData) {
-			if(this.customerData.id) {
+		if (this.customerData) {
+			if (this.customerData.id) {
 				customer.id = this.customerData.id;
 			}
-			if(this.customerData.email) {
+			if (this.customerData.email) {
 				customer.email = this.customerData.email;
 			}
-			if(this.customerData.firstName) {
+			if (this.customerData.firstName) {
 				customer.firstName = this.customerData.firstName;
 			}
-			if(this.customerData.lastName) {
+			if (this.customerData.lastName) {
 				customer.lastName = this.customerData.lastName;
 			}
 		}
 
 		this.braintreeDataService.updateCustomerData(customer);
+
+		// If some overrides or default values set to plans
+		// For example when we want
+		if (this.customPlansDefaults) {
+			this.braintreeDataService.setCustomPlansDefaults(this.customPlansDefaults);
+		}
 	}
 
 	// Public viewModel methods
@@ -36,9 +42,10 @@ class SubscribeViewComponent {
 // Component decorations
 let component = {
 	bindings: {
-		customerData: '<'
+		customerData: '<',
+		customPlansDefaults: '<'
 	},
-	template : template,
+	template: template,
 	controller: SubscribeViewComponent
 };
 
