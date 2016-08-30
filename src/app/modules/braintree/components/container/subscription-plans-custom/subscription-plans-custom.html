@@ -43,7 +43,10 @@
 			<div class="Grid-col--4 CustomPlan-col--premiumThree">
 				<div class="Panel">
 					<header class="CustomPlan-panelHeader">
-						<h2 class="CustomPlan-panelHeading">&nbsp;</h2>
+						<h2 class="CustomPlan-panelHeading">
+							<span ng-if="$ctrl.plansDisplayed.premiumThree.customPlanTitle" ng-bind="$ctrl.plansDisplayed.premiumTwelve.customPlanTitle"></span>
+							<span ng-if="!$ctrl.plansDisplayed.premiumThree.customPlanTitle">&nbsp;</span>
+						</h2>
 					</header>
 					<div class="CustomPlan-panelBody">
 						<ui-braintree-subscription-plan
@@ -61,7 +64,10 @@
 			<div class="Grid-col--4 CustomPlan-col--premiumSix">
 				<div class="Panel">
 					<header class="CustomPlan-panelHeader">
-						<h2 class="CustomPlan-panelHeading">Most popular</h2>
+						<h2 class="CustomPlan-panelHeading">
+							<span ng-if="$ctrl.plansDisplayed.premiumSix.customPlanTitle" ng-bind="$ctrl.plansDisplayed.premiumTwelve.customPlanTitle"></span>
+							<span ng-if="!$ctrl.plansDisplayed.premiumSix.customPlanTitle">Most popular</span>
+						</h2>
 					</header>
 					<div class="CustomPlan-panelBody">
 						<ui-braintree-subscription-plan
@@ -80,7 +86,10 @@
 			<div class="Grid-col--4 CustomPlan-col--premiumTwelve">
 				<div class="Panel">
 					<header class="CustomPlan-panelHeader">
-						<h2 class="CustomPlan-panelHeading">&nbsp;</h2>
+						<h2 class="CustomPlan-panelHeading">
+							<span ng-if="$ctrl.plansDisplayed.premiumTwelve.customPlanTitle" ng-bind="$ctrl.plansDisplayed.premiumTwelve.customPlanTitle"></span>
+							<span ng-if="!$ctrl.plansDisplayed.premiumTwelve.customPlanTitle">&nbsp;</span>
+						</h2>
 					</header>
 					<div class="CustomPlan-panelBody">
 						<ui-braintree-subscription-plan

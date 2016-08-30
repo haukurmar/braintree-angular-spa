@@ -4,11 +4,18 @@
 			<span ng-bind="$ctrl.subscriptionPlan.name"></span>
 		</h3>
 		<h4 class="Heading--seven Heading--light mt--0">
-			{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}
+			<span ng-if="$ctrl.subscriptionPlan.offerPrice">{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.offerPrice, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}</span>
+			<span ng-if="$ctrl.subscriptionPlan.offerPrice">(</span>
+			<span ng-class="{'u-textStrikeThrough u-textDanger': $ctrl.subscriptionPlan.offerPrice}">
+				{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}
+			</span>
+			<span ng-if="$ctrl.subscriptionPlan.offerPrice">)</span>
 		</h4>
 	</header>
 	<hr class="Divider--dotted">
-	<h4 class="Heading--four u-textSuccess mb--0" ng-bind="$ctrl.subscriptionPlan.description"></h4>
+	<h4 class="Heading--four u-textSuccess mb--0">
+		<span ng-class="{'u-textStrikeThrough u-textDanger': $ctrl.subscriptionPlan.offerPrice}" ng-bind="$ctrl.subscriptionPlan.description"></span>
+	</h4>
 	<p class="mt--0">/month</p>
 	<button class="Button {{ $ctrl.buttonCssModifier }}"
 	        ng-click="$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})"

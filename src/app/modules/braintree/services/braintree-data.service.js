@@ -53,20 +53,24 @@ export default class BraintreeService {
 			this._merchantAccounts.ISK
 		];
 
-		this._selectedSubscription = {
-			//currencyDiscounts: [],
-			//firstBillingDate: '2016-09-29'
-			//selectedMerchantAccount: this._merchantAccounts.USD // TODO: Maybe Refactor components to use this instead of this._selectedMerchantAccount
-		};
+		this._selectedSubscription = {};
 
 		this._selectedMerchantAccount = this._merchantAccounts.USD;
-
 		this._mode = {
 			subscription: false
 		};
 
-		window.customer = this._customerData;
-		window.selectedSubscription = this._selectedSubscription;
+		// Object to be used to override or add to customPlans
+		// Example:
+		// {
+		// 	USD: {premiumTwelve: {customPlanTitle: 'FREE One Year', firstBillingDate: '2016-09-29', offerPrice: '0'}},
+		// 	EUR: {premiumTwelve: {customPlanTitle: 'FREE One Year', firstBillingDate: '2016-09-29', offerPrice: '0'}},
+		// }
+		this._customPlansDefaults = null;
+
+		// window.customer = this._customerData;
+		// window.selectedSubscription = this._selectedSubscription;
+		// window.customPlansDefaults = this._customPlansDefaults;
 	}
 
 	// Private methods
@@ -84,6 +88,10 @@ export default class BraintreeService {
 
 	get customer() {
 		return this._customerData.customer;
+	}
+
+	get customPlansDefaults() {
+		return this._customPlansDefaults;
 	}
 
 	get merchantAccounts() {
@@ -126,7 +134,7 @@ export default class BraintreeService {
 	}
 
 	addCurrencyDiscountsToSelectedSubscription(discountArray) {
-		if(!this._selectedSubscription.currencyDiscounts) {
+		if (!this._selectedSubscription.currencyDiscounts) {
 			this._selectedSubscription.currencyDiscounts = [];
 		}
 
@@ -136,11 +144,11 @@ export default class BraintreeService {
 	}
 
 	addDiscountToSelectedSubscription(discountModel) {
-		if(!this._selectedSubscription.discounts) {
+		if (!this._selectedSubscription.discounts) {
 			this._selectedSubscription.discounts = {};
 		}
 
-		if(!this._selectedSubscription.discounts.add) {
+		if (!this._selectedSubscription.discounts.add) {
 			this._selectedSubscription.discounts.add = [];
 		}
 
@@ -224,7 +232,7 @@ export default class BraintreeService {
 		let currency;
 		let merchantAccount = _.find(this._merchantAccountsArray, {id: merchantAccountId});
 
-		if(merchantAccount) {
+		if (merchantAccount) {
 			currency = merchantAccount.currencyIsoCode;
 		}
 
@@ -232,7 +240,6 @@ export default class BraintreeService {
 	}
 
 	getSubscriptionPlansForCurrency(currencyIsoCode) {
-		console.log('getSubscriptionPlansForCurrency...');
 		let responseObject = {
 			data: {
 				plans: [],
@@ -375,6 +382,42 @@ export default class BraintreeService {
 
 	setSelectedMerchantAccount(account) {
 		this._selectedMerchantAccount = account;
+	}
+
+	setCustomPlansDefaults(defaults) {
+		if (!this._customPlansDefaults) {
+			this._customPlansDefaults = {};
+		}
+
+		this.setObjectValues(this._customPlansDefaults, defaults);
+	}
+
+	/**
+	 * Recursively merge properties of two objects (also overwrites if value is in source)
+	 * @param source
+	 * @param dest
+	 * @returns {*}
+	 */
+	mergeObjectsRecursive(source, dest) {
+		let self = this;
+		for (var p in source) {
+			try {
+				// Property in destination object set; update its value.
+				if (source[p].constructor == Object) {
+					dest[p] = self.mergeObjectsRecursive(dest[p], source[p]);
+
+				} else {
+					dest[p] = source[p];
+
+				}
+
+			} catch (e) {
+				// Property in destination object not set; create it and set its value.
+				dest[p] = source[p];
+			}
+		}
+
+		return dest;
 	}
 
 	// TODO: Move somewhere else

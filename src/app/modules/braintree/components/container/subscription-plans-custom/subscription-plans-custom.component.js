@@ -59,6 +59,9 @@ class SubscriptionPlansCustomComponent {
 			},
 		};
 
+		// If overrides are set (for example firstBillingDate and such)
+		this._customPlansDefaults = this.braintreeDataService._customPlansDefaults;
+
 		this.plansDisplayed = {
 			premiumOne: {},
 			premiumThree: {},
@@ -170,6 +173,9 @@ class SubscriptionPlansCustomComponent {
 					}
 				});
 
+				// If some overrides has been set externally
+				this._setCustomPlansDefaultValues();
+
 				this.showSelectedCurrencyPlans(this.selectedMerchantAccount.id);
 				this.state.loading = false;
 			},
@@ -180,6 +186,12 @@ class SubscriptionPlansCustomComponent {
 				this.state.error = true;
 			}
 		);
+	}
+
+	_setCustomPlansDefaultValues() {
+		if(this._customPlansDefaults) {
+			this.customPlans = this.braintreeDataService.mergeObjectsRecursive(this._customPlansDefaults, this.customPlans);
+		}
 	}
 
 	formatCurrencyAmount(amount, currencyIsoCode) {
