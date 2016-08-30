@@ -47,6 +47,13 @@ class SubscriptionOverviewComponent {
 		}
 
 		// Find if there are any currency discounts
+		// Note: expects an object like this: which will change to an actual inheritFromId: SomeDiscountCodePrefixUSD for ex.
+		// [
+		// 	{currencyIsoCode: 'EUR', discountCodePrefix: 'SomeDiscountCodePrefix'},
+		// 	{currencyIsoCode: 'USD', discountCodePrefix: 'SomeDiscountCodePrefix'},
+		// 	{currencyIsoCode: 'GBP', discountCodePrefix: 'SomeDiscountCodePrefix'},
+		// 	{currencyIsoCode: 'ISK', discountCodePrefix: 'SomeDiscountCodePrefix'}
+		// ];
 		if (this.selectedSubscription.currencyDiscounts && this.selectedSubscription.currencyDiscounts.length) {
 			// Get the currencyIsoCode for the selected merchant account
 			let selectedCurrency = this.braintreeDataService.getCurrencyForMerchantAccountId(this.selectedMerchantAccount.id);
