@@ -14,15 +14,14 @@
 
 		<div class="Form-item" ng-if="!$ctrl.hideAmount">
 			<label class="Form-itemLabel">Amount<br>
-				<input type="text" class="Textbox" ng-model="$ctrl.paymentModel.amount" size="8" ng-required="true" />
+				<input type="text" class="Textbox fn-amount" ng-model="$ctrl.paymentModel.amount" size="8" ng-required="true" />
 			</label>
 		</div>
 
 		<div class="Form-item">
 			<label class="Form-itemLabel">Card Number<br>
 			<input type="text"
-			       style="width: 190px"
-			       class="Textbox"
+			       class="Textbox fn-creditCardNumber"
 			       ng-model="$ctrl.paymentModel.creditCardNumber"
 			       size="20"
 			       payments-validate="card"
@@ -37,7 +36,7 @@
 
 		<div class="Form-item">
 			<label class="Form-itemLabel">Expiration Date<br>
-			<input type="text" class="Textbox"
+			<input type="text" class="Textbox fn-expiryDate"
 			       ng-model="$ctrl.paymentModel.expirationDate"
 			       payments-validate="expiry"
 			       payments-format="expiry"
@@ -50,7 +49,7 @@
 		<div class="Form-item">
 			<label class="Form-itemLabel">CVV<br>
 			<input type="text"
-			       class="Textbox"
+			       class="Textbox fn-cvv"
 			       ng-model="$ctrl.paymentModel.cvv"
 			       payments-validate="cvc"
 			       payments-type-model="$ctrl.type"

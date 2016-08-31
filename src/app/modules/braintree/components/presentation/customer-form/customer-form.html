@@ -1,19 +1,19 @@
 <form name="customer" ng-submit="$ctrl.onSubmit({customerModel: $ctrl.customerModel})">
 	<div class="Form-item">
 		<label class="Form-itemLabel" for="txtFirstName">First name</label>
-		<input type="text" class="Textbox" id="txtFirstName" ng-model="$ctrl.customerModel.firstName" required placeholder="First name" />
+		<input type="text" class="Textbox fn-firstName" id="txtFirstName" ng-model="$ctrl.customerModel.firstName" required placeholder="First name" />
 	</div>
 	<div class="Form-item">
 		<label class="Form-itemLabel" for="txtLastName">Last name</label>
-		<input type="text" class="Textbox" id="txtLastName" ng-model="$ctrl.customerModel.lastName" required placeholder="Last name" />
+		<input type="text" class="Textbox fn-lastName" id="txtLastName" ng-model="$ctrl.customerModel.lastName" required placeholder="Last name" />
 	</div>
 
 	<div class="Form-item">
 		<label class="Form-itemLabel" for="txtEmail">Email</label>
-		<input type="email" class="Textbox" id="txtEmail" ng-model="$ctrl.customerModel.email" required placeholder="Email address" />
+		<input type="email" class="Textbox fn-email" id="txtEmail" ng-model="$ctrl.customerModel.email" required placeholder="Email address" />
 	</div>
 
-	<button class="Button Button--primary" type="submit">{{ $ctrl.submitButtonText }}</button>
+	<button class="Button Button--primary fn-customerSubmit" type="submit">{{ $ctrl.submitButtonText }}</button>
 	<span ng-if="$ctrl.backButtonVisible">
 			| <a href="" ng-click="$ctrl.routeTo({route: $ctrl.backButtonRoute})">{{ $ctrl.backButtonText }}</a>
 		</span>
