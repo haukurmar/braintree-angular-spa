@@ -74,7 +74,7 @@ class CreditCardComponent {
 			}
 		}
 
-		if (!customer.clientToken) {
+		if (!this.customer.clientToken) {
 			this.braintreeDataService.getClientToken().then(
 				(response) => {
 					this.braintreeDataService.$braintree.setup(response.data.client_token, "custom");
