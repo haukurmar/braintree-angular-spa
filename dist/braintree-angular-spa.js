@@ -219,7 +219,7 @@
 		_createClass(AppComponent, [{
 			key: '$onInit',
 			value: function $onInit() {
-				console.log('App Component...');
+				//console.log('App Component...');
 			}
 		}]);
 	
@@ -638,7 +638,7 @@
 		}, {
 			key: 'close',
 			value: function close() {
-				console.log('Close');
+				//console.log('Close');
 				this.modalVisible = false;
 			}
 		}]);
@@ -739,7 +739,7 @@
 					}
 	
 					if (!elToToggle) {
-						console.log('Element to toggle was not found');
+						//console.log('Element to toggle was not found');
 						return;
 					}
 	
@@ -1043,12 +1043,12 @@
 							paymentMethodNonce: nonce,
 							verificationMerchantAccountId: paymentModel.verificationMerchantAccountId
 						};
-						console.log('Vault payment data', paymentMethodModel);
+						//console.log('Vault payment data', paymentMethodModel);
 	
 						// Save to Vault
 						_this3.createPaymentMethod(paymentMethodModel).then(function (response) {
 							_this3.updateCustomerData(response.data.customer);
-							console.log('Payment method created!', response);
+							//console.log('Payment method created!', response);
 							resolve(response);
 						}, function (error) {
 							reject('Failed to create payment method:' + error.data.message);
@@ -1184,7 +1184,7 @@
 							resolve(nonce);
 						});
 					}, function (error) {
-						console.log('Error: cannot connect to server. Please try again. Erromessage: ' + error.data);
+						//console.log('Error: cannot connect to server. Please try again. Erromessage: ' + error.data);
 						reject(error);
 					});
 				});
@@ -1230,13 +1230,13 @@
 			key: 'updateCustomerData',
 			value: function updateCustomerData(customerModel) {
 				this.setObjectValues(this._customerData.customer, customerModel);
-				console.log('customer model updated in service', customerModel);
+				//console.log('customer model updated in service', customerModel);
 			}
 		}, {
 			key: 'updateSelectedSubscription',
 			value: function updateSelectedSubscription(model) {
 				this.setObjectValues(this._selectedSubscription, model);
-				console.log('selected subscription model updated in service', model);
+				//console.log('selected subscription model updated in service', model);
 			}
 		}, {
 			key: 'updateSubscription',
@@ -12919,7 +12919,9 @@
 				message: {
 					text: '',
 					link: '',
-					linkText: ''
+					linkText: '',
+					descriptionHtml: '',
+					type: ''
 				},
 				showForm: true,
 				submitButtonText: 'Create customer',
@@ -12960,6 +12962,7 @@
 					// If the user has not chosen a subscription plan (or refreshed the page)
 					if (!this.selectedSubscription.id) {
 						this.state.message.text = 'You need to choose a subscription plan before you proceed';
+						this.state.message.type = 'warning';
 						this.state.message.linkText = 'Go to subscription page';
 						this.state.message.link = _braintreeConstants.ROUTES.SUBSCRIPTION;
 						this.state.showForm = false;
@@ -12987,7 +12990,7 @@
 				this.state.loading.text = 'Fetching customer information...';
 				//Get Customer if logged in
 				this.braintreeDataService.getCustomer(customerId).then(function (response) {
-					console.log('success', response);
+					//console.log('success', response);
 					_this.newCustomer = false;
 					_this.braintreeDataService.updateCustomerData(response.data.customer);
 					_this.customerModel = response.data.customer;
@@ -12995,7 +12998,7 @@
 	
 					// TODO: What to do here?
 				}, function (error) {
-					console.log(error.data.message);
+					//console.log(error.data.message);
 					_this.newCustomer = true;
 					_this.state.loading.isLoading = false;
 				});
@@ -13036,14 +13039,14 @@
 						_this2.state.loading.isLoading = false;
 						_this2.state.showform = true;
 	
-						console.log('Error message', error.data.message);
-						console.log('Errors:', error.data.errors);
+						//console.log('Error message', error.data.message);
+						//console.log('Errors:', error.data.errors);
 					});
 				} else {
-					this.braintreeDataService.updateCustomerData(customerModel);
-					// TODO: Update customer in Braintree
-					this.routeTo([this.routes.nextRoute]);
-				}
+						this.braintreeDataService.updateCustomerData(customerModel);
+						// TODO: Update customer in Braintree
+						this.routeTo([this.routes.nextRoute]);
+					}
 			}
 		}]);
 	
@@ -13065,7 +13068,7 @@
 /* 102 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/customer'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your contact information</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-customer-form\n\t\t\tcustomer-model=\"$ctrl.customerModel\"\n\t\t\ton-submit=\"$ctrl.saveCustomer(customerModel)\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-customer-form>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/customer'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span><br>\n\n\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n</section>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your contact information</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-customer-form\n\t\t\tcustomer-model=\"$ctrl.customerModel\"\n\t\t\ton-submit=\"$ctrl.saveCustomer(customerModel)\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-customer-form>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 103 */
@@ -13140,7 +13143,8 @@
 					text: '',
 					link: '',
 					linkText: '',
-					descriptionHtml: ''
+					descriptionHtml: '',
+					type: ''
 				},
 				paid: false,
 				showForm: true,
@@ -13190,7 +13194,7 @@
 	
 					// If the user has no customer ID
 					if (!this.customer.id) {
-						this._displayMessage('You need to fill out customer information before you proceed');
+						this._displayMessage('You need to fill out customer information before you proceed', 'warning');
 						this.state.message.linkText = 'Go to customer page';
 						this.state.message.link = _braintreeConstants.ROUTES.CUSTOMER;
 						this.state.showForm = false;
@@ -13198,7 +13202,7 @@
 					}
 				}
 	
-				if (!customer.clientToken) {
+				if (!this.customer.clientToken) {
 					this.braintreeDataService.getClientToken().then(function (response) {
 						_this.braintreeDataService.$braintree.setup(response.data.client_token, "custom");
 						var customer = {
@@ -13274,7 +13278,7 @@
 	
 				// Send request to get token, then use the token to tokenize credit card info and verify the card
 				this.braintreeDataService.createVaultedPayment(customerId, paymentModel).then(function (response) {
-					console.log('from vaultedPayment', response);
+					//console.log('from vaultedPayment', response);
 					_this2._stopLoading();
 					_this2.state.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
 					_this2.routeTo([_this2.state.nextRoute]);
@@ -13323,7 +13327,7 @@
 					};
 	
 					_this3.braintreeDataService.processPayment(paymentData).then(function (response) {
-						console.log(response.data.success);
+						//console.log(response.data.success);
 						if (response.data.success) {
 							_this3.state.paid = true;
 							_this3.state.error = false;
@@ -13413,7 +13417,7 @@
 		_createClass(DropinComponent, [{
 			key: '$onInit',
 			value: function $onInit() {
-				console.log('Braintree Dropin Component...');
+				//console.log('Braintree Dropin Component...');
 				this._getToken();
 			}
 		}, {
@@ -13422,7 +13426,7 @@
 				var _this = this;
 	
 				this.braintreeDataService.getClientToken().then(function (response) {
-					console.log('res', response.data);
+					//console.log('res', response.data);
 	
 					_this.braintreeDataService.$braintree.setup(response.data.client_token, 'dropin', {
 						// id of html tag for braintree dropin container
@@ -13439,7 +13443,7 @@
 	
 							// Process payment
 							_this.braintreeDataService.processPayment(paymentData).then(function (response) {
-								console.log('Success:', response.data);
+								//console.log('Success:', response.data);
 	
 								if (response.data.success) {
 									_this.message = 'Payment was authorized!';
@@ -13584,11 +13588,11 @@
 						headless: true
 					},
 					onReady: function onReady(integration) {
-						console.log('Paypal is ready');
+						//console.log('Paypal is ready');
 						_this2._checkout = integration;
 					},
 					onAuthorizationDismissed: function onAuthorizationDismissed(obj) {
-						console.log('onAuthorizationDismissed', obj);
+						//console.log('onAuthorizationDismissed', obj);
 					},
 					onPaymentMethodReceived: function onPaymentMethodReceived(obj) {
 						_this2._createPaymentOption(obj);
@@ -13600,23 +13604,23 @@
 			value: function _createPaymentOption(paymentMethod) {
 				var _this3 = this;
 	
-				console.log('onPaymentMethodReceived', paymentMethod);
+				//console.log('onPaymentMethodReceived', paymentMethod);
 				var paymentMethodModel = {
 					customerId: this.braintreeDataService.customer.id,
 					paymentMethodNonce: paymentMethod.nonce
 				};
 	
-				console.log('Paypal paymentModel:', paymentMethodModel);
+				//console.log('Paypal paymentModel:', paymentMethodModel);
 	
 				this.braintreeDataService.createPaymentMethod(paymentMethodModel).then(function (response) {
 					_this3.braintreeDataService.updateCustomerData(response.data.customer);
 	
 					_this3.routes.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
 					_this3.routeTo([_this3.routes.nextRoute]);
-					console.log('Paypal Payment method created!', response);
+					//console.log('Paypal Payment method created!', response);
 				}, function (error) {
 					_this3.state.message.text = 'Failed to create payment method:' + error.data.message;
-					console.log('Failed to create payment method:', error);
+					//console.log('Failed to create payment method:', error);
 				});
 			}
 		}, {
@@ -13733,14 +13737,14 @@
 						headless: true
 					},
 					onCancelled: function onCancelled(obj) {
-						console.log('cancelled', obj);
+						//console.log('cancelled', obj);
 					},
 					onReady: function onReady(integration) {
-						console.log('Paypal button is ready');
+						//console.log('Paypal button is ready');
 						_this2._checkout = integration;
 					},
 					onAuthorizationDismissed: function onAuthorizationDismissed(obj) {
-						console.log('onAuthorizationDismissed', obj);
+						//console.log('onAuthorizationDismissed', obj);
 					},
 					onPaymentMethodReceived: function onPaymentMethodReceived(obj) {
 						_this2._createPaymentOption(obj);
@@ -13752,7 +13756,7 @@
 			value: function _createPaymentOption(paymentMethod) {
 				var _this3 = this;
 	
-				console.log('onPaymentMethodReceived', paymentMethod);
+				//console.log('onPaymentMethodReceived', paymentMethod);
 				var paymentMethodModel = {
 					customerId: this.braintreeDataService.customer.id,
 					paymentMethodNonce: paymentMethod.nonce
@@ -13762,10 +13766,10 @@
 					_this3.braintreeDataService.updateCustomerData(response.data.customer);
 					_this3.onFinish({ paymentModel: response.data.customer.paymentMethod });
 	
-					console.log('Paypal Payment method created!', response);
+					//console.log('Paypal Payment method created!', response);
 				}, function (error) {
 					_this3.state.message.text = 'Failed to create payment method:' + error.data.message;
-					console.log('Failed to create payment method:', error);
+					//console.log('Failed to create payment method:', error);
 				});
 			}
 		}, {
@@ -13887,7 +13891,7 @@
 		}, {
 			key: 'chooseSubscriptionPlan',
 			value: function chooseSubscriptionPlan(subscriptionPlanModel) {
-				console.log('plan chosen', subscriptionPlanModel);
+				//console.log('plan chosen', subscriptionPlanModel);
 				this.braintreeDataService.updateSelectedSubscription(subscriptionPlanModel);
 	
 				this.state.nextRoute = _braintreeConstants.ROUTES.CUSTOMER;
@@ -14164,7 +14168,7 @@
 		}, {
 			key: 'showSelectedCurrencyPlans',
 			value: function showSelectedCurrencyPlans(merchantAccountId) {
-				console.log('this.state.selectedCurrencyModel', this.state.selectedCurrencyModel);
+				//console.log('this.state.selectedCurrencyModel', this.state.selectedCurrencyModel);
 	
 				switch (merchantAccountId) {
 					case this.braintreeDataService.merchantAccounts.USD.id:
@@ -14200,7 +14204,7 @@
 		}, {
 			key: 'chooseSubscriptionPlan',
 			value: function chooseSubscriptionPlan(subscriptionPlanModel) {
-				console.log('plan chosen', subscriptionPlanModel);
+				//console.log('plan chosen', subscriptionPlanModel);
 				this.braintreeDataService.updateSelectedSubscription(subscriptionPlanModel);
 	
 				this.state.nextRoute = _braintreeConstants.ROUTES.CUSTOMER;
@@ -14362,13 +14366,13 @@
 						// Clear the customer data
 						//this.braintreeDataService.initCustomerData();
 					} else {
-							console.log('Error creating a sub', response.data.message);
+							//console.log('Error creating a sub', response.data.message);
 							// TODO: Handle different failures maybe?
 							_this.message = 'An error occurred creating a subscription: ' + response.data.message;
 							_this.state.loading = false;
 						}
 				}, function (error) {
-					console.log('Error creating a subcription', error);
+					//console.log('Error creating a subcription', error);
 					_this.message = error.data.message;
 					_this.state.loading = false;
 				});
@@ -14435,10 +14439,18 @@
 	
 			// Used in template
 			this.state = {
+				message: {
+					text: '',
+					link: '',
+					linkText: '',
+					descriptionHtml: '',
+					type: ''
+				},
 				routes: {
 					nextRoute: '',
 					subscription: _braintreeConstants.ROUTES.SUBSCRIPTION
 				},
+				showForm: true,
 				mode: {
 					subscription: false
 				}
@@ -14464,6 +14476,27 @@
 			value: function $onInit() {
 				this.customer = this.braintreeDataService.customer;
 				this.state.mode = this.braintreeDataService.mode;
+	
+				// Subscription mode
+				if (this.state.mode.subscription) {
+					// If the user has not chosen a subscription plan (or refreshed the page)
+					if (!this.selectedSubscription.id) {
+						this._displayMessage('You need to choose a subscription plan before you proceed', 'warning');
+						this.state.message.linkText = 'Go to subscription page';
+						this.state.message.link = _braintreeConstants.ROUTES.SUBSCRIPTION;
+						this.state.showForm = false;
+						return;
+					}
+	
+					// If the user has no customer ID
+					if (!this.customer.id) {
+						this._displayMessage('You need to fill out customer information before you proceed', 'warning');
+						this.state.message.linkText = 'Go to customer page';
+						this.state.message.link = _braintreeConstants.ROUTES.CUSTOMER;
+						this.state.showForm = false;
+						return;
+					}
+				}
 			}
 	
 			// Public viewModel methods
@@ -14490,6 +14523,18 @@
 				this.routeTo([this.state.nextRoute]);
 			}
 		}, {
+			key: '_clearMessage',
+			value: function _clearMessage() {
+				this.state.message.text = '';
+			}
+		}, {
+			key: '_displayMessage',
+			value: function _displayMessage(text, type, descriptionHtml) {
+				this.state.message.type = type;
+				this.state.message.text = text;
+				this.state.message.descriptionHtml = descriptionHtml;
+			}
+		}, {
 			key: 'routeTo',
 			value: function routeTo(path) {
 				this.braintreeAppService.routeTo(path);
@@ -14514,7 +14559,7 @@
 /* 119 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Choose your payment method</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t<h2 class=\"Heading--five\">Stored payment methods</h2>\n\t\t\t<div class=\"Grid-row\">\n\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\">\n\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\ton-card-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"\n\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"></ui-braintree-payment-method>\n\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<h2 class=\"Heading--five\" ng-if=\"$ctrl.customer.paymentMethods['0']\">New payment method</h2>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('cards')\">Credit or Debit card</button>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('paypal')\">Paypal</button>\n\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span><br>\n\n\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n</section>\n\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Choose your payment method</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t<h2 class=\"Heading--five\">Stored payment methods</h2>\n\t\t\t<div class=\"Grid-row\">\n\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\">\n\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\ton-card-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"\n\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"></ui-braintree-payment-method>\n\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<h2 class=\"Heading--five\" ng-if=\"$ctrl.customer.paymentMethods['0']\">New payment method</h2>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('cards')\">Credit or Debit card</button>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('paypal')\">Paypal</button>\n\n\t</div>\n</section>\n"
 
 /***/ },
 /* 120 */
@@ -14590,7 +14635,7 @@
 			key: '$onInit',
 			value: function $onInit() {
 				var customer = {};
-				console.log('this.customerData', this.customerData);
+				//console.log('this.customerData', this.customerData);
 				if (this.customerData) {
 					if (this.customerData.id) {
 						customer.id = this.customerData.id;
@@ -14602,7 +14647,7 @@
 	
 				// Get Customer from service
 				this.customer = this.braintreeDataService.customer;
-				console.log('customer', this.customer);
+				//console.log('customer', this.customer);
 	
 				// If we get a customerId, we fetch it from API
 				if (this.customer.id) {
@@ -14762,7 +14807,7 @@
 			value: function changeSubscriptionPlan(newSubscriptionPlan, currentSubscription) {
 				var _this3 = this;
 	
-				console.log('plan chosen', newSubscriptionPlan, currentSubscription);
+				//console.log('plan chosen', newSubscriptionPlan, currentSubscription);
 	
 				this._clearMessage();
 				this._startLoading('Updating subscription plan...');
@@ -14810,7 +14855,7 @@
 	
 							// Create a new subscription
 							_this3.braintreeDataService.createSubscription(newSubscriptionData).then(function (response) {
-								console.log('response', response);
+								//console.log('response', response);
 								if (response.data.success) {
 									_this3.getCustomerDetails(_this3.customer.id).then(function () {
 										var descriptionHtml = '';
@@ -14827,13 +14872,13 @@
 										_this3._displayMessage('Your subscription has been changed to the new plan.', 'success', descriptionHtml);
 									});
 								} else {
-									console.log('Error creating a sub', response.data.message);
+									//console.log('Error creating a sub', response.data.message);
 									// TODO: Handle different failures maybe?
 									_this3._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'danger');
 									_this3._stopLoading();
 								}
 							}, function (error) {
-								console.log('Error creating a subcription', error);
+								//console.log('Error creating a subcription', error);
 								_this3._displayMessage(error.data.message, 'danger');
 								_this3._stopLoading();
 							});
@@ -14974,7 +15019,7 @@
 						_this8._displayMessage(messageSuccessText, 'success');
 					});
 				}, function (error) {
-					console.log(error.data.message);
+					//console.log(error.data.message);
 					_this8._stopLoading();
 					_this8._displayMessage(error.data.message, 'danger');
 				});
@@ -15050,7 +15095,7 @@
 /* 123 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n\t<form name=\"payment\" ng-submit=\"$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})\">\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccounts.length && !$ctrl.selectedMerchantAccount\">\n\t\t\t<label class=\"Form-itemLabel\">Currency</label>\n\t\t\t<label ng-repeat=\"merchantAccount in $ctrl.merchantAccounts\">\n\t\t\t\t<input type=\"radio\" name=\"merchantAccountId\" ng-value=\"merchantAccount.id\" ng-model=\"$ctrl.paymentModel.merchantAccountId\" required>\n\t\t\t\t{{ merchantAccount.currencyIsoCode }}\n\t\t\t</label>\n\t\t</div>\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.selectedMerchantAccount && !$ctrl.hideCurrency\">\n\t\t\t<label class=\"Form-itemLabel\">Currency</label>\n\t\t\t{{ $ctrl.selectedMerchantAccount.currencyIsoCode }}\n\t\t</div>\n\n\t\t<div class=\"Form-item\" ng-if=\"!$ctrl.hideAmount\">\n\t\t\t<label class=\"Form-itemLabel\">Amount<br>\n\t\t\t\t<input type=\"text\" class=\"Textbox\" ng-model=\"$ctrl.paymentModel.amount\" size=\"8\" ng-required=\"true\" />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Card Number<br>\n\t\t\t<input type=\"text\"\n\t\t\t       style=\"width: 190px\"\n\t\t\t       class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.creditCardNumber\"\n\t\t\t       size=\"20\"\n\t\t\t       payments-validate=\"card\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"card\"\n\t\t\t       payments-length=\"card\"\n\t\t\t       ng-class=\"$ctrl.type\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Expiration Date<br>\n\t\t\t<input type=\"text\" class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.expirationDate\"\n\t\t\t       payments-validate=\"expiry\"\n\t\t\t       payments-format=\"expiry\"\n\t\t\t       size=\"8\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">CVV<br>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.cvv\"\n\t\t\t       payments-validate=\"cvc\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"cvc\"\n\t\t\t       size=\"4\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t</form>\n</section>\n"
+	module.exports = "<section>\n\t<form name=\"payment\" ng-submit=\"$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})\">\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccounts.length && !$ctrl.selectedMerchantAccount\">\n\t\t\t<label class=\"Form-itemLabel\">Currency</label>\n\t\t\t<label ng-repeat=\"merchantAccount in $ctrl.merchantAccounts\">\n\t\t\t\t<input type=\"radio\" name=\"merchantAccountId\" ng-value=\"merchantAccount.id\" ng-model=\"$ctrl.paymentModel.merchantAccountId\" required>\n\t\t\t\t{{ merchantAccount.currencyIsoCode }}\n\t\t\t</label>\n\t\t</div>\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.selectedMerchantAccount && !$ctrl.hideCurrency\">\n\t\t\t<label class=\"Form-itemLabel\">Currency</label>\n\t\t\t{{ $ctrl.selectedMerchantAccount.currencyIsoCode }}\n\t\t</div>\n\n\t\t<div class=\"Form-item\" ng-if=\"!$ctrl.hideAmount\">\n\t\t\t<label class=\"Form-itemLabel\">Amount<br>\n\t\t\t\t<input type=\"text\" class=\"Textbox fn-amount\" ng-model=\"$ctrl.paymentModel.amount\" size=\"8\" ng-required=\"true\" />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Card Number<br>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox fn-creditCardNumber\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.creditCardNumber\"\n\t\t\t       size=\"20\"\n\t\t\t       payments-validate=\"card\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"card\"\n\t\t\t       payments-length=\"card\"\n\t\t\t       ng-class=\"$ctrl.type\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Expiration Date<br>\n\t\t\t<input type=\"text\" class=\"Textbox fn-expiryDate\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.expirationDate\"\n\t\t\t       payments-validate=\"expiry\"\n\t\t\t       payments-format=\"expiry\"\n\t\t\t       size=\"8\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">CVV<br>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox fn-cvv\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.cvv\"\n\t\t\t       payments-validate=\"cvc\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"cvc\"\n\t\t\t       size=\"4\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t</form>\n</section>\n"
 
 /***/ },
 /* 124 */
@@ -15088,7 +15133,7 @@
 /* 125 */
 /***/ function(module, exports) {
 
-	module.exports = "<form name=\"customer\" ng-submit=\"$ctrl.onSubmit({customerModel: $ctrl.customerModel})\">\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtFirstName\">First name</label>\n\t\t<input type=\"text\" class=\"Textbox\" id=\"txtFirstName\" ng-model=\"$ctrl.customerModel.firstName\" required placeholder=\"First name\" />\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtLastName\">Last name</label>\n\t\t<input type=\"text\" class=\"Textbox\" id=\"txtLastName\" ng-model=\"$ctrl.customerModel.lastName\" required placeholder=\"Last name\" />\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtEmail\">Email</label>\n\t\t<input type=\"email\" class=\"Textbox\" id=\"txtEmail\" ng-model=\"$ctrl.customerModel.email\" required placeholder=\"Email address\" />\n\t</div>\n\n\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t<input type=\"hidden\" id=\"txtCustomerId\" ng-model=\"$ctrl.customerModel.id\" />\n</form>\n"
+	module.exports = "<form name=\"customer\" ng-submit=\"$ctrl.onSubmit({customerModel: $ctrl.customerModel})\">\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtFirstName\">First name</label>\n\t\t<input type=\"text\" class=\"Textbox fn-firstName\" id=\"txtFirstName\" ng-model=\"$ctrl.customerModel.firstName\" required placeholder=\"First name\" />\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtLastName\">Last name</label>\n\t\t<input type=\"text\" class=\"Textbox fn-lastName\" id=\"txtLastName\" ng-model=\"$ctrl.customerModel.lastName\" required placeholder=\"Last name\" />\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtEmail\">Email</label>\n\t\t<input type=\"email\" class=\"Textbox fn-email\" id=\"txtEmail\" ng-model=\"$ctrl.customerModel.email\" required placeholder=\"Email address\" />\n\t</div>\n\n\t<button class=\"Button Button--primary fn-customerSubmit\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t<input type=\"hidden\" id=\"txtCustomerId\" ng-model=\"$ctrl.customerModel.id\" />\n</form>\n"
 
 /***/ },
 /* 126 */

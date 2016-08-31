@@ -279,8 +279,8 @@
 .Button {
   padding-top: 0px;
   padding-bottom: 0px;
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 30px;
   border-radius: 2px;
   padding-left: 6px;
   padding-right: 6px;
@@ -502,29 +502,30 @@
   margin: 10px auto;
 }
 .Button--xs {
-  font-size: 12px;
-  line-height: 21px;
+  font-size: 14px;
+  line-height: 26px;
   border-radius: 2px;
   padding-left: 6px;
   padding-right: 6px;
 }
 .Button--sm {
-  font-size: 13px;
-  line-height: 22px;
+  font-size: 15px;
+  line-height: 28px;
   border-radius: 2px;
   padding-left: 6px;
   padding-right: 6px;
 }
 .Button--lg {
-  font-size: 16px;
-  line-height: 27px;
+  font-size: 18px;
+  line-height: 34px;
   border-radius: 2px;
-  padding-left: 6px;
-  padding-right: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+  line-height: 36px;
 }
 .Button--xl {
-  font-size: 18px;
-  line-height: 31px;
+  font-size: 20px;
+  line-height: 38px;
   border-radius: 2px;
   padding-left: 12px;
   padding-right: 12px;
@@ -625,6 +626,7 @@
 .Heading--five,
 .Heading--six,
 .Heading--seven,
+.Heading--fancy,
 .Heading--one,
 .Heading--two,
 .Heading--three,
@@ -674,12 +676,92 @@
 .Heading--light {
   color: #7F7F7F;
 }
+.Heading--fancy {
+  text-align: center;
+  overflow: hidden;
+}
+.Heading--fancy .Heading-text {
+  display: inline-block;
+  position: relative;
+}
+.Heading--fancy .Heading-text:before,
+.Heading--fancy .Heading-text:after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 2000px;
+  top: calc(48%);
+}
+.Heading--fancy .Heading-text:before {
+  left: 100%;
+  margin-left: 15px;
+}
+.Heading--fancy .Heading-text:after {
+  right: 100%;
+  margin-right: 15px;
+}
 /********************************************
 	Grid
 ********************************************/
 .Grid {
   padding-right: 20px;
   padding-left: 20px;
+}
+.Grid--alignLeft,
+.Grid--alignStart {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  text-align: start;
+}
+.Grid--alignCenter {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+}
+.Grid--alignRight,
+.Grid--alignEnd {
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  text-align: end;
+}
+.Grid--alignTop {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+              -ms-grid-row-align: flex-start;
+          align-items: flex-start;
+}
+.Grid--alignMiddle {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+              -ms-grid-row-align: center;
+          align-items: center;
+}
+.Grid--alignBottom {
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+              -ms-grid-row-align: flex-end;
+          align-items: flex-end;
+}
+.Grid--distributeAround {
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+.Grid--distributeBetween {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.Grid--reverse {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  -ms-flex-wrap: wrap-reverse;
+      flex-wrap: wrap-reverse;
 }
 .Grid-row {
   box-sizing: border-box;
@@ -2180,6 +2262,11 @@
 .Nav--tabs {
   margin-bottom: 0;
   border-bottom: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
   font-family: 'Open Sans', sans-serif;
   height: 48px;
 }
@@ -2408,7 +2495,7 @@
   vertical-align: middle;
   padding-top: 0px;
   padding-bottom: 0px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 18px;
   font-weight: bold;
 }
@@ -2430,12 +2517,13 @@
   height: 26px;
   padding-left: 6px;
   padding-right: 6px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 100%;
   -webkit-transition: border 500ms ease-out;
   -moz-transition: border 500ms ease-out;
   -ms-transition: border 500ms ease-out;
   -o-transition: border 500ms ease-out;
+  font-weight: normal;
   margin-top: 6px;
   margin-bottom: 6px;
 }
@@ -2535,28 +2623,28 @@
   height: 23px;
   padding-left: 6px;
   padding-right: 6px;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 100%;
 }
 .Textbox--sm {
-  height: 24px;
+  height: 25px;
   padding-left: 6px;
   padding-right: 6px;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 100%;
 }
 .Textbox--lg {
   height: 29px;
-  padding-left: 6px;
-  padding-right: 6px;
-  font-size: 16px;
-  line-height: 100%;
-}
-.Textbox--xl {
-  height: 33px;
   padding-left: 12px;
   padding-right: 12px;
   font-size: 18px;
+  line-height: 100%;
+}
+.Textbox--xl {
+  height: 32px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-size: 20px;
   line-height: 100%;
 }
 .Textbox--tiny {
@@ -2583,6 +2671,7 @@
   z-index: 0;
   line-height: 24px;
   height: 26px;
+  font-weight: normal;
 }
 .Selectbox:after {
   position: absolute;
@@ -2601,11 +2690,11 @@
   line-height: inherit;
 }
 .Selectbox .Selectbox-input {
-  font-size: 14px;
+  font-size: 16px;
 }
 .Selectbox-input {
   border-radius: 3px;
-  font-size: 12px;
+  font-size: 18px;
   padding-top: 0px;
   padding-bottom: 0px;
   padding-right: 18px;
@@ -2883,6 +2972,13 @@
   border-bottom: none;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+}
+.Nav--tabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 /*# sourceMappingURL=braintree-angular-spa.map*/

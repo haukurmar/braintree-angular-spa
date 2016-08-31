@@ -1,0 +1,65 @@
+/********************************************
+	CustomPlans Lego
+********************************************/
+/// Naming conventions:
+// LegoName
+// LegoName--modifierName
+// LegoName-descendantName
+// LegoName.is-stateOfLego
+// Variable names:
+// @lego--modifier-property ex: @button--warning-borderColor
+// @lego--modifier-descendant-property ex: @listGroup-itemHeading-fontSize
+
+// -------------------- Variables --------------------
+// -------------------- Core LEGO --------------------
+.CustomPlan {
+}
+
+// -------------------- Descendants --------------------
+.CustomPlan-col {
+}
+
+// ----- Descendants Modifiers -----
+.CustomPlan-col--premiumThree,
+.CustomPlan-col--premiumSix,
+.CustomPlan-col--premiumTwelve {
+}
+
+.CustomPlan-panelHeader {
+	.Panel-header;
+	text-align: center;
+	background-color: transparent;
+
+	.CustomPlan-col--premiumSix & {
+		background-color: @panel-header-backgroundColor;
+	}
+}
+
+.CustomPlan-panelHeading {
+	.Heading--six;
+	.Panel-heading;
+
+	.CustomPlan-col--premiumSix & {
+		.Heading--light;
+	}
+}
+
+.CustomPlan-panelBody {
+	&:extend(.Panel-body);
+
+	.CustomPlan-col--premiumSix & {
+		.Panel-body--highlight();
+		background-color: @panel-body--highlight-backgroundColor;
+	}
+}
+
+.Nav--tabs {
+	display: flex;
+	justify-content: space-around;
+}
+
+// -------------------- States -------------------------
+.CustomPlan {
+	&.is-active {
+	}
+}
