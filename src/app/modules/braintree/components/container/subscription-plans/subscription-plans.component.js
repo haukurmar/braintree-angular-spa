@@ -50,7 +50,7 @@ class SubscriptionPlansComponent {
 	// Public viewModel methods
 	// --------------------------------------------------
 	chooseSubscriptionPlan(subscriptionPlanModel) {
-		console.log('plan chosen', subscriptionPlanModel);
+		//console.log('plan chosen', subscriptionPlanModel);
 		this.braintreeDataService.updateSelectedSubscription(subscriptionPlanModel);
 
 		this.state.nextRoute = ROUTES.CUSTOMER;

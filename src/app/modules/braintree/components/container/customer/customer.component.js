@@ -79,7 +79,7 @@ class BraintreeSubscriptionComponent {
 		//Get Customer if logged in
 		this.braintreeDataService.getCustomer(customerId).then(
 			(response) => {
-				console.log('success', response);
+				//console.log('success', response);
 				this.newCustomer = false;
 				this.braintreeDataService.updateCustomerData(response.data.customer);
 				this.customerModel = response.data.customer;
@@ -88,7 +88,7 @@ class BraintreeSubscriptionComponent {
 				// TODO: What to do here?
 			},
 			(error) => {
-				console.log(error.data.message);
+				//console.log(error.data.message);
 				this.newCustomer = true;
 				this.state.loading.isLoading = false;
 			}
@@ -127,8 +127,8 @@ class BraintreeSubscriptionComponent {
 					this.state.loading.isLoading = false;
 					this.state.showform = true;
 
-					console.log('Error message', error.data.message);
-					console.log('Errors:', error.data.errors);
+					//console.log('Error message', error.data.message);
+					//console.log('Errors:', error.data.errors);
 				}
 			);
 		} else {

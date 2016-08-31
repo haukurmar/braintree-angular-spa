@@ -10,7 +10,7 @@ export default class AppComponent {
 	// Class methods
 	// --------------------------------------------------
 	$onInit() {
-		console.log('App Component...');
+		//console.log('App Component...');
 	}
 }
 

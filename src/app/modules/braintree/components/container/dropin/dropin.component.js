@@ -13,14 +13,14 @@ class DropinComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
-		console.log('Braintree Dropin Component...');
+		//console.log('Braintree Dropin Component...');
 		this._getToken();
 	}
 
 	_getToken() {
 		this.braintreeDataService.getClientToken().then(
 			(response) => {
-				console.log('res', response.data);
+				//console.log('res', response.data);
 
 				this.braintreeDataService.$braintree.setup(response.data.client_token, 'dropin', {
 					// id of html tag for braintree dropin container
@@ -38,7 +38,7 @@ class DropinComponent {
 						// Process payment
 						this.braintreeDataService.processPayment(paymentData).then(
 							(response) => {
-								console.log('Success:', response.data);
+								//console.log('Success:', response.data);
 
 								if (response.data.success) {
 									this.message = 'Payment was authorized!';

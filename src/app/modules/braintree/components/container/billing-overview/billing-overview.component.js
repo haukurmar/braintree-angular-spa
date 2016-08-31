@@ -39,7 +39,7 @@ class CustomerDetailsComponent {
 	// --------------------------------------------------
 	$onInit() {
 		let customer = {};
-		console.log('this.customerData', this.customerData);
+		//console.log('this.customerData', this.customerData);
 		if(this.customerData) {
 			if(this.customerData.id) {
 				customer.id = this.customerData.id;
@@ -51,7 +51,7 @@ class CustomerDetailsComponent {
 
 		// Get Customer from service
 		this.customer = this.braintreeDataService.customer;
-		console.log('customer', this.customer);
+		//console.log('customer', this.customer);
 
 		// If we get a customerId, we fetch it from API
 		if (this.customer.id) {
@@ -197,7 +197,7 @@ class CustomerDetailsComponent {
 	 * @param currentSubscription
 	 */
 	changeSubscriptionPlan(newSubscriptionPlan, currentSubscription) {
-		console.log('plan chosen', newSubscriptionPlan, currentSubscription);
+		//console.log('plan chosen', newSubscriptionPlan, currentSubscription);
 
 		this._clearMessage();
 		this._startLoading('Updating subscription plan...');
@@ -246,7 +246,7 @@ class CustomerDetailsComponent {
 					// Create a new subscription
 					this.braintreeDataService.createSubscription(newSubscriptionData).then(
 						(response) => {
-							console.log('response', response);
+							//console.log('response', response);
 							if (response.data.success) {
 								this.getCustomerDetails(this.customer.id).then(
 									() => {
@@ -265,14 +265,14 @@ class CustomerDetailsComponent {
 									}
 								);
 							} else {
-								console.log('Error creating a sub', response.data.message);
+								//console.log('Error creating a sub', response.data.message);
 								// TODO: Handle different failures maybe?
 								this._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'danger');
 								this._stopLoading();
 							}
 						},
 						(error) => {
-							console.log('Error creating a subcription', error);
+							//console.log('Error creating a subcription', error);
 							this._displayMessage(error.data.message, 'danger');
 							this._stopLoading();
 						}
@@ -412,7 +412,7 @@ class CustomerDetailsComponent {
 
 			},
 			(error) => {
-				console.log(error.data.message);
+				//console.log(error.data.message);
 				this._stopLoading();
 				this._displayMessage(error.data.message, 'danger');
 			}

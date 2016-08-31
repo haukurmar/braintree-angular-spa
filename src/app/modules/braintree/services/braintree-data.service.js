@@ -190,13 +190,13 @@ export default class BraintreeService {
 						paymentMethodNonce: nonce,
 						verificationMerchantAccountId: paymentModel.verificationMerchantAccountId
 					};
-					console.log('Vault payment data', paymentMethodModel);
+					//console.log('Vault payment data', paymentMethodModel);
 
 					// Save to Vault
 					this.createPaymentMethod(paymentMethodModel).then(
 						(response) => {
 							this.updateCustomerData(response.data.customer);
-							console.log('Payment method created!', response);
+							//console.log('Payment method created!', response);
 							resolve(response);
 						},
 						(error) => {
@@ -323,7 +323,7 @@ export default class BraintreeService {
 					});
 				},
 				(error) => {
-					console.log('Error: cannot connect to server. Please try again. Erromessage: ' + error.data);
+					//console.log('Error: cannot connect to server. Please try again. Erromessage: ' + error.data);
 					reject(error);
 				}
 			);
@@ -363,12 +363,12 @@ export default class BraintreeService {
 
 	updateCustomerData(customerModel) {
 		this.setObjectValues(this._customerData.customer, customerModel);
-		console.log('customer model updated in service', customerModel);
+		//console.log('customer model updated in service', customerModel);
 	}
 
 	updateSelectedSubscription(model) {
 		this.setObjectValues(this._selectedSubscription, model);
-		console.log('selected subscription model updated in service', model);
+		//console.log('selected subscription model updated in service', model);
 	}
 
 	updateSubscription(currentSubscriptionId, subscription) {

@@ -48,7 +48,7 @@ class ToggleDirective {
 			}
 
 			if(!elToToggle) {
-				console.log('Element to toggle was not found');
+				//console.log('Element to toggle was not found');
 				return;
 			}
 

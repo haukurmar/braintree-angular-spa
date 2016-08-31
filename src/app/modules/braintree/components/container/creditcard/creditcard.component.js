@@ -141,7 +141,7 @@ class CreditCardComponent {
 		// Send request to get token, then use the token to tokenize credit card info and verify the card
 		this.braintreeDataService.createVaultedPayment(customerId, paymentModel).then(
 			(response) => {
-				console.log('from vaultedPayment', response);
+				//console.log('from vaultedPayment', response);
 				this._stopLoading();
 				this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
 				this.routeTo([this.state.nextRoute]);
@@ -189,7 +189,7 @@ class CreditCardComponent {
 
 			this.braintreeDataService.processPayment(paymentData).then(
 				(response) => {
-					console.log(response.data.success);
+					//console.log(response.data.success);
 					if (response.data.success) {
 						this.state.paid = true;
 						this.state.error = false;

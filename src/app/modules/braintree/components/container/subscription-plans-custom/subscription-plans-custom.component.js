@@ -199,7 +199,7 @@ class SubscriptionPlansCustomComponent {
 	}
 
 	showSelectedCurrencyPlans(merchantAccountId) {
-		console.log('this.state.selectedCurrencyModel', this.state.selectedCurrencyModel);
+		//console.log('this.state.selectedCurrencyModel', this.state.selectedCurrencyModel);
 
 		switch (merchantAccountId) {
 		case this.braintreeDataService.merchantAccounts.USD.id:
@@ -233,7 +233,7 @@ class SubscriptionPlansCustomComponent {
 	// Public viewModel methods
 	// --------------------------------------------------
 	chooseSubscriptionPlan(subscriptionPlanModel) {
-		console.log('plan chosen', subscriptionPlanModel);
+		//console.log('plan chosen', subscriptionPlanModel);
 		this.braintreeDataService.updateSelectedSubscription(subscriptionPlanModel);
 
 		this.state.nextRoute = ROUTES.CUSTOMER;

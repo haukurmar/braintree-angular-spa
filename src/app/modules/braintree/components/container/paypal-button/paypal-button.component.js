@@ -44,14 +44,14 @@ class PaypalButtonComponent {
 				headless: true
 			},
 			onCancelled: (obj) => {
-				console.log('cancelled', obj);
+				//console.log('cancelled', obj);
 			},
 			onReady: (integration) => {
-				console.log('Paypal button is ready');
+				//console.log('Paypal button is ready');
 				this._checkout = integration;
 			},
 			onAuthorizationDismissed: (obj) => {
-				console.log('onAuthorizationDismissed', obj);
+				//console.log('onAuthorizationDismissed', obj);
 			},
 			onPaymentMethodReceived: (obj) => {
 				this._createPaymentOption(obj);
@@ -60,7 +60,7 @@ class PaypalButtonComponent {
 	}
 
 	_createPaymentOption(paymentMethod) {
-		console.log('onPaymentMethodReceived', paymentMethod);
+		//console.log('onPaymentMethodReceived', paymentMethod);
 		let paymentMethodModel = {
 			customerId: this.braintreeDataService.customer.id,
 			paymentMethodNonce: paymentMethod.nonce
@@ -71,11 +71,11 @@ class PaypalButtonComponent {
 				this.braintreeDataService.updateCustomerData(response.data.customer);
 				this.onFinish({paymentModel: response.data.customer.paymentMethod});
 
-				console.log('Paypal Payment method created!', response);
+				//console.log('Paypal Payment method created!', response);
 			},
 			(error) => {
 				this.state.message.text = 'Failed to create payment method:' + error.data.message;
-				console.log('Failed to create payment method:', error);
+				//console.log('Failed to create payment method:', error);
 			}
 		);
 	}

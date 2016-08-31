@@ -42,7 +42,7 @@ class ModalComponent {
 	// Public viewModel methods
 	// --------------------------------------------------
 	close() {
-		console.log('Close');
+		//console.log('Close');
 		this.modalVisible = false;
 	}
 }

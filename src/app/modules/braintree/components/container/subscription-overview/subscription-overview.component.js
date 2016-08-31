@@ -91,14 +91,14 @@ class SubscriptionOverviewComponent {
 					// Clear the customer data
 					//this.braintreeDataService.initCustomerData();
 				} else {
-					console.log('Error creating a sub', response.data.message);
+					//console.log('Error creating a sub', response.data.message);
 					// TODO: Handle different failures maybe?
 					this.message = 'An error occurred creating a subscription: ' + response.data.message;
 					this.state.loading = false;
 				}
 			},
 			(error) => {
-				console.log('Error creating a subcription', error);
+				//console.log('Error creating a subcription', error);
 				this.message = error.data.message;
 				this.state.loading = false;
 			}
