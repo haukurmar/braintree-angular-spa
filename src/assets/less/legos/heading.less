@@ -43,7 +43,8 @@
 .Heading--four,
 .Heading--five,
 .Heading--six,
-.Heading--seven {
+.Heading--seven,
+.Heading--fancy {
 	&:extend(.Heading);
 }
 
@@ -88,4 +89,35 @@
 
 .Heading--light {
 	color: @heading--light-color;
+}
+
+@heading--fancy-text-height: 2px;
+.Heading--fancy {
+	text-align: center;
+	overflow: hidden;
+
+	.Heading-text {
+		display: inline-block;
+		position: relative;
+
+		&:before,
+		&:after {
+			content: '';
+			position: absolute;
+			height: 2px;
+			background-color: rgba(0,0,0, .2);
+			width: 2000px;
+			top: calc(50% - 2px);
+		}
+
+		&:before {
+			left:100%;
+			margin-left: 15px;
+		}
+
+		&:after {
+			right:100%;
+			margin-right: 15px;
+		}
+	}
 }
