@@ -9,13 +9,19 @@
 	ng-if="$ctrl.state.mode.subscription">
 </ui-braintree-subscription-navigation>
 
+<section class="Alert Alert--{{ $ctrl.state.message.type }}" ng-if="$ctrl.state.message.text">
+	<p>
+		<i class="Alert-icon fa fa-warning fa-lg"></i>
+		<span ng-bind="$ctrl.state.message.text"></span>
+	</p>
+	<span ng-bind-html="$ctrl.state.message.descriptionHtml"></span><br>
 
-<p ng-if="$ctrl.state.message.text" ng-bind="$ctrl.state.message.text"></p>
-<a href="" ng-click="$ctrl.routeTo($ctrl.state.message.link)" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
+	<a href="" ng-click="$ctrl.routeTo($ctrl.state.message.link)" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
+</section>
 
 <ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
 
-<section class="Panel" ng-hide="$ctrl.state.loading.isLoading">
+<section class="Panel" ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showForm">
 	<div class="Panel-body">
 		<h2 class="Heading--two Heading--light u-textCenter">Fill out your contact information</h2>
 		<hr class="Divider--dotted">

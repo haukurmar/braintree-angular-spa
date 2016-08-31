@@ -7,10 +7,18 @@ class PaymentMethodsComponent {
 	constructor() {
 		// Used in template
 		this.state = {
+			message: {
+				text: '',
+				link: '',
+				linkText: '',
+				descriptionHtml:'',
+				type: ''
+			},
 			routes: {
 				nextRoute: '',
 				subscription: ROUTES.SUBSCRIPTION
 			},
+			showForm: true,
 			mode: {
 				subscription: false
 			}
@@ -31,6 +39,27 @@ class PaymentMethodsComponent {
 	$onInit() {
 		this.customer = this.braintreeDataService.customer;
 		this.state.mode = this.braintreeDataService.mode;
+
+		// Subscription mode
+		if (this.state.mode.subscription) {
+			// If the user has not chosen a subscription plan (or refreshed the page)
+			if (!this.selectedSubscription.id) {
+				this._displayMessage('You need to choose a subscription plan before you proceed', 'warning');
+				this.state.message.linkText = 'Go to subscription page';
+				this.state.message.link = ROUTES.SUBSCRIPTION;
+				this.state.showForm = false;
+				return;
+			}
+
+			// If the user has no customer ID
+			if (!this.customer.id) {
+				this._displayMessage('You need to fill out customer information before you proceed', 'warning');
+				this.state.message.linkText = 'Go to customer page';
+				this.state.message.link = ROUTES.CUSTOMER;
+				this.state.showForm = false;
+				return;
+			}
+		}
 	}
 
 	// Public viewModel methods
@@ -53,6 +82,17 @@ class PaymentMethodsComponent {
 		this.state.nextRoute = ROUTES.SUBSCRIPTION_OVERVIEW;
 		this.routeTo([this.state.nextRoute]);
 	}
+
+	_clearMessage() {
+		this.state.message.text = '';
+	}
+
+	_displayMessage(text, type, descriptionHtml) {
+		this.state.message.type = type;
+		this.state.message.text = text;
+		this.state.message.descriptionHtml = descriptionHtml;
+	}
+
 
 	routeTo(path) {
 		this.braintreeAppService.routeTo(path);

@@ -22,7 +22,8 @@ class CreditCardComponent {
 				text: '',
 				link: '',
 				linkText: '',
-				descriptionHtml:''
+				descriptionHtml:'',
+				type: ''
 			},
 			paid: false,
 			showForm: true,
@@ -65,7 +66,7 @@ class CreditCardComponent {
 
 			// If the user has no customer ID
 			if (!this.customer.id) {
-				this._displayMessage('You need to fill out customer information before you proceed');
+				this._displayMessage('You need to fill out customer information before you proceed', 'warning');
 				this.state.message.linkText = 'Go to customer page';
 				this.state.message.link = ROUTES.CUSTOMER;
 				this.state.showForm = false;

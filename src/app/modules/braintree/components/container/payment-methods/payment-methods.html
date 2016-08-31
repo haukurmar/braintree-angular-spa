@@ -9,7 +9,18 @@
 	ng-if="$ctrl.state.mode.subscription">
 </ui-braintree-subscription-navigation>
 
-<section class="Panel" ng-hide="$ctrl.state.loading.isLoading">
+<section class="Alert Alert--{{ $ctrl.state.message.type }}" ng-if="$ctrl.state.message.text">
+	<p>
+		<i class="Alert-icon fa fa-warning fa-lg"></i>
+		<span ng-bind="$ctrl.state.message.text"></span>
+	</p>
+	<span ng-bind-html="$ctrl.state.message.descriptionHtml"></span><br>
+
+	<a href="" ng-click="$ctrl.routeTo($ctrl.state.message.link)" ng-if="$ctrl.state.message.linkText">{{ $ctrl.state.message.linkText }}</a>
+</section>
+
+
+<section class="Panel" ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showForm">
 	<div class="Panel-body">
 		<h2 class="Heading--two Heading--light u-textCenter">Choose your payment method</h2>
 		<hr class="Divider--dotted">
