@@ -22,6 +22,7 @@ import BillingOverviewComponent from './components/container/billing-overview/bi
 // Presentation Components
 import UICreditCardFormComponent from './components/presentation/creditcard-form/creditcard-form.component';
 import UICustomerFormComponent from './components/presentation/customer-form/customer-form.component';
+import UIMessageBoxComponent from './components/presentation/message-box/message-box.component';
 import UISubscriptionPlanComponent from './components/presentation/subscription-plan/subscription-plan.component';
 import UISubscriptionDetailsComponent from './components/presentation/subscription-details/subscription-details.component';
 import UISubscriptionOverviewComponent from './components/presentation/subscription-overview/subscription-overview.component';
@@ -65,6 +66,7 @@ ngModule
 	// Presentational components
 	.component('uiBraintreeCustomerForm', UICustomerFormComponent)
 	.component('uiBraintreeCreditcardForm', UICreditCardFormComponent)
+	.component('uiBraintreeMessageBox', UIMessageBoxComponent)
 	.component('uiBraintreeSubscriptionDetails', UISubscriptionDetailsComponent)
 	.component('uiBraintreeSubscriptionNavigation', UISubscriptionNavigationComponent)
 	.component('uiBraintreeSubscriptionPlan', UISubscriptionPlanComponent)

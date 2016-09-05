@@ -1,0 +1,16 @@
+<section class="Alert Alert--{{ $ctrl.message.type }}" ng-if="$ctrl.message.text">
+	<header class="Alert-header">
+		<h1 class="Alert-heading Heading--five">
+			<i class="Alert-icon fa fa-warning fa-lg"></i>
+			<span ng-bind="$ctrl.message.text"></span>
+		</h1>
+	</header>
+	<div class="Alert-body" ng-if="$ctrl.message.descriptionHtml">
+		<p ng-bind-html="$ctrl.message.descriptionHtml"></p>
+	</div>
+	<div class="Alert-footer" ng-if="$ctrl.message.linkText">
+		<p>
+			<a href="" ng-click="$ctrl.onRoute({route: $ctrl.message.link})">{{ $ctrl.message.linkText }}</a>
+		</p>
+	</div>
+</section>
