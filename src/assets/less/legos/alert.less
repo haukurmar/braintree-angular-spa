@@ -12,12 +12,22 @@
 // @legoModifier-descendand-property ex: @listGroup-itemHeading-fontSize
 
 // -------------------- Core Lego Variables --------------------
-@alert-padding: 1;
+@alert-padding: 0;
 @alert-borderRadius: 3px;
 @alert-borderWidth: 1px;
 @alert-borderStyle: solid;
 @alert-borderColor: #d8d8d8;
 @alert-bgColor: #fff;
+
+@alert-marginTop: 1;
+@alert-marginBottom: 1;
+@alert-paddingSides: 0;
+
+// -------------------- Descendants Variables --------------------
+@alert-header-paddingSides: 20px;
+@alert-heading-paddingSides: 0;
+@alert-body-paddingSides: 20px;
+@alert-footer-paddingSides: 20px;
 
 // -------------------- Modifier Variables --------------------
 @alert--info-borderColor: #D8ECF7;
@@ -48,11 +58,33 @@
 // -------------------- Core LEGO ------------------------
 .Alert {
 	.Alert();
-	.margin-top(1);
-	.margin-bottom(1);
+	padding-left: @alert-paddingSides;
+	padding-right: @alert-paddingSides;
+	.margin-top(@alert-marginTop);
+	.margin-bottom(@alert-marginBottom);
 }
 
 // -------------------- Descendants ----------------------
+.Alert-header {
+	padding-left: @alert-header-paddingSides;
+	padding-right: @alert-header-paddingSides;
+}
+
+.Alert-heading {
+	padding-left: @alert-heading-paddingSides;
+	padding-right: @alert-heading-paddingSides;
+}
+
+.Alert-body {
+	padding-left: @alert-body-paddingSides;
+	padding-right: @alert-body-paddingSides;
+}
+
+.Alert-footer {
+	padding-left: @alert-footer-paddingSides;
+	padding-right: @alert-footer-paddingSides;
+}
+
 .Alert-closeButton {
 	.Alert-closeButton();
 }

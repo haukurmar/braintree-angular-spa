@@ -2,14 +2,7 @@
 	<h2 class="Heading--two" ng-bind="$ctrl.state.header.text"></h2>
 	<hr class="Divider--dotted">
 </header>
-<section class="Alert Alert--{{ $ctrl.state.message.type }}" ng-if="$ctrl.state.message.text">
-	<p>
-		<i class="Alert-icon fa fa-warning fa-lg"></i>
-		<span ng-bind="$ctrl.state.message.text"></span>
-	</p>
-	<span ng-bind-html="$ctrl.state.message.descriptionHtml"></span>
-</section>
-
+<ui-braintree-message-box message="$ctrl.state.message"></ui-braintree-message-box>
 <ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
 
 <section ng-if="$ctrl.customer" ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel">
@@ -75,12 +68,7 @@
 						<ui-modal modal-id="'editPlanModal'" modal-visible="showEditPlanModal" modal-max-width="'800px'">
 							<modal-body>
 								<section class="Panel">
-									<section class="Alert Alert--{{ $ctrl.state.message.type }}" ng-if="$ctrl.state.message.text">
-										<p>
-											<i class="Alert-icon fa fa-warning fa-lg"></i>
-											<span ng-bind="$ctrl.state.message.text"></span>
-										</p>
-									</section>
+									<ui-braintree-message-box message="$ctrl.state.message"></ui-braintree-message-box>
 									<h4 class="Heading--four">Edit subscription plan</h4>
 									<hr class="Divider--dotted">
 									<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.plans.loading.isLoading" text="$ctrl.state.plans.loading.text"></ui-loading-icon>
@@ -106,12 +94,7 @@
 						<ui-modal modal-id="'changePaymentMethodModal'" modal-visible="showEditPaymentMethodsModal" modal-max-width="'800px'">
 							<modal-body>
 								<section class="Panel">
-									<section class="Alert Alert--{{ $ctrl.state.message.type }}" ng-if="$ctrl.state.message.text">
-										<p>
-											<i class="Alert-icon fa fa-warning fa-lg"></i>
-											<span ng-bind="$ctrl.state.message.text"></span>
-										</p>
-									</section>
+									<ui-braintree-message-box message="$ctrl.state.message"></ui-braintree-message-box>
 									<h4 class="Heading--four">Edit payment method</h4>
 									<hr class="Divider--dotted">
 									<div class="Panel-body Panel-body--highlight">

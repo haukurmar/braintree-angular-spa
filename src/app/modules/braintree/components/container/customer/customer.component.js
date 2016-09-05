@@ -118,6 +118,7 @@ class BraintreeSubscriptionComponent {
 					// Save customer data to service
 					this.braintreeDataService.updateCustomerData(response.data.customer);
 
+					// TODO: Display message if not in subscribe mode
 					// Redirect to next step
 					this.routeTo([this.routes.nextRoute]);
 				},
