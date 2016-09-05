@@ -124,7 +124,7 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				// TODO: Handle errors better
-				this._displayMessage(error, 'danger');
+				this._displayMessage(error, 'warning');
 				this._stopLoading();
 				this.state.showForm = true;
 			}
@@ -167,7 +167,7 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'danger');
+				this._displayMessage(error.data.message, 'warning');
 			}
 		);
 	}
@@ -267,13 +267,13 @@ class CustomerDetailsComponent {
 							} else {
 								//console.log('Error creating a sub', response.data.message);
 								// TODO: Handle different failures maybe?
-								this._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'danger');
+								this._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'warning');
 								this._stopLoading();
 							}
 						},
 						(error) => {
 							//console.log('Error creating a subcription', error);
-							this._displayMessage(error.data.message, 'danger');
+							this._displayMessage(error.data.message, 'warning');
 							this._stopLoading();
 						}
 					);
@@ -281,7 +281,7 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'danger');
+				this._displayMessage(error.data.message, 'warning');
 			}
 		);
 	}
@@ -307,7 +307,7 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'danger');
+				this._displayMessage(error.data.message, 'warning');
 			}
 		);
 	}
@@ -392,7 +392,7 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'danger');
+				this._displayMessage(error.data.message, 'warning');
 			}
 		);
 	}
@@ -414,7 +414,7 @@ class CustomerDetailsComponent {
 			(error) => {
 				//console.log(error.data.message);
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'danger');
+				this._displayMessage(error.data.message, 'warning');
 			}
 		);
 	}
