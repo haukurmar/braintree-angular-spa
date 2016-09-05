@@ -14258,6 +14258,8 @@
 	
 	var _subscriptionOverviewHtml2 = _interopRequireDefault(_subscriptionOverviewHtml);
 	
+	var _braintreeConstants = __webpack_require__(103);
+	
 	var _underscore = __webpack_require__(98);
 	
 	var _underscore2 = _interopRequireDefault(_underscore);
@@ -14273,11 +14275,19 @@
 			this.braintreeDataService = braintreeDataService;
 			this.braintreeAppService = braintreeAppService;
 	
-			this.message = '';
-			this.loadingText = '';
 			this.state = {
+				loading: {
+					isLoading: false,
+					text: ''
+				},
+				message: {
+					text: '',
+					link: '',
+					linkText: '',
+					descriptionHtml: '',
+					type: ''
+				},
 				error: false,
-				loading: false,
 				success: false
 			};
 	
@@ -14299,6 +14309,33 @@
 					this._confirmSubscription();
 				}
 			}
+		}, {
+			key: '_clearMessage',
+			value: function _clearMessage() {
+				this.state.message.text = '';
+			}
+		}, {
+			key: '_displayMessage',
+			value: function _displayMessage(text, type, descriptionHtml, linkText, linkRoute) {
+				this.state.message.type = type;
+				this.state.message.text = text;
+				this.state.message.descriptionHtml = descriptionHtml;
+	
+				this.state.message.linkText = linkText;
+				this.state.message.link = linkRoute;
+			}
+		}, {
+			key: '_startLoading',
+			value: function _startLoading(text) {
+				this.state.loading.isLoading = true;
+				this.state.loading.text = text;
+			}
+		}, {
+			key: '_stopLoading',
+			value: function _stopLoading() {
+				this.state.loading.isLoading = false;
+				this.state.loading.text = '';
+			}
 	
 			// Public viewModel methods
 			// --------------------------------------------------
@@ -14307,8 +14344,7 @@
 			value: function _confirmSubscription() {
 				var _this = this;
 	
-				this.loadingText = 'Creating subscription...';
-				this.state.loading = true;
+				this._startLoading('Creating subscription...');
 	
 				var subscriptionData = {
 					subscription: {
@@ -14355,26 +14391,21 @@
 	
 				this.braintreeDataService.createSubscription(subscriptionData).then(function (response) {
 					if (response.data.success) {
-						_this.state.message = '';
+						_this._clearMessage();
+						_this._stopLoading();
 						_this.state.success = true;
-						_this.state.loading = false;
 						_this.subscriptionPlan = _this.selectedSubscription; // TODO: should this not take response object instead?
 	
 						// Clear the selected subscription which has now been created
 						_this.braintreeDataService.initSelectedSubscriptionData();
-	
-						// Clear the customer data
-						//this.braintreeDataService.initCustomerData();
 					} else {
-							//console.log('Error creating a sub', response.data.message);
-							// TODO: Handle different failures maybe?
-							_this.message = 'An error occurred creating a subscription: ' + response.data.message;
-							_this.state.loading = false;
-						}
+						// TODO: Handle different failures maybe?
+						_this._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'warning', null, 'Start over', _braintreeConstants.ROUTES.SUBSCRIPTION);
+						_this._stopLoading();
+					}
 				}, function (error) {
-					//console.log('Error creating a subcription', error);
-					_this.message = error.data.message;
-					_this.state.loading = false;
+					_this._displayMessage(error.data.message, 'warning', null, 'Start over', _braintreeConstants.ROUTES.SUBSCRIPTION);
+					_this._stopLoading();
 				});
 			}
 		}, {
@@ -14402,7 +14433,7 @@
 /* 117 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n\t<div ng-if=\"$ctrl.state.success\">\n\t\t<h2 class=\"Heading--two\" ng-if=\"$ctrl.state.success\">Your subscription has been created!</h2>\n\t\tGo to <a href=\"\" ng-click=\"$ctrl.routeTo('/billing-overview')\">billing overview</a> for more details.\n\t</div>\n\t<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n</section>\n"
+	module.exports = "<section>\n\t<div ng-if=\"$ctrl.state.success\">\n\t\t<h2 class=\"Heading--two\" ng-if=\"$ctrl.state.success\">Your subscription has been created!</h2>\n\t\tGo to <a href=\"\" ng-click=\"$ctrl.routeTo('/billing-overview')\">billing overview</a> for more details.\n\t</div>\n\n\t<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t\t<p>\n\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t\t</p>\n\t\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span><br>\n\n\t\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n\t</section>\n\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n</section>\n"
 
 /***/ },
 /* 118 */
