@@ -1,15 +1,24 @@
 import template from './subscription-overview.html';
+import {ROUTES} from '../../../braintree.constants';
 import _ from 'underscore';
 
 // Inject dependencies
 @Inject('braintreeDataService', 'braintreeAppService')
 class SubscriptionOverviewComponent {
 	constructor() {
-		this.message = '';
-		this.loadingText = '';
 		this.state = {
+			loading: {
+				isLoading: false,
+				text: ''
+			},
+			message: {
+				text: '',
+				link: '',
+				linkText: '',
+				descriptionHtml:'',
+				type: ''
+			},
 			error: false,
-			loading: false,
 			success: false
 		};
 
@@ -27,11 +36,34 @@ class SubscriptionOverviewComponent {
 		}
 	}
 
+	_clearMessage() {
+		this.state.message.text = '';
+	}
+
+	_displayMessage(text, type, descriptionHtml, linkText, linkRoute) {
+		this.state.message.type = type;
+		this.state.message.text = text;
+		this.state.message.descriptionHtml = descriptionHtml;
+
+		this.state.message.linkText = linkText;
+		this.state.message.link = linkRoute;
+
+	}
+
+	_startLoading(text) {
+		this.state.loading.isLoading = true;
+		this.state.loading.text = text;
+	}
+
+	_stopLoading() {
+		this.state.loading.isLoading = false;
+		this.state.loading.text = '';
+	}
+
 	// Public viewModel methods
 	// --------------------------------------------------
 	_confirmSubscription() {
-		this.loadingText = 'Creating subscription...';
-		this.state.loading = true;
+		this._startLoading('Creating subscription...');
 
 		let subscriptionData = {
 			subscription: {
@@ -80,27 +112,22 @@ class SubscriptionOverviewComponent {
 		this.braintreeDataService.createSubscription(subscriptionData).then(
 			(response) => {
 				if (response.data.success) {
-					this.state.message = '';
+					this._clearMessage();
+					this._stopLoading();
 					this.state.success = true;
-					this.state.loading = false;
 					this.subscriptionPlan = this.selectedSubscription; // TODO: should this not take response object instead?
 
 					// Clear the selected subscription which has now been created
 					this.braintreeDataService.initSelectedSubscriptionData();
-
-					// Clear the customer data
-					//this.braintreeDataService.initCustomerData();
 				} else {
-					//console.log('Error creating a sub', response.data.message);
 					// TODO: Handle different failures maybe?
-					this.message = 'An error occurred creating a subscription: ' + response.data.message;
-					this.state.loading = false;
+					this._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'warning', null, 'Start over', ROUTES.SUBSCRIPTION);
+					this._stopLoading();
 				}
 			},
 			(error) => {
-				//console.log('Error creating a subcription', error);
-				this.message = error.data.message;
-				this.state.loading = false;
+				this._displayMessage(error.data.message, 'warning', null, 'Start over', ROUTES.SUBSCRIPTION);
+				this._stopLoading();
 			}
 		);
 	}
