@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(142);
+	module.exports = __webpack_require__(144);
 
 
 /***/ },
@@ -388,37 +388,41 @@
 	
 	var _componentsPresentationCustomerFormCustomerFormComponent2 = _interopRequireDefault(_componentsPresentationCustomerFormCustomerFormComponent);
 	
-	var _componentsPresentationSubscriptionPlanSubscriptionPlanComponent = __webpack_require__(126);
+	var _componentsPresentationMessageBoxMessageBoxComponent = __webpack_require__(126);
+	
+	var _componentsPresentationMessageBoxMessageBoxComponent2 = _interopRequireDefault(_componentsPresentationMessageBoxMessageBoxComponent);
+	
+	var _componentsPresentationSubscriptionPlanSubscriptionPlanComponent = __webpack_require__(128);
 	
 	var _componentsPresentationSubscriptionPlanSubscriptionPlanComponent2 = _interopRequireDefault(_componentsPresentationSubscriptionPlanSubscriptionPlanComponent);
 	
-	var _componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent = __webpack_require__(128);
+	var _componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent = __webpack_require__(130);
 	
 	var _componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent2 = _interopRequireDefault(_componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent);
 	
-	var _componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent = __webpack_require__(130);
+	var _componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent = __webpack_require__(132);
 	
 	var _componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent2 = _interopRequireDefault(_componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent);
 	
-	var _componentsPresentationSubscriptionProgressSubscriptionProgressComponent = __webpack_require__(132);
+	var _componentsPresentationSubscriptionProgressSubscriptionProgressComponent = __webpack_require__(134);
 	
 	var _componentsPresentationSubscriptionProgressSubscriptionProgressComponent2 = _interopRequireDefault(_componentsPresentationSubscriptionProgressSubscriptionProgressComponent);
 	
-	var _componentsPresentationSubscribeNavigationSubscribeNavigationComponent = __webpack_require__(134);
+	var _componentsPresentationSubscribeNavigationSubscribeNavigationComponent = __webpack_require__(136);
 	
 	var _componentsPresentationSubscribeNavigationSubscribeNavigationComponent2 = _interopRequireDefault(_componentsPresentationSubscribeNavigationSubscribeNavigationComponent);
 	
-	var _componentsPresentationPaymentMethodPaymentMethodComponent = __webpack_require__(136);
+	var _componentsPresentationPaymentMethodPaymentMethodComponent = __webpack_require__(138);
 	
 	var _componentsPresentationPaymentMethodPaymentMethodComponent2 = _interopRequireDefault(_componentsPresentationPaymentMethodPaymentMethodComponent);
 	
 	// View Components (Route Components)
 	
-	var _componentsViewBraintreeHomeBraintreeHomeComponent = __webpack_require__(138);
+	var _componentsViewBraintreeHomeBraintreeHomeComponent = __webpack_require__(140);
 	
 	var _componentsViewBraintreeHomeBraintreeHomeComponent2 = _interopRequireDefault(_componentsViewBraintreeHomeBraintreeHomeComponent);
 	
-	var _componentsViewSubscribeSubscribeViewComponent = __webpack_require__(140);
+	var _componentsViewSubscribeSubscribeViewComponent = __webpack_require__(142);
 	
 	var _componentsViewSubscribeSubscribeViewComponent2 = _interopRequireDefault(_componentsViewSubscribeSubscribeViewComponent);
 	
@@ -436,7 +440,7 @@
 	.component('braintreeBillingOverview', _componentsContainerBillingOverviewBillingOverviewComponent2['default']).component('braintreeCustomer', _componentsContainerCustomerCustomerComponent2['default']).component('braintreeCreditCard', _componentsContainerCreditcardCreditcardComponent2['default']).component('braintreeDropin', _componentsContainerDropinDropinComponent2['default']).component('braintreeSubscriptionPlans', _componentsContainerSubscriptionPlansSubscriptionPlansComponent2['default']).component('braintreeSubscriptionPlansCustom', _componentsContainerSubscriptionPlansCustomSubscriptionPlansCustomComponent2['default']).component('braintreeSubscriptionOverview', _componentsContainerSubscriptionOverviewSubscriptionOverviewComponent2['default']).component('braintreePaymentMethods', _componentsContainerPaymentMethodsPaymentMethodsComponent2['default']).component('braintreePaypal', _componentsContainerPaypalPaypalComponent2['default']).component('braintreePaypalButton', _componentsContainerPaypalButtonPaypalButtonComponent2['default'])
 	
 	// Presentational components
-	.component('uiBraintreeCustomerForm', _componentsPresentationCustomerFormCustomerFormComponent2['default']).component('uiBraintreeCreditcardForm', _componentsPresentationCreditcardFormCreditcardFormComponent2['default']).component('uiBraintreeSubscriptionDetails', _componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent2['default']).component('uiBraintreeSubscriptionNavigation', _componentsPresentationSubscribeNavigationSubscribeNavigationComponent2['default']).component('uiBraintreeSubscriptionPlan', _componentsPresentationSubscriptionPlanSubscriptionPlanComponent2['default']).component('uiBraintreeSubscriptionProgress', _componentsPresentationSubscriptionProgressSubscriptionProgressComponent2['default']).component('uiBraintreeSubscriptionOverview', _componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent2['default']).component('uiBraintreePaymentMethod', _componentsPresentationPaymentMethodPaymentMethodComponent2['default'])
+	.component('uiBraintreeCustomerForm', _componentsPresentationCustomerFormCustomerFormComponent2['default']).component('uiBraintreeCreditcardForm', _componentsPresentationCreditcardFormCreditcardFormComponent2['default']).component('uiBraintreeMessageBox', _componentsPresentationMessageBoxMessageBoxComponent2['default']).component('uiBraintreeSubscriptionDetails', _componentsPresentationSubscriptionDetailsSubscriptionDetailsComponent2['default']).component('uiBraintreeSubscriptionNavigation', _componentsPresentationSubscribeNavigationSubscribeNavigationComponent2['default']).component('uiBraintreeSubscriptionPlan', _componentsPresentationSubscriptionPlanSubscriptionPlanComponent2['default']).component('uiBraintreeSubscriptionProgress', _componentsPresentationSubscriptionProgressSubscriptionProgressComponent2['default']).component('uiBraintreeSubscriptionOverview', _componentsPresentationSubscriptionOverviewSubscriptionOverviewComponent2['default']).component('uiBraintreePaymentMethod', _componentsPresentationPaymentMethodPaymentMethodComponent2['default'])
 	
 	// View components
 	.component('braintreeHome', _componentsViewBraintreeHomeBraintreeHomeComponent2['default']).component('braintreeSubscribeView', _componentsViewSubscribeSubscribeViewComponent2['default']);
@@ -13031,6 +13035,7 @@
 						// Save customer data to service
 						_this2.braintreeDataService.updateCustomerData(response.data.customer);
 	
+						// TODO: Display message if not in subscribe mode
 						// Redirect to next step
 						_this2.routeTo([_this2.routes.nextRoute]);
 					}, function (error) {
@@ -13068,7 +13073,7 @@
 /* 102 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/customer'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span><br>\n\n\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n</section>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your contact information</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-customer-form\n\t\t\tcustomer-model=\"$ctrl.customerModel\"\n\t\t\ton-submit=\"$ctrl.saveCustomer(customerModel)\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-customer-form>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/customer'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your contact information</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-customer-form\n\t\t\tcustomer-model=\"$ctrl.customerModel\"\n\t\t\ton-submit=\"$ctrl.saveCustomer(customerModel)\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-customer-form>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 103 */
@@ -13090,7 +13095,135 @@
 		SUBSCRIPTION_OVERVIEW: '/subscription-overview'
 	};
 	
+	// https://developers.braintreepayments.com/reference/general/processor-responses/authorization-responses
+	var GATEWAY_ERRORS = [{
+		code: '2000',
+		text: 'Do Not Honor',
+		description: 'Your bank is unwilling to accept the transaction. Contact your bank for more details regarding this generic decline.'
+	}, {
+		code: '2001',
+		text: 'Insufficient Funds',
+		description: 'Your account did not have sufficient funds to cover the transaction amount at the time of the transaction – subsequent attempts at a later date may be successful.'
+	}, {
+		code: '2002',
+		text: 'Limit Exceeded',
+		description: 'The attempted transaction exceeds the withdrawal limit of the account. Please contact your bank to change the account limits or use a different payment method.'
+	}, {
+		code: '2003',
+		text: 'Cardholder\'s Activity Limit Exceeded',
+		description: 'The attempted transaction exceeds the activity limit of the account. Please contact your bank to change the account limits or use a different payment method.'
+	}, {
+		code: '2004',
+		text: 'Expired Card',
+		description: 'Card is expired. Please choose a different payment method.'
+	}, {
+		code: '2005',
+		text: 'Invalid Credit Card Number',
+		description: 'You have entered and invalid payment method or made a typo in their credit card information. Please correct the payment information and attempt the transaction again – if the decline persists, you will need to contact your bank.'
+	}, {
+		code: '2006',
+		text: 'Invalid Expiration Date',
+		description: 'You have entered an invalid payment method or made a typo in their card expiration date. Please correct the payment information and attempt the transaction again – if the decline persists, you will need to contact your bank.'
+	}, {
+		code: '2007',
+		text: 'No Account',
+		description: 'The submitted card number is not on file with the card-issuing bank. Please contact your bank.'
+	}, {
+		code: '2008',
+		text: 'Card Account Length Error',
+		description: 'The submitted card number does not include the proper number of digits. Please correct the payment information and attempt the transaction again – if the decline persists, you will need to contact your bank.'
+	}, {
+		code: '2010',
+		text: 'Card Issuer Declined CVV',
+		description: 'You have entered in an invalid security code or made a typo in their card information. Please correct the payment information and attempt the transaction again – if the decline persists, you will need to contact your bank.'
+	}, {
+		code: '2011',
+		text: 'Voice Authorization Required',
+		description: 'Your bank is requesting that the we call to obtain a special authorization code in order to complete this transaction. This can result in a lengthy process – we recommend changing to a new payment method instead.'
+	}, {
+		code: '2012',
+		text: 'Processor Declined Possible Lost Card',
+		description: 'The card used has likely been reported as lost. You will need to contact your bank for more information.'
+	}, {
+		code: '2013',
+		text: 'Processor Declined - Possible Stolen Card',
+		description: 'The card used has likely been reported as stolen. You will need to contact your bank for more information.'
+	}, {
+		code: '2014',
+		text: 'Processor Declined - Fraud Suspected',
+		description: 'Your bank suspects fraud – please contact your bank for more information.'
+	}, {
+		code: '2015',
+		text: 'Transaction Not Allowed',
+		description: 'Your bank is declining the transaction for unspecified reasons, possibly due to an issue with the card itself. Please contact your bank or use an alternative payment method.'
+	}, {
+		code: '2016',
+		text: 'Duplicate Transaction',
+		description: 'The submitted transaction appears to be a duplicate of a previously submitted transaction and was declined to prevent charging the same card twice for the same service.'
+	}, {
+		code: '2057',
+		text: 'Issuer or Cardholder has put a restriction on the card',
+		description: 'Please contact your issuing bank for more information.'
+	}, {
+		code: '2067',
+		text: 'Authorization Expired',
+		description: 'The PayPal authorization is no longer valid. Please start over.'
+	}, {
+		code: '2074',
+		text: 'Funding Instrument In The PayPal Account Was Declined By The Processor Or Bank, Or It Can\'t Be Used For This Payment',
+		description: 'Your payment method associated with your PayPal account was declined.'
+	}, {
+		code: '2075',
+		text: 'Payer Account Is Locked Or Closed',
+		description: 'Your PayPal account cannot be used for transactions at this time. You will need to contact PayPal for more information or use an alternative payment method.'
+	}, {
+		code: '2076',
+		text: 'Payer Cannot Pay For This Transaction With PayPal',
+		description: 'You should contact PayPal for more information or use an alternative payment method.'
+	}, {
+		code: '2091',
+		text: 'Currency of this transaction must match currency of your PayPal account',
+		description: 'Your PayPal account can only process transactions in the currency of your home country. Contact PayPal\'s Support team for more information.'
+	}, {
+		code: '2092',
+		text: 'Processor Declined',
+		description: 'Your bank is unwilling to accept the transaction. You will need to contact your bank for more details regarding this generic decline.'
+	}, {
+		code: '2093',
+		text: 'Processor Declined',
+		description: 'Your bank is unwilling to accept the transaction. You will need to contact your bank for more details regarding this generic decline.'
+	}, {
+		code: '2094',
+		text: 'Processor Declined',
+		description: 'Your bank is unwilling to accept the transaction. You will need to contact your bank for more details regarding this generic decline.'
+	}, {
+		code: '2095',
+		text: 'Processor Declined',
+		description: 'Your bank is unwilling to accept the transaction. You will need to contact your bank for more details regarding this generic decline.'
+	}, {
+		code: '2096',
+		text: 'Processor Declined',
+		description: 'Your bank is unwilling to accept the transaction. You will need to contact your bank for more details regarding this generic decline.'
+	}, {
+		code: '2097',
+		text: 'Processor Declined',
+		description: 'Your bank is unwilling to accept the transaction. You will need to contact your bank for more details regarding this generic decline.'
+	}, {
+		code: '2098',
+		text: 'Processor Declined',
+		description: 'Your bank is unwilling to accept the transaction. You will need to contact your bank for more details regarding this generic decline.'
+	}, {
+		code: '2099',
+		text: 'Processor Declined',
+		description: 'Your bank is unwilling to accept the transaction. You will need to contact your bank for more details regarding this generic decline.'
+	}, {
+		code: '3000',
+		text: 'Processor Network Unavailable - Try Again',
+		description: 'There seems to be a problem with the back-end processing network, not necessarily a problem with your payment method. Please try again – if the decline persists, contact our Support team for more information.'
+	}];
+	
 	exports.ROUTES = ROUTES;
+	exports.GATEWAY_ERRORS = GATEWAY_ERRORS;
 
 /***/ },
 /* 104 */
@@ -13370,7 +13503,7 @@
 /* 105 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span><br>\n\n\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n</section>\n\n\n\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your card details</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-creditcard-form\n\t\t\ton-submit=\"$ctrl.submitPayment(paymentModel)\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\thide-amount=\"$ctrl.state.hideAmount\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tmerchant-accounts=\"$ctrl.merchantAccountsArray\"\n\t\t\tselected-merchant-account=\"$ctrl.selectedMerchantAccount\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t\t</ui-braintree-creditcard-form>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your card details</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-creditcard-form\n\t\t\ton-submit=\"$ctrl.submitPayment(paymentModel)\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\thide-amount=\"$ctrl.state.hideAmount\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tmerchant-accounts=\"$ctrl.merchantAccountsArray\"\n\t\t\tselected-merchant-account=\"$ctrl.selectedMerchantAccount\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t\t</ui-braintree-creditcard-form>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 106 */
@@ -14404,7 +14537,22 @@
 						_this._stopLoading();
 					}
 				}, function (error) {
-					_this._displayMessage(error.data.message, 'warning', null, 'Start over', _braintreeConstants.ROUTES.SUBSCRIPTION);
+					var errorMessage = error.data.message;
+					var errorDescription = undefined;
+	
+					if (error.data.transaction) {
+						// Find detailed error message
+						var gatewayError = _underscore2['default'].find(_braintreeConstants.GATEWAY_ERRORS, function (errorItem) {
+							return errorItem.code === error.data.transaction.processorResponseCode;
+						});
+	
+						if (gatewayError) {
+							errorMessage = gatewayError.text;
+							errorDescription = gatewayError.description;
+						}
+					}
+	
+					_this._displayMessage(errorMessage, 'warning', errorDescription, 'Start over', _braintreeConstants.ROUTES.SUBSCRIPTION);
 					_this._stopLoading();
 				});
 			}
@@ -14433,7 +14581,7 @@
 /* 117 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n\t<div ng-if=\"$ctrl.state.success\">\n\t\t<h2 class=\"Heading--two\" ng-if=\"$ctrl.state.success\">Your subscription has been created!</h2>\n\t\tGo to <a href=\"\" ng-click=\"$ctrl.routeTo('/billing-overview')\">billing overview</a> for more details.\n\t</div>\n\n\t<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t\t<p>\n\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t\t</p>\n\t\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span><br>\n\n\t\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n\t</section>\n\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n</section>\n"
+	module.exports = "<section>\n\t<div ng-if=\"$ctrl.state.success\">\n\t\t<h2 class=\"Heading--two\" ng-if=\"$ctrl.state.success\">Your subscription has been created!</h2>\n\t\tGo to <a href=\"\" ng-click=\"$ctrl.routeTo('/billing-overview')\">billing overview</a> for more details.\n\t</div>\n\n\t<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n</section>\n"
 
 /***/ },
 /* 118 */
@@ -14590,7 +14738,7 @@
 /* 119 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span><br>\n\n\t<a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.message.link)\" ng-if=\"$ctrl.state.message.linkText\">{{ $ctrl.state.message.linkText }}</a>\n</section>\n\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Choose your payment method</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t<h2 class=\"Heading--five\">Stored payment methods</h2>\n\t\t\t<div class=\"Grid-row\">\n\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\">\n\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\ton-card-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"\n\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"></ui-braintree-payment-method>\n\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<h2 class=\"Heading--five\" ng-if=\"$ctrl.customer.paymentMethods['0']\">New payment method</h2>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('cards')\">Credit or Debit card</button>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('paypal')\">Paypal</button>\n\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Choose your payment method</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t<h2 class=\"Heading--five\">Stored payment methods</h2>\n\t\t\t<div class=\"Grid-row\">\n\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\">\n\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\ton-card-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"\n\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"></ui-braintree-payment-method>\n\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<h2 class=\"Heading--five\" ng-if=\"$ctrl.customer.paymentMethods['0']\">New payment method</h2>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('cards')\">Credit or Debit card</button>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('paypal')\">Paypal</button>\n\n\t</div>\n</section>\n"
 
 /***/ },
 /* 120 */
@@ -14759,7 +14907,7 @@
 					_this.addPaymentMethod(response.data.customer.paymentMethod, subscription);
 				}, function (error) {
 					// TODO: Handle errors better
-					_this._displayMessage(error, 'danger');
+					_this._displayMessage(error, 'warning');
 					_this._stopLoading();
 					_this.state.showForm = true;
 				});
@@ -14803,7 +14951,7 @@
 					}
 				}, function (error) {
 					_this2._stopLoading();
-					_this2._displayMessage(error.data.message, 'danger');
+					_this2._displayMessage(error.data.message, 'warning');
 				});
 			}
 	
@@ -14905,19 +15053,19 @@
 								} else {
 									//console.log('Error creating a sub', response.data.message);
 									// TODO: Handle different failures maybe?
-									_this3._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'danger');
+									_this3._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'warning');
 									_this3._stopLoading();
 								}
 							}, function (error) {
 								//console.log('Error creating a subcription', error);
-								_this3._displayMessage(error.data.message, 'danger');
+								_this3._displayMessage(error.data.message, 'warning');
 								_this3._stopLoading();
 							});
 						})();
 					}
 				}, function (error) {
 					_this3._stopLoading();
-					_this3._displayMessage(error.data.message, 'danger');
+					_this3._displayMessage(error.data.message, 'warning');
 				});
 			}
 	
@@ -14942,7 +15090,7 @@
 					}
 				}, function (error) {
 					_this4._stopLoading();
-					_this4._displayMessage(error.data.message, 'danger');
+					_this4._displayMessage(error.data.message, 'warning');
 				});
 			}
 	
@@ -15032,7 +15180,7 @@
 					_this7._stopLoading();
 				}, function (error) {
 					_this7._stopLoading();
-					_this7._displayMessage(error.data.message, 'danger');
+					_this7._displayMessage(error.data.message, 'warning');
 				});
 			}
 	
@@ -15052,7 +15200,7 @@
 				}, function (error) {
 					//console.log(error.data.message);
 					_this8._stopLoading();
-					_this8._displayMessage(error.data.message, 'danger');
+					_this8._displayMessage(error.data.message, 'warning');
 				});
 			}
 		}, {
@@ -15084,7 +15232,7 @@
 /* 121 */
 /***/ function(module, exports) {
 
-	module.exports = "<header ng-if=\"$ctrl.state.header.visible\">\n\t<h2 class=\"Heading--two\" ng-bind=\"$ctrl.state.header.text\"></h2>\n\t<hr class=\"Divider--dotted\">\n</header>\n<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t<p>\n\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t</p>\n\t<span ng-bind-html=\"$ctrl.state.message.descriptionHtml\"></span>\n</section>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section ng-if=\"$ctrl.customer\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel\">\n\t<!-- Profile -->\n\t<!--<div class=\"Grid-row\">-->\n\t<!--<div class=\"Grid-col&#45;&#45;12\">-->\n\n\t<!--<section class=\"Panel\">-->\n\t<!--<h3 class=\"Panel-heading Heading&#45;&#45;three\">Profile</h3>-->\n\t<!--<div class=\"Panel-body\">-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Full name</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.firstName\"></span> <span ng-bind=\"$ctrl.customer.lastName\"></span>-->\n\t<!--</div>-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Email</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.email\"></span>-->\n\t<!--</div>-->\n\t<!--</div>-->\n\t<!--</section>-->\n\n\t<!--</div>-->\n\t<!--</div>-->\n\n\t<!-- Subscriptions & Payment methods -->\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--12\">\n\t\t\t<section class=\"Panel\" ng-if=\"!$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">You have no subscriptions.</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<button class=\"Button Button--success Button--lg\" ng-click=\"$ctrl.routeTo('/subscribe');\">Subscribe now...</button>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<section class=\"Panel\" ng-if=\"$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<div ng-repeat=\"subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['-updatedAt']\">\n\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<ui-braintree-subscription-details subscription=\"subscription\" format-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"></ui-braintree-subscription-details>\n\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"Button Button--primary\" ng-click=\"$ctrl.getPlansByCurrency(subscription.plan.currencyIsoCode); showEditPlanModal = !showEditPlanModal\" ng-show=\"subscription.status.toLowerCase() === 'active'\">Edit Plan</button>\n\t\t\t\t\t\t\t\t<span ng-if=\"subscription.status.toLowerCase() === 'active'\">|</span>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price > 0\" ng-click=\"$ctrl.disableAutoRenew(subscription)\">Disable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price <= 0\" ng-click=\"$ctrl.enableAutoRenew(subscription)\">Enable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'pending'\" ng-click=\"$ctrl.cancelSubscription(subscription)\">Cancel subscription</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Payment method</h4>\n\t\t\t\t\t\t\t\t<ui-braintree-payment-method payment-method=\"subscription.defaultPaymentMethod\"></ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t<button class=\"Button Button--primary\"\n\t\t\t\t\t\t\t\t        ng-click=\"showEditPaymentMethodsModal = !showEditPaymentMethodsModal\"\n\t\t\t\t\t\t\t\t        ng-hide=\"subscription.status.toLowerCase() === 'canceled'\">Change Payment Method\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<!-- Edit plan -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'editPlanModal'\" modal-visible=\"showEditPlanModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t\t\t\t\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t\t\t\t\t\t\t\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t\t\t\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit subscription plan</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.plans.loading.isLoading\" text=\"$ctrl.state.plans.loading.text\"></ui-loading-icon>\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"plan.id === subscription.planId\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-css-modifier=\"plan.id === subscription.planId ? 'Button--success' : 'Button--cta'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"plan.id === subscription.planId ? 'Current plan' : 'Select plan'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-choose=\"$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)\"></ui-braintree-subscription-plan>\n\t\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\t\t\t\t\t\t<!-- Edit payment method -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'changePaymentMethodModal'\" modal-visible=\"showEditPaymentMethodsModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<section class=\"Alert Alert--{{ $ctrl.state.message.type }}\" ng-if=\"$ctrl.state.message.text\">\n\t\t\t\t\t\t\t\t\t\t<p>\n\t\t\t\t\t\t\t\t\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t\t\t\t\t\t\t\t\t<span ng-bind=\"$ctrl.state.message.text\"></span>\n\t\t\t\t\t\t\t\t\t\t</p>\n\t\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit payment method</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Your stored payment methods</h5>\n\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"CustomerDetails-paymentMethodColumn Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\" ng-class=\"{'is-default' : paymentMethod.token === subscription.defaultPaymentMethod.token}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"paymentMethod.token === subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled-text=\"'Default payment method'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-text=\"'Delete'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-visible=\"paymentMethod.token !== subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-card-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-delete-click=\"$ctrl.deletePaymentMethod(paymentMethod)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t</ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Add a new payment method</h5>\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Credit or Debit Card</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-creditcard-form\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-submit=\"$ctrl.addCreditCard(paymentModel, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tback-button-visible=\"false\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubmit-button-text=\"'Save and choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\thide-amount=\"true\"></ui-braintree-creditcard-form>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Paypal</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<braintree-paypal-button\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"'Connect with Paypal...'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tcurrency-iso-code=\"subscription.plan.currencyIsoCode\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-finish=\"$ctrl.addPaymentMethod(paymentModel, subscription)\"></braintree-paypal-button>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\n\t\t\t\t\t\t<!-- Transaction history -->\n\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t<h4 class=\"Panel-bodyHeading Heading--four\"\n\t\t\t\t\t\t    ui-toggle\n\t\t\t\t\t\t    toggle-el-css-class=\"js-transactionHistory\"\n\t\t\t\t\t\t    toggle-icon-css-class=\"js-toggleIcon\"\n\t\t\t\t\t\t    toggle-icon-css-class-hide=\"fa-chevron-down\"\n\t\t\t\t\t\t    toggle-icon-css-class-show=\"fa-chevron-right\">\n\t\t\t\t\t\t\t<i class=\"fa fa-chevron-right js-toggleIcon\"></i> Transaction history</h4>\n\n\t\t\t\t\t\t<div class=\"js-transactionHistory\" hidden>\n\t\t\t\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-repeat=\"transaction in subscription.transactions\">\n\t\t\t\t\t\t\t\t\t<header class=\"HeadingGroup\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--seven HeadingGroup-heading--top\">\n\t\t\t\t\t\t\t\t\t\t\t<time>{{ transaction.createdAt | date: longDate }}</time>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five HeadingGroup-heading--main\" ng-class=\"{'u-textSuccess': !transaction.refundId, 'u-textDanger': transaction.refundId }\">\n\t\t\t\t\t\t\t\t\t\t\t<span ng-if=\"transaction.refundId\">Refund: <span>-</span></span>{{ $ctrl.formatCurrencyAmount(transaction.amount, transaction.currencyIsoCode) }}\n\t\t\t\t\t\t\t\t\t\t\t<small class=\"u-textBase\" ng-if=\"transaction.discounts.length\">(Upgrade credit:\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-repeat=\"discount in transaction.discounts\" class=\"u-textSuccess\">{{ $ctrl.formatCurrencyAmount(discount.amount, transaction.currencyIsoCode) }}</span>)\n\t\t\t\t\t\t\t\t\t\t\t</small>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t</header>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Status history</h5>\n\t\t\t\t\t\t\t\t\t<div ng-repeat=\"statusHistoryItem in transaction.statusHistory\">\n\t\t\t\t\t\t\t\t\t\t{{ statusHistoryItem.timestamp | date: longDate }}\n\t\t\t\t\t\t\t\t\t\t/ {{ statusHistoryItem.status }}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-if=\"!subscription.transactions.length\">\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--five\">No transactions were found.</h4>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t</div>\n\t</div>\n\n</section>\n"
+	module.exports = "<header ng-if=\"$ctrl.state.header.visible\">\n\t<h2 class=\"Heading--two\" ng-bind=\"$ctrl.state.header.text\"></h2>\n\t<hr class=\"Divider--dotted\">\n</header>\n<ui-braintree-message-box message=\"$ctrl.state.message\"></ui-braintree-message-box>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section ng-if=\"$ctrl.customer\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel\">\n\t<!-- Profile -->\n\t<!--<div class=\"Grid-row\">-->\n\t<!--<div class=\"Grid-col&#45;&#45;12\">-->\n\n\t<!--<section class=\"Panel\">-->\n\t<!--<h3 class=\"Panel-heading Heading&#45;&#45;three\">Profile</h3>-->\n\t<!--<div class=\"Panel-body\">-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Full name</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.firstName\"></span> <span ng-bind=\"$ctrl.customer.lastName\"></span>-->\n\t<!--</div>-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Email</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.email\"></span>-->\n\t<!--</div>-->\n\t<!--</div>-->\n\t<!--</section>-->\n\n\t<!--</div>-->\n\t<!--</div>-->\n\n\t<!-- Subscriptions & Payment methods -->\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--12\">\n\t\t\t<section class=\"Panel\" ng-if=\"!$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">You have no subscriptions.</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<button class=\"Button Button--success Button--lg\" ng-click=\"$ctrl.routeTo('/subscribe');\">Subscribe now...</button>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<section class=\"Panel\" ng-if=\"$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<div ng-repeat=\"subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['-updatedAt']\">\n\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<ui-braintree-subscription-details subscription=\"subscription\" format-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"></ui-braintree-subscription-details>\n\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"Button Button--primary\" ng-click=\"$ctrl.getPlansByCurrency(subscription.plan.currencyIsoCode); showEditPlanModal = !showEditPlanModal\" ng-show=\"subscription.status.toLowerCase() === 'active'\">Edit Plan</button>\n\t\t\t\t\t\t\t\t<span ng-if=\"subscription.status.toLowerCase() === 'active'\">|</span>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price > 0\" ng-click=\"$ctrl.disableAutoRenew(subscription)\">Disable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price <= 0\" ng-click=\"$ctrl.enableAutoRenew(subscription)\">Enable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'pending'\" ng-click=\"$ctrl.cancelSubscription(subscription)\">Cancel subscription</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Payment method</h4>\n\t\t\t\t\t\t\t\t<ui-braintree-payment-method payment-method=\"subscription.defaultPaymentMethod\"></ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t<button class=\"Button Button--primary\"\n\t\t\t\t\t\t\t\t        ng-click=\"showEditPaymentMethodsModal = !showEditPaymentMethodsModal\"\n\t\t\t\t\t\t\t\t        ng-hide=\"subscription.status.toLowerCase() === 'canceled'\">Change Payment Method\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<!-- Edit plan -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'editPlanModal'\" modal-visible=\"showEditPlanModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<ui-braintree-message-box message=\"$ctrl.state.message\"></ui-braintree-message-box>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit subscription plan</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.plans.loading.isLoading\" text=\"$ctrl.state.plans.loading.text\"></ui-loading-icon>\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"plan.id === subscription.planId\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-css-modifier=\"plan.id === subscription.planId ? 'Button--success' : 'Button--cta'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"plan.id === subscription.planId ? 'Current plan' : 'Select plan'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-choose=\"$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)\"></ui-braintree-subscription-plan>\n\t\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\t\t\t\t\t\t<!-- Edit payment method -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'changePaymentMethodModal'\" modal-visible=\"showEditPaymentMethodsModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<ui-braintree-message-box message=\"$ctrl.state.message\"></ui-braintree-message-box>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit payment method</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Your stored payment methods</h5>\n\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"CustomerDetails-paymentMethodColumn Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\" ng-class=\"{'is-default' : paymentMethod.token === subscription.defaultPaymentMethod.token}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"paymentMethod.token === subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled-text=\"'Default payment method'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-text=\"'Delete'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-visible=\"paymentMethod.token !== subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-card-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-delete-click=\"$ctrl.deletePaymentMethod(paymentMethod)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t</ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Add a new payment method</h5>\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Credit or Debit Card</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-creditcard-form\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-submit=\"$ctrl.addCreditCard(paymentModel, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tback-button-visible=\"false\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubmit-button-text=\"'Save and choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\thide-amount=\"true\"></ui-braintree-creditcard-form>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Paypal</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<braintree-paypal-button\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"'Connect with Paypal...'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tcurrency-iso-code=\"subscription.plan.currencyIsoCode\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-finish=\"$ctrl.addPaymentMethod(paymentModel, subscription)\"></braintree-paypal-button>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\n\t\t\t\t\t\t<!-- Transaction history -->\n\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t<h4 class=\"Panel-bodyHeading Heading--four\"\n\t\t\t\t\t\t    ui-toggle\n\t\t\t\t\t\t    toggle-el-css-class=\"js-transactionHistory\"\n\t\t\t\t\t\t    toggle-icon-css-class=\"js-toggleIcon\"\n\t\t\t\t\t\t    toggle-icon-css-class-hide=\"fa-chevron-down\"\n\t\t\t\t\t\t    toggle-icon-css-class-show=\"fa-chevron-right\">\n\t\t\t\t\t\t\t<i class=\"fa fa-chevron-right js-toggleIcon\"></i> Transaction history</h4>\n\n\t\t\t\t\t\t<div class=\"js-transactionHistory\" hidden>\n\t\t\t\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-repeat=\"transaction in subscription.transactions\">\n\t\t\t\t\t\t\t\t\t<header class=\"HeadingGroup\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--seven HeadingGroup-heading--top\">\n\t\t\t\t\t\t\t\t\t\t\t<time>{{ transaction.createdAt | date: longDate }}</time>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five HeadingGroup-heading--main\" ng-class=\"{'u-textSuccess': !transaction.refundId, 'u-textDanger': transaction.refundId }\">\n\t\t\t\t\t\t\t\t\t\t\t<span ng-if=\"transaction.refundId\">Refund: <span>-</span></span>{{ $ctrl.formatCurrencyAmount(transaction.amount, transaction.currencyIsoCode) }}\n\t\t\t\t\t\t\t\t\t\t\t<small class=\"u-textBase\" ng-if=\"transaction.discounts.length\">(Upgrade credit:\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-repeat=\"discount in transaction.discounts\" class=\"u-textSuccess\">{{ $ctrl.formatCurrencyAmount(discount.amount, transaction.currencyIsoCode) }}</span>)\n\t\t\t\t\t\t\t\t\t\t\t</small>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t</header>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Status history</h5>\n\t\t\t\t\t\t\t\t\t<div ng-repeat=\"statusHistoryItem in transaction.statusHistory\">\n\t\t\t\t\t\t\t\t\t\t{{ statusHistoryItem.timestamp | date: longDate }}\n\t\t\t\t\t\t\t\t\t\t/ {{ statusHistoryItem.status }}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-if=\"!subscription.transactions.length\">\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--five\">No transactions were found.</h4>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t</div>\n\t</div>\n\n</section>\n"
 
 /***/ },
 /* 122 */
@@ -15182,7 +15330,72 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _subscriptionPlanHtml = __webpack_require__(127);
+	var _messageBoxHtml = __webpack_require__(127);
+	
+	var _messageBoxHtml2 = _interopRequireDefault(_messageBoxHtml);
+	
+	// Inject dependencies
+	
+	var Inject = __webpack_require__(83);
+	
+	var MessageBoxComponent = (function () {
+		function MessageBoxComponent() {
+			_classCallCheck(this, _MessageBoxComponent);
+		}
+	
+		// Component decorations
+	
+		// Private methods
+		// --------------------------------------------------
+	
+		_createClass(MessageBoxComponent, [{
+			key: '$onInit',
+			value: function $onInit() {}
+	
+			// Public viewModel methods
+			// --------------------------------------------------
+		}]);
+	
+		var _MessageBoxComponent = MessageBoxComponent;
+		MessageBoxComponent = Inject()(MessageBoxComponent) || MessageBoxComponent;
+		return MessageBoxComponent;
+	})();
+	
+	var component = {
+		bindings: {
+			message: '<',
+			onRoute: '&'
+		},
+		template: _messageBoxHtml2['default'],
+		controller: MessageBoxComponent
+	};
+	
+	exports['default'] = component;
+	module.exports = exports['default'];
+
+/***/ },
+/* 127 */
+/***/ function(module, exports) {
+
+	module.exports = "<section class=\"Alert Alert--{{ $ctrl.message.type }}\" ng-if=\"$ctrl.message.text\">\n\t<header class=\"Alert-header\">\n\t\t<h1 class=\"Alert-heading Heading--five\">\n\t\t\t<i class=\"Alert-icon fa fa-warning fa-lg\"></i>\n\t\t\t<span ng-bind=\"$ctrl.message.text\"></span>\n\t\t</h1>\n\t</header>\n\t<div class=\"Alert-body\" ng-if=\"$ctrl.message.descriptionHtml\">\n\t\t<p ng-bind-html=\"$ctrl.message.descriptionHtml\"></p>\n\t</div>\n\t<div class=\"Alert-footer\" ng-if=\"$ctrl.message.linkText\">\n\t\t<p>\n\t\t\t<a href=\"\" ng-click=\"$ctrl.onRoute({route: $ctrl.message.link})\">{{ $ctrl.message.linkText }}</a>\n\t\t</p>\n\t</div>\n</section>\n"
+
+/***/ },
+/* 128 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _subscriptionPlanHtml = __webpack_require__(129);
 	
 	var _subscriptionPlanHtml2 = _interopRequireDefault(_subscriptionPlanHtml);
 	
@@ -15232,13 +15445,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 127 */
+/* 129 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"{{ $ctrl.itemCssClass }}\">\n\t<header class=\"HeadingGroup\">\n\t\t<h3 class=\"Heading--four mb--1\">\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span>\n\t\t</h3>\n\t\t<h4 class=\"Heading--seven Heading--light mt--0\">\n\t\t\t<span ng-if=\"$ctrl.subscriptionPlan.offerPrice\">{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.offerPrice, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}</span>\n\t\t\t<span ng-if=\"$ctrl.subscriptionPlan.offerPrice\">(</span>\n\t\t\t<span ng-class=\"{'u-textStrikeThrough u-textDanger': $ctrl.subscriptionPlan.offerPrice}\">\n\t\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t</span>\n\t\t\t<span ng-if=\"$ctrl.subscriptionPlan.offerPrice\">)</span>\n\t\t</h4>\n\t</header>\n\t<hr class=\"Divider--dotted\">\n\t<h4 class=\"Heading--four u-textSuccess mb--0\">\n\t\t<span ng-class=\"{'u-textStrikeThrough u-textDanger': $ctrl.subscriptionPlan.offerPrice}\" ng-bind=\"$ctrl.subscriptionPlan.description\"></span>\n\t</h4>\n\t<p class=\"mt--0\">/month</p>\n\t<button class=\"Button {{ $ctrl.buttonCssModifier }}\"\n\t        ng-click=\"$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\">{{ $ctrl.buttonText }}\n\t</button>\n</div>\n"
 
 /***/ },
-/* 128 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15249,7 +15462,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _subscriptionDetailsHtml = __webpack_require__(129);
+	var _subscriptionDetailsHtml = __webpack_require__(131);
 	
 	var _subscriptionDetailsHtml2 = _interopRequireDefault(_subscriptionDetailsHtml);
 	
@@ -15266,13 +15479,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 129 */
+/* 131 */
 /***/ function(module, exports) {
 
 	module.exports = "<h4 class=\"Heading--four\">{{ $ctrl.subscription.plan.name}} / {{ $ctrl.subscription.plan.description}}</h4>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Status</label>\n\t<strong ng-class=\"{\n\t'u-textSuccess' : $ctrl.subscription.status.toLowerCase() === 'active',\n\t'u-textDanger' : $ctrl.subscription.status.toLowerCase() === 'canceled',\n\t'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pastdue',\n\t'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pending'\n\t}\">\n\t\t<span ng-if=\"$ctrl.subscription.status.toLowerCase() !== 'active'\" ng-bind=\"$ctrl.subscription.status\"></span>\n\t\t<span ng-if=\"$ctrl.subscription.price > 0 && $ctrl.subscription.status.toLowerCase() === 'active'\" ng-bind=\"$ctrl.subscription.status\"></span>\n\t\t<span ng-if=\"$ctrl.subscription.price <= 0 && $ctrl.subscription.status.toLowerCase() === 'active'\" class=\"u-textWarning\">{{ $ctrl.subscription.status }} <span class=\"u-textBase u-textNormal\">( Auto renew disabled )</span></span>\n\t</strong>\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Billing amount</label>\n\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.price, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Next billing amount</label>\n\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.nextBillAmount, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Next billing period amount</label>\n\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.nextBillingPeriodAmount, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Started</label>\n\t{{ $ctrl.subscription.createdAt | date: longDate }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Next billing date</label>\n\t{{ $ctrl.subscription.nextBillingDate | date: longDate }}\n</div>\n"
 
 /***/ },
-/* 130 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15283,7 +15496,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _subscriptionOverviewHtml = __webpack_require__(131);
+	var _subscriptionOverviewHtml = __webpack_require__(133);
 	
 	var _subscriptionOverviewHtml2 = _interopRequireDefault(_subscriptionOverviewHtml);
 	
@@ -15299,13 +15512,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 131 */
+/* 133 */
 /***/ function(module, exports) {
 
 	module.exports = "<section>\n\t<h3 class=\"Heading--three\" ng-bind=\"$ctrl.subscriptionPlan.name\"></h3>\n\t<p ng-bind=\"$ctrl.subscriptionPlan.description\"></p>\n</section>\n"
 
 /***/ },
-/* 132 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15316,7 +15529,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _subscriptionProgressHtml = __webpack_require__(133);
+	var _subscriptionProgressHtml = __webpack_require__(135);
 	
 	var _subscriptionProgressHtml2 = _interopRequireDefault(_subscriptionProgressHtml);
 	
@@ -15334,13 +15547,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 133 */
+/* 135 */
 /***/ function(module, exports) {
 
 	module.exports = "<section ng-if=\"$ctrl.subscriptionPlan.id\" class=\"Alert--info\">\n\t<p>Selected plan:\n\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span> / <span ng-bind=\"$ctrl.subscriptionPlan.description\"></span>\n\t\t<span ng-if=\"$ctrl.subscriptionRoute\">\n\t\t\t<a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.subscriptionRoute})\">change plan</a>\n\t\t</span>\n\t</p>\n\t</section>\n</section>\n"
 
 /***/ },
-/* 134 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15351,7 +15564,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _subscribeNavigationHtml = __webpack_require__(135);
+	var _subscribeNavigationHtml = __webpack_require__(137);
 	
 	var _subscribeNavigationHtml2 = _interopRequireDefault(_subscribeNavigationHtml);
 	
@@ -15368,13 +15581,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 135 */
+/* 137 */
 /***/ function(module, exports) {
 
 	module.exports = "<ul class=\"Nav Nav--tabs\">\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/subscribe'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/subscribe'})\">1. Subscription plan</a>\n\t</li>\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/customer'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/customer'})\">2. Customer information</a>\n\t</li>\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/payment-methods'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/payment-methods'})\">3. Payment method</a>\n\t</li>\n</ul>\n"
 
 /***/ },
-/* 136 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15385,7 +15598,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _paymentMethodHtml = __webpack_require__(137);
+	var _paymentMethodHtml = __webpack_require__(139);
 	
 	var _paymentMethodHtml2 = _interopRequireDefault(_paymentMethodHtml);
 	
@@ -15413,13 +15626,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 137 */
+/* 139 */
 /***/ function(module, exports) {
 
 	module.exports = "<div ng-if=\"$ctrl.paymentMethod.cardType\">\n\t<!-- Card -->\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Type</label>\n\t\t<i class=\"fa fa-credit-card\"></i> <span ng-bind=\"$ctrl.paymentMethod.cardType\"></span>\n\t\t<span ng-if=\"$ctrl.paymentMethod.debit === 'Yes'\">Debit Card</span>\n\t\t<span ng-if=\"$ctrl.paymentMethod.prepaid === 'Yes'\">(Prepaid)</span>\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Card number</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.maskedNumber\"></span>\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Expiration date</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.expirationDate | date:'MM / y'\"></span>\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Expired</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.expired\"></span>\n\t</div>\n\n\t<button class=\"Button Button--primary\"\n\t        ng-if=\"$ctrl.cardButtonVisible\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\"\n\t        ng-click=\"$ctrl.onCardButtonClick({paymentMethod: $ctrl.paymentMethod})\">\n\t\t{{ ($ctrl.buttonDisabled) ? $ctrl.buttonDisabledText : $ctrl.cardButtonText }}\n\t</button>\n\t<a href=\"\"\n\t   ng-if=\"$ctrl.deleteLinkVisible\"\n\t   confirm-message=\"'Are you sure you want to delete this payment method?'\"\n\t   ui-confirm-click=\"$ctrl.onDeleteClick({paymentMethod: $ctrl.paymentMethod})\">{{ $ctrl.deleteLinkText }}</a>\n</div>\n\n<div ng-if=\"$ctrl.paymentMethod.billingAgreementId\">\n\t<!-- Paypal -->\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Type</label>\n\t\t<i class=\"fa fa-cc-paypal\"></i> Paypal\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Email</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.email\"></span>\n\t</div>\n\n\t<button class=\"Button Button--primary\"\n\t        ng-if=\"$ctrl.paypalButtonVisible\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\"\n\t        ng-click=\"$ctrl.onPaypalButtonClick({paymentMethod: $ctrl.paymentMethod})\">\n\t\t{{ ($ctrl.buttonDisabled) ? $ctrl.buttonDisabledText : $ctrl.paypalButtonText }}\n\t</button>\n\t<a href=\"\"\n\t   ng-if=\"$ctrl.deleteLinkVisible\"\n\t   confirm-message=\"'Are you sure you want to delete this payment method?'\"\n\t   ui-confirm-click=\"$ctrl.onDeleteClick({paymentMethod: $ctrl.paymentMethod})\">{{ $ctrl.deleteLinkText }}</a>\n</div>\n"
 
 /***/ },
-/* 138 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15434,7 +15647,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _braintreeHomeHtml = __webpack_require__(139);
+	var _braintreeHomeHtml = __webpack_require__(141);
 	
 	var _braintreeHomeHtml2 = _interopRequireDefault(_braintreeHomeHtml);
 	
@@ -15521,13 +15734,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 139 */
+/* 141 */
 /***/ function(module, exports) {
 
 	module.exports = "<h1 class=\"Heading--one\">Braintree module</h1>\n<hr class=\"Divider--dotted\">\n\n<label>\n\t<input type=\"checkbox\" ng-click=\"$ctrl.initFlowMode()\" ng-model=\"$ctrl.state.enableWizardMode\"> Subscription wizard mode enabled\n</label>\n<p>\n\t<small>Note: Enable this to prevent going to other parts without choosing a the previous step.</small>\n</p>\n\n<div class=\"Page\">\n\t<nav class=\"Page-aside--left\">\n\t\t<ul class=\"Nav Nav--vertical\">\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/billing-overview')\">Billing overview</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/subscribe')\">Subscribe</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/customer')\">Create Customer</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/cards')\">Pay with Credit or Debit Card</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/paypal')\">Pay with Paypal</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/drop-in')\">Drop-in</a>\n\t\t\t</li>\n\t\t</ul>\n\t</nav>\n\t<main class=\"Page-main\">\n\t\t<div ng-view=\"\"></div>\n\t</main>\n</div>\n\n\n\n"
 
 /***/ },
-/* 140 */
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15542,7 +15755,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _subscribeViewHtml = __webpack_require__(141);
+	var _subscribeViewHtml = __webpack_require__(143);
 	
 	var _subscribeViewHtml2 = _interopRequireDefault(_subscribeViewHtml);
 	
@@ -15613,13 +15826,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 141 */
+/* 143 */
 /***/ function(module, exports) {
 
 	module.exports = "<div ng-view=\"\"></div>\n"
 
 /***/ },
-/* 142 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
