@@ -15550,7 +15550,7 @@
 /* 135 */
 /***/ function(module, exports) {
 
-	module.exports = "<section ng-if=\"$ctrl.subscriptionPlan.id\" class=\"Alert--info\">\n\t<div class=\"Alert-body\">\n\t\t<p>Selected plan:\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span> /\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.description\"></span>\n\t\t\t<span ng-if=\"$ctrl.subscriptionRoute\">\n\t\t\t<a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.subscriptionRoute})\">change plan</a>\n\t\t</span>\n\t\t</p>\n\t</div>\n</section>\n"
+	module.exports = "<section ng-if=\"$ctrl.subscriptionPlan.id\" class=\"Alert--info fn-subscriptionProgress\">\n\t<div class=\"Alert-body\">\n\t\t<p>Selected plan:\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span> /\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.description\"></span>\n\t\t\t<span ng-if=\"$ctrl.subscriptionRoute\">\n\t\t\t<a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.subscriptionRoute})\">change plan</a>\n\t\t</span>\n\t\t</p>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 136 */
