@@ -1,9 +1,11 @@
 <section ng-if="$ctrl.subscriptionPlan.id" class="Alert--info">
-	<p>Selected plan:
-		<span ng-bind="$ctrl.subscriptionPlan.name"></span> / <span ng-bind="$ctrl.subscriptionPlan.description"></span>
-		<span ng-if="$ctrl.subscriptionRoute">
+	<div class="Alert-body">
+		<p>Selected plan:
+			<span ng-bind="$ctrl.subscriptionPlan.name"></span> /
+			<span ng-bind="$ctrl.subscriptionPlan.description"></span>
+			<span ng-if="$ctrl.subscriptionRoute">
 			<a href="" ng-click="$ctrl.routeTo({route: $ctrl.subscriptionRoute})">change plan</a>
 		</span>
-	</p>
-	</section>
+		</p>
+	</div>
 </section>
