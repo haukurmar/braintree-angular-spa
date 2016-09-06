@@ -1,5 +1,5 @@
 import template from './subscription-overview.html';
-import {ROUTES} from '../../../braintree.constants';
+import {ROUTES, GATEWAY_ERRORS} from '../../../braintree.constants';
 import _ from 'underscore';
 
 // Inject dependencies
@@ -15,7 +15,7 @@ class SubscriptionOverviewComponent {
 				text: '',
 				link: '',
 				linkText: '',
-				descriptionHtml:'',
+				descriptionHtml: '',
 				type: ''
 			},
 			error: false,
@@ -126,7 +126,22 @@ class SubscriptionOverviewComponent {
 				}
 			},
 			(error) => {
-				this._displayMessage(error.data.message, 'warning', null, 'Start over', ROUTES.SUBSCRIPTION);
+				let errorMessage = error.data.message;
+				let errorDescription;
+
+				if (error.data.transaction) {
+					// Find detailed error message
+					let gatewayError = _.find(GATEWAY_ERRORS, (errorItem) => {
+						return errorItem.code === error.data.transaction.processorResponseCode;
+					});
+
+					if (gatewayError) {
+						errorMessage = gatewayError.text;
+						errorDescription = gatewayError.description;
+					}
+				}
+
+				this._displayMessage(errorMessage, 'warning', errorDescription, 'Start over', ROUTES.SUBSCRIPTION);
 				this._stopLoading();
 			}
 		);
