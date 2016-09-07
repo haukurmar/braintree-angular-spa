@@ -169,7 +169,7 @@
 										</h5>
 										<h5 class="Heading--five HeadingGroup-heading--main" ng-class="{'u-textSuccess': !transaction.refundId, 'u-textDanger': transaction.refundId }">
 											<span ng-if="transaction.refundId">Refund: <span>-</span></span>{{ $ctrl.formatCurrencyAmount(transaction.amount, transaction.currencyIsoCode) }}
-											<small class="u-textBase" ng-if="transaction.discounts.length">(Upgrade credit:
+											<small class="u-textBase" ng-if="transaction.discounts.length">(Discount / Upgrade credit:
 												<span ng-repeat="discount in transaction.discounts" class="u-textSuccess">{{ $ctrl.formatCurrencyAmount(discount.amount, transaction.currencyIsoCode) }}</span>)
 											</small>
 										</h5>
