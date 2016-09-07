@@ -1,5 +1,5 @@
 import braintree from 'braintree-web';
-import _ from 'underscore';
+import _ from 'lodash';
 
 @Inject('$http', 'braintreeConfigService', '$q')
 export default class BraintreeService {
@@ -70,7 +70,7 @@ export default class BraintreeService {
 
 		// window.customer = this._customerData;
 		// window.selectedSubscription = this._selectedSubscription;
-		// window.customPlansDefaults = this._customPlansDefaults;
+		//window.customPlansDefaults = this._customPlansDefaults;
 	}
 
 	// Private methods
@@ -361,14 +361,20 @@ export default class BraintreeService {
 		return this.$http.post(this.apiUrl + this._processPath, paymentData);
 	}
 
-	updateCustomerData(customerModel) {
-		this.setObjectValues(this._customerData.customer, customerModel);
-		//console.log('customer model updated in service', customerModel);
+	updateCustomerData(newValues) {
+		// Merge this._customerData into newValues
+		let newObject = _.merge(newValues, this._customerData.customer);
+
+		// Set new values
+		this._customerData.customer = newObject;
 	}
 
-	updateSelectedSubscription(model) {
-		this.setObjectValues(this._selectedSubscription, model);
-		//console.log('selected subscription model updated in service', model);
+	updateSelectedSubscription(newValues) {
+		// Merge this._selectedSubscription into newValues
+		let newObject = _.merge(newValues, this._selectedSubscription);
+
+		// Set new values
+		this._selectedSubscription = newObject;
 	}
 
 	updateSubscription(currentSubscriptionId, subscription) {
@@ -384,60 +390,15 @@ export default class BraintreeService {
 		this._selectedMerchantAccount = account;
 	}
 
-	setCustomPlansDefaults(defaults) {
+	setCustomPlansDefaults(newValues) {
 		if (!this._customPlansDefaults) {
 			this._customPlansDefaults = {};
 		}
 
-		this.setObjectValues(this._customPlansDefaults, defaults);
-	}
+		// Merge this._selectedSubscription into newValues
+		let newObject = _.merge(newValues, this._customPlansDefaults);
 
-	/**
-	 * Recursively merge properties of two objects (also overwrites if value is in source)
-	 * @param source
-	 * @param dest
-	 * @returns {*}
-	 */
-	mergeObjectsRecursive(source, dest) {
-		let self = this;
-		for (var p in source) {
-			try {
-				// Property in destination object set; update its value.
-				if (source[p].constructor == Object) {
-					dest[p] = self.mergeObjectsRecursive(dest[p], source[p]);
-
-				} else {
-					dest[p] = source[p];
-
-				}
-
-			} catch (e) {
-				// Property in destination object not set; create it and set its value.
-				dest[p] = source[p];
-			}
-		}
-
-		return dest;
-	}
-
-	// TODO: Move somewhere else
-	// Walk throught the object tree and set values
-	setObjectValues(src, dest) {
-		for (var key in dest) {
-			if (!src.hasOwnProperty(key)) {
-				if (typeof dest[key] === 'object') {
-					src[key] = {};
-					this.setObjectValues(src[key], dest[key]);
-				} else {
-					src[key] = dest[key];
-				}
-			} else {
-				if (typeof dest[key] === 'object') {
-					this.setObjectValues(src[key], dest[key]);
-				} else {
-					src[key] = dest[key];
-				}
-			}
-		}
+		// Set new values
+		this._customPlansDefaults = newObject;
 	}
 }
