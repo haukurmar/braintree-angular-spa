@@ -256,7 +256,7 @@ export default class BraintreeService {
 						responseObject.data.message = 'No subscription plans found.';
 						reject(responseObject);
 					} else {
-						let currencyPlans = _.where(response.data.plans, {currencyIsoCode: currencyIsoCode});
+						let currencyPlans = _.filter(response.data.plans, {currencyIsoCode: currencyIsoCode});
 
 						if (!currencyPlans.length) {
 							responseObject.data.message = 'No plans found for currency: ' + currencyIsoCode;
