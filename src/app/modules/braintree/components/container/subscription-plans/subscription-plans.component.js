@@ -15,7 +15,7 @@ class SubscriptionPlansComponent {
 		};
 
 		this.customer = null;
-		this.selectedSubscription = this.braintreeDataService.selectedSubscription;
+		this.selectedSubscription = {};
 	}
 
 	// Private methods

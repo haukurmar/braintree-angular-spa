@@ -1,6 +1,6 @@
 import template from './subscription-plans-custom.html';
 import {ROUTES} from '../../../braintree.constants';
-import _ from 'underscore';
+import _ from 'lodash';
 
 /**
  * This is a specific implementation to display only a set of predefined subscription plans
@@ -72,11 +72,10 @@ class SubscriptionPlansCustomComponent {
 
 		this.customer = null;
 
-		window.customPlans = this.customPlans;
 		this.merchantAccounts = this.braintreeDataService.merchantAccounts;
 		this.merchantAccountsArray = this.braintreeDataService.merchantAccountsArray;
 		this.selectedMerchantAccount = this.braintreeDataService.selectedMerchantAccount;
-		this.selectedSubscription = this.braintreeDataService.selectedSubscription;
+		this.selectedSubscription = {};
 	}
 
 	// Private methods
@@ -102,6 +101,9 @@ class SubscriptionPlansCustomComponent {
 				this.plans = response.data.plans;
 
 				_.each(response.data.plans, (plan) => {
+					// Override the default array that is returned
+					// because we are working with objects when we create a subscription
+					plan.discounts = {};
 					switch (plan.id) {
 						// USD
 					case 'premiumOneUSD':
@@ -189,11 +191,14 @@ class SubscriptionPlansCustomComponent {
 	}
 
 	_setCustomPlansDefaultValues() {
-		if(this._customPlansDefaults) {
-			this.customPlans = this.braintreeDataService.mergeObjectsRecursive(this._customPlansDefaults, this.customPlans);
+		if (this._customPlansDefaults) {
+			// Merge this._customPlansDefaults into this.customPlans
+			_.merge(this.customPlans, this._customPlansDefaults);
 		}
 	}
 
+	// Public viewModel methods
+	// --------------------------------------------------
 	formatCurrencyAmount(amount, currencyIsoCode) {
 		return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
 	}
@@ -230,8 +235,6 @@ class SubscriptionPlansCustomComponent {
 		}
 	}
 
-	// Public viewModel methods
-	// --------------------------------------------------
 	chooseSubscriptionPlan(subscriptionPlanModel) {
 		//console.log('plan chosen', subscriptionPlanModel);
 		this.braintreeDataService.updateSelectedSubscription(subscriptionPlanModel);
