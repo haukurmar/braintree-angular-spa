@@ -29187,6 +29187,7 @@
 			key: 'chooseSubscriptionPlan',
 			value: function chooseSubscriptionPlan(subscriptionPlanModel) {
 				//console.log('plan chosen', subscriptionPlanModel);
+				this.braintreeDataService.initSelectedSubscriptionData();
 				this.braintreeDataService.updateSelectedSubscription(subscriptionPlanModel);
 	
 				this.state.nextRoute = _braintreeConstants.ROUTES.CUSTOMER;
@@ -29503,6 +29504,7 @@
 			key: 'chooseSubscriptionPlan',
 			value: function chooseSubscriptionPlan(subscriptionPlanModel) {
 				//console.log('plan chosen', subscriptionPlanModel);
+				this.braintreeDataService.initSelectedSubscriptionData();
 				this.braintreeDataService.updateSelectedSubscription(subscriptionPlanModel);
 	
 				this.state.nextRoute = _braintreeConstants.ROUTES.CUSTOMER;
