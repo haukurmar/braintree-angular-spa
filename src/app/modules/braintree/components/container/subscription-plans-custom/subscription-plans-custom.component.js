@@ -237,6 +237,7 @@ class SubscriptionPlansCustomComponent {
 
 	chooseSubscriptionPlan(subscriptionPlanModel) {
 		//console.log('plan chosen', subscriptionPlanModel);
+		this.braintreeDataService.initSelectedSubscriptionData();
 		this.braintreeDataService.updateSelectedSubscription(subscriptionPlanModel);
 
 		this.state.nextRoute = ROUTES.CUSTOMER;
