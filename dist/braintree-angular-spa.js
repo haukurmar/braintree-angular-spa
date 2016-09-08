@@ -1264,6 +1264,27 @@
 				this._selectedMerchantAccount = account;
 			}
 		}, {
+			key: 'setSelectedMerchantAccountByCurrency',
+			value: function setSelectedMerchantAccountByCurrency(currencyIsoCode) {
+				switch (currencyIsoCode) {
+					case "USD":
+						this._selectedMerchantAccount = this._merchantAccounts.USD;
+						break;
+					case "EUR":
+						this._selectedMerchantAccount = this._merchantAccounts.EUR;
+						break;
+					case "GBP":
+						this._selectedMerchantAccount = this._merchantAccounts.GBP;
+						break;
+					case "ISK":
+						this._selectedMerchantAccount = this._merchantAccounts.ISK;
+						break;
+					default:
+						this._selectedMerchantAccount = this._merchantAccounts.USD;
+						break;
+				}
+			}
+		}, {
 			key: 'setCustomPlansDefaults',
 			value: function setCustomPlansDefaults(newValues) {
 				if (!this._customPlansDefaults) {
@@ -31711,6 +31732,8 @@
 	
 				this._clearMessage();
 				this._startLoading('Updating subscription plan...');
+				// Set the selectedMerchantAccount
+				this.braintreeDataService.setSelectedMerchantAccountByCurrency(newSubscriptionPlan.currencyIsoCode);
 	
 				// Cancel the current subscription
 				this.braintreeDataService.cancelSubscription(currentSubscription.id).then(function (response) {
@@ -31723,7 +31746,8 @@
 							var newSubscriptionData = {
 								subscription: {
 									paymentMethodToken: currentSubscription.defaultPaymentMethod.token,
-									planId: newSubscriptionPlan.id
+									planId: newSubscriptionPlan.id,
+									merchantAccountId: _this3.braintreeDataService.selectedMerchantAccount.id
 								}
 							};
 	
