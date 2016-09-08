@@ -201,6 +201,8 @@ class CustomerDetailsComponent {
 
 		this._clearMessage();
 		this._startLoading('Updating subscription plan...');
+		// Set the selectedMerchantAccount
+		this.braintreeDataService.setSelectedMerchantAccountByCurrency(newSubscriptionPlan.currencyIsoCode);
 
 		// Cancel the current subscription
 		this.braintreeDataService.cancelSubscription(currentSubscription.id).then(
@@ -213,7 +215,8 @@ class CustomerDetailsComponent {
 					let newSubscriptionData = {
 						subscription: {
 							paymentMethodToken: currentSubscription.defaultPaymentMethod.token,
-							planId: newSubscriptionPlan.id
+							planId: newSubscriptionPlan.id,
+							merchantAccountId: this.braintreeDataService.selectedMerchantAccount.id
 						}
 					};
 

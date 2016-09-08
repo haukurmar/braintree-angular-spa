@@ -390,6 +390,26 @@ export default class BraintreeService {
 		this._selectedMerchantAccount = account;
 	}
 
+	setSelectedMerchantAccountByCurrency(currencyIsoCode) {
+		switch (currencyIsoCode) {
+		case "USD":
+			this._selectedMerchantAccount = this._merchantAccounts.USD;
+			break;
+		case "EUR":
+			this._selectedMerchantAccount = this._merchantAccounts.EUR;
+			break;
+		case "GBP":
+			this._selectedMerchantAccount = this._merchantAccounts.GBP;
+			break;
+		case "ISK":
+			this._selectedMerchantAccount = this._merchantAccounts.ISK;
+			break;
+		default:
+			this._selectedMerchantAccount = this._merchantAccounts.USD;
+			break;
+		}
+	}
+
 	setCustomPlansDefaults(newValues) {
 		if (!this._customPlansDefaults) {
 			this._customPlansDefaults = {};
