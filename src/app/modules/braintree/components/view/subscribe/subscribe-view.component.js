@@ -33,6 +33,10 @@ class SubscribeViewComponent {
 		if (this.customPlansDefaults) {
 			this.braintreeDataService.setCustomPlansDefaults(this.customPlansDefaults);
 		}
+
+		if(this.defaultCurrency) {
+			this.braintreeDataService.setSelectedMerchantAccountByCurrency(this.defaultCurrency);
+		}
 	}
 
 	// Public viewModel methods
@@ -43,7 +47,8 @@ class SubscribeViewComponent {
 let component = {
 	bindings: {
 		customerData: '<',
-		customPlansDefaults: '<'
+		customPlansDefaults: '<',
+		defaultCurrency: '<'
 	},
 	template: template,
 	controller: SubscribeViewComponent
