@@ -1,5 +1,5 @@
 
-@Inject('$location')
+@Inject('$location', '$filter')
 export default class CoreService {
 	constructor() {
 
@@ -33,9 +33,14 @@ export default class CoreService {
 		let currencySymbol = this.getCurrencySymbol(currencyIsoCode);
 
 		if(currencyIsoCode.toLowerCase() === 'isk') {
+			amount = this.$filter('number')(amount, 0);
+			// Replace the first comma with a dot
+			amount = amount.replace(',', '.');
+
 			return amount + currencySymbol;
 		}
 
+		amount = this.$filter('number')(amount, 2);
 		return currencySymbol + amount;
 	}
 }
