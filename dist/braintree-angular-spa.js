@@ -28009,10 +28009,11 @@
 	var Inject = __webpack_require__(83);
 	
 	var CoreService = (function () {
-		function CoreService($location) {
+		function CoreService($location, $filter) {
 			_classCallCheck(this, _CoreService);
 	
 			this.$location = $location;
+			this.$filter = $filter;
 		}
 	
 		_createClass(CoreService, [{
@@ -28047,15 +28048,20 @@
 				var currencySymbol = this.getCurrencySymbol(currencyIsoCode);
 	
 				if (currencyIsoCode.toLowerCase() === 'isk') {
+					amount = this.$filter('number')(amount, 0);
+					// Replace the first comma with a dot
+					amount = amount.replace(',', '.');
+	
 					return amount + currencySymbol;
 				}
 	
+				amount = this.$filter('number')(amount, 2);
 				return currencySymbol + amount;
 			}
 		}]);
 	
 		var _CoreService = CoreService;
-		CoreService = Inject('$location')(CoreService) || CoreService;
+		CoreService = Inject('$location', '$filter')(CoreService) || CoreService;
 		return CoreService;
 	})();
 	
@@ -32193,7 +32199,7 @@
 /* 131 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"{{ $ctrl.itemCssClass }}\">\n\t<header class=\"HeadingGroup\">\n\t\t<h3 class=\"Heading--four mb--1\">\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span>\n\t\t</h3>\n\t\t<h4 class=\"Heading--seven Heading--light mt--0\">\n\t\t\t<span ng-if=\"$ctrl.subscriptionPlan.offerPrice\">{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.offerPrice, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}</span>\n\t\t\t<span ng-if=\"$ctrl.subscriptionPlan.offerPrice\">(</span>\n\t\t\t<span ng-class=\"{'u-textStrikeThrough u-textDanger': $ctrl.subscriptionPlan.offerPrice}\">\n\t\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t</span>\n\t\t\t<span ng-if=\"$ctrl.subscriptionPlan.offerPrice\">)</span>\n\t\t</h4>\n\t</header>\n\t<hr class=\"Divider--dotted\">\n\t<h4 class=\"Heading--four u-textSuccess mb--0\">\n\t\t<span ng-class=\"{'u-textStrikeThrough u-textDanger': $ctrl.subscriptionPlan.offerPrice}\" ng-bind=\"$ctrl.subscriptionPlan.description\"></span>\n\t</h4>\n\t<p class=\"mt--0\">/month</p>\n\t<button class=\"Button {{ $ctrl.buttonCssModifier }}\"\n\t        ng-click=\"$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\">{{ $ctrl.buttonText }}\n\t</button>\n</div>\n"
+	module.exports = "<div class=\"{{ $ctrl.itemCssClass }}\">\n\t<header class=\"HeadingGroup\">\n\t\t<h3 class=\"Heading--four mb--1\">\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span>\n\t\t</h3>\n\t\t<h4 class=\"Heading--seven Heading--light mt--0\" ng-if=\"!$ctrl.subscriptionPlan.offerPrice\">\n\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t</h4>\n\t\t<h4 class=\"Heading--seven Heading--light mt--0\" ng-if=\"$ctrl.subscriptionPlan.offerPrice\">\n\t\t\t<span class=\"u-textStrikeThrough u-textDanger\">\n\t\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t</span><br>\n\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.offerPrice, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t</h4>\n\t</header>\n\t<hr class=\"Divider--dotted\">\n\t<h4 class=\"Heading--four u-textSuccess mb--0\" ng-if=\"!$ctrl.subscriptionPlan.offerPrice\">\n\t\t{{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.price / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t</h4>\n\t<h4 class=\"Heading--four u-textSuccess mb--0\" ng-if=\"$ctrl.subscriptionPlan.offerPrice\">\n\t\t<small>\n\t\t\t<span class=\"u-textStrikeThrough u-textDanger\">\n\t\t\t\t{{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.price / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t</span>\n\t\t</small>\n\t\t<br>\n\t\t{{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.offerPrice / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t</h4>\n\t<p class=\"mt--0\">/month</p>\n\t<button class=\"Button {{ $ctrl.buttonCssModifier }}\"\n\t        ng-click=\"$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\">{{ $ctrl.buttonText }}\n\t</button>\n</div>\n"
 
 /***/ },
 /* 132 */
