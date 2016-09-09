@@ -32553,6 +32553,10 @@
 				if (this.customPlansDefaults) {
 					this.braintreeDataService.setCustomPlansDefaults(this.customPlansDefaults);
 				}
+	
+				if (this.defaultCurrency) {
+					this.braintreeDataService.setSelectedMerchantAccountByCurrency(this.defaultCurrency);
+				}
 			}
 	
 			// Public viewModel methods
@@ -32567,7 +32571,8 @@
 	var component = {
 		bindings: {
 			customerData: '<',
-			customPlansDefaults: '<'
+			customPlansDefaults: '<',
+			defaultCurrency: '<'
 		},
 		template: _subscribeViewHtml2['default'],
 		controller: SubscribeViewComponent
