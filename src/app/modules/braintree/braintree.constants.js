@@ -14,7 +14,7 @@ const GATEWAY_ERRORS = [
 	{
 		code: '2000',
 		text: 'Do Not Honor',
-		description: 'Your bank is unwilling to accept the transaction. Contact your bank for more details regarding this generic decline.'
+		description: 'Your bank is unwilling to accept the transaction. Try choosing a different currency - if the message persists you will need to contact your bank for more details regarding this generic decline.'
 	},
 	{
 		code: '2001',
