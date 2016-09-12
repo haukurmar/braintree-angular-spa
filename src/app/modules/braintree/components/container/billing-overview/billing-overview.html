@@ -74,13 +74,15 @@
 									<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.plans.loading.isLoading" text="$ctrl.state.plans.loading.text"></ui-loading-icon>
 									<div class="Panel-body Panel-body--highlight">
 
-										<div class="Grid-row">
+										<div class="Grid-row Grid-row--alignCenter">
 											<div class="Grid-col--4" ng-repeat="plan in $ctrl.plans" ng-if="$ctrl.plans.length">
 												<ui-braintree-subscription-plan
 													button-disabled="plan.id === subscription.planId"
 													button-css-modifier="plan.id === subscription.planId ? 'Button--success' : 'Button--cta'"
 													button-text="plan.id === subscription.planId ? 'Current plan' : 'Select plan'"
 													subscription-plan="plan"
+													item-css-class="'u-textCenter'"
+													format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
 													on-choose="$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)"></ui-braintree-subscription-plan>
 												<hr class="Divider--dotted">
 											</div>

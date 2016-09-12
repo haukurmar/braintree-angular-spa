@@ -1,5 +1,6 @@
 import template from './billing-overview.html';
 import {ROUTES} from '../../../braintree.constants';
+import _ from 'lodash';
 
 // Inject dependencies
 @Inject('braintreeDataService', 'braintreeAppService', 'moment', '$animate')
@@ -351,7 +352,13 @@ class CustomerDetailsComponent {
 		this._startLoading('Loading subscription plans...');
 		this.braintreeDataService.getSubscriptionPlansForCurrency(currencyIsoCode).then(
 			(response) => {
-				this.plans = response.data.plans;
+
+				// Little hack to Exclude some plans (TODO: Find a better solution for this)
+				// Looks for "hidden" in description to exclude plan from displaying
+				this.plans = _.filter(response.data.plans, (plan) => {
+					return plan.description !== 'hidden';
+				});
+
 				this._stopLoading();
 			},
 			(error) => {
