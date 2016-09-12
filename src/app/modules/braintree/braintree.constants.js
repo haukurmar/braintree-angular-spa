@@ -92,6 +92,11 @@ const GATEWAY_ERRORS = [
 		description: 'The submitted transaction appears to be a duplicate of a previously submitted transaction and was declined to prevent charging the same card twice for the same service.'
 	},
 	{
+		code: '2046',
+		text: 'Declined',
+		description: 'Your bank is unwilling to accept the transaction. For credit/debit card transactions, you will need to contact your bank for more details regarding this generic decline; if this is a PayPal transaction, you will need to contact PayPal.'
+	},
+	{
 		code: '2057',
 		text: 'Issuer or Cardholder has put a restriction on the card',
 		description: 'Please contact your issuing bank for more information.'
