@@ -432,6 +432,15 @@ class CustomerDetailsComponent {
 	routeTo(path){
 		return this.braintreeAppService.routeTo(path);
 	}
+
+	subscribeNow() {
+		// If an external link has been set.
+		if(this.subscribeRedirectUrl) {
+			window.location = this.subscribeRedirectUrl;
+		} else {
+			this.routeTo('/subscribe');
+		}
+	}
 }
 
 // Component decorations
@@ -439,7 +448,8 @@ let component = {
 	bindings: {
 		customerData: '<',
 		headerText: '<',
-		headerVisible: '<'
+		headerVisible: '<',
+		subscribeRedirectUrl: '<'
 	},
 	template: template,
 	controller: CustomerDetailsComponent
