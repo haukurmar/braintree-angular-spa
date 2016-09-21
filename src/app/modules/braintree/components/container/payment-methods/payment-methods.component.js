@@ -93,6 +93,9 @@ class PaymentMethodsComponent {
 		this.state.message.descriptionHtml = descriptionHtml;
 	}
 
+	formatCurrencyAmount(amount, currencyIsoCode) {
+		return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
+	}
 
 	routeTo(path) {
 		this.braintreeAppService.routeTo(path);

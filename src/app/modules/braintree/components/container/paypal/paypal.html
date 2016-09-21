@@ -1,6 +1,7 @@
 <ui-braintree-subscription-progress
 	subscription-plan="$ctrl.selectedSubscription"
 	subscription-route="$ctrl.routes.subscription"
+	format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
 	route-to="$ctrl.routeTo(route)">
 </ui-braintree-subscription-progress>
 <ui-braintree-subscription-navigation

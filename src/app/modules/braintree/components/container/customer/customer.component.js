@@ -95,6 +95,10 @@ class BraintreeSubscriptionComponent {
 		);
 	}
 
+	formatCurrencyAmount(amount, currencyIsoCode) {
+		return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
+	}
+
 	routeTo(path) {
 		this.braintreeAppService.routeTo(path);
 	}

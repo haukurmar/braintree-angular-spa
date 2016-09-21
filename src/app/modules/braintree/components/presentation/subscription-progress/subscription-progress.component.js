@@ -5,6 +5,7 @@ let component = {
 	bindings: {
 		subscriptionPlan: '<',
 		subscriptionRoute: '<',
+		formatCurrencyAmount: '&',
 		routeTo: '&'
 	},
 	template: template

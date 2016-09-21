@@ -98,6 +98,10 @@ class CreditCardComponent {
 		this.state.message.descriptionHtml = descriptionHtml;
 	}
 
+	formatCurrencyAmount(amount, currencyIsoCode) {
+		return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
+	}
+
 	_startLoading(text) {
 		this.state.loading.isLoading = true;
 		this.state.loading.text = text;
