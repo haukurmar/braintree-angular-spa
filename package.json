@@ -1,6 +1,6 @@
 {
   "name": "braintree-angular-spa",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "",
   "main": "src/app/boot.js",
   "scripts": {
