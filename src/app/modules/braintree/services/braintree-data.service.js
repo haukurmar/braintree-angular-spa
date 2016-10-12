@@ -352,6 +352,14 @@ export default class BraintreeService {
 		this._selectedSubscription = {};
 	}
 
+	retrySubscriptionCharge(subscription) {
+		var subscriptionData = {
+			id: subscription.id
+		};
+
+		return this.$http.post(this.apiUrl + this._subscriptionsPath + '/' + subscription.id + '/retry', subscriptionData);
+	}
+
 	/**
 	 * Process the payment
 	 * @param paymentData

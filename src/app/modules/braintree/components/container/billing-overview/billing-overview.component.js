@@ -407,6 +407,27 @@ class CustomerDetailsComponent {
 		);
 	}
 
+	retryCharge(subscription) {
+		this._clearMessage();
+		this._startLoading('Retrying transaction...');
+
+		this.braintreeDataService.retrySubscriptionCharge(subscription).then(
+			(response) => {
+				if(response.success) {
+					this._stopLoading();
+					this._displayMessage('Transaction was successful!', 'success');
+				} else {
+					this._stopLoading();
+					this._displayMessage(response.data.message, 'warning');
+				}
+			},
+			(error) => {
+				this._stopLoading();
+				this._displayMessage(error.data.message, 'warning');
+			}
+		);
+	}
+
 	// TODO: Change this so we use an endpoint in the api for this, so we are not sending the price over the wire
 	updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText) {
 		this._clearMessage();
