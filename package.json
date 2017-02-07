@@ -93,6 +93,7 @@
     "font-awesome-webpack": "0.0.4",
     "fontawesome": "^4.5.0",
     "jquery": "^2.2.3",
+    "jsonformatter": "^0.6.0",
     "legolize": "^0.4.0-beta.2",
     "lodash": "^4.15.0",
     "moment": "^2.14.1",
