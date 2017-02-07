@@ -370,19 +370,11 @@ export default class BraintreeService {
 	}
 
 	updateCustomerData(newValues) {
-		// Merge this._customerData into newValues
-		let newObject = _.merge(newValues, this._customerData.customer);
-
-		// Set new values
-		this._customerData.customer = newObject;
+		_.merge(this._customerData.customer, newValues);
 	}
 
 	updateSelectedSubscription(newValues) {
-		// Merge this._selectedSubscription into newValues
-		let newObject = _.merge(newValues, this._selectedSubscription);
-
-		// Set new values
-		this._selectedSubscription = newObject;
+		_.merge(this._selectedSubscription, newValues);
 	}
 
 	updateSubscription(currentSubscriptionId, subscription) {
