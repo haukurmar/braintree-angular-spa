@@ -10,6 +10,8 @@ import angularEscAction from 'angular-esc-action';
 import clickOutside from '@iamadamjowett/angular-click-outside';
 //import momentTimezone from 'moment-timezone';
 import angularPayments from 'angular-payments';
+import jsonFormatter from 'jsonformatter';
 
 // CSS
 import 'font-awesome-webpack';
+import 'jsonformatter/dist/json-formatter.css';
