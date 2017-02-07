@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(146);
+	module.exports = __webpack_require__(149);
 
 
 /***/ },
@@ -151,7 +151,11 @@
 	
 	var _modulesCoreCoreModule2 = _interopRequireDefault(_modulesCoreCoreModule);
 	
-	var ngModule = angular.module('braintree-angular-spa.modules.app', [_modulesBraintreeBraintreeModule2['default'].name, _modulesCoreCoreModule2['default'].name]);
+	var _modulesDebugDebugModule = __webpack_require__(146);
+	
+	var _modulesDebugDebugModule2 = _interopRequireDefault(_modulesDebugDebugModule);
+	
+	var ngModule = angular.module('braintree-angular-spa.modules.app', [_modulesBraintreeBraintreeModule2['default'].name, _modulesCoreCoreModule2['default'].name, _modulesDebugDebugModule2['default'].name]);
 	
 	/**
 	 * App Module
@@ -1242,20 +1246,12 @@
 		}, {
 			key: 'updateCustomerData',
 			value: function updateCustomerData(newValues) {
-				// Merge this._customerData into newValues
-				var newObject = _lodash2['default'].merge(newValues, this._customerData.customer);
-	
-				// Set new values
-				this._customerData.customer = newObject;
+				_lodash2['default'].merge(this._customerData.customer, newValues);
 			}
 		}, {
 			key: 'updateSelectedSubscription',
 			value: function updateSelectedSubscription(newValues) {
-				// Merge this._selectedSubscription into newValues
-				var newObject = _lodash2['default'].merge(newValues, this._selectedSubscription);
-	
-				// Set new values
-				this._selectedSubscription = newObject;
+				_lodash2['default'].merge(this._selectedSubscription, newValues);
 			}
 		}, {
 			key: 'updateSubscription',
@@ -32665,6 +32661,106 @@
 
 /***/ },
 /* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Container Components
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _debugComponent = __webpack_require__(147);
+	
+	var _debugComponent2 = _interopRequireDefault(_debugComponent);
+	
+	var ngModule = angular.module('braintree-angular-spa.modules.debug', ['jsonFormatter']);
+	
+	/**
+	 * App Module
+	 */
+	ngModule
+	// Container components
+	.component('appDebug', _debugComponent2['default']);
+	
+	exports['default'] = ngModule;
+	module.exports = exports['default'];
+
+/***/ },
+/* 147 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+		value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var _debugHtml = __webpack_require__(148);
+	
+	var _debugHtml2 = _interopRequireDefault(_debugHtml);
+	
+	// Inject dependencies
+	
+	var Inject = __webpack_require__(83);
+	
+	var AppDebugComponent = (function () {
+		function AppDebugComponent(braintreeDataService) {
+			_classCallCheck(this, _AppDebugComponent);
+	
+			this.braintreeDataService = braintreeDataService;
+	
+			this.customer = {};
+			this.selectedSubscription = {};
+		}
+	
+		// Component decorations
+	
+		// Private methods
+		// --------------------------------------------------
+	
+		_createClass(AppDebugComponent, [{
+			key: '$onInit',
+			value: function $onInit() {
+				this.customer = this.braintreeDataService.customer;
+			}
+		}, {
+			key: 'refresh',
+			value: function refresh() {
+				this.customer = this.braintreeDataService.customer;
+			}
+		}]);
+	
+		var _AppDebugComponent = AppDebugComponent;
+		AppDebugComponent = Inject('braintreeDataService')(AppDebugComponent) || AppDebugComponent;
+		return AppDebugComponent;
+	})();
+	
+	var component = {
+		bindings: {},
+		template: _debugHtml2['default'],
+		controller: AppDebugComponent
+	};
+	
+	exports['default'] = component;
+	module.exports = exports['default'];
+
+/***/ },
+/* 148 */
+/***/ function(module, exports) {
+
+	module.exports = "<h1>Debug</h1>\n<button ng-click=\"$ctrl.refresh()\">Refresh</button><br>\n\n<h2>Customer</h2>\n<json-formatter json=\"$ctrl.customer\" open=\"1\"></json-formatter>\n"
+
+/***/ },
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
