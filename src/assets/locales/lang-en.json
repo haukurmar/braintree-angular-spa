@@ -60,11 +60,21 @@
 			"CHOOSE_PAYPAL": "Choose Paypal",
 			"CONNECT_TO_PAYPAL": "Connect with Paypal",
 			"DEFAULT_PAYMENT_METHOD": "Default payment method",
-			"SAVE_AND_CHOOSE_CARD": "Save and choose card"
+			"SAVE_AND_CHOOSE_CARD": "Save and choose card",
+			"DELETE_PAYMENT_METHOD_CONFIRM": "Are you sure you want to delete this payment method?"
 		},
 		"heading": {
 			"ADD_NEW_PAYMENT_METHOD": "Add a new payment method",
 			"CREDIT_OR_DEBIT_CARD": "Credit or Debit Card"
+		},
+		"label": {
+			"CARD_NUMBER": "Card number",
+			"CARD_EXPIRATION_DATE": "Expiration date",
+			"CARD_EXPIRED": "Expired",
+			"DEBIT_CARD": "Debit Card",
+			"PAYMENT_TYPE": "Type",
+			"PAYPAL_EMAIL": "Email",
+			"PREPAID_CARD": "Prepaid Card"
 		}
 	}
 }
