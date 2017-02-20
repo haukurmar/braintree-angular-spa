@@ -15,10 +15,10 @@
 
 <section class="Panel">
 	<div class="Panel-body">
-		<h2 class="Heading--two Heading--light u-textCenter">Connect with Paypal</h2>
+		<h2 class="Heading--two Heading--light u-textCenter" translate="payment.heading.CONNECT_TO_PAYPAL"></h2>
 		<hr class="Divider--dotted">
 
-		<button class="Button Button--primary" ng-click="$ctrl.pay($event)">Connect with Paypal...</button>
+		<button class="Button Button--primary" ng-click="$ctrl.pay($event)">{{ 'payment.button.CONNECT_TO_PAYPAL' | translate }}...</button>
 		<span ng-if="$ctrl.state.backButtonVisible">
 			| <a href="" ng-click="$ctrl.routeTo($ctrl.state.backButtonRoute)">{{ $ctrl.state.backButtonText }}</a>
 		</span>

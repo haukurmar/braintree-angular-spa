@@ -79,7 +79,8 @@
 		},
 		"heading": {
 			"ADD_NEW_PAYMENT_METHOD": "Add a new payment method",
-			"CREDIT_OR_DEBIT_CARD": "Credit or Debit Card"
+			"CREDIT_OR_DEBIT_CARD": "Credit or Debit Card",
+			"CONNECT_TO_PAYPAL": "Connect with Paypal"
 		},
 		"label": {
 			"AMOUNT": "Amount",

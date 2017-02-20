@@ -79,7 +79,8 @@
 		},
 		"heading": {
 			"ADD_NEW_PAYMENT_METHOD": "Adicionar um novo método de pagamento",
-			"CREDIT_OR_DEBIT_CARD": "Cartão de crédito ou débito"
+			"CREDIT_OR_DEBIT_CARD": "Cartão de crédito ou débito",
+			"CONNECT_TO_PAYPAL": "Conectar com Paypal"
 		},
 		"label": {
 			"AMOUNT": "Montante",
