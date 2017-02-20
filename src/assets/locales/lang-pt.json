@@ -7,6 +7,9 @@
 		"ICELANDIC_KRONA": "Coroa islandesa"
 	},
 	"customer": {
+		"heading": {
+			"FILL_OUT_YOUR_CONTACT_INFO": "Preencha suas informações de contato"
+		},
 		"label": {
 			"FIRST_NAME": "Primeiro nome",
 			"LAST_NAME": "Último nome",
@@ -82,6 +85,7 @@
 			"CREDIT_OR_DEBIT_CARD": "Cartão de crédito ou débito",
 			"CONNECT_TO_PAYPAL": "Conectar com Paypal",
 			"CHOOSE_PAYMENT_METHOD": "Escolha o seu método de pagamento",
+			"FILL_OUT_YOUR_CARD_DETAILS": "Preencha os detalhes do seu cartão",
 			"NEW_PAYMENT_METHOD": "Novo método de pagamento",
 			"SAVED_PAYMENT_METHODS": "Métodos de pagamento guardados"
 		},
