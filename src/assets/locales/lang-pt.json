@@ -80,7 +80,10 @@
 		"heading": {
 			"ADD_NEW_PAYMENT_METHOD": "Adicionar um novo método de pagamento",
 			"CREDIT_OR_DEBIT_CARD": "Cartão de crédito ou débito",
-			"CONNECT_TO_PAYPAL": "Conectar com Paypal"
+			"CONNECT_TO_PAYPAL": "Conectar com Paypal",
+			"CHOOSE_PAYMENT_METHOD": "Escolha o seu método de pagamento",
+			"NEW_PAYMENT_METHOD": "Novo método de pagamento",
+			"SAVED_PAYMENT_METHODS": "Métodos de pagamento guardados"
 		},
 		"label": {
 			"AMOUNT": "Montante",
