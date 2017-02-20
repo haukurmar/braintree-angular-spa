@@ -1,16 +1,16 @@
 <form name="customer" ng-submit="$ctrl.onSubmit({customerModel: $ctrl.customerModel})">
 	<div class="Form-item">
-		<label class="Form-itemLabel" for="txtFirstName">First name</label>
-		<input type="text" class="Textbox fn-firstName" id="txtFirstName" ng-model="$ctrl.customerModel.firstName" required placeholder="First name" />
+		<label class="Form-itemLabel" for="txtFirstName" translate="customer.label.FIRST_NAME"></label>
+		<input type="text" class="Textbox fn-firstName" id="txtFirstName" ng-model="$ctrl.customerModel.firstName" required placeholder="{{ 'customer.label.FIRST_NAME' | translate }}" />
 	</div>
 	<div class="Form-item">
-		<label class="Form-itemLabel" for="txtLastName">Last name</label>
-		<input type="text" class="Textbox fn-lastName" id="txtLastName" ng-model="$ctrl.customerModel.lastName" required placeholder="Last name" />
+		<label class="Form-itemLabel" for="txtLastName" translate="customer.label.LAST_NAME"></label>
+		<input type="text" class="Textbox fn-lastName" id="txtLastName" ng-model="$ctrl.customerModel.lastName" required placeholder="{{ 'customer.label.LAST_NAME' | translate }}" />
 	</div>
 
 	<div class="Form-item">
-		<label class="Form-itemLabel" for="txtEmail">Email</label>
-		<input type="email" class="Textbox fn-email" id="txtEmail" ng-model="$ctrl.customerModel.email" required placeholder="Email address" />
+		<label class="Form-itemLabel" for="txtEmail" translate="customer.label.EMAIL"></label>
+		<input type="email" class="Textbox fn-email" id="txtEmail" ng-model="$ctrl.customerModel.email" required placeholder="{{ 'customer.label.EMAIL_ADDRESS' | translate }}" />
 	</div>
 
 	<button class="Button Button--primary fn-customerSubmit" type="submit">{{ $ctrl.submitButtonText }}</button>

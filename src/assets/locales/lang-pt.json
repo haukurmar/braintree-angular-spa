@@ -6,6 +6,14 @@
 		"BRITISH_POUND": "Libra britânica",
 		"ICELANDIC_KRONA": "Coroa islandesa"
 	},
+	"customer": {
+		"label": {
+			"FIRST_NAME": "Primeiro nome",
+			"LAST_NAME": "Último nome",
+			"EMAIL": "Email",
+			"EMAIL_ADDRESS": "Endereço de email"
+		}
+	},
 	"subscription": {
 		"navigation": {
 			"SUBSCRIPTION_PLAN": "Plano de inscrição",
