@@ -1,17 +1,18 @@
 <section ng-if="$ctrl.subscriptionPlan.id" class="Alert--info fn-subscriptionProgress">
 	<div class="Alert-body">
-		<p>Selected plan:
+		<p>
+			<span translate="subscription.label.SELECTED_PLAN"></span>:
 			<span ng-bind="$ctrl.subscriptionPlan.name"></span>:
 		   <span ng-if="$ctrl.subscriptionPlan.billingFrequency > 1">
 			   {{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}
 			   ({{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.price / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}
-			   /month)
+			   /{{ 'subscription.label.MONTH' | translate }})
 		   </span>
 			<span ng-if="$ctrl.subscriptionPlan.billingFrequency === 1">
-				{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }} /month
+				{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }} /{{ 'subscription.label.MONTH' | translate }}
 			</span>
 			<span ng-if="$ctrl.subscriptionRoute">
-			- <a href="" ng-click="$ctrl.routeTo({route: $ctrl.subscriptionRoute})">change plan</a>
+			- <a href="" ng-click="$ctrl.routeTo({route: $ctrl.subscriptionRoute})">{{ 'subscription.button.CHANGE_PLAN' | translate }}</a>
 		</span>
 		</p>
 	</div>

@@ -11,6 +11,7 @@ import clickOutside from '@iamadamjowett/angular-click-outside';
 //import momentTimezone from 'moment-timezone';
 import angularPayments from 'angular-payments';
 import jsonFormatter from 'jsonformatter';
+import angularTranslate from 'angular-translate';
 
 // CSS
 import 'font-awesome-webpack';

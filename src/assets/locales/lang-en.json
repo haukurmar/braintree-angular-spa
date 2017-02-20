@@ -1,0 +1,28 @@
+{
+	"general": {
+		"CURRENCY": "Currency",
+		"US_DOLLAR": "US Dollar",
+		"EURO": "Euro",
+		"BRITISH_POUND": "British Pound",
+		"ICELANDIC_KRONA": "Icelandic Krona"
+	},
+	"subscription": {
+		"heading": {
+			"SELECT_SUBSCRIPTION" : "Select a subscription plan"
+		},
+		"button": {
+			"SELECT_PLAN": "Select plan",
+			"CHANGE_PLAN" : "change plan"
+		},
+		"general": {
+			
+		},
+		"label": {
+			"MONTH": "month",
+			"OR": "or",
+			"PAY_MONTHLY": "pay monthly",
+			"SELECTED_PLAN": "Selected plan"
+		}
+	}
+	
+}

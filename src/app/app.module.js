@@ -24,9 +24,12 @@ ngModule
 	.component('appHome', AppHomeViewComponent);
 
 /* @ngInject */
-function appConfig() {
-
-
+function appConfig($translateProvider) {
+	$translateProvider
+		.translations('en', require('../assets/locales/lang-en.json'))
+		.translations('pt', require('../assets/locales/lang-pt.json'))
+		.preferredLanguage('en')
+		.fallbackLanguage('en');
 }
 
 /* @ngInject */

@@ -2,7 +2,7 @@ import template from './braintree-home.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeDataService', 'braintreeAppService')
+@Inject('braintreeDataService', 'braintreeAppService', '$translate')
 class BraintreeHomeComponent {
 	constructor() {
 		this.state = {
@@ -28,6 +28,10 @@ class BraintreeHomeComponent {
 
 	// Public viewModel methods
 	// --------------------------------------------------
+	changeLanguage(lang) {
+		this.$translate.use(lang);
+	}
+
 	initFlowMode() {
 		if(this.state.enableWizardMode) {
 			this.braintreeDataService.initMode('subscription');

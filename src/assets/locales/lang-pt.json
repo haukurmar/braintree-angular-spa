@@ -1,0 +1,28 @@
+{
+	"general": {
+		"CURRENCY": "Moeda",
+		"US_DOLLAR": "Dólar americano",
+		"EURO": "Euro",
+		"BRITISH_POUND": "Libra britânica",
+		"ICELANDIC_KRONA": "Coroa islandesa"
+	},
+	"subscription": {
+		"heading": {
+			"SELECT_SUBSCRIPTION": "Selecionar um plano de assinatura"
+		},
+		"button": {
+			"SELECT_PLAN": "Selecione o plano",
+			"CHANGE_PLAN" : "plano de mudança"
+		},
+		"general": {
+
+		},
+		"label": {
+			"MONTH" : "mês",
+			"OR": "ou",
+			"PAY_MONTHLY" : "pagar mensalmente",
+			"SELECTED_PLAN": "Plano selecionado"
+		}
+	}
+
+}
