@@ -1,6 +1,6 @@
 <h4 class="Heading--four">{{ $ctrl.subscription.plan.name}}</h4>
 <div class="Form-item">
-	<label class="Form-itemLabel">Status</label>
+	<label class="Form-itemLabel" translate="subscription.label.SUBSCRIPTION_STATUS"></label>
 	<strong ng-class="{
 	'u-textSuccess' : $ctrl.subscription.status.toLowerCase() === 'active',
 	'u-textDanger' : $ctrl.subscription.status.toLowerCase() === 'canceled',
@@ -9,26 +9,26 @@
 	}">
 		<span ng-if="$ctrl.subscription.status.toLowerCase() !== 'active'" ng-bind="$ctrl.subscription.status"></span>
 		<span ng-if="$ctrl.subscription.price > 0 && $ctrl.subscription.status.toLowerCase() === 'active'" ng-bind="$ctrl.subscription.status"></span>
-		<span ng-if="$ctrl.subscription.price <= 0 && $ctrl.subscription.status.toLowerCase() === 'active'" class="u-textWarning">{{ $ctrl.subscription.status }} <span class="u-textBase u-textNormal">( Auto renew disabled )</span></span>
+		<span ng-if="$ctrl.subscription.price <= 0 && $ctrl.subscription.status.toLowerCase() === 'active'" class="u-textWarning">{{ $ctrl.subscription.status }} <span class="u-textBase u-textNormal">( {{ 'subscription.label.AUTO_RENEW_DISABLED' | translate }} )</span></span>
 	</strong>
 </div>
 <div class="Form-item">
-	<label class="Form-itemLabel">Billing amount</label>
+	<label class="Form-itemLabel" translate="subscription.label.BILLING_AMOUNT"></label>
 	{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.price, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}
 </div>
 <div class="Form-item">
-	<label class="Form-itemLabel">Next billing amount</label>
+	<label class="Form-itemLabel" translate="subscription.label.NEXT_BILLING_AMOUNT"></label>
 	{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.nextBillAmount, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}
 </div>
 <div class="Form-item">
-	<label class="Form-itemLabel">Next billing period amount</label>
+	<label class="Form-itemLabel" translate="subscription.label.NEXT_BILLING_PERIOD_AMOUNT"></label>
 	{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.nextBillingPeriodAmount, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}
 </div>
 <div class="Form-item">
-	<label class="Form-itemLabel">Started</label>
+	<label class="Form-itemLabel" translate="subscription.label.SUBSCRIPTION_STARTED"></label>
 	{{ $ctrl.subscription.createdAt | date: longDate }}
 </div>
 <div class="Form-item">
-	<label class="Form-itemLabel">Next billing date</label>
+	<label class="Form-itemLabel" translate="subscription.label.NEXT_BILLING_DATE"></label>
 	{{ $ctrl.subscription.nextBillingDate | date: longDate }}
 </div>

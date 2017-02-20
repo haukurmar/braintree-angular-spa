@@ -32,15 +32,15 @@
 		<div class="Grid-col--12">
 			<section class="Panel" ng-if="!$ctrl.customer.subscriptions">
 				<header class="Panel-header">
-					<h3 class="Panel-heading Heading--three">You have no subscriptions.</h3>
+					<h3 class="Panel-heading Heading--three">{{ 'subscription.heading.YOU_HAVE_NO_SUBSCRIPTIONS' | translate }}.</h3>
 				</header>
 				<div class="Panel-body">
-					<button class="Button Button--success Button--lg" ng-click="$ctrl.subscribeNow();">Subscribe now...</button>
+					<button class="Button Button--success Button--lg" ng-click="$ctrl.subscribeNow();">{{ 'subscription.button.SUBSCRIBE_NOW' | translate }}...</button>
 				</div>
 			</section>
 			<section class="Panel" ng-if="$ctrl.customer.subscriptions">
 				<header class="Panel-header">
-					<h3 class="Panel-heading Heading--three">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>
+					<h3 class="Panel-heading Heading--three">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? ('subscription.heading.SUBSCRIPTIONS' | translate ) : ('subscription.heading.SUBSCRIPTION' | translate) }}</h3>
 				</header>
 				<div class="Panel-body">
 					<div ng-repeat="subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['-updatedAt']">
@@ -51,19 +51,20 @@
 								<button type="button"
 								        class="Button Button--cta"
 								        ng-if="subscription.status.toLowerCase() === 'past due'"
-								        ng-click="$ctrl.retryCharge(subscription);">Retry Charge</button>
-								<button type="button" class="Button Button--primary" ng-click="$ctrl.getPlansByCurrency(subscription.plan.currencyIsoCode); showEditPlanModal = !showEditPlanModal" ng-show="subscription.status.toLowerCase() === 'active'">Edit Plan</button>
+								        ng-click="$ctrl.retryCharge(subscription);">{{ 'subscription.button.RETRY_CHARGE' | translate }}</button>
+								<button type="button" class="Button Button--primary" ng-click="$ctrl.getPlansByCurrency(subscription.plan.currencyIsoCode); showEditPlanModal = !showEditPlanModal" ng-show="subscription.status.toLowerCase() === 'active'">{{ 'subscription.button.EDIT_PLAN' | translate }}</button>
 								<span ng-if="subscription.status.toLowerCase() === 'active' || subscription.status.toLowerCase() === 'past due'">|</span>
-								<a href="" ng-if="subscription.status.toLowerCase() === 'active' && subscription.price > 0" ng-click="$ctrl.disableAutoRenew(subscription)">Disable Auto Renew</a>
-								<a href="" ng-if="subscription.status.toLowerCase() === 'active' && subscription.price <= 0" ng-click="$ctrl.enableAutoRenew(subscription)">Enable Auto Renew</a>
-								<a href="" ng-if="subscription.status.toLowerCase() === 'pending' || subscription.status.toLowerCase() === 'past due'" ng-click="$ctrl.cancelSubscription(subscription)">Cancel subscription</a>
+								<a href="" ng-if="subscription.status.toLowerCase() === 'active' && subscription.price > 0" ng-click="$ctrl.disableAutoRenew(subscription)">{{ 'subscription.button.DISABLE_AUTO_RENEW' | translate }}</a>
+								<a href="" ng-if="subscription.status.toLowerCase() === 'active' && subscription.price <= 0" ng-click="$ctrl.enableAutoRenew(subscription)">{{ 'subscription.button.ENABLE_AUTO_RENEW' | translate }}</a>
+								<a href="" ng-if="subscription.status.toLowerCase() === 'pending' || subscription.status.toLowerCase() === 'past due'" ng-click="$ctrl.cancelSubscription(subscription)">{{ 'subscription.button.CANCEL_SUBSCRIPTION' | translate }}</a>
 							</div>
 							<div class="Grid-col--6">
-								<h4 class="Heading--four">Payment method</h4>
+								<h4 class="Heading--four" translate="subscription.heading.PAYMENT_METHOD"></h4>
 								<ui-braintree-payment-method payment-method="subscription.defaultPaymentMethod"></ui-braintree-payment-method>
 								<button class="Button Button--primary"
 								        ng-click="showEditPaymentMethodsModal = !showEditPaymentMethodsModal"
-								        ng-hide="subscription.status.toLowerCase() === 'canceled'">Change Payment Method
+								        ng-hide="subscription.status.toLowerCase() === 'canceled'">
+									{{ 'subscription.button.CHANGE_PAYMENT_METHOD' | translate }}
 								</button>
 							</div>
 						</div>
@@ -73,7 +74,7 @@
 							<modal-body>
 								<section class="Panel">
 									<ui-braintree-message-box message="$ctrl.state.message"></ui-braintree-message-box>
-									<h4 class="Heading--four">Edit subscription plan</h4>
+									<h4 class="Heading--four" translate="subscription.heading.EDIT_SUBSCRIPTION_PLAN"></h4>
 									<hr class="Divider--dotted">
 									<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.plans.loading.isLoading" text="$ctrl.state.plans.loading.text"></ui-loading-icon>
 									<div class="Panel-body Panel-body--highlight">
@@ -83,7 +84,7 @@
 												<ui-braintree-subscription-plan
 													button-disabled="plan.id === subscription.planId"
 													button-css-modifier="plan.id === subscription.planId ? 'Button--success' : 'Button--cta'"
-													button-text="plan.id === subscription.planId ? 'Current plan' : 'Select plan'"
+													button-text="plan.id === subscription.planId ? ('subscription.button.CURRENT_PLAN' | translate) : ('subscription.button.SELECT_PLAN' | translate)"
 													subscription-plan="plan"
 													item-css-class="'u-textCenter'"
 													format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
@@ -101,12 +102,12 @@
 							<modal-body>
 								<section class="Panel">
 									<ui-braintree-message-box message="$ctrl.state.message"></ui-braintree-message-box>
-									<h4 class="Heading--four">Edit payment method</h4>
+									<h4 class="Heading--four" translate="subscription.heading.EDIT_PAYMENT_METHOD"></h4>
 									<hr class="Divider--dotted">
 									<div class="Panel-body Panel-body--highlight">
 
 										<div ng-if="$ctrl.customer.paymentMethods['0']">
-											<h5 class="Heading--five">Your stored payment methods</h5>
+											<h5 class="Heading--five" translate="subscription.heading.YOUR_SAVED_PAYMENT_METHODS"></h5>
 											<hr class="Divider--dotted">
 
 											<div class="Grid-row">
@@ -114,12 +115,12 @@
 													<ui-braintree-payment-method
 														payment-method="paymentMethod"
 														button-disabled="paymentMethod.token === subscription.defaultPaymentMethod.token"
-														button-disabled-text="'Default payment method'"
-														card-button-text="'Choose card'"
+														button-disabled-text="'payment.button.DEFAULT_PAYMENT_METHOD' | translate"
+														card-button-text="'payment.button.CHOOSE_CARD' | translate"
 														card-button-visible="true"
 														delete-link-text="'Delete'"
 														delete-link-visible="paymentMethod.token !== subscription.defaultPaymentMethod.token"
-														paypal-button-text="'Choose paypal'"
+														paypal-button-text="'payment.button.CHOOSE_PAYPAL' | translate"
 														paypal-button-visible="true"
 														on-card-button-click="$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)"
 														on-delete-click="$ctrl.deletePaymentMethod(paymentMethod)"
@@ -130,21 +131,21 @@
 										</div>
 
 										<hr class="Divider--dotted">
-										<h5 class="Heading--five">Add a new payment method</h5>
+										<h5 class="Heading--five" translate="payment.heading.ADD_NEW_PAYMENT_METHOD"></h5>
 
 										<div class="Grid-row">
 											<div class="Grid-col--6">
-												<h2 class="Heading--six">Credit or Debit Card</h2>
+												<h2 class="Heading--six" translate="payment.heading.CREDIT_OR_DEBIT_CARD"></h2>
 												<ui-braintree-creditcard-form
 													on-submit="$ctrl.addCreditCard(paymentModel, subscription)"
 													back-button-visible="false"
-													submit-button-text="'Save and choose card'"
+													submit-button-text="'payment.button.SAVE_AND_CHOOSE_CARD' | translate"
 													hide-amount="true"></ui-braintree-creditcard-form>
 											</div>
 											<div class="Grid-col--6">
 												<h2 class="Heading--six">Paypal</h2>
 												<braintree-paypal-button
-													button-text="'Connect with Paypal...'"
+													button-text="('payment.button.CONNECT_TO_PAYPAL' | translate) + '...'"
 													currency-iso-code="subscription.plan.currencyIsoCode"
 													on-finish="$ctrl.addPaymentMethod(paymentModel, subscription)"></braintree-paypal-button>
 											</div>
@@ -164,7 +165,7 @@
 						    toggle-icon-css-class="js-toggleIcon"
 						    toggle-icon-css-class-hide="fa-chevron-down"
 						    toggle-icon-css-class-show="fa-chevron-right">
-							<i class="fa fa-chevron-right js-toggleIcon"></i> Transaction history</h4>
+							<i class="fa fa-chevron-right js-toggleIcon"></i> {{ 'subscription.heading.TRANSACTION_HISTORY' | translate }}</h4>
 
 						<div class="js-transactionHistory" hidden>
 							<div class="Panel">
@@ -175,13 +176,13 @@
 										</h5>
 										<h5 class="Heading--five HeadingGroup-heading--main" ng-class="{'u-textSuccess': !transaction.refundId, 'u-textDanger': transaction.refundId }">
 											<span ng-if="transaction.refundId">Refund: <span>-</span></span>{{ $ctrl.formatCurrencyAmount(transaction.amount, transaction.currencyIsoCode) }}
-											<small class="u-textBase" ng-if="transaction.discounts.length">(Discount / Upgrade credit:
+											<small class="u-textBase" ng-if="transaction.discounts.length">({{ 'subscription.label.DISCOUNT' | translate }} / {{ 'subscription.label.UPGRADE_CREDIT' | translate }}:
 												<span ng-repeat="discount in transaction.discounts" class="u-textSuccess">{{ $ctrl.formatCurrencyAmount(discount.amount, transaction.currencyIsoCode) }}</span>)
 											</small>
 										</h5>
 									</header>
 									<hr class="Divider--dotted">
-									<h5 class="Heading--five">Status history</h5>
+									<h5 class="Heading--five" translate="subscription.heading.TRANSACTION_STATUS_HISTORY"></h5>
 									<div ng-repeat="statusHistoryItem in transaction.statusHistory">
 										{{ statusHistoryItem.timestamp | date: longDate }}
 										/ {{ statusHistoryItem.status }}
@@ -189,7 +190,7 @@
 									<hr class="Divider">
 								</div>
 								<div class="Panel-body Panel-body--highlight" ng-if="!subscription.transactions.length">
-									<h4 class="Heading--five">No transactions were found.</h4>
+									<h4 class="Heading--five">{{ 'subscription.heading.NO_TRANSACTIONS_FOUND' | translate }}.</h4>
 								</div>
 							</div>
 

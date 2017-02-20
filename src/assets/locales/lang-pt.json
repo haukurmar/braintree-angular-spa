@@ -8,20 +8,62 @@
 	},
 	"subscription": {
 		"heading": {
-			"SELECT_SUBSCRIPTION": "Selecionar um plano de assinatura"
+			"EDIT_SUBSCRIPTION_PLAN" : "Editar plano de inscrição",
+			"EDIT_PAYMENT_METHOD" : "Editar método de pagamento",
+			"NO_TRANSACTIONS_FOUND": "Nenhuma transação foi encontrada",
+			"SELECT_SUBSCRIPTION": "Selecionar um plano de inscrição",
+			"SUBSCRIPTION": "Inscrição",
+			"SUBSCRIPTIONS": "Assinaturas",
+			"TRANSACTION_HISTORY": "Histórico de transações",
+			"PAYMENT_METHOD": "Método de pagamento",
+			"TRANSACTION_STATUS_HISTORY": "Histórico de status",
+			"YOU_HAVE_NO_SUBSCRIPTIONS": "Você não tem subscrições",
+			"YOUR_SAVED_PAYMENT_METHODS": "Os métodos de pagamento guardados"
+			
 		},
 		"button": {
+			"CHANGE_PLAN" : "plano de mudança",
+			"CURRENT_PLAN" : "Plano atual",
+			"CHANGE_PAYMENT_METHOD" : "Mudar o metodo de pagamento",
+			"CANCEL_SUBSCRIPTION" : "Cancelar inscrição",
+			"DISABLE_AUTO_RENEW": "Desativar renovação automática",
+			"EDIT_PLAN": "Editar plano",
+			"ENABLE_AUTO_RENEW": "Ativar renovação automática",
+			"RETRY_CHARGE" : "Taxa de nova tentativa",
 			"SELECT_PLAN": "Selecione o plano",
-			"CHANGE_PLAN" : "plano de mudança"
+			"SUBSCRIBE_NOW": "Inscreva-se agora"
 		},
 		"general": {
 
 		},
 		"label": {
+			"AUTO_RENEW_DISABLED" : "Renovação automática desativada",
+			"AUTO_RENEW_ENABLED" : "Renovação automática ativada",
+			"BILLING_AMOUNT" : "Montante da faturação",
+			"DISCOUNT" : "Desconto",
 			"MONTH" : "mês",
+			"NEXT_BILLING_AMOUNT": "Próximo valor de faturamento",
+			"NEXT_BILLING_DATE": "Próxima data de faturamento",
+			"NEXT_BILLING_PERIOD_AMOUNT" : "Próximo período de faturamento",
 			"OR": "ou",
 			"PAY_MONTHLY" : "pagar mensalmente",
-			"SELECTED_PLAN": "Plano selecionado"
+			"SELECTED_PLAN": "Plano selecionado",
+			"SUBSCRIPTION_STARTED": "Started",
+			"SUBSCRIPTION_STATUS": "Status",
+			"UPGRADE_CREDIT": "Atualizar crédito"
+		}
+	},
+	"payment": {
+		"button": {
+			"CHOOSE_CARD" : "Escolha o cartão",
+			"CHOOSE_PAYPAL" : "Escolha Paypal",
+			"CONNECT_TO_PAYPAL" : "Conectar com Paypal",
+			"DEFAULT_PAYMENT_METHOD": "Metodo de pagamento padrão",
+			"SAVE_AND_CHOOSE_CARD": "Salvar e escolher cartão"
+		},
+		"heading": {
+			"ADD_NEW_PAYMENT_METHOD": "Adicionar um novo método de pagamento",
+			"CREDIT_OR_DEBIT_CARD": "Cartão de crédito ou débito"
 		}
 	}
 

@@ -8,20 +8,60 @@
 	},
 	"subscription": {
 		"heading": {
-			"SELECT_SUBSCRIPTION" : "Select a subscription plan"
+			"EDIT_SUBSCRIPTION_PLAN" : "Edit subscription plan",
+			"EDIT_PAYMENT_METHOD" : "Edit payment method",
+			"NO_TRANSACTIONS_FOUND": "No transactions were found",
+			"SELECT_SUBSCRIPTION" : "Select a subscription plan",
+			"SUBSCRIPTION": "Subscription",
+			"SUBSCRIPTIONS": "Subscriptions",
+			"TRANSACTION_HISTORY": "Transaction history",
+			"PAYMENT_METHOD": "Payment method",
+			"TRANSACTION_STATUS_HISTORY": "Status history",
+			"YOU_HAVE_NO_SUBSCRIPTIONS": "You have no subscriptions",
+			"YOUR_SAVED_PAYMENT_METHODS": "Your saved payment methods"
+
 		},
 		"button": {
+			"CHANGE_PLAN" : "change plan",
+			"CURRENT_PLAN" : "Current plan",
+			"CHANGE_PAYMENT_METHOD" : "Change Payment Method",
+			"CANCEL_SUBSCRIPTION" : "Cancel subscription",
+			"DISABLE_AUTO_RENEW": "Disable Auto Renew",
+			"EDIT_PLAN": "Edit Plan",
+			"ENABLE_AUTO_RENEW": "Enable Auto Renew",
+			"RETRY_CHARGE" : "Retry Charge",
 			"SELECT_PLAN": "Select plan",
-			"CHANGE_PLAN" : "change plan"
-		},
-		"general": {
-			
+			"SUBSCRIBE_NOW": "Subscribe now"
 		},
 		"label": {
+			"AUTO_RENEW_DISABLED" : "Auto renew disabled",
+			"AUTO_RENEW_ENABLED" : "Auto renew enabled",
+			"BILLING_AMOUNT" : "Billing amount",
+			"DISCOUNT" : "Discount",
 			"MONTH": "month",
+			"NEXT_BILLING_AMOUNT": "Next billing amount",
+			"NEXT_BILLING_DATE": "Next billing date",
+			"NEXT_BILLING_PERIOD_AMOUNT" : "Next billing period amount",
 			"OR": "or",
 			"PAY_MONTHLY": "pay monthly",
-			"SELECTED_PLAN": "Selected plan"
+			"SELECTED_PLAN": "Selected plan",
+			"SUBSCRIPTION_STARTED": "Started",
+			"SUBSCRIPTION_STATUS": "Status",
+			"UPGRADE_CREDIT": "Upgrade credit"
+
+		}
+	},
+	"payment": {
+		"button" : {
+			"CHOOSE_CARD" : "Choose card",
+			"CHOOSE_PAYPAL" : "Choose Paypal",
+			"CONNECT_TO_PAYPAL" : "Connect with Paypal",
+			"DEFAULT_PAYMENT_METHOD": "Default payment method",
+			"SAVE_AND_CHOOSE_CARD": "Save and choose card"
+		},
+		"heading": {
+			"ADD_NEW_PAYMENT_METHOD": "Add a new payment method",
+			"CREDIT_OR_DEBIT_CARD": "Credit or Debit Card"
 		}
 	}
 	
