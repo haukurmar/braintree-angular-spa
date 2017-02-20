@@ -1,7 +1,7 @@
 <section>
 	<div ng-if="$ctrl.state.success">
-		<h2 class="Heading--two" ng-if="$ctrl.state.success">Your subscription has been created!</h2>
-		Go to <a href="" ng-click="$ctrl.routeTo('/billing-overview')">billing overview</a> for more details.
+		<h2 class="Heading--two" ng-if="$ctrl.state.success">{{ 'subscription.heading.SUBSCRIPTION_CREATED' | translate}}!</h2>
+		{{ 'subscription.text.GO_TO' | translate }} <a href="" ng-click="$ctrl.routeTo('/billing-overview')">{{ 'subscription.text.BILLING_OVERVIEW' | translate }}</a> {{ 'subscription.text.FOR_MORE_DETAILS' | translate }}.
 	</div>
 
 	<ui-braintree-message-box message="$ctrl.state.message" on-route="$ctrl.routeTo(route)"></ui-braintree-message-box>

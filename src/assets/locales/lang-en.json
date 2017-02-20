@@ -27,6 +27,7 @@
 			"SELECT_SUBSCRIPTION": "Select a subscription plan",
 			"SUBSCRIPTION": "Subscription",
 			"SUBSCRIPTIONS": "Subscriptions",
+			"SUBSCRIPTION_CREATED": "Your subscription has been created",
 			"TRANSACTION_HISTORY": "Transaction history",
 			"PAYMENT_METHOD": "Payment method",
 			"TRANSACTION_STATUS_HISTORY": "Status history",
@@ -60,6 +61,11 @@
 			"SUBSCRIPTION_STARTED": "Started",
 			"SUBSCRIPTION_STATUS": "Status",
 			"UPGRADE_CREDIT": "Upgrade credit"
+		},
+		"text": {
+			"GO_TO": "Go to",
+			"BILLING_OVERVIEW": "billing overview",
+			"FOR_MORE_DETAILS": "for more details"
 		}
 	},
 	"payment": {

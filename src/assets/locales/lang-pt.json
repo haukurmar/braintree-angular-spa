@@ -27,6 +27,7 @@
 			"SELECT_SUBSCRIPTION": "Selecionar um plano de inscrição",
 			"SUBSCRIPTION": "Inscrição",
 			"SUBSCRIPTIONS": "Assinaturas",
+			"SUBSCRIPTION_CREATED": "Sua inscrição foi criada",
 			"TRANSACTION_HISTORY": "Histórico de transações",
 			"PAYMENT_METHOD": "Método de pagamento",
 			"TRANSACTION_STATUS_HISTORY": "Histórico de status",
@@ -60,6 +61,11 @@
 			"SUBSCRIPTION_STARTED": "Started",
 			"SUBSCRIPTION_STATUS": "Status",
 			"UPGRADE_CREDIT": "Atualizar crédito"
+		},
+		"text": {
+			"GO_TO": "Vamos para",
+			"BILLING_OVERVIEW": "Visão geral de faturamento",
+			"FOR_MORE_DETAILS": "para mais detalhes"
 		}
 	},
 	"payment": {
