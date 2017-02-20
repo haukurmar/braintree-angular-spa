@@ -76,9 +76,12 @@
 			"CREDIT_OR_DEBIT_CARD": "Credit or Debit Card"
 		},
 		"label": {
+			"AMOUNT": "Amount",
 			"CARD_NUMBER": "Card number",
 			"CARD_EXPIRATION_DATE": "Expiration date",
 			"CARD_EXPIRED": "Expired",
+			"CVV": "CVV",
+			"CURRENCY": "Currency",
 			"DEBIT_CARD": "Debit Card",
 			"PAYMENT_TYPE": "Type",
 			"PAYPAL_EMAIL": "Email",

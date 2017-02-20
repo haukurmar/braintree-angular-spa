@@ -1,25 +1,25 @@
 <section>
 	<form name="payment" ng-submit="$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})">
 		<div class="Form-item" ng-if="$ctrl.merchantAccounts.length && !$ctrl.selectedMerchantAccount">
-			<label class="Form-itemLabel">Currency</label>
+			<label class="Form-itemLabel" translate="payment.label.CURRENCY"></label>
 			<label ng-repeat="merchantAccount in $ctrl.merchantAccounts">
 				<input type="radio" name="merchantAccountId" ng-value="merchantAccount.id" ng-model="$ctrl.paymentModel.merchantAccountId" required>
 				{{ merchantAccount.currencyIsoCode }}
 			</label>
 		</div>
 		<div class="Form-item" ng-if="$ctrl.selectedMerchantAccount && !$ctrl.hideCurrency">
-			<label class="Form-itemLabel">Currency</label>
+			<label class="Form-itemLabel" translate="payment.label.CURRENCY"></label>
 			{{ $ctrl.selectedMerchantAccount.currencyIsoCode }}
 		</div>
 
 		<div class="Form-item" ng-if="!$ctrl.hideAmount">
-			<label class="Form-itemLabel">Amount<br>
+			<label class="Form-itemLabel">{{ 'payment.label.AMOUNT' | translate }}<br>
 				<input type="text" class="Textbox fn-amount" ng-model="$ctrl.paymentModel.amount" size="8" ng-required="true" />
 			</label>
 		</div>
 
 		<div class="Form-item">
-			<label class="Form-itemLabel">Card Number<br>
+			<label class="Form-itemLabel">{{ 'payment.label.CARD_NUMBER' | translate }}<br>
 			<input type="text"
 			       class="Textbox fn-creditCardNumber"
 			       ng-model="$ctrl.paymentModel.creditCardNumber"
@@ -35,7 +35,7 @@
 		</div>
 
 		<div class="Form-item">
-			<label class="Form-itemLabel">Expiration Date<br>
+			<label class="Form-itemLabel">{{ 'payment.label.CARD_EXPIRATION_DATE' | translate }}<br>
 			<input type="text" class="Textbox fn-expiryDate"
 			       ng-model="$ctrl.paymentModel.expirationDate"
 			       payments-validate="expiry"
@@ -47,7 +47,7 @@
 		</div>
 
 		<div class="Form-item">
-			<label class="Form-itemLabel">CVV<br>
+			<label class="Form-itemLabel">{{ 'payment.label.CVV' | translate }}<br>
 			<input type="text"
 			       class="Textbox fn-cvv"
 			       ng-model="$ctrl.paymentModel.cvv"
