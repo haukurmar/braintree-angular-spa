@@ -55,7 +55,6 @@ class BraintreeSubscriptionComponent {
 
 		// Subscription mode
 		if (this.state.mode.subscription) {
-			//this.state.submitButtonText = 'Continue';
 			this.state.backButtonVisible = true;
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
@@ -77,11 +76,11 @@ class BraintreeSubscriptionComponent {
 
 		if (this.state.mode.subscription) {
 			if (!this.selectedSubscription.id) {
-				this.$translate('customer.warning.MUST_CHOOSE_SUBSCRIPTION').then((value) => {this.state.message.text = value});
-				this.$translate('customer.button.GO_TO_SUBSCRIPTION_PAGE').then((value) => {this.state.message.linkText = value});
+				this.$translate('general.warning.MUST_CHOOSE_SUBSCRIPTION').then((value) => {this.state.message.text = value});
+				this.$translate('general.button.GO_TO_SUBSCRIPTION_PAGE').then((value) => {this.state.message.linkText = value});
 			}
 
-			this.$translate('customer.button.CONTINUE').then((value) => {
+			this.$translate('general.button.CONTINUE').then((value) => {
 				this.state.submitButtonText = value;
 			});
 		} else {

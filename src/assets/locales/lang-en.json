@@ -4,14 +4,19 @@
 		"US_DOLLAR": "US Dollar",
 		"EURO": "Euro",
 		"BRITISH_POUND": "British Pound",
-		"ICELANDIC_KRONA": "Icelandic Krona"
+		"ICELANDIC_KRONA": "Icelandic Krona",
+		"button": {
+			"GO_TO_SUBSCRIPTION_PAGE": "Go to subscription page",
+			"CONTINUE": "Continue"
+		},
+		"warning": {
+			"MUST_CHOOSE_SUBSCRIPTION": "You must choose a subscription plan before you proceed"
+		}
 	},
 	"customer": {
 		"button": {
 			"BACK" : "Back",
-			"CREATE_CUSTOMER": "Create customer",
-			"CONTINUE": "Continue",
-			"GO_TO_SUBSCRIPTION_PAGE": "Go to subscription page"
+			"CREATE_CUSTOMER": "Create customer"
 		},
 		"heading": {
 			"FILL_OUT_YOUR_CONTACT_INFO": "Fill out your contact information"
@@ -25,9 +30,6 @@
 			"LAST_NAME": "Last name",
 			"EMAIL": "Email",
 			"EMAIL_ADDRESS": "Email address"
-		},
-		"warning": {
-			"MUST_CHOOSE_SUBSCRIPTION": "You must choose a subscription plan before you proceed"
 		}
 	},
 	"subscription": {
