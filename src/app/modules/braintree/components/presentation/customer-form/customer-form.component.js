@@ -7,7 +7,7 @@ let component = {
 		backButtonVisible: '<',
 		customerModel: '<',
 		onSubmit: '&',
-		submitButtonText: '<',
+		submitButtonText: '=', // Use 2-way here because it can change from parent
 		routeTo: '&'
 	},
 	template: template
