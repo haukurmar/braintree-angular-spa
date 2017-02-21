@@ -65,7 +65,8 @@
 			"ENABLE_AUTO_RENEW": "Ativar renovação automática",
 			"RETRY_CHARGE": "Taxa de nova tentativa",
 			"SELECT_PLAN": "Selecione o plano",
-			"SUBSCRIBE_NOW": "Inscreva-se agora"
+			"SUBSCRIBE_NOW": "Inscreva-se agora",
+			"START_OVER": "Start over"
 		},
 		"label": {
 			"AUTO_RENEW_DISABLED": "Renovação automática desativada",
@@ -84,9 +85,11 @@
 			"UPGRADE_CREDIT": "Atualizar crédito"
 		},
 		"loading": {
+			"CREATING_SUBSCRIPTION": "Criar subscrição...",
 			"FETCING_SUBSCRIPTION_PLANS": "Obtenção de planos de assinatura..."
 		},
 		"message": {
+			"ERROR_CREATING_SUBSCRIPTION": "Ocorreu um erro ao criar uma assinatura.",
 			"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Não é possível obter planos de assinatura. Tente novamente mais tarde."
 		},
 		"text": {

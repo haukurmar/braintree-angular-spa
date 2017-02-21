@@ -65,7 +65,8 @@
 			"ENABLE_AUTO_RENEW": "Enable Auto Renew",
 			"RETRY_CHARGE": "Retry Charge",
 			"SELECT_PLAN": "Select plan",
-			"SUBSCRIBE_NOW": "Subscribe now"
+			"SUBSCRIBE_NOW": "Subscribe now",
+			"START_OVER": "Start over"
 		},
 		"label": {
 			"AUTO_RENEW_DISABLED": "Auto renew disabled",
@@ -84,9 +85,11 @@
 			"UPGRADE_CREDIT": "Upgrade credit"
 		},
 		"loading": {
+			"CREATING_SUBSCRIPTION": "Creating subscription...",
 			"FETCING_SUBSCRIPTION_PLANS": "Fetching subscription plans..."
 		},
 		"message": {
+			"ERROR_CREATING_SUBSCRIPTION": "An error occurred creating a subscription.",
 			"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Unable to get subscription plans, please try again later."
 		},
 		"text": {
