@@ -6,16 +6,19 @@
 		"BRITISH_POUND": "Libra britânica",
 		"ICELANDIC_KRONA": "Coroa islandesa",
 		"button": {
+			"BACK" : "Volte",
+			"CONTINUE": "Continuar",
 			"GO_TO_SUBSCRIPTION_PAGE": "Ir para a página de inscrição",
-			"CONTINUE": "Criar cliente"
+			"GO_TO_CUSTOMER_PAGE": "Ir para a página do cliente"
 		},
-		"warning": {
-			"MUST_CHOOSE_SUBSCRIPTION": "Você deve escolher um plano de assinatura antes de prosseguir"
+		"message": {
+			"ERROR_CONNECTING_TO_SERVER": "Erro: não é possível conectar ao servidor. Verifique se o servidor está em execução.",
+			"MUST_CHOOSE_SUBSCRIPTION": "Você deve escolher um plano de assinatura antes de prosseguir",
+			"MUST_FILL_CUSTOMER_INFO": "You need to fill out customer information before you proceed"
 		}
 	},
 	"customer": {
 		"button": {
-			"BACK" : "Volte",
 			"CREATE_CUSTOMER": "Criar cliente"
 		},
 		"heading": {
@@ -92,8 +95,9 @@
 			"CHOOSE_PAYPAL": "Escolha Paypal",
 			"CONNECT_TO_PAYPAL": "Conectar com Paypal",
 			"DEFAULT_PAYMENT_METHOD": "Metodo de pagamento padrão",
+			"DELETE_PAYMENT_METHOD_CONFIRM": "Tem a certeza de que pretende eliminar este método de pagamento?",
 			"SAVE_AND_CHOOSE_CARD": "Salvar e escolher cartão",
-			"DELETE_PAYMENT_METHOD_CONFIRM": "Tem a certeza de que pretende eliminar este método de pagamento?"
+			"PAY_NOW": "Pague agora"
 		},
 		"heading": {
 			"ADD_NEW_PAYMENT_METHOD": "Adicionar um novo método de pagamento",
@@ -115,6 +119,14 @@
 			"PAYMENT_TYPE": "Tipo",
 			"PAYPAL_EMAIL": "Email",
 			"PREPAID_CARD": "Cartão Pré-pago"
+		},
+		"message": {
+			"PAYMENT_AUTHORIZED": "Pagamento autorizado, obrigado.",
+			"PAYMENT_FAILED": "Pagamento falhou"
+		},
+		"loading": {
+			"SAVING_PAYMENT_INFORMATION": "Como guardar informações de pagamento...",
+			"PROCESSING_PAYMENT": "Processamento de pagamento..."
 		}
 	}
 }

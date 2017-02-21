@@ -50,7 +50,7 @@ class BraintreeSubscriptionComponent {
 
 		// Listen for change of language
 		this.$rootScope.$on('$translateChangeSuccess', () => {
-			this.setLanguageKeys(this.state.mode.subscription);
+			this.setLanguageKeys();
 		});
 
 		// Subscription mode
@@ -72,11 +72,11 @@ class BraintreeSubscriptionComponent {
 	}
 
 	setLanguageKeys() {
-		this.$translate('customer.button.BACK').then((value) => {this.state.backButtonText = value});
+		this.$translate('general.button.BACK').then((value) => {this.state.backButtonText = value});
 
 		if (this.state.mode.subscription) {
 			if (!this.selectedSubscription.id) {
-				this.$translate('general.warning.MUST_CHOOSE_SUBSCRIPTION').then((value) => {this.state.message.text = value});
+				this.$translate('general.message.MUST_CHOOSE_SUBSCRIPTION').then((value) => {this.state.message.text = value});
 				this.$translate('general.button.GO_TO_SUBSCRIPTION_PAGE').then((value) => {this.state.message.linkText = value});
 			}
 

@@ -6,16 +6,19 @@
 		"BRITISH_POUND": "British Pound",
 		"ICELANDIC_KRONA": "Icelandic Krona",
 		"button": {
+			"BACK" : "Back",
+			"CONTINUE": "Continue",
 			"GO_TO_SUBSCRIPTION_PAGE": "Go to subscription page",
-			"CONTINUE": "Continue"
+			"GO_TO_CUSTOMER_PAGE": "Go to customer page"
 		},
-		"warning": {
-			"MUST_CHOOSE_SUBSCRIPTION": "You must choose a subscription plan before you proceed"
+		"message": {
+			"ERROR_CONNECTING_TO_SERVER": "Error: cannot connect to server. Please make sure your server is running.",
+			"MUST_CHOOSE_SUBSCRIPTION": "You must choose a subscription plan before you proceed",
+			"MUST_FILL_CUSTOMER_INFO": "You need to fill out customer information before you proceed"
 		}
 	},
 	"customer": {
 		"button": {
-			"BACK" : "Back",
 			"CREATE_CUSTOMER": "Create customer"
 		},
 		"heading": {
@@ -92,8 +95,9 @@
 			"CHOOSE_PAYPAL": "Choose Paypal",
 			"CONNECT_TO_PAYPAL": "Connect with Paypal",
 			"DEFAULT_PAYMENT_METHOD": "Default payment method",
+			"DELETE_PAYMENT_METHOD_CONFIRM": "Are you sure you want to delete this payment method?",
 			"SAVE_AND_CHOOSE_CARD": "Save and choose card",
-			"DELETE_PAYMENT_METHOD_CONFIRM": "Are you sure you want to delete this payment method?"
+			"PAY_NOW": "Pay now"
 		},
 		"heading": {
 			"ADD_NEW_PAYMENT_METHOD": "Add a new payment method",
@@ -115,6 +119,14 @@
 			"PAYMENT_TYPE": "Type",
 			"PAYPAL_EMAIL": "Email",
 			"PREPAID_CARD": "Prepaid Card"
+		},
+		"message": {
+			"PAYMENT_AUTHORIZED": "Payment authorized, thanks.",
+			"PAYMENT_FAILED": "Payment failed"
+		},
+		"loading": {
+			"SAVING_PAYMENT_INFORMATION": "Saving payment information...",
+			"PROCESSING_PAYMENT": "Processing payment..."
 		}
 	}
 }
