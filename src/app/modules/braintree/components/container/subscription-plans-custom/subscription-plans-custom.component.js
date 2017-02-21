@@ -9,15 +9,23 @@ import _ from 'lodash';
  */
 
 	// Inject dependencies
-@Inject('braintreeDataService', 'braintreeAppService')
+@Inject('braintreeDataService', 'braintreeAppService', '$translate')
 class SubscriptionPlansCustomComponent {
 	constructor() {
-		this.message = '';
-		this.loadingText = '';
 		this.plans = [];
 		this.state = {
 			error: false,
-			loading: false,
+			loading: {
+				isLoading: false,
+				text: ''
+			},
+			message: {
+				text: '',
+				link: '',
+				linkText: '',
+				descriptionHtml:'',
+				type: ''
+			},
 			nextRoute: '',
 			selectedCurrency: {
 				currencyIsoCode: '',
@@ -92,9 +100,19 @@ class SubscriptionPlansCustomComponent {
 		//this.braintreeDataService.initSelectedSubscriptionData();
 	}
 
+	_displayMessage(type, resourceString, extraText, descriptionHtml) {
+		this.state.message.type = type;
+		if(resourceString) {
+			this.$translate(resourceString).then((value) => {this.state.message.text = value + extraText});
+		} else {
+			this.state.message.text = extraText;
+		}
+
+		this.state.message.descriptionHtml = descriptionHtml;
+	}
+
 	_getAllSubscriptionPlans() {
-		this.state.loading = true;
-		this.loadingText = 'Fetching subscription plans...';
+		this._startLoading('subscription.loading.FETCING_SUBSCRIPTION_PLANS');
 
 		this.braintreeDataService.getAllSubscriptionPlans().then(
 			(response) => {
@@ -179,13 +197,11 @@ class SubscriptionPlansCustomComponent {
 				this._setCustomPlansDefaultValues();
 
 				this.showSelectedCurrencyPlans(this.selectedMerchantAccount.id);
-				this.state.loading = false;
+				this._stopLoading();
 			},
 			(error) => {
-				// TODO: Notify development team or do it via api
-				this.message = 'Unable to get subscription plans, the development team has been notified, please try again later.';
-				this.state.loading = false;
-				this.state.error = true;
+				this._stopLoading();
+				this._displayMessage('warning', 'subscription.message.ERROR_FETCHING_SUBSCRIPTION_PLANS');
 			}
 		);
 	}
@@ -195,6 +211,16 @@ class SubscriptionPlansCustomComponent {
 			// Merge this._customPlansDefaults into this.customPlans
 			_.merge(this.customPlans, this._customPlansDefaults);
 		}
+	}
+
+	_startLoading(resourceString) {
+		this.state.loading.isLoading = true;
+		this.$translate(resourceString).then((value) => {this.state.loading.text = value});
+	}
+
+	_stopLoading() {
+		this.state.loading.isLoading = false;
+		this.state.loading.text = '';
 	}
 
 	// Public viewModel methods

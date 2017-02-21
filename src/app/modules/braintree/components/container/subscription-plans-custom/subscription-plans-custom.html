@@ -2,8 +2,8 @@
 <ui-braintree-subscription-navigation route-to="$ctrl.routeTo(route)" selected-route="'/subscribe'"></ui-braintree-subscription-navigation>
 
 
-<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
-<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading" text="$ctrl.loadingText"></ui-loading-icon>
+<ui-braintree-message-box message="$ctrl.state.message" on-route="$ctrl.routeTo(route)"></ui-braintree-message-box>
+<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
 
 
 <section class="Panel fn-customSubscriptionPlans" ng-if="$ctrl.plans.length">
@@ -49,7 +49,7 @@
 							subscription-plan="$ctrl.plansDisplayed.premiumThree"
 							item-css-class="'u-textCenter'"
 							format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
-							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading.isLoading"></ui-braintree-subscription-plan>
 					</div>
 				</div>
 			</div>
@@ -70,7 +70,7 @@
 							subscription-plan="$ctrl.plansDisplayed.premiumSix"
 							item-css-class="'u-textCenter'"
 							format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
-							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading">
+							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading.isLoading">
 						</ui-braintree-subscription-plan>
 					</div>
 				</div>
@@ -92,7 +92,7 @@
 							subscription-plan="$ctrl.plansDisplayed.premiumTwelve"
 							item-css-class="'u-textCenter'"
 							format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
-							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading.isLoading"></ui-braintree-subscription-plan>
 					</div>
 				</div>
 			</div>

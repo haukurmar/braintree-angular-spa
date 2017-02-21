@@ -83,6 +83,12 @@
 			"SUBSCRIPTION_STATUS": "Status",
 			"UPGRADE_CREDIT": "Atualizar crédito"
 		},
+		"loading": {
+			"FETCING_SUBSCRIPTION_PLANS": "Obtenção de planos de assinatura..."
+		},
+		"message": {
+			"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Não é possível obter planos de assinatura. Tente novamente mais tarde."
+		},
 		"text": {
 			"GO_TO": "Vamos para",
 			"BILLING_OVERVIEW": "Visão geral de faturamento",

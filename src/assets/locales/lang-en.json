@@ -83,6 +83,12 @@
 			"SUBSCRIPTION_STATUS": "Status",
 			"UPGRADE_CREDIT": "Upgrade credit"
 		},
+		"loading": {
+			"FETCING_SUBSCRIPTION_PLANS": "Fetching subscription plans..."
+		},
+		"message": {
+			"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Unable to get subscription plans, please try again later."
+		},
 		"text": {
 			"GO_TO": "Go to",
 			"BILLING_OVERVIEW": "billing overview",
