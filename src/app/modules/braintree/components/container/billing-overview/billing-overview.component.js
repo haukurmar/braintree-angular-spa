@@ -39,6 +39,11 @@ class CustomerDetailsComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
+		// When set by an outside app
+		if(this.language) {
+			this.$translate.use(this.language);
+		}
+
 		let customer = {};
 		this.$translate('subscription.heading.BILLING_OVERVIEW').then((value) => {this.state.header.text = value});
 		if (this.customerData) {
@@ -487,7 +492,8 @@ let component = {
 		customerData: '<',
 		headerText: '<',
 		headerVisible: '<',
-		subscribeRedirectUrl: '<'
+		subscribeRedirectUrl: '<',
+		language: '<'
 	},
 	template: template,
 	controller: CustomerDetailsComponent

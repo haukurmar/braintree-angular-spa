@@ -1,7 +1,7 @@
 import template from './subscribe-view.html';
 
 // Inject dependencies
-@Inject('braintreeDataService')
+@Inject('braintreeDataService', '$translate')
 class SubscribeViewComponent {
 	constructor() {
 	}
@@ -9,6 +9,11 @@ class SubscribeViewComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
+		// When set by an outside app
+		if(this.language) {
+			this.$translate.use(this.language);
+		}
+
 		this.braintreeDataService.initMode('subscription');
 		let customer = {};
 		if (this.customerData) {
@@ -48,7 +53,8 @@ let component = {
 	bindings: {
 		customerData: '<',
 		customPlansDefaults: '<',
-		defaultCurrency: '<'
+		defaultCurrency: '<',
+		language: '<'
 	},
 	template: template,
 	controller: SubscribeViewComponent

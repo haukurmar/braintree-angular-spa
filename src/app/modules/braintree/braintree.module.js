@@ -84,6 +84,7 @@ function braintreeConfig($locationProvider, $routeProvider, $translateProvider) 
 	$translateProvider
 		.translations('en', require('../../../assets/locales/lang-en.json'))
 		.translations('pt', require('../../../assets/locales/lang-pt.json'))
+		.useSanitizeValueStrategy(null)
 		.preferredLanguage('en')
 		.fallbackLanguage('en');
 
@@ -122,13 +123,7 @@ function braintreeConfig($locationProvider, $routeProvider, $translateProvider) 
 }
 
 /* @ngInject */
-function braintreeRun($route, $rootScope, $translate, braintreeConfigService){
-	// Set the language that might be set from an outside source through the config service
-	let language = braintreeConfigService.getLanguage;
-	if(language) {
-		$translate.use(language);
-	}
-
+function braintreeRun($rootScope){
 	$rootScope.$on("$locationChangeStart", function(event, next, current) {
 
 	});
