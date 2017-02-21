@@ -7,30 +7,43 @@
 		"ICELANDIC_KRONA": "Coroa islandesa"
 	},
 	"customer": {
+		"button": {
+			"BACK" : "Volte",
+			"CREATE_CUSTOMER": "Criar cliente",
+			"CONTINUE": "Criar cliente",
+			"GO_TO_SUBSCRIPTION_PAGE": "Ir para a página de inscrição"
+		},
 		"heading": {
 			"FILL_OUT_YOUR_CONTACT_INFO": "Preencha suas informações de contato"
+		},
+		"loading": {
+			"CREATING_CUSTOMER": "Criando clientes...",
+			"FETCHING_CUSTOMER_INFO": "Obtendo informações do cliente..."
 		},
 		"label": {
 			"FIRST_NAME": "Primeiro nome",
 			"LAST_NAME": "Último nome",
 			"EMAIL": "Email",
 			"EMAIL_ADDRESS": "Endereço de email"
+		},
+		"warning": {
+			"MUST_CHOOSE_SUBSCRIPTION": "Você deve escolher um plano de assinatura antes de prosseguir"
 		}
 	},
 	"subscription": {
 		"navigation": {
-			"SUBSCRIPTION_PLAN": "Plano de inscrição",
+			"SUBSCRIPTION_PLAN": "Plano de assinatura",
 			"CUSTOMER_INFORMATION": "Informação ao Cliente",
 			"PAYMENT_METHOD": "Método de pagamento"
 		},
 		"heading": {
-			"EDIT_SUBSCRIPTION_PLAN": "Editar plano de inscrição",
+			"EDIT_SUBSCRIPTION_PLAN": "Editar plano de assinatura",
 			"EDIT_PAYMENT_METHOD": "Editar método de pagamento",
 			"NO_TRANSACTIONS_FOUND": "Nenhuma transação foi encontrada",
-			"SELECT_SUBSCRIPTION": "Selecionar um plano de inscrição",
+			"SELECT_SUBSCRIPTION": "Selecionar um plano de assinatura",
 			"SUBSCRIPTION": "Inscrição",
 			"SUBSCRIPTIONS": "Assinaturas",
-			"SUBSCRIPTION_CREATED": "Sua inscrição foi criada",
+			"SUBSCRIPTION_CREATED": "Sua assinatura foi criada",
 			"TRANSACTION_HISTORY": "Histórico de transações",
 			"PAYMENT_METHOD": "Método de pagamento",
 			"TRANSACTION_STATUS_HISTORY": "Histórico de status",
@@ -41,7 +54,7 @@
 			"CHANGE_PLAN": "plano de mudança",
 			"CURRENT_PLAN": "Plano atual",
 			"CHANGE_PAYMENT_METHOD": "Mudar o metodo de pagamento",
-			"CANCEL_SUBSCRIPTION": "Cancelar inscrição",
+			"CANCEL_SUBSCRIPTION": "Cancelar assinatura",
 			"DISABLE_AUTO_RENEW": "Desativar renovação automática",
 			"EDIT_PLAN": "Editar plano",
 			"ENABLE_AUTO_RENEW": "Ativar renovação automática",

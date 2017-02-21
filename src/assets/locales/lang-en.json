@@ -7,14 +7,27 @@
 		"ICELANDIC_KRONA": "Icelandic Krona"
 	},
 	"customer": {
+		"button": {
+			"BACK" : "Back",
+			"CREATE_CUSTOMER": "Create customer",
+			"CONTINUE": "Continue",
+			"GO_TO_SUBSCRIPTION_PAGE": "Go to subscription page"
+		},
 		"heading": {
 			"FILL_OUT_YOUR_CONTACT_INFO": "Fill out your contact information"
+		},
+		"loading": {
+			"CREATING_CUSTOMER": "Creating customer...",
+			"FETCHING_CUSTOMER_INFO": "Fetching customer information..."
 		},
 		"label": {
 			"FIRST_NAME": "First name",
 			"LAST_NAME": "Last name",
 			"EMAIL": "Email",
 			"EMAIL_ADDRESS": "Email address"
+		},
+		"warning": {
+			"MUST_CHOOSE_SUBSCRIPTION": "You must choose a subscription plan before you proceed"
 		}
 	},
 	"subscription": {
