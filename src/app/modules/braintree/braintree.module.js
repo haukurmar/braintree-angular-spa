@@ -80,7 +80,13 @@ ngModule
 
 
 /* @ngInject */
-function braintreeConfig($locationProvider, $routeProvider) {
+function braintreeConfig($locationProvider, $routeProvider, $translateProvider) {
+	$translateProvider
+		.translations('en', require('../../../assets/locales/lang-en.json'))
+		.translations('pt', require('../../../assets/locales/lang-pt.json'))
+		.preferredLanguage('en')
+		.fallbackLanguage('en');
+
 	$locationProvider.html5Mode(false);
 
 	// Route configs
