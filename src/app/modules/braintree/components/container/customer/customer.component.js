@@ -2,7 +2,7 @@ import template from './customer.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeDataService', 'braintreeAppService')
+@Inject('braintreeDataService', 'braintreeAppService', '$translate', '$rootScope')
 class BraintreeSubscriptionComponent {
 	constructor() {
 		this.state = {
@@ -17,7 +17,7 @@ class BraintreeSubscriptionComponent {
 				text: '',
 				link: '',
 				linkText: '',
-				descriptionHtml:'',
+				descriptionHtml: '',
 				type: ''
 			},
 			showForm: true,
@@ -46,16 +46,20 @@ class BraintreeSubscriptionComponent {
 		this.customerModel = this.customer;
 		this.state.mode = this.braintreeDataService.mode;
 
+		this.setLanguageKeys();
+
+		// Listen for change of language
+		this.$rootScope.$on('$translateChangeSuccess', () => {
+			this.setLanguageKeys();
+		});
+
 		// Subscription mode
 		if (this.state.mode.subscription) {
-			this.state.submitButtonText = 'Continue';
 			this.state.backButtonVisible = true;
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
 			if (!this.selectedSubscription.id) {
-				this.state.message.text = 'You need to choose a subscription plan before you proceed';
 				this.state.message.type = 'warning';
-				this.state.message.linkText = 'Go to subscription page';
 				this.state.message.link = ROUTES.SUBSCRIPTION;
 				this.state.showForm = false;
 			}
@@ -67,6 +71,25 @@ class BraintreeSubscriptionComponent {
 		}
 	}
 
+	setLanguageKeys() {
+		this.$translate('general.button.BACK').then((value) => {this.state.backButtonText = value});
+
+		if (this.state.mode.subscription) {
+			if (!this.selectedSubscription.id) {
+				this.$translate('general.message.MUST_CHOOSE_SUBSCRIPTION').then((value) => {this.state.message.text = value});
+				this.$translate('general.button.GO_TO_SUBSCRIPTION_PAGE').then((value) => {this.state.message.linkText = value});
+			}
+
+			this.$translate('general.button.CONTINUE').then((value) => {
+				this.state.submitButtonText = value;
+			});
+		} else {
+			this.$translate('customer.button.CREATE_CUSTOMER').then((value) => {
+				this.state.submitButtonText = value;
+			});
+		}
+	}
+
 	// Public viewModel methods
 	// --------------------------------------------------
 	/**
@@ -75,7 +98,7 @@ class BraintreeSubscriptionComponent {
 	 */
 	getCustomerDetails(customerId) {
 		this.state.loading.isLoading = true;
-		this.state.loading.text = 'Fetching customer information...';
+		this.$translate('customer.loading.FETCHING_CUSTOMER_INFO').then((value) => {this.state.loading.text = value});
 		//Get Customer if logged in
 		this.braintreeDataService.getCustomer(customerId).then(
 			(response) => {
@@ -112,7 +135,7 @@ class BraintreeSubscriptionComponent {
 		this.routes.nextRoute = ROUTES.PAYMENT_METHODS;
 
 		if (this.newCustomer) {
-			this.state.loading.text = 'Creating customer...';
+			this.$translate('customer.loading.CREATING_CUSTOMER').then((value) => {this.state.loading.text = value});
 			this.state.loading.isLoading = true;
 
 			this.braintreeDataService.createCustomer(customerModel).then(

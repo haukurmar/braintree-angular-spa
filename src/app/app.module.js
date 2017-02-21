@@ -25,8 +25,6 @@ ngModule
 
 /* @ngInject */
 function appConfig() {
-
-
 }
 
 /* @ngInject */

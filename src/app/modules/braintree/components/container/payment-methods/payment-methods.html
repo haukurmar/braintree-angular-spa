@@ -14,18 +14,18 @@
 
 <section class="Panel" ng-hide="$ctrl.state.loading.isLoading || !$ctrl.state.showForm">
 	<div class="Panel-body">
-		<h2 class="Heading--two Heading--light u-textCenter">Choose your payment method</h2>
+		<h2 class="Heading--two Heading--light u-textCenter" translate="payment.heading.CHOOSE_PAYMENT_METHOD"></h2>
 		<hr class="Divider--dotted">
 
 		<div ng-if="$ctrl.customer.paymentMethods['0']">
-			<h2 class="Heading--five">Stored payment methods</h2>
+			<h2 class="Heading--five" translate="payment.heading.SAVED_PAYMENT_METHODS"></h2>
 			<div class="Grid-row">
 				<div class="Grid-col--4" ng-repeat="paymentMethod in $ctrl.customer.paymentMethods">
 					<ui-braintree-payment-method
 						payment-method="paymentMethod"
-						card-button-text="'Choose card'"
+						card-button-text="('payment.button.CHOOSE_CARD' | translate)"
 						card-button-visible="true"
-						paypal-button-text="'Choose paypal'"
+						paypal-button-text="('payment.button.CHOOSE_PAYPAL' | translate)"
 						paypal-button-visible="true"
 						on-card-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"
 						on-paypal-button-click="$ctrl.chooseStoredPaymentMethod(paymentMethod)"></ui-braintree-payment-method>
@@ -34,8 +34,8 @@
 			</div>
 		</div>
 
-		<h2 class="Heading--five" ng-if="$ctrl.customer.paymentMethods['0']">New payment method</h2>
-		<button class="Button Button--cta Button--lg" ng-click="$ctrl.choosePaymentMethod('cards')">Credit or Debit card</button>
+		<h2 class="Heading--five" ng-if="$ctrl.customer.paymentMethods['0']" translate="payment.heading.NEW_PAYMENT_METHOD"></h2>
+		<button class="Button Button--cta Button--lg" ng-click="$ctrl.choosePaymentMethod('cards')">{{ 'payment.heading.CREDIT_OR_DEBIT_CARD' | translate }}</button>
 		<button class="Button Button--cta Button--lg" ng-click="$ctrl.choosePaymentMethod('paypal')">Paypal</button>
 
 	</div>

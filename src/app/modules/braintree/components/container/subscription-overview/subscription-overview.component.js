@@ -3,7 +3,7 @@ import {ROUTES, GATEWAY_ERRORS} from '../../../braintree.constants';
 import _ from 'underscore';
 
 // Inject dependencies
-@Inject('braintreeDataService', 'braintreeAppService')
+@Inject('braintreeDataService', 'braintreeAppService', '$translate')
 class SubscriptionOverviewComponent {
 	constructor() {
 		this.state = {
@@ -40,19 +40,26 @@ class SubscriptionOverviewComponent {
 		this.state.message.text = '';
 	}
 
-	_displayMessage(text, type, descriptionHtml, linkText, linkRoute) {
+	_displayMessage(type, resourceString, extraText, descriptionHtml, linkResourceString, linkRoute) {
 		this.state.message.type = type;
-		this.state.message.text = text;
+
+		if(resourceString) {
+			this.$translate(resourceString).then((value) => {this.state.message.text = value + extraText});
+		} else {
+			this.state.message.text = extraText;
+		}
+
+		if(linkResourceString) {
+			this.$translate(resourceString).then((value) => {this.state.message.linkText = value});
+			this.state.message.link = linkRoute;
+		}
+
 		this.state.message.descriptionHtml = descriptionHtml;
-
-		this.state.message.linkText = linkText;
-		this.state.message.link = linkRoute;
-
 	}
 
-	_startLoading(text) {
+	_startLoading(resourceString) {
 		this.state.loading.isLoading = true;
-		this.state.loading.text = text;
+		this.$translate(resourceString).then((value) => {this.state.loading.text = value});
 	}
 
 	_stopLoading() {
@@ -63,7 +70,7 @@ class SubscriptionOverviewComponent {
 	// Public viewModel methods
 	// --------------------------------------------------
 	_confirmSubscription() {
-		this._startLoading('Creating subscription...');
+		this._startLoading('subscription.loading.CREATING_SUBSCRIPTION');
 
 		let subscriptionData = {
 			subscription: {
@@ -121,7 +128,7 @@ class SubscriptionOverviewComponent {
 					this.braintreeDataService.initSelectedSubscriptionData();
 				} else {
 					// TODO: Handle different failures maybe?
-					this._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'warning', null, 'Start over', ROUTES.SUBSCRIPTION);
+					this._displayMessage('warning', 'subscription.message.ERROR_CREATING_SUBSCRIPTION', response.data.message, null, 'subscription.button.START_OVER', ROUTES.SUBSCRIPTION);
 					this._stopLoading();
 				}
 			},
@@ -141,7 +148,7 @@ class SubscriptionOverviewComponent {
 					}
 				}
 
-				this._displayMessage(errorMessage, 'warning', errorDescription, 'Start over', ROUTES.SUBSCRIPTION);
+				this._displayMessage('warning', 'subscription.message.ERROR_CREATING_SUBSCRIPTION', errorMessage + ' ' + errorDescription, 'subscription.button.START_OVER', ROUTES.SUBSCRIPTION);
 				this._stopLoading();
 			}
 		);

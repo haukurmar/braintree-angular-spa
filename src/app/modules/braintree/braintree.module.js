@@ -80,7 +80,14 @@ ngModule
 
 
 /* @ngInject */
-function braintreeConfig($locationProvider, $routeProvider) {
+function braintreeConfig($locationProvider, $routeProvider, $translateProvider) {
+	$translateProvider
+		.translations('en', require('../../../assets/locales/lang-en.json'))
+		.translations('pt', require('../../../assets/locales/lang-pt.json'))
+		.useSanitizeValueStrategy(null)
+		.preferredLanguage('en')
+		.fallbackLanguage('en');
+
 	$locationProvider.html5Mode(false);
 
 	// Route configs
@@ -116,7 +123,7 @@ function braintreeConfig($locationProvider, $routeProvider) {
 }
 
 /* @ngInject */
-function braintreeRun($route, $rootScope){
+function braintreeRun($rootScope){
 	$rootScope.$on("$locationChangeStart", function(event, next, current) {
 
 	});

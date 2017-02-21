@@ -2,35 +2,28 @@
 <ui-braintree-subscription-navigation route-to="$ctrl.routeTo(route)" selected-route="'/subscribe'"></ui-braintree-subscription-navigation>
 
 
-<p ng-if="$ctrl.message" ng-bind="$ctrl.message"></p>
-<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading" text="$ctrl.loadingText"></ui-loading-icon>
+<ui-braintree-message-box message="$ctrl.state.message" on-route="$ctrl.routeTo(route)"></ui-braintree-message-box>
+<ui-loading-icon size="'4x'" icon-modifier="'circle-o-notch'" visible="$ctrl.state.loading.isLoading" text="$ctrl.state.loading.text"></ui-loading-icon>
 
 
 <section class="Panel fn-customSubscriptionPlans" ng-if="$ctrl.plans.length">
 	<div class="Panel-body">
-		<h2 class="Heading--two Heading--light u-textCenter">Select a subscription plan</h2>
+		<h2 class="Heading--two Heading--light u-textCenter" translate="subscription.heading.SELECT_SUBSCRIPTION"></h2>
 		<hr class="Divider--dotted">
 
 		<div class="Grid-row Grid-row--alignRight">
 			<div class="Grid-col--12">
 				<div class="Form-item" ng-if="$ctrl.merchantAccountsArray.length">
-					<label class="Form-itemLabel">Currency
-
-					                              <!--<select name="selectedCurrency" id="selectedCurrency"-->
-					                              <!--class="Selectbox"-->
-					                              <!--ng-change="$ctrl.showSelectedCurrencyPlans()"-->
-					                              <!--ng-model="$ctrl.state.selectedCurrency"-->
-					                              <!--ng-options="merchantAccount.name as merchantAccount.currencyName for merchantAccount in $ctrl.merchantAccountsArray track by merchantAccount.id">-->
-					                              <!--</select>-->
-
+					<label class="Form-itemLabel">
+						<span translate="general.CURRENCY"></span>
 						<select name="selectedCurrency" id="selectedCurrency"
 						        class="Selectbox"
 						        ng-change="$ctrl.showSelectedCurrencyPlans($ctrl.state.selectedCurrencyModel)"
 						        ng-model="$ctrl.state.selectedCurrencyModel">
-							<option value="jivaroUSD" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroUSD'">US Dollar (USD)</option>
-							<option value="jivaroEUR" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroEUR'">EUR (EUR)</option>
-							<option value="jivaroGBP" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroGBP'">British Pound (GBP)</option>
-							<option value="jivaroISK" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroISK'">Icelandic Krona (ISK)</option>
+							<option value="jivaroUSD" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroUSD'">{{ 'general.US_DOLLAR' | translate }} (USD)</option>
+							<option value="jivaroEUR" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroEUR'">{{ 'general.EURO' | translate }} (EUR)</option>
+							<option value="jivaroGBP" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroGBP'">{{ 'general.BRITISH_POUND' | translate }} (GBP)</option>
+							<option value="jivaroISK" ng-selected="$ctrl.selectedMerchantAccount.id === 'jivaroISK'">{{ 'general.ICELANDIC_KRONA' | translate }} (ISK)</option>
 						</select>
 
 					</label>
@@ -51,12 +44,12 @@
 					<div class="CustomPlan-panelBody">
 						<ui-braintree-subscription-plan
 							button-css-modifier="'Button--primary Button--lg'"
-							button-text="'Select plan'"
+							button-text="'subscription.button.SELECT_PLAN' | translate"
 							currency="$ctrl.state.selectedCurrency"
 							subscription-plan="$ctrl.plansDisplayed.premiumThree"
 							item-css-class="'u-textCenter'"
 							format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
-							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading.isLoading"></ui-braintree-subscription-plan>
 					</div>
 				</div>
 			</div>
@@ -72,12 +65,12 @@
 					<div class="CustomPlan-panelBody">
 						<ui-braintree-subscription-plan
 							button-css-modifier="'Button--success Button--lg'"
-							button-text="'Select plan'"
+							button-text="'subscription.button.SELECT_PLAN' | translate"
 							currency="$ctrl.state.selectedCurrency"
 							subscription-plan="$ctrl.plansDisplayed.premiumSix"
 							item-css-class="'u-textCenter'"
 							format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
-							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading">
+							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading.isLoading">
 						</ui-braintree-subscription-plan>
 					</div>
 				</div>
@@ -94,12 +87,12 @@
 					<div class="CustomPlan-panelBody">
 						<ui-braintree-subscription-plan
 							button-css-modifier="'Button--primary Button--lg'"
-							button-text="'Select plan'"
+							button-text="'subscription.button.SELECT_PLAN' | translate"
 							currency="$ctrl.state.selectedCurrency"
 							subscription-plan="$ctrl.plansDisplayed.premiumTwelve"
 							item-css-class="'u-textCenter'"
 							format-currency-amount="$ctrl.formatCurrencyAmount(amount, currencyIsoCode)"
-							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading"></ui-braintree-subscription-plan>
+							on-choose="$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)" ng-hide="$ctrl.state.loading.isLoading"></ui-braintree-subscription-plan>
 					</div>
 				</div>
 			</div>
@@ -122,10 +115,10 @@
 
 		<div class="Grid-row Grid-row--alignCenter CustomPlan-row--premiumOne">
 			<div class="Grid-col--12">
-				<p>or<br> pay monthly<br>
+				<p>{{ 'subscription.label.OR' | translate }}<br> {{ 'subscription.label.PAY_MONTHLY' | translate }}<br>
 					<button class="Button Button--secondary" ng-click="$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumOne)">
 						{{ $ctrl.formatCurrencyAmount($ctrl.plansDisplayed.premiumOne.price, $ctrl.plansDisplayed.premiumOne.currencyIsoCode) }}
-						/ month
+						/ {{ 'subscription.label.MONTH' | translate }}
 					</button>
 				</p>
 			</div>

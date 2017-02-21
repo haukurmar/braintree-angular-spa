@@ -2,15 +2,22 @@ import template from './subscription-plans.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeDataService', 'braintreeAppService')
+@Inject('braintreeDataService', 'braintreeAppService', '$translate')
 class SubscriptionPlansComponent {
 	constructor() {
-		this.message = '';
-		this.loadingText = '';
 		this.plans = [];
 		this.state = {
-			error: false,
-			loading: false,
+			loading: {
+				isLoading: false,
+				text: ''
+			},
+			message: {
+				text: '',
+				link: '',
+				linkText: '',
+				descriptionHtml:'',
+				type: ''
+			},
 			nextRoute: ''
 		};
 
@@ -29,9 +36,21 @@ class SubscriptionPlansComponent {
 		this._getAllSubscriptionPlans();
 	}
 
+	_displayMessage(type, resourceString, extraText, descriptionHtml) {
+		this.state.message.type = type;
+		if(resourceString) {
+			this.$translate(resourceString).then((value) => {this.state.message.text = value + (extraText ? extraText : '')});
+		} else if (extraText) {
+			this.state.message.text = extraText;
+		}
+
+		if (descriptionHtml) {
+			this.state.message.descriptionHtml = descriptionHtml;
+		}
+	}
+
 	_getAllSubscriptionPlans() {
-		this.state.loading = true;
-		this.loadingText = 'Fetching subscription plans...';
+		this._startLoading('subscription.loading.FETCHING_SUBSCRIPTION_PLANS');
 
 		this.braintreeDataService.getAllSubscriptionPlans().then(
 			(response) => {
@@ -40,9 +59,8 @@ class SubscriptionPlansComponent {
 			},
 			(error) => {
 				// TODO: Notify development team or do it via api
-				this.message = 'Unable to get subscription plans, the development team has been notified, please try again later.';
-				this.state.loading = false;
-				this.state.error = true;
+				this._stopLoading();
+				this._displayMessage('warning', 'subscription.message.ERROR_FETCHING_SUBSCRIPTION_PLANS');
 			}
 		);
 	}
@@ -66,6 +84,17 @@ class SubscriptionPlansComponent {
 	routeTo(path){
 		this.braintreeAppService.routeTo(path);
 	}
+
+	_startLoading(resourceString) {
+		this.state.loading.isLoading = true;
+		this.$translate(resourceString).then((value) => {this.state.loading.text = value});
+	}
+
+	_stopLoading() {
+		this.state.loading.isLoading = false;
+		this.state.loading.text = '';
+	}
+
 }
 
 // Component decorations

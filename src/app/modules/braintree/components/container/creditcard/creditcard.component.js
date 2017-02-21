@@ -2,7 +2,7 @@ import template from './creditcard.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('$http', 'braintreeDataService', 'braintreeAppService')
+@Inject('$http', 'braintreeDataService', 'braintreeAppService', '$translate', '$rootScope')
 class CreditCardComponent {
 	constructor() {
 		this.state = {
@@ -53,12 +53,16 @@ class CreditCardComponent {
 		if (mode.subscription) {
 			this.state.backButtonVisible = true;
 			this.state.hideAmount = true;
-			this.state.submitButtonText = 'Continue';
+
+			this._setLanguageKeys();
+
+			// Listen for change of language
+			this.$rootScope.$on('$translateChangeSuccess', () => {
+				this._setLanguageKeys();
+			});
 
 			// If the user has not chosen a subscription plan (or refreshed the page)
 			if (!this.selectedSubscription.id) {
-				this._displayMessage('You need to choose a subscription plan before you proceed', 'warning');
-				this.state.message.linkText = 'Go to subscription page';
 				this.state.message.link = ROUTES.SUBSCRIPTION;
 				this.state.showForm = false;
 				return;
@@ -66,7 +70,7 @@ class CreditCardComponent {
 
 			// If the user has no customer ID
 			if (!this.customer.id) {
-				this._displayMessage('You need to fill out customer information before you proceed', 'warning');
+				this._displayMessage('warning', 'general.message.MUST_FILL_CUSTOMER_INFO');
 				this.state.message.linkText = 'Go to customer page';
 				this.state.message.link = ROUTES.CUSTOMER;
 				this.state.showForm = false;
@@ -92,19 +96,53 @@ class CreditCardComponent {
 		this.state.message.text = '';
 	}
 
-	_displayMessage(text, type, descriptionHtml) {
+	_displayMessage(type, resourceString, extraText, descriptionHtml) {
 		this.state.message.type = type;
-		this.state.message.text = text;
-		this.state.message.descriptionHtml = descriptionHtml;
+		if(resourceString) {
+			this.$translate(resourceString).then((value) => {this.state.message.text = value + (extraText ? extraText : '')});
+		} else if (extraText) {
+			this.state.message.text = extraText;
+		}
+
+		if (descriptionHtml) {
+			this.state.message.descriptionHtml = descriptionHtml;
+		}
 	}
 
 	formatCurrencyAmount(amount, currencyIsoCode) {
 		return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
 	}
 
-	_startLoading(text) {
+	_setLanguageKeys() {
+		this.$translate('general.button.BACK').then((value) => {this.state.backButtonText = value});
+
+		if (this.state.mode.subscription) {
+			this.$translate('general.button.CONTINUE').then((value) => {
+				this.state.submitButtonText = value;
+			});
+
+			// If no subscription has been selected
+			if (!this.selectedSubscription.id) {
+				this._displayMessage('warning', 'general.message.MUST_CHOOSE_SUBSCRIPTION');
+				this.$translate('general.button.GO_TO_SUBSCRIPTION_PAGE').then((value) => {this.state.message.linkText = value});
+			}
+
+			// If customer has been created
+			if (!this.customer.id) {
+				this._displayMessage('warning', 'general.message.MUST_FILL_CUSTOMER_INFO');
+				this.$translate('general.button.GO_TO_CUSTOMER_PAGE').then((value) => {this.state.message.linkText = value});
+			}
+
+		} else {
+			this.$translate('payment.button.PAY_NOW').then((value) => {
+				this.state.submitButtonText = value;
+			});
+		}
+	}
+
+	_startLoading(resourceString) {
 		this.state.loading.isLoading = true;
-		this.state.loading.text = text;
+		this.$translate(resourceString).then((value) => {this.state.loading.text = value});
 	}
 
 	_stopLoading() {
@@ -136,7 +174,7 @@ class CreditCardComponent {
 	 * @param paymentModel
 	 */
 	createVaultedPayment(paymentModel) {
-		this._startLoading('Saving payment information...');
+		this._startLoading('payment.loading.SAVING_PAYMENT_INFORMATION');
 		this.state.showForm = false;
 		let customerId = this.braintreeDataService.customer.id;
 
@@ -152,7 +190,7 @@ class CreditCardComponent {
 			},
 			(error) => {
 				// TODO: Handle errors better
-				this._displayMessage(error, 'warning');
+				this._displayMessage('warning', null, error);
 				this._stopLoading();
 				this.state.showForm = true;
 			}
@@ -164,7 +202,7 @@ class CreditCardComponent {
 	 * @param paymentModel
 	 */
 	processPayment(paymentModel) {
-		this._startLoading('Processing payment...');
+		this._startLoading('payment.loading.PROCESSING_PAYMENT');
 		this.state.showForm = false;
 		let clientToken = this.braintreeDataService.customer.clientToken;
 
@@ -193,18 +231,17 @@ class CreditCardComponent {
 
 			this.braintreeDataService.processPayment(paymentData).then(
 				(response) => {
-					//console.log(response.data.success);
 					if (response.data.success) {
 						this.state.paid = true;
 						this.state.error = false;
 
-						this._displayMessage('Payment authorized, thanks.', 'success');
+						this._displayMessage('success', 'payment.message.PAYMENT_AUTHORIZED');
 						this._stopLoading();
 					} else {
 						// TODO: Handle different payment failures
 						this.state.error = true;
 
-						this._displayMessage('Payment failed: ' + response.data.message + ' Please refresh the page and try again.', 'warning');
+						this._displayMessage('warning', 'payment.message.FAILED', response.data.message);
 						this._stopLoading();
 						this.state.showForm = true;
 
@@ -212,7 +249,7 @@ class CreditCardComponent {
 				},
 				(error) => {
 					this.state.error = true;
-					this._displayMessage('Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data, 'warning');
+					this._displayMessage('warning', 'general.message.ERROR_CONNECTING_TO_SERVER', error.data);
 					this._stopLoading();
 					this.state.showForm = true;
 				}

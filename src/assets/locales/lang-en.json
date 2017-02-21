@@ -1,0 +1,165 @@
+{
+	"general": {
+		"CURRENCY": "Currency",
+		"US_DOLLAR": "US Dollar",
+		"EURO": "Euro",
+		"BRITISH_POUND": "British Pound",
+		"ICELANDIC_KRONA": "Icelandic Krona",
+		"button": {
+			"BACK" : "Back",
+			"CONTINUE": "Continue",
+			"GO_TO_SUBSCRIPTION_PAGE": "Go to subscription page",
+			"GO_TO_CUSTOMER_PAGE": "Go to customer page"
+		},
+		"message": {
+			"ERROR_CONNECTING_TO_SERVER": "Error: cannot connect to server. Please make sure your server is running.",
+			"MUST_CHOOSE_SUBSCRIPTION": "You must choose a subscription plan before you proceed",
+			"MUST_FILL_CUSTOMER_INFO": "You need to fill out customer information before you proceed"
+		}
+	},
+	"customer": {
+		"button": {
+			"CREATE_CUSTOMER": "Create customer"
+		},
+		"heading": {
+			"FILL_OUT_YOUR_CONTACT_INFO": "Fill out your contact information"
+		},
+		"loading": {
+			"CREATING_CUSTOMER": "Creating customer...",
+			"FETCHING_CUSTOMER_INFO": "Fetching customer information...",
+			"LOADING_PROFILE_DETAILS": "Loading profile details..."
+		},
+		"label": {
+			"FIRST_NAME": "First name",
+			"LAST_NAME": "Last name",
+			"EMAIL": "Email",
+			"EMAIL_ADDRESS": "Email address"
+		},
+		"message": {
+			"ERROR_FETCHING_CUSTOMER_INFO": "An error occurred while fetching customer information."
+		}
+	},
+	"subscription": {
+		"navigation": {
+			"SUBSCRIPTION_PLAN": "Subscription plan",
+			"CUSTOMER_INFORMATION": "Customer information",
+			"PAYMENT_METHOD": "Payment method"
+		},
+		"heading": {
+			"BILLING_OVERVIEW": "Billing overview",
+			"EDIT_SUBSCRIPTION_PLAN": "Edit subscription plan",
+			"EDIT_PAYMENT_METHOD": "Edit payment method",
+			"NO_TRANSACTIONS_FOUND": "No transactions were found",
+			"SELECT_SUBSCRIPTION": "Select a subscription plan",
+			"SUBSCRIPTION": "Subscription",
+			"SUBSCRIPTIONS": "Subscriptions",
+			"SUBSCRIPTION_CREATED": "Your subscription has been created",
+			"TRANSACTION_HISTORY": "Transaction history",
+			"PAYMENT_METHOD": "Payment method",
+			"TRANSACTION_STATUS_HISTORY": "Status history",
+			"YOU_HAVE_NO_SUBSCRIPTIONS": "You have no subscriptions",
+			"YOUR_SAVED_PAYMENT_METHODS": "Your saved payment methods"
+		},
+		"button": {
+			"CHANGE_PLAN": "change plan",
+			"CURRENT_PLAN": "Current plan",
+			"CHANGE_PAYMENT_METHOD": "Change Payment Method",
+			"CANCEL_SUBSCRIPTION": "Cancel subscription",
+			"DISABLE_AUTO_RENEW": "Disable Auto Renew",
+			"EDIT_PLAN": "Edit Plan",
+			"ENABLE_AUTO_RENEW": "Enable Auto Renew",
+			"RETRY_CHARGE": "Retry Charge",
+			"SELECT_PLAN": "Select plan",
+			"SUBSCRIBE_NOW": "Subscribe now",
+			"START_OVER": "Start over"
+		},
+		"label": {
+			"AUTO_RENEW_DISABLED": "Auto renew disabled",
+			"AUTO_RENEW_ENABLED": "Auto renew enabled",
+			"BILLING_AMOUNT": "Billing amount",
+			"DISCOUNT": "Discount",
+			"MONTH": "month",
+			"NEXT_BILLING_AMOUNT": "Next billing amount",
+			"NEXT_BILLING_DATE": "Next billing date",
+			"NEXT_BILLING_PERIOD_AMOUNT": "Next billing period amount",
+			"OR": "or",
+			"PAY_MONTHLY": "pay monthly",
+			"SELECTED_PLAN": "Selected plan",
+			"SUBSCRIPTION_STARTED": "Started",
+			"SUBSCRIPTION_STATUS": "Status",
+			"UPGRADE_CREDIT": "Upgrade credit"
+		},
+		"loading": {
+			"CANCELLING_SUBSCRIPTION": "Cancelling subscription...",
+			"CREATING_SUBSCRIPTION": "Creating subscription...",
+			"ENABLING_AUTO_RENEW": "Enabling auto renew...",
+			"DISABLING_AUTO_RENEW": "Disabling auto renew...",
+			"FETCHING_SUBSCRIPTION_PLANS": "Fetching subscription plans...",
+			"UPDATING_SUBSCRIPTION_PLANS": "Updating subscription plan..."
+		},
+		"message": {
+			"AUTO_RENEW_HAS_BEEN_DISABLED": "Auto renew has been disabled.",
+			"AUTO_RENEW_HAS_BEEN_ENABLED": "Auto renew has been enabled.",
+			"ERROR_CANCELLING_SUBSCRIPTION": "An error occurred cancelling your current subscription",
+			"ERROR_CREATING_SUBSCRIPTION": "An error occurred creating a subscription.",
+			"ERROR_UPDATING_SUBSCRIPTION": "An error occurred while updating the subscription.",
+			"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Unable to get subscription plans, please try again later.",
+			"SUBSCRIPTION_CANCELLED": "Subscription has been cancelled.",
+			"SUBSCRIPTION_CHANGED_TO_NEW_PLAN": "Your subscription has been changed to the new plan.",
+			"UPDATED_SUBSCRIPTION_WITH_DISCOUNT": "A payment of {{amount}} has been submitted, Your previous subscription credit of {{discount}} was deducted from the full amount."
+		},
+		"text": {
+			"GO_TO": "Go to",
+			"BILLING_OVERVIEW": "billing overview",
+			"FOR_MORE_DETAILS": "for more details"
+		}
+	},
+	"payment": {
+		"button": {
+			"CHOOSE_CARD": "Choose card",
+			"CHOOSE_PAYPAL": "Choose Paypal",
+			"CONNECT_TO_PAYPAL": "Connect with Paypal",
+			"DEFAULT_PAYMENT_METHOD": "Default payment method",
+			"DELETE_PAYMENT_METHOD_CONFIRM": "Are you sure you want to delete this payment method?",
+			"SAVE_AND_CHOOSE_CARD": "Save and choose card",
+			"PAY_NOW": "Pay now"
+		},
+		"heading": {
+			"ADD_NEW_PAYMENT_METHOD": "Add a new payment method",
+			"CREDIT_OR_DEBIT_CARD": "Credit or Debit Card",
+			"CONNECT_TO_PAYPAL": "Connect with Paypal",
+			"CHOOSE_PAYMENT_METHOD": "Choose your payment method",
+			"FILL_OUT_YOUR_CARD_DETAILS": "Fill out your card details",
+			"NEW_PAYMENT_METHOD": "New payment method",
+			"SAVED_PAYMENT_METHODS": "Saved payment methods"
+		},
+		"label": {
+			"AMOUNT": "Amount",
+			"CARD_NUMBER": "Card number",
+			"CARD_EXPIRATION_DATE": "Expiration date",
+			"CARD_EXPIRED": "Expired",
+			"CVV": "CVV",
+			"CURRENCY": "Currency",
+			"DEBIT_CARD": "Debit Card",
+			"PAYMENT_TYPE": "Type",
+			"PAYPAL_EMAIL": "Email",
+			"PREPAID_CARD": "Prepaid Card"
+		},
+		"message": {
+			"ERROR_DELETING_PAYMENT_METHOD": "An error occurred deleting your payment method.",
+			"PAYMENT_AUTHORIZED": "Payment authorized, thanks.",
+			"PAYMENT_FAILED": "Payment failed",
+			"PAYMENT_METHOD_DELETED": "Payment method has been deleted, and all connected subscriptions have been cancelled.",
+			"PAYMENT_METHOD_UPDATED": "Payment method has been updated.",
+			"RETRY_TRANSACTION_UNSUCCESSFUL": "Retry of transaction was not successful!",
+			"TRANSACTION_SUCCESSFUL": "Transaction was successful!"
+		},
+		"loading": {
+			"DELETING_PAYMENT_METHOD": "Deleting payment method...",
+			"RETRYING_TRANSACTION": "Retrying transaction...",
+			"SAVING_PAYMENT_INFORMATION": "Saving payment information...",
+			"PROCESSING_PAYMENT": "Processing payment...",
+			"UPDATING_PAYMENT_METHOD": "Updating payment method..."
+		}
+	}
+}

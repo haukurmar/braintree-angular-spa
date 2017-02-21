@@ -1,0 +1,165 @@
+{
+	"general": {
+		"CURRENCY": "Moeda",
+		"US_DOLLAR": "Dólar americano",
+		"EURO": "Euro",
+		"BRITISH_POUND": "Libra britânica",
+		"ICELANDIC_KRONA": "Coroa islandesa",
+		"button": {
+			"BACK" : "Volte",
+			"CONTINUE": "Continuar",
+			"GO_TO_SUBSCRIPTION_PAGE": "Ir para a página de inscrição",
+			"GO_TO_CUSTOMER_PAGE": "Ir para a página do cliente"
+		},
+		"message": {
+			"ERROR_CONNECTING_TO_SERVER": "Erro: não é possível conectar ao servidor. Verifique se o servidor está em execução.",
+			"MUST_CHOOSE_SUBSCRIPTION": "Você deve escolher um plano de assinatura antes de prosseguir",
+			"MUST_FILL_CUSTOMER_INFO": "You need to fill out customer information before you proceed"
+		}
+	},
+	"customer": {
+		"button": {
+			"CREATE_CUSTOMER": "Criar cliente"
+		},
+		"heading": {
+			"FILL_OUT_YOUR_CONTACT_INFO": "Preencha suas informações de contato"
+		},
+		"loading": {
+			"CREATING_CUSTOMER": "Criando clientes...",
+			"FETCHING_CUSTOMER_INFO": "Obtendo informações do cliente...",
+			"LOADING_PROFILE_DETAILS": "Carregando detalhes do perfil..."
+		},
+		"label": {
+			"FIRST_NAME": "Primeiro nome",
+			"LAST_NAME": "Último nome",
+			"EMAIL": "Email",
+			"EMAIL_ADDRESS": "Endereço de email"
+		},
+		"message": {
+			"ERROR_FETCHING_CUSTOMER_INFO": "Ocorreu um erro ao buscar informações do cliente."
+		}
+	},
+	"subscription": {
+		"navigation": {
+			"SUBSCRIPTION_PLAN": "Plano de assinatura",
+			"CUSTOMER_INFORMATION": "Informação ao Cliente",
+			"PAYMENT_METHOD": "Método de pagamento"
+		},
+		"heading": {
+			"BILLING_OVERVIEW": "Visão geral da faturação",
+			"EDIT_SUBSCRIPTION_PLAN": "Editar plano de assinatura",
+			"EDIT_PAYMENT_METHOD": "Editar método de pagamento",
+			"NO_TRANSACTIONS_FOUND": "Nenhuma transação foi encontrada",
+			"SELECT_SUBSCRIPTION": "Selecionar um plano de assinatura",
+			"SUBSCRIPTION": "Inscrição",
+			"SUBSCRIPTIONS": "Assinaturas",
+			"SUBSCRIPTION_CREATED": "Sua assinatura foi criada",
+			"TRANSACTION_HISTORY": "Histórico de transações",
+			"PAYMENT_METHOD": "Método de pagamento",
+			"TRANSACTION_STATUS_HISTORY": "Histórico de status",
+			"YOU_HAVE_NO_SUBSCRIPTIONS": "Você não tem subscrições",
+			"YOUR_SAVED_PAYMENT_METHODS": "Os métodos de pagamento guardados"
+		},
+		"button": {
+			"CHANGE_PLAN": "plano de mudança",
+			"CURRENT_PLAN": "Plano atual",
+			"CHANGE_PAYMENT_METHOD": "Mudar o metodo de pagamento",
+			"CANCEL_SUBSCRIPTION": "Cancelar assinatura",
+			"DISABLE_AUTO_RENEW": "Desativar renovação automática",
+			"EDIT_PLAN": "Editar plano",
+			"ENABLE_AUTO_RENEW": "Ativar renovação automática",
+			"RETRY_CHARGE": "Taxa de nova tentativa",
+			"SELECT_PLAN": "Selecione o plano",
+			"SUBSCRIBE_NOW": "Inscreva-se agora",
+			"START_OVER": "Start over"
+		},
+		"label": {
+			"AUTO_RENEW_DISABLED": "Renovação automática desativada",
+			"AUTO_RENEW_ENABLED": "Renovação automática ativada",
+			"BILLING_AMOUNT": "Montante da faturação",
+			"DISCOUNT": "Desconto",
+			"MONTH": "mês",
+			"NEXT_BILLING_AMOUNT": "Próximo valor de faturamento",
+			"NEXT_BILLING_DATE": "Próxima data de faturamento",
+			"NEXT_BILLING_PERIOD_AMOUNT": "Próximo período de faturamento",
+			"OR": "ou",
+			"PAY_MONTHLY": "pagar mensalmente",
+			"SELECTED_PLAN": "Plano selecionado",
+			"SUBSCRIPTION_STARTED": "Started",
+			"SUBSCRIPTION_STATUS": "Status",
+			"UPGRADE_CREDIT": "Atualizar crédito"
+		},
+		"loading": {
+			"CANCELLING_SUBSCRIPTION": "Cancelar subscrição...",
+			"CREATING_SUBSCRIPTION": "Criar subscrição...",
+			"ENABLING_AUTO_RENEW": "Ativando a renovação automática...",
+			"DISABLING_AUTO_RENEW": "Desativando a renovação automática...",
+			"FETCHING_SUBSCRIPTION_PLANS": "Obtenção de planos de assinatura...",
+			"UPDATING_SUBSCRIPTION_PLANS": "Atualizando plano de assinatura..."
+		},
+		"message": {
+			"AUTO_RENEW_HAS_BEEN_DISABLED": "A renovação automática foi desativada.",
+			"AUTO_RENEW_HAS_BEEN_ENABLED": "A renovação automática foi ativada.",
+			"ERROR_CANCELLING_SUBSCRIPTION": "Ocorreu um erro ao cancelar sua assinatura atual.",
+			"ERROR_CREATING_SUBSCRIPTION": "Ocorreu um erro ao criar uma assinatura.",
+			"ERROR_UPDATING_SUBSCRIPTION": "Ocorreu um erro ao atualizar a assinatura.",
+			"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Não é possível obter planos de assinatura. Tente novamente mais tarde.",
+			"SUBSCRIPTION_CANCELlED": "A subscrição foi cancelada.",
+			"SUBSCRIPTION_CHANGED_TO_NEW_PLAN": "Sua assinatura foi alterada para o novo plano.",
+			"UPDATED_SUBSCRIPTION_WITH_DISCOUNT": "Um pagamento de {{amount}} foi submetido, Seu crédito de subscrição anterior de {{discount}} foi deduzido do valor total."
+		},
+		"text": {
+			"GO_TO": "Vamos para",
+			"BILLING_OVERVIEW": "Visão geral de faturamento",
+			"FOR_MORE_DETAILS": "para mais detalhes"
+		}
+	},
+	"payment": {
+		"button": {
+			"CHOOSE_CARD": "Escolha o cartão",
+			"CHOOSE_PAYPAL": "Escolha Paypal",
+			"CONNECT_TO_PAYPAL": "Conectar com Paypal",
+			"DEFAULT_PAYMENT_METHOD": "Metodo de pagamento padrão",
+			"DELETE_PAYMENT_METHOD_CONFIRM": "Tem a certeza de que pretende eliminar este método de pagamento?",
+			"SAVE_AND_CHOOSE_CARD": "Salvar e escolher cartão",
+			"PAY_NOW": "Pague agora"
+		},
+		"heading": {
+			"ADD_NEW_PAYMENT_METHOD": "Adicionar um novo método de pagamento",
+			"CREDIT_OR_DEBIT_CARD": "Cartão de crédito ou débito",
+			"CONNECT_TO_PAYPAL": "Conectar com Paypal",
+			"CHOOSE_PAYMENT_METHOD": "Escolha o seu método de pagamento",
+			"FILL_OUT_YOUR_CARD_DETAILS": "Preencha os detalhes do seu cartão",
+			"NEW_PAYMENT_METHOD": "Novo método de pagamento",
+			"SAVED_PAYMENT_METHODS": "Métodos de pagamento guardados"
+		},
+		"label": {
+			"AMOUNT": "Montante",
+			"CARD_NUMBER": "Número do cartão",
+			"CARD_EXPIRATION_DATE": "Data de validade",
+			"CARD_EXPIRED": "Expirado",
+			"CVV": "CVV",
+			"CURRENCY": "Moeda",
+			"DEBIT_CARD": "Cartão de débito",
+			"PAYMENT_TYPE": "Tipo",
+			"PAYPAL_EMAIL": "Email",
+			"PREPAID_CARD": "Cartão Pré-pago"
+		},
+		"message": {
+			"ERROR_DELETING_PAYMENT_METHOD": "Ocorreu um erro ao eliminar a sua forma de pagamento.",
+			"PAYMENT_AUTHORIZED": "Pagamento autorizado, obrigado.",
+			"PAYMENT_FAILED": "Pagamento falhou",
+			"PAYMENT_METHOD_DELETED": "O método de pagamento foi eliminado e todas as subscrições associadas foram canceladas.",
+			"PAYMENT_METHOD_UPDATED": "O método de pagamento foi actualizado.",
+			"RETRY_TRANSACTION_UNSUCCESSFUL": "A tentativa da transação não foi bem-sucedida!",
+			"TRANSACTION_SUCCESSFUL": "A transação foi bem-sucedida!"
+		},
+		"loading": {
+			"DELETING_PAYMENT_METHOD": "Como excluir o método de pagamento...",
+			"RETRYING_TRANSACTION": "Repetição da transação...",
+			"SAVING_PAYMENT_INFORMATION": "Como guardar informações de pagamento...",
+			"PROCESSING_PAYMENT": "Processamento de pagamento...",
+			"UPDATING_PAYMENT_METHOD": "Atualizando o método de pagamento..."
+		}
+	}
+}
