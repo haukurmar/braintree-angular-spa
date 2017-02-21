@@ -99,12 +99,14 @@ class CreditCardComponent {
 	_displayMessage(type, resourceString, extraText, descriptionHtml) {
 		this.state.message.type = type;
 		if(resourceString) {
-			this.$translate(resourceString).then((value) => {this.state.message.text = value + extraText});
-		} else {
+			this.$translate(resourceString).then((value) => {this.state.message.text = value + (extraText ? extraText : '')});
+		} else if (extraText) {
 			this.state.message.text = extraText;
 		}
 
-		this.state.message.descriptionHtml = descriptionHtml;
+		if (descriptionHtml) {
+			this.state.message.descriptionHtml = descriptionHtml;
+		}
 	}
 
 	formatCurrencyAmount(amount, currencyIsoCode) {

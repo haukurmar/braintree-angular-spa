@@ -26,13 +26,17 @@
 		},
 		"loading": {
 			"CREATING_CUSTOMER": "Creating customer...",
-			"FETCHING_CUSTOMER_INFO": "Fetching customer information..."
+			"FETCHING_CUSTOMER_INFO": "Fetching customer information...",
+			"LOADING_PROFILE_DETAILS": "Loading profile details..."
 		},
 		"label": {
 			"FIRST_NAME": "First name",
 			"LAST_NAME": "Last name",
 			"EMAIL": "Email",
 			"EMAIL_ADDRESS": "Email address"
+		},
+		"message": {
+			"ERROR_FETCHING_CUSTOMER_INFO": "An error occurred while fetching customer information."
 		}
 	},
 	"subscription": {
@@ -42,6 +46,7 @@
 			"PAYMENT_METHOD": "Payment method"
 		},
 		"heading": {
+			"BILLING_OVERVIEW": "Billing overview",
 			"EDIT_SUBSCRIPTION_PLAN": "Edit subscription plan",
 			"EDIT_PAYMENT_METHOD": "Edit payment method",
 			"NO_TRANSACTIONS_FOUND": "No transactions were found",
@@ -85,12 +90,23 @@
 			"UPGRADE_CREDIT": "Upgrade credit"
 		},
 		"loading": {
+			"CANCELLING_SUBSCRIPTION": "Cancelling subscription...",
 			"CREATING_SUBSCRIPTION": "Creating subscription...",
-			"FETCING_SUBSCRIPTION_PLANS": "Fetching subscription plans..."
+			"ENABLING_AUTO_RENEW": "Enabling auto renew...",
+			"DISABLING_AUTO_RENEW": "Disabling auto renew...",
+			"FETCHING_SUBSCRIPTION_PLANS": "Fetching subscription plans...",
+			"UPDATING_SUBSCRIPTION_PLANS": "Updating subscription plan..."
 		},
 		"message": {
+			"AUTO_RENEW_HAS_BEEN_DISABLED": "Auto renew has been disabled.",
+			"AUTO_RENEW_HAS_BEEN_ENABLED": "Auto renew has been enabled.",
+			"ERROR_CANCELLING_SUBSCRIPTION": "An error occurred cancelling your current subscription",
 			"ERROR_CREATING_SUBSCRIPTION": "An error occurred creating a subscription.",
-			"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Unable to get subscription plans, please try again later."
+			"ERROR_UPDATING_SUBSCRIPTION": "An error occurred while updating the subscription.",
+			"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Unable to get subscription plans, please try again later.",
+			"SUBSCRIPTION_CANCELLED": "Subscription has been cancelled.",
+			"SUBSCRIPTION_CHANGED_TO_NEW_PLAN": "Your subscription has been changed to the new plan.",
+			"UPDATED_SUBSCRIPTION_WITH_DISCOUNT": "A payment of {{amount}} has been submitted, Your previous subscription credit of {{discount}} was deducted from the full amount."
 		},
 		"text": {
 			"GO_TO": "Go to",
@@ -130,12 +146,20 @@
 			"PREPAID_CARD": "Prepaid Card"
 		},
 		"message": {
+			"ERROR_DELETING_PAYMENT_METHOD": "An error occurred deleting your payment method.",
 			"PAYMENT_AUTHORIZED": "Payment authorized, thanks.",
-			"PAYMENT_FAILED": "Payment failed"
+			"PAYMENT_FAILED": "Payment failed",
+			"PAYMENT_METHOD_DELETED": "Payment method has been deleted, and all connected subscriptions have been cancelled.",
+			"PAYMENT_METHOD_UPDATED": "Payment method has been updated.",
+			"RETRY_TRANSACTION_UNSUCCESSFUL": "Retry of transaction was not successful!",
+			"TRANSACTION_SUCCESSFUL": "Transaction was successful!"
 		},
 		"loading": {
+			"DELETING_PAYMENT_METHOD": "Deleting payment method...",
+			"RETRYING_TRANSACTION": "Retrying transaction...",
 			"SAVING_PAYMENT_INFORMATION": "Saving payment information...",
-			"PROCESSING_PAYMENT": "Processing payment..."
+			"PROCESSING_PAYMENT": "Processing payment...",
+			"UPDATING_PAYMENT_METHOD": "Updating payment method..."
 		}
 	}
 }

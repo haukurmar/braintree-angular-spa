@@ -39,16 +39,18 @@ class SubscriptionPlansComponent {
 	_displayMessage(type, resourceString, extraText, descriptionHtml) {
 		this.state.message.type = type;
 		if(resourceString) {
-			this.$translate(resourceString).then((value) => {this.state.message.text = value + extraText});
-		} else {
+			this.$translate(resourceString).then((value) => {this.state.message.text = value + (extraText ? extraText : '')});
+		} else if (extraText) {
 			this.state.message.text = extraText;
 		}
 
-		this.state.message.descriptionHtml = descriptionHtml;
+		if (descriptionHtml) {
+			this.state.message.descriptionHtml = descriptionHtml;
+		}
 	}
 
 	_getAllSubscriptionPlans() {
-		this._startLoading('subscription.loading.FETCING_SUBSCRIPTION_PLANS');
+		this._startLoading('subscription.loading.FETCHING_SUBSCRIPTION_PLANS');
 
 		this.braintreeDataService.getAllSubscriptionPlans().then(
 			(response) => {

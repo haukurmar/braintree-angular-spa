@@ -26,13 +26,17 @@
 		},
 		"loading": {
 			"CREATING_CUSTOMER": "Criando clientes...",
-			"FETCHING_CUSTOMER_INFO": "Obtendo informações do cliente..."
+			"FETCHING_CUSTOMER_INFO": "Obtendo informações do cliente...",
+			"LOADING_PROFILE_DETAILS": "Carregando detalhes do perfil..."
 		},
 		"label": {
 			"FIRST_NAME": "Primeiro nome",
 			"LAST_NAME": "Último nome",
 			"EMAIL": "Email",
 			"EMAIL_ADDRESS": "Endereço de email"
+		},
+		"message": {
+			"ERROR_FETCHING_CUSTOMER_INFO": "Ocorreu um erro ao buscar informações do cliente."
 		}
 	},
 	"subscription": {
@@ -42,6 +46,7 @@
 			"PAYMENT_METHOD": "Método de pagamento"
 		},
 		"heading": {
+			"BILLING_OVERVIEW": "Visão geral da faturação",
 			"EDIT_SUBSCRIPTION_PLAN": "Editar plano de assinatura",
 			"EDIT_PAYMENT_METHOD": "Editar método de pagamento",
 			"NO_TRANSACTIONS_FOUND": "Nenhuma transação foi encontrada",
@@ -85,12 +90,23 @@
 			"UPGRADE_CREDIT": "Atualizar crédito"
 		},
 		"loading": {
+			"CANCELLING_SUBSCRIPTION": "Cancelar subscrição...",
 			"CREATING_SUBSCRIPTION": "Criar subscrição...",
-			"FETCING_SUBSCRIPTION_PLANS": "Obtenção de planos de assinatura..."
+			"ENABLING_AUTO_RENEW": "Ativando a renovação automática...",
+			"DISABLING_AUTO_RENEW": "Desativando a renovação automática...",
+			"FETCHING_SUBSCRIPTION_PLANS": "Obtenção de planos de assinatura...",
+			"UPDATING_SUBSCRIPTION_PLANS": "Atualizando plano de assinatura..."
 		},
 		"message": {
+			"AUTO_RENEW_HAS_BEEN_DISABLED": "A renovação automática foi desativada.",
+			"AUTO_RENEW_HAS_BEEN_ENABLED": "A renovação automática foi ativada.",
+			"ERROR_CANCELLING_SUBSCRIPTION": "Ocorreu um erro ao cancelar sua assinatura atual.",
 			"ERROR_CREATING_SUBSCRIPTION": "Ocorreu um erro ao criar uma assinatura.",
-			"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Não é possível obter planos de assinatura. Tente novamente mais tarde."
+			"ERROR_UPDATING_SUBSCRIPTION": "Ocorreu um erro ao atualizar a assinatura.",
+			"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Não é possível obter planos de assinatura. Tente novamente mais tarde.",
+			"SUBSCRIPTION_CANCELlED": "A subscrição foi cancelada.",
+			"SUBSCRIPTION_CHANGED_TO_NEW_PLAN": "Sua assinatura foi alterada para o novo plano.",
+			"UPDATED_SUBSCRIPTION_WITH_DISCOUNT": "Um pagamento de {{amount}} foi submetido, Seu crédito de subscrição anterior de {{discount}} foi deduzido do valor total."
 		},
 		"text": {
 			"GO_TO": "Vamos para",
@@ -130,12 +146,20 @@
 			"PREPAID_CARD": "Cartão Pré-pago"
 		},
 		"message": {
+			"ERROR_DELETING_PAYMENT_METHOD": "Ocorreu um erro ao eliminar a sua forma de pagamento.",
 			"PAYMENT_AUTHORIZED": "Pagamento autorizado, obrigado.",
-			"PAYMENT_FAILED": "Pagamento falhou"
+			"PAYMENT_FAILED": "Pagamento falhou",
+			"PAYMENT_METHOD_DELETED": "O método de pagamento foi eliminado e todas as subscrições associadas foram canceladas.",
+			"PAYMENT_METHOD_UPDATED": "O método de pagamento foi actualizado.",
+			"RETRY_TRANSACTION_UNSUCCESSFUL": "A tentativa da transação não foi bem-sucedida!",
+			"TRANSACTION_SUCCESSFUL": "A transação foi bem-sucedida!"
 		},
 		"loading": {
+			"DELETING_PAYMENT_METHOD": "Como excluir o método de pagamento...",
+			"RETRYING_TRANSACTION": "Repetição da transação...",
 			"SAVING_PAYMENT_INFORMATION": "Como guardar informações de pagamento...",
-			"PROCESSING_PAYMENT": "Processamento de pagamento..."
+			"PROCESSING_PAYMENT": "Processamento de pagamento...",
+			"UPDATING_PAYMENT_METHOD": "Atualizando o método de pagamento..."
 		}
 	}
 }

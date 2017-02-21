@@ -3,7 +3,7 @@ import {ROUTES} from '../../../braintree.constants';
 import _ from 'lodash';
 
 // Inject dependencies
-@Inject('braintreeDataService', 'braintreeAppService', 'moment', '$animate')
+@Inject('braintreeDataService', 'braintreeAppService', 'moment', '$animate', '$translate')
 class CustomerDetailsComponent {
 	constructor() {
 		this.state = {
@@ -40,9 +40,9 @@ class CustomerDetailsComponent {
 	// --------------------------------------------------
 	$onInit() {
 		let customer = {};
-		//console.log('this.customerData', this.customerData);
-		if(this.customerData) {
-			if(this.customerData.id) {
+		this.$translate('subscription.heading.BILLING_OVERVIEW').then((value) => {this.state.header.text = value});
+		if (this.customerData) {
+			if (this.customerData.id) {
 				customer.id = this.customerData.id;
 
 				// Update existing customer in service
@@ -59,10 +59,10 @@ class CustomerDetailsComponent {
 			this.getCustomerDetails(this.customer.id);
 		}
 
-		if(this.headerVisible === false) {
+		if (this.headerVisible === false) {
 			this.state.header.visible = false;
 		}
-		if(this.headerText) {
+		if (this.headerText) {
 			this.state.header.text = this.headerText;
 		}
 
@@ -74,10 +74,17 @@ class CustomerDetailsComponent {
 		this.state.message.text = '';
 	}
 
-	_displayMessage(text, type, descriptionHtml) {
+	_displayMessage(type, resourceString, extraText, descriptionHtml) {
 		this.state.message.type = type;
-		this.state.message.text = text;
-		this.state.message.descriptionHtml = descriptionHtml;
+		if (resourceString) {
+			this.$translate(resourceString).then((value) => {this.state.message.text = value + (extraText ? extraText : '')});
+		} else if (extraText) {
+			this.state.message.text = extraText;
+		}
+
+		if (descriptionHtml) {
+			this.state.message.descriptionHtml = descriptionHtml;
+		}
 	}
 
 	getCurrencySymbol(currencyIsoCode) {
@@ -88,9 +95,9 @@ class CustomerDetailsComponent {
 		return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
 	}
 
-	_startLoading(text) {
+	_startLoading(resourceString) {
 		this.state.loading.isLoading = true;
-		this.state.loading.text = text;
+		this.$translate(resourceString).then((value) => {this.state.loading.text = value});
 	}
 
 	_stopLoading() {
@@ -111,7 +118,7 @@ class CustomerDetailsComponent {
 	 */
 	addCreditCard(paymentMethod, subscription) {
 		this._clearMessage();
-		this._startLoading('Saving payment information...');
+		this._startLoading('payment.loading.SAVING_PAYMENT_INFORMATION');
 		let customerId = this.braintreeDataService.customer.id;
 
 		paymentMethod.verificationMerchantAccountId = this.selectedMerchantAccount.id;
@@ -125,7 +132,7 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				// TODO: Handle errors better
-				this._displayMessage(error, 'warning');
+				this._displayMessage('warning', null, error);
 				this._stopLoading();
 				this.state.showForm = true;
 			}
@@ -138,14 +145,14 @@ class CustomerDetailsComponent {
 	 * @param subscription
 	 */
 	addPaymentMethod(paymentMethod, subscription) {
-		let loadingText = 'Updating payment method...';
-		let messageSuccessText = 'Payment method has been updated.';
+		let loadingTextResource = 'payment.loading.UPDATING_PAYMENT_METHOD';
+		let messageSuccessResource = 'payment.message.PAYMENT_METHOD_UPDATED';
 		let subscriptionChanges = {
 			planId: subscription.planId,
 			paymentMethodToken: paymentMethod.token
 		};
 
-		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
+		this.updateSubscription(subscription, subscriptionChanges, loadingTextResource, messageSuccessResource);
 	}
 
 	/**
@@ -154,21 +161,21 @@ class CustomerDetailsComponent {
 	 */
 	cancelSubscription(subscription) {
 		this._clearMessage();
-		this._startLoading('Canceling subscription...');
+		this._startLoading('subscription.loading.CANCELLING_SUBSCRIPTION');
 
 		this.braintreeDataService.cancelSubscription(subscription.id).then(
 			(response) => {
 				if (this.customer.id) {
 					this.getCustomerDetails(this.customer.id).then(
 						() => {
-							this._displayMessage('Subscription has been canceled.', 'success');
+							this._displayMessage('success', 'subscription.message.SUBSCRIPTION_CANCELLED');
 						}
 					);
 				}
 			},
 			(error) => {
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'warning');
+				this._displayMessage('warning', 'subscription.message.ERROR_CANCELLING_SUBSCRIPTION', null, error.data.message);
 			}
 		);
 	}
@@ -179,14 +186,15 @@ class CustomerDetailsComponent {
 	 * @param subscription
 	 */
 	changePaymentMethodForSubscription(newPaymentMethod, subscription) {
-		let loadingText = 'Updating payment method...';
-		let messageSuccessText = 'Payment method has been updated.';
+		let loadingTextResource = 'payment.loading.UPDATING_PAYMENT_METHOD';
+		let messageSuccessResource = 'payment.message.PAYMENT_METHOD_UPDATED';
+
 		let subscriptionChanges = {
 			planId: subscription.planId,
 			paymentMethodToken: newPaymentMethod.token
 		};
 
-		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
+		this.updateSubscription(subscription, subscriptionChanges, loadingTextResource, messageSuccessResource);
 	}
 
 	/**
@@ -201,7 +209,7 @@ class CustomerDetailsComponent {
 		//console.log('plan chosen', newSubscriptionPlan, currentSubscription);
 
 		this._clearMessage();
-		this._startLoading('Updating subscription plan...');
+		this._startLoading('subscription.loading.UPDATING_SUBSCRIPTION_PLANS');
 		// Set the selectedMerchantAccount
 		this.braintreeDataService.setSelectedMerchantAccountByCurrency(newSubscriptionPlan.currencyIsoCode);
 
@@ -261,23 +269,33 @@ class CustomerDetailsComponent {
 											let currencySymbol = this.getCurrencySymbol(response.data.subscription.transactions[0].currencyIsoCode);
 
 											if (discount > 0) {
-												descriptionHtml = '<p>A payment of ' + currencySymbol + transactionAmount + ' has been submitted, Your previous subscription credit of ' + currencySymbol + discount + ' was deducted from the full amount.</p>';
+												//
+												this.$translate('subscription.message.UPDATED_SUBSCRIPTION_WITH_DISCOUNT', {
+													amount: currencySymbol + transactionAmount,
+													discount: currencySymbol + discount
+												}).then((value) => {
+													descriptionHtml = '<p>';
+													descriptionHtml += value;
+													descriptionHtml += '</p>';
+
+													this._displayMessage('success', 'subscription.message.SUBSCRIPTION_CHANGED_TO_NEW_PLAN', null, descriptionHtml);
+												});
+											} else {
+												this._displayMessage('success', 'subscription.message.SUBSCRIPTION_CHANGED_TO_NEW_PLAN', null);
 											}
 										}
 
-										this._displayMessage('Your subscription has been changed to the new plan.', 'success', descriptionHtml);
 									}
 								);
 							} else {
-								//console.log('Error creating a sub', response.data.message);
 								// TODO: Handle different failures maybe?
-								this._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'warning');
+								this._displayMessage('warning', 'subscription.message.ERROR_CREATING_SUBSCRIPTION', null, response.data.message);
 								this._stopLoading();
 							}
 						},
 						(error) => {
 							//console.log('Error creating a subcription', error);
-							this._displayMessage(error.data.message, 'warning');
+							this._displayMessage('warning', 'subscription.message.ERROR_CREATING_SUBSCRIPTION', null, error);
 							this._stopLoading();
 						}
 					);
@@ -285,7 +303,7 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'warning');
+				this._displayMessage('warning', 'subscription.message.ERROR_CANCELLING_SUBSCRIPTION', null, error.data.message);
 			}
 		);
 	}
@@ -297,21 +315,21 @@ class CustomerDetailsComponent {
 	 */
 	deletePaymentMethod(paymentMethod) {
 		this._clearMessage();
-		this._startLoading('Deleting payment method...');
+		this._startLoading('payment.loading.DELETING_PAYMENT_METHOD');
 
 		this.braintreeDataService.deletePaymentMethod(paymentMethod).then(
 			(response) => {
 				if (this.customer.id) {
 					this.getCustomerDetails(this.customer.id).then(
 						() => {
-							this._displayMessage('Payment method has been deleted, and all connected subscriptions have been cancelled.', 'success');
+							this._displayMessage('success', 'payment.message.PAYMENT_METHOD_DELETED');
 						}
 					);
 				}
 			},
 			(error) => {
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'warning');
+				this._displayMessage('warning', 'payment.message.ERROR_DELETING_PAYMENT_METHOD', null, error.data.message);
 			}
 		);
 	}
@@ -321,19 +339,20 @@ class CustomerDetailsComponent {
 	 * @param subscription
 	 */
 	disableAutoRenew(subscription) {
-		let loadingText = 'Disabling auto renew';
-		let messageSuccessText = 'Auto renew has been disabled';
+		let loadingResource = 'subscription.loading.DISABLING_AUTO_RENEW';
+		let messageSuccessResource = 'subscription.message.AUTO_RENEW_HAS_BEEN_DISABLED';
+
 		let subscriptionChanges = {
 			planId: subscription.planId,
 			price: 0.00,
 			numberOfBillingCycles: subscription.currentBillingCycle
 		};
 
-		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
+		this.updateSubscription(subscription, subscriptionChanges, loadingResource, messageSuccessResource);
 	}
 
 	getAllPlans() {
-		this._startLoading('Loading subscription plans...');
+		this._startLoading('subscription.loading.FETCHING_SUBSCRIPTION_PLANS');
 
 		this.braintreeDataService.getAllSubscriptionPlans().then(
 			(response) => {
@@ -342,14 +361,14 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				// TODO: Notify development team or do it via api
-				this._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
+				this._displayMessage('error', 'subscription.message.ERROR_FETCHING_SUBSCRIPTION_PLANS');
 				this._stopLoading();
 			}
 		);
 	}
 
 	getPlansByCurrency(currencyIsoCode) {
-		this._startLoading('Loading subscription plans...');
+		this._startLoading('subscription.loading.FETCHING_SUBSCRIPTION_PLANS');
 		this.braintreeDataService.getSubscriptionPlansForCurrency(currencyIsoCode).then(
 			(response) => {
 
@@ -363,7 +382,7 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				// TODO: Notify development team or do it via api
-				this._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
+				this._displayMessage('error', 'subscription.message.ERROR_FETCHING_SUBSCRIPTION_PLANS');
 				this._stopLoading();
 			}
 		);
@@ -374,8 +393,8 @@ class CustomerDetailsComponent {
 	 * @param subscription
 	 */
 	enableAutoRenew(subscription) {
-		let loadingText = 'Enabling auto renew';
-		let messageSuccessText = 'Auto renew has been enabled.';
+		let loadingTextResource = 'subscription.loading.ENABLING_AUTO_RENEW';
+		let messageSuccessResource = 'subscription.message.AUTO_RENEW_HAS_BEEN_ENABLED';
 
 		let subscriptionChanges = {
 			planId: subscription.planId,
@@ -383,7 +402,7 @@ class CustomerDetailsComponent {
 			numberOfBillingCycles: null
 		};
 
-		this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
+		this.updateSubscription(subscription, subscriptionChanges, loadingTextResource, messageSuccessResource);
 	}
 
 	/**
@@ -391,7 +410,7 @@ class CustomerDetailsComponent {
 	 * @param customerId
 	 */
 	getCustomerDetails(customerId) {
-		this._startLoading('Loading profile details...');
+		this._startLoading('customer.loading.LOADING_PROFILE_DETAILS');
 
 		//Get Customer if logged in
 		return this.braintreeDataService.getCustomer(customerId, true).then(
@@ -402,61 +421,59 @@ class CustomerDetailsComponent {
 			},
 			(error) => {
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'warning');
+				this._displayMessage('warning', 'customer.message.ERROR_FETCHING_CUSTOMER_INFO', null, error.data.message);
 			}
 		);
 	}
 
 	retryCharge(subscription) {
 		this._clearMessage();
-		this._startLoading('Retrying transaction...');
+		this._startLoading('payment.loading.RETRYING_TRANSACTION');
 
 		this.braintreeDataService.retrySubscriptionCharge(subscription).then(
 			(response) => {
-				if(response.success) {
+				if (response.success) {
 					this._stopLoading();
-					this._displayMessage('Transaction was successful!', 'success');
+					this._displayMessage('success', 'payment.message.TRANSACTION_SUCCESSFUL');
 				} else {
 					this._stopLoading();
-					this._displayMessage(response.data.message, 'warning');
+					this._displayMessage('warning', 'payment.message.RETRY_TRANSACTION_UNSUCCESSFUL', null, response.data.message);
 				}
 			},
 			(error) => {
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'warning');
+				this._displayMessage('error', 'payment.message.RETRY_TRANSACTION_UNSUCCESSFUL', null, error.data.message);
 			}
 		);
 	}
 
-	// TODO: Change this so we use an endpoint in the api for this, so we are not sending the price over the wire
-	updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText) {
+	updateSubscription(subscription, subscriptionChanges, loadingResourceString, messageSuccessResourceString) {
 		this._clearMessage();
-		this._startLoading(loadingText);
+		this._startLoading(loadingResourceString);
 
 		this.braintreeDataService.updateSubscription(subscription.id, subscriptionChanges).then(
 			(response) => {
 				this.getCustomerDetails(this.customer.id).then(
 					() => {
-						this._displayMessage(messageSuccessText, 'success');
+						this._displayMessage('success', messageSuccessResourceString);
 					}
 				);
 
 			},
 			(error) => {
-				//console.log(error.data.message);
 				this._stopLoading();
-				this._displayMessage(error.data.message, 'warning');
+				this._displayMessage('warning', 'subscription.message.ERROR_UPDATING_SUBSCRIPTION', null, error.data.message);
 			}
 		);
 	}
 
-	routeTo(path){
+	routeTo(path) {
 		return this.braintreeAppService.routeTo(path);
 	}
 
 	subscribeNow() {
 		// If an external link has been set.
-		if(this.subscribeRedirectUrl) {
+		if (this.subscribeRedirectUrl) {
 			window.location = this.subscribeRedirectUrl;
 		} else {
 			this.routeTo('/subscribe');
