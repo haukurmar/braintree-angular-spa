@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(149);
+	module.exports = __webpack_require__(151);
 
 
 /***/ },
@@ -151,7 +151,7 @@
 	
 	var _modulesCoreCoreModule2 = _interopRequireDefault(_modulesCoreCoreModule);
 	
-	var _modulesDebugDebugModule = __webpack_require__(146);
+	var _modulesDebugDebugModule = __webpack_require__(148);
 	
 	var _modulesDebugDebugModule2 = _interopRequireDefault(_modulesDebugDebugModule);
 	
@@ -310,8 +310,8 @@
 	// Modules
 	'use strict';
 	
-	braintreeConfig.$inject = ["$locationProvider", "$routeProvider"];
-	braintreeRun.$inject = ["$route", "$rootScope"];
+	braintreeConfig.$inject = ["$locationProvider", "$routeProvider", "$translateProvider"];
+	braintreeRun.$inject = ["$rootScope"];
 	Object.defineProperty(exports, '__esModule', {
 		value: true
 	});
@@ -450,7 +450,9 @@
 	.component('braintreeHome', _componentsViewBraintreeHomeBraintreeHomeComponent2['default']).component('braintreeSubscribeView', _componentsViewSubscribeSubscribeViewComponent2['default']);
 	
 	/* @ngInject */
-	function braintreeConfig($locationProvider, $routeProvider) {
+	function braintreeConfig($locationProvider, $routeProvider, $translateProvider) {
+		$translateProvider.translations('en', __webpack_require__(146)).translations('pt', __webpack_require__(147)).useSanitizeValueStrategy(null).preferredLanguage('en').fallbackLanguage('en');
+	
 		$locationProvider.html5Mode(false);
 	
 		// Route configs
@@ -477,7 +479,7 @@
 	}
 	
 	/* @ngInject */
-	function braintreeRun($route, $rootScope) {
+	function braintreeRun($rootScope) {
 		$rootScope.$on("$locationChangeStart", function (event, next, current) {});
 	}
 	
@@ -857,7 +859,7 @@
 		value: true
 	});
 	
-	var ngModule = angular.module('braintree-angular-spa.modules.core', ['ngRoute']);
+	var ngModule = angular.module('braintree-angular-spa.modules.core', ['ngRoute', 'pascalprecht.translate']);
 	
 	exports['default'] = ngModule;
 	module.exports = exports['default'];
@@ -27975,6 +27977,7 @@
 	
 			//this._apiUrl = 'https://haukurmar-braintree-node-api.herokuapp.com/api';
 			this._apiUrl = 'http://127.0.0.1:5000/api';
+			this._language = 'en';
 		}
 	
 		_createClass(ConfigService, [{
@@ -27983,9 +27986,19 @@
 				this._apiUrl = url;
 			}
 		}, {
+			key: 'setLanguage',
+			value: function setLanguage(lang) {
+				this._language = lang;
+			}
+		}, {
 			key: 'apiUrl',
 			get: function get() {
 				return this._apiUrl;
+			}
+		}, {
+			key: 'getLanguage',
+			get: function get() {
+				return this._language;
 			}
 		}]);
 	
@@ -28100,11 +28113,13 @@
 	var Inject = __webpack_require__(83);
 	
 	var BraintreeSubscriptionComponent = (function () {
-		function BraintreeSubscriptionComponent(braintreeDataService, braintreeAppService) {
+		function BraintreeSubscriptionComponent(braintreeDataService, braintreeAppService, $translate, $rootScope) {
 			_classCallCheck(this, _BraintreeSubscriptionComponent);
 	
 			this.braintreeDataService = braintreeDataService;
 			this.braintreeAppService = braintreeAppService;
+			this.$translate = $translate;
+			this.$rootScope = $rootScope;
 	
 			this.state = {
 				backButtonText: 'Back',
@@ -28147,21 +28162,27 @@
 		_createClass(BraintreeSubscriptionComponent, [{
 			key: '$onInit',
 			value: function $onInit() {
+				var _this = this;
+	
 				// Get Customer from service
 				this.customer = this.braintreeDataService.customer;
 				this.customerModel = this.customer;
 				this.state.mode = this.braintreeDataService.mode;
 	
+				this.setLanguageKeys();
+	
+				// Listen for change of language
+				this.$rootScope.$on('$translateChangeSuccess', function () {
+					_this.setLanguageKeys();
+				});
+	
 				// Subscription mode
 				if (this.state.mode.subscription) {
-					this.state.submitButtonText = 'Continue';
 					this.state.backButtonVisible = true;
 	
 					// If the user has not chosen a subscription plan (or refreshed the page)
 					if (!this.selectedSubscription.id) {
-						this.state.message.text = 'You need to choose a subscription plan before you proceed';
 						this.state.message.type = 'warning';
-						this.state.message.linkText = 'Go to subscription page';
 						this.state.message.link = _braintreeConstants.ROUTES.SUBSCRIPTION;
 						this.state.showForm = false;
 					}
@@ -28170,6 +28191,34 @@
 				// If we get a customerId, we fetch it from API
 				if (this.customer.id) {
 					this.getCustomerDetails(this.customer.id);
+				}
+			}
+		}, {
+			key: 'setLanguageKeys',
+			value: function setLanguageKeys() {
+				var _this2 = this;
+	
+				this.$translate('general.button.BACK').then(function (value) {
+					_this2.state.backButtonText = value;
+				});
+	
+				if (this.state.mode.subscription) {
+					if (!this.selectedSubscription.id) {
+						this.$translate('general.message.MUST_CHOOSE_SUBSCRIPTION').then(function (value) {
+							_this2.state.message.text = value;
+						});
+						this.$translate('general.button.GO_TO_SUBSCRIPTION_PAGE').then(function (value) {
+							_this2.state.message.linkText = value;
+						});
+					}
+	
+					this.$translate('general.button.CONTINUE').then(function (value) {
+						_this2.state.submitButtonText = value;
+					});
+				} else {
+					this.$translate('customer.button.CREATE_CUSTOMER').then(function (value) {
+						_this2.state.submitButtonText = value;
+					});
 				}
 			}
 	
@@ -28182,23 +28231,25 @@
 		}, {
 			key: 'getCustomerDetails',
 			value: function getCustomerDetails(customerId) {
-				var _this = this;
+				var _this3 = this;
 	
 				this.state.loading.isLoading = true;
-				this.state.loading.text = 'Fetching customer information...';
+				this.$translate('customer.loading.FETCHING_CUSTOMER_INFO').then(function (value) {
+					_this3.state.loading.text = value;
+				});
 				//Get Customer if logged in
 				this.braintreeDataService.getCustomer(customerId).then(function (response) {
 					//console.log('success', response);
-					_this.newCustomer = false;
-					_this.braintreeDataService.updateCustomerData(response.data.customer);
-					_this.customerModel = response.data.customer;
-					_this.state.loading.isLoading = false;
+					_this3.newCustomer = false;
+					_this3.braintreeDataService.updateCustomerData(response.data.customer);
+					_this3.customerModel = response.data.customer;
+					_this3.state.loading.isLoading = false;
 	
 					// TODO: What to do here?
 				}, function (error) {
 					//console.log(error.data.message);
-					_this.newCustomer = true;
-					_this.state.loading.isLoading = false;
+					_this3.newCustomer = true;
+					_this3.state.loading.isLoading = false;
 				});
 			}
 		}, {
@@ -28219,29 +28270,31 @@
 		}, {
 			key: 'saveCustomer',
 			value: function saveCustomer(customerModel) {
-				var _this2 = this;
+				var _this4 = this;
 	
 				this.state.showform = false;
 				this.routes.nextRoute = _braintreeConstants.ROUTES.PAYMENT_METHODS;
 	
 				if (this.newCustomer) {
-					this.state.loading.text = 'Creating customer...';
+					this.$translate('customer.loading.CREATING_CUSTOMER').then(function (value) {
+						_this4.state.loading.text = value;
+					});
 					this.state.loading.isLoading = true;
 	
 					this.braintreeDataService.createCustomer(customerModel).then(function (response) {
-						_this2.state.loading.isLoading = false;
+						_this4.state.loading.isLoading = false;
 	
 						// Save customer data to service
-						_this2.braintreeDataService.updateCustomerData(response.data.customer);
+						_this4.braintreeDataService.updateCustomerData(response.data.customer);
 	
 						// TODO: Display message if not in subscribe mode
 						// Redirect to next step
-						_this2.routeTo([_this2.routes.nextRoute]);
+						_this4.routeTo([_this4.routes.nextRoute]);
 					}, function (error) {
 						// TODO: Handle errors better (use error.data.errors collection)
-						_this2.state.message.text = error.data.message;
-						_this2.state.loading.isLoading = false;
-						_this2.state.showform = true;
+						_this4.state.message.text = error.data.message;
+						_this4.state.loading.isLoading = false;
+						_this4.state.showform = true;
 	
 						//console.log('Error message', error.data.message);
 						//console.log('Errors:', error.data.errors);
@@ -28255,7 +28308,7 @@
 		}]);
 	
 		var _BraintreeSubscriptionComponent = BraintreeSubscriptionComponent;
-		BraintreeSubscriptionComponent = Inject('braintreeDataService', 'braintreeAppService')(BraintreeSubscriptionComponent) || BraintreeSubscriptionComponent;
+		BraintreeSubscriptionComponent = Inject('braintreeDataService', 'braintreeAppService', '$translate', '$rootScope')(BraintreeSubscriptionComponent) || BraintreeSubscriptionComponent;
 		return BraintreeSubscriptionComponent;
 	})();
 	
@@ -28272,7 +28325,7 @@
 /* 103 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/customer'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your contact information</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-customer-form\n\t\t\tcustomer-model=\"$ctrl.customerModel\"\n\t\t\ton-submit=\"$ctrl.saveCustomer(customerModel)\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-customer-form>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/customer'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\" translate=\"customer.heading.FILL_OUT_YOUR_CONTACT_INFO\"></h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-customer-form\n\t\t\tcustomer-model=\"$ctrl.customerModel\"\n\t\t\ton-submit=\"$ctrl.saveCustomer(customerModel)\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\"></ui-braintree-customer-form>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 104 */
@@ -28455,12 +28508,14 @@
 	var Inject = __webpack_require__(83);
 	
 	var CreditCardComponent = (function () {
-		function CreditCardComponent($http, braintreeDataService, braintreeAppService) {
+		function CreditCardComponent($http, braintreeDataService, braintreeAppService, $translate, $rootScope) {
 			_classCallCheck(this, _CreditCardComponent);
 	
 			this.$http = $http;
 			this.braintreeDataService = braintreeDataService;
 			this.braintreeAppService = braintreeAppService;
+			this.$translate = $translate;
+			this.$rootScope = $rootScope;
 	
 			this.state = {
 				backButtonText: 'Back',
@@ -28517,12 +28572,16 @@
 				if (mode.subscription) {
 					this.state.backButtonVisible = true;
 					this.state.hideAmount = true;
-					this.state.submitButtonText = 'Continue';
+	
+					this._setLanguageKeys();
+	
+					// Listen for change of language
+					this.$rootScope.$on('$translateChangeSuccess', function () {
+						_this._setLanguageKeys();
+					});
 	
 					// If the user has not chosen a subscription plan (or refreshed the page)
 					if (!this.selectedSubscription.id) {
-						this._displayMessage('You need to choose a subscription plan before you proceed', 'warning');
-						this.state.message.linkText = 'Go to subscription page';
 						this.state.message.link = _braintreeConstants.ROUTES.SUBSCRIPTION;
 						this.state.showForm = false;
 						return;
@@ -28530,7 +28589,7 @@
 	
 					// If the user has no customer ID
 					if (!this.customer.id) {
-						this._displayMessage('You need to fill out customer information before you proceed', 'warning');
+						this._displayMessage('warning', 'general.message.MUST_FILL_CUSTOMER_INFO');
 						this.state.message.linkText = 'Go to customer page';
 						this.state.message.link = _braintreeConstants.ROUTES.CUSTOMER;
 						this.state.showForm = false;
@@ -28556,10 +28615,21 @@
 			}
 		}, {
 			key: '_displayMessage',
-			value: function _displayMessage(text, type, descriptionHtml) {
+			value: function _displayMessage(type, resourceString, extraText, descriptionHtml) {
+				var _this2 = this;
+	
 				this.state.message.type = type;
-				this.state.message.text = text;
-				this.state.message.descriptionHtml = descriptionHtml;
+				if (resourceString) {
+					this.$translate(resourceString).then(function (value) {
+						_this2.state.message.text = value + (extraText ? extraText : '');
+					});
+				} else if (extraText) {
+					this.state.message.text = extraText;
+				}
+	
+				if (descriptionHtml) {
+					this.state.message.descriptionHtml = descriptionHtml;
+				}
 			}
 		}, {
 			key: 'formatCurrencyAmount',
@@ -28567,10 +28637,49 @@
 				return this.braintreeAppService.formatCurrencyAmount(amount, currencyIsoCode);
 			}
 		}, {
+			key: '_setLanguageKeys',
+			value: function _setLanguageKeys() {
+				var _this3 = this;
+	
+				this.$translate('general.button.BACK').then(function (value) {
+					_this3.state.backButtonText = value;
+				});
+	
+				if (this.state.mode.subscription) {
+					this.$translate('general.button.CONTINUE').then(function (value) {
+						_this3.state.submitButtonText = value;
+					});
+	
+					// If no subscription has been selected
+					if (!this.selectedSubscription.id) {
+						this._displayMessage('warning', 'general.message.MUST_CHOOSE_SUBSCRIPTION');
+						this.$translate('general.button.GO_TO_SUBSCRIPTION_PAGE').then(function (value) {
+							_this3.state.message.linkText = value;
+						});
+					}
+	
+					// If customer has been created
+					if (!this.customer.id) {
+						this._displayMessage('warning', 'general.message.MUST_FILL_CUSTOMER_INFO');
+						this.$translate('general.button.GO_TO_CUSTOMER_PAGE').then(function (value) {
+							_this3.state.message.linkText = value;
+						});
+					}
+				} else {
+					this.$translate('payment.button.PAY_NOW').then(function (value) {
+						_this3.state.submitButtonText = value;
+					});
+				}
+			}
+		}, {
 			key: '_startLoading',
-			value: function _startLoading(text) {
+			value: function _startLoading(resourceString) {
+				var _this4 = this;
+	
 				this.state.loading.isLoading = true;
-				this.state.loading.text = text;
+				this.$translate(resourceString).then(function (value) {
+					_this4.state.loading.text = value;
+				});
 			}
 		}, {
 			key: '_stopLoading',
@@ -28609,9 +28718,9 @@
 		}, {
 			key: 'createVaultedPayment',
 			value: function createVaultedPayment(paymentModel) {
-				var _this2 = this;
+				var _this5 = this;
 	
-				this._startLoading('Saving payment information...');
+				this._startLoading('payment.loading.SAVING_PAYMENT_INFORMATION');
 				this.state.showForm = false;
 				var customerId = this.braintreeDataService.customer.id;
 	
@@ -28620,14 +28729,14 @@
 				// Send request to get token, then use the token to tokenize credit card info and verify the card
 				this.braintreeDataService.createVaultedPayment(customerId, paymentModel).then(function (response) {
 					//console.log('from vaultedPayment', response);
-					_this2._stopLoading();
-					_this2.state.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
-					_this2.routeTo([_this2.state.nextRoute]);
+					_this5._stopLoading();
+					_this5.state.nextRoute = _braintreeConstants.ROUTES.SUBSCRIPTION_OVERVIEW;
+					_this5.routeTo([_this5.state.nextRoute]);
 				}, function (error) {
 					// TODO: Handle errors better
-					_this2._displayMessage(error, 'warning');
-					_this2._stopLoading();
-					_this2.state.showForm = true;
+					_this5._displayMessage('warning', null, error);
+					_this5._stopLoading();
+					_this5.state.showForm = true;
 				});
 			}
 	
@@ -28638,9 +28747,9 @@
 		}, {
 			key: 'processPayment',
 			value: function processPayment(paymentModel) {
-				var _this3 = this;
+				var _this6 = this;
 	
-				this._startLoading('Processing payment...');
+				this._startLoading('payment.loading.PROCESSING_PAYMENT');
 				this.state.showForm = false;
 				var clientToken = this.braintreeDataService.customer.clientToken;
 	
@@ -28667,34 +28776,33 @@
 						merchantAccountId: selectedMerchantAccount.id
 					};
 	
-					_this3.braintreeDataService.processPayment(paymentData).then(function (response) {
-						//console.log(response.data.success);
+					_this6.braintreeDataService.processPayment(paymentData).then(function (response) {
 						if (response.data.success) {
-							_this3.state.paid = true;
-							_this3.state.error = false;
+							_this6.state.paid = true;
+							_this6.state.error = false;
 	
-							_this3._displayMessage('Payment authorized, thanks.', 'success');
-							_this3._stopLoading();
+							_this6._displayMessage('success', 'payment.message.PAYMENT_AUTHORIZED');
+							_this6._stopLoading();
 						} else {
 							// TODO: Handle different payment failures
-							_this3.state.error = true;
+							_this6.state.error = true;
 	
-							_this3._displayMessage('Payment failed: ' + response.data.message + ' Please refresh the page and try again.', 'warning');
-							_this3._stopLoading();
-							_this3.state.showForm = true;
+							_this6._displayMessage('warning', 'payment.message.FAILED', response.data.message);
+							_this6._stopLoading();
+							_this6.state.showForm = true;
 						}
 					}, function (error) {
-						_this3.state.error = true;
-						_this3._displayMessage('Error: cannot connect to server. Please make sure your server is running. Erromessage: ' + error.data, 'warning');
-						_this3._stopLoading();
-						_this3.state.showForm = true;
+						_this6.state.error = true;
+						_this6._displayMessage('warning', 'general.message.ERROR_CONNECTING_TO_SERVER', error.data);
+						_this6._stopLoading();
+						_this6.state.showForm = true;
 					});
 				});
 			}
 		}]);
 	
 		var _CreditCardComponent = CreditCardComponent;
-		CreditCardComponent = Inject('$http', 'braintreeDataService', 'braintreeAppService')(CreditCardComponent) || CreditCardComponent;
+		CreditCardComponent = Inject('$http', 'braintreeDataService', 'braintreeAppService', '$translate', '$rootScope')(CreditCardComponent) || CreditCardComponent;
 		return CreditCardComponent;
 	})();
 	
@@ -28711,7 +28819,7 @@
 /* 106 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Fill out your card details</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-creditcard-form\n\t\t\ton-submit=\"$ctrl.submitPayment(paymentModel)\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\thide-amount=\"$ctrl.state.hideAmount\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tmerchant-accounts=\"$ctrl.merchantAccountsArray\"\n\t\t\tselected-merchant-account=\"$ctrl.selectedMerchantAccount\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t\t</ui-braintree-creditcard-form>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\" translate=\"payment.heading.FILL_OUT_YOUR_CARD_DETAILS\"></h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<ui-braintree-creditcard-form\n\t\t\ton-submit=\"$ctrl.submitPayment(paymentModel)\"\n\t\t\tback-button-text=\"$ctrl.state.backButtonText\"\n\t\t\tback-button-route=\"$ctrl.state.backButtonRoute\"\n\t\t\tback-button-visible=\"$ctrl.state.backButtonVisible\"\n\t\t\tsubmit-button-text=\"$ctrl.state.submitButtonText\"\n\t\t\thide-amount=\"$ctrl.state.hideAmount\"\n\t\t\troute-to=\"$ctrl.routeTo(route)\"\n\t\t\tmerchant-accounts=\"$ctrl.merchantAccountsArray\"\n\t\t\tselected-merchant-account=\"$ctrl.selectedMerchantAccount\"\n\t\t\tng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t\t</ui-braintree-creditcard-form>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 107 */
@@ -29002,7 +29110,7 @@
 /* 110 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Connect with Paypal</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<button class=\"Button Button--primary\" ng-click=\"$ctrl.pay($event)\">Connect with Paypal...</button>\n\t\t<span ng-if=\"$ctrl.state.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.backButtonRoute)\">{{ $ctrl.state.backButtonText }}</a>\n\t\t</span>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.state.message.text\" ng-bind=\"$ctrl.state.message.text\"></p>\n<input type=\"hidden\" name=\"payment_method_nonce\" />\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\" translate=\"payment.heading.CONNECT_TO_PAYPAL\"></h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<button class=\"Button Button--primary\" ng-click=\"$ctrl.pay($event)\">{{ 'payment.button.CONNECT_TO_PAYPAL' | translate }}...</button>\n\t\t<span ng-if=\"$ctrl.state.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo($ctrl.state.backButtonRoute)\">{{ $ctrl.state.backButtonText }}</a>\n\t\t</span>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 111 */
@@ -29179,18 +29287,26 @@
 	var Inject = __webpack_require__(83);
 	
 	var SubscriptionPlansComponent = (function () {
-		function SubscriptionPlansComponent(braintreeDataService, braintreeAppService) {
+		function SubscriptionPlansComponent(braintreeDataService, braintreeAppService, $translate) {
 			_classCallCheck(this, _SubscriptionPlansComponent);
 	
 			this.braintreeDataService = braintreeDataService;
 			this.braintreeAppService = braintreeAppService;
+			this.$translate = $translate;
 	
-			this.message = '';
-			this.loadingText = '';
 			this.plans = [];
 			this.state = {
-				error: false,
-				loading: false,
+				loading: {
+					isLoading: false,
+					text: ''
+				},
+				message: {
+					text: '',
+					link: '',
+					linkText: '',
+					descriptionHtml: '',
+					type: ''
+				},
 				nextRoute: ''
 			};
 	
@@ -29214,21 +29330,37 @@
 				this._getAllSubscriptionPlans();
 			}
 		}, {
-			key: '_getAllSubscriptionPlans',
-			value: function _getAllSubscriptionPlans() {
+			key: '_displayMessage',
+			value: function _displayMessage(type, resourceString, extraText, descriptionHtml) {
 				var _this = this;
 	
-				this.state.loading = true;
-				this.loadingText = 'Fetching subscription plans...';
+				this.state.message.type = type;
+				if (resourceString) {
+					this.$translate(resourceString).then(function (value) {
+						_this.state.message.text = value + (extraText ? extraText : '');
+					});
+				} else if (extraText) {
+					this.state.message.text = extraText;
+				}
+	
+				if (descriptionHtml) {
+					this.state.message.descriptionHtml = descriptionHtml;
+				}
+			}
+		}, {
+			key: '_getAllSubscriptionPlans',
+			value: function _getAllSubscriptionPlans() {
+				var _this2 = this;
+	
+				this._startLoading('subscription.loading.FETCHING_SUBSCRIPTION_PLANS');
 	
 				this.braintreeDataService.getAllSubscriptionPlans().then(function (response) {
-					_this.plans = response.data.plans;
-					_this.state.loading = false;
+					_this2.plans = response.data.plans;
+					_this2.state.loading = false;
 				}, function (error) {
 					// TODO: Notify development team or do it via api
-					_this.message = 'Unable to get subscription plans, the development team has been notified, please try again later.';
-					_this.state.loading = false;
-					_this.state.error = true;
+					_this2._stopLoading();
+					_this2._displayMessage('warning', 'subscription.message.ERROR_FETCHING_SUBSCRIPTION_PLANS');
 				});
 			}
 	
@@ -29255,10 +29387,26 @@
 			value: function routeTo(path) {
 				this.braintreeAppService.routeTo(path);
 			}
+		}, {
+			key: '_startLoading',
+			value: function _startLoading(resourceString) {
+				var _this3 = this;
+	
+				this.state.loading.isLoading = true;
+				this.$translate(resourceString).then(function (value) {
+					_this3.state.loading.text = value;
+				});
+			}
+		}, {
+			key: '_stopLoading',
+			value: function _stopLoading() {
+				this.state.loading.isLoading = false;
+				this.state.loading.text = '';
+			}
 		}]);
 	
 		var _SubscriptionPlansComponent = SubscriptionPlansComponent;
-		SubscriptionPlansComponent = Inject('braintreeDataService', 'braintreeAppService')(SubscriptionPlansComponent) || SubscriptionPlansComponent;
+		SubscriptionPlansComponent = Inject('braintreeDataService', 'braintreeAppService', '$translate')(SubscriptionPlansComponent) || SubscriptionPlansComponent;
 		return SubscriptionPlansComponent;
 	})();
 	
@@ -29275,7 +29423,7 @@
 /* 114 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.selectedSubscription\"></ui-braintree-subscription-progress>\n\n<!--<h2 class=\"Heading&#45;&#45;two\">Subscribe</h2>-->\n<hr class=\"Divider--dotted\">\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--cta Button--lg'\"\n\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.selectedSubscription\"></ui-braintree-subscription-progress>\n\n<!--<h2 class=\"Heading&#45;&#45;two\">Subscribe</h2>-->\n<hr class=\"Divider--dotted\">\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section class=\"Panel\">\n\t<div class=\"Panel-body\">\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\tbutton-css-modifier=\"'Button--cta Button--lg'\"\n\t\t\t\t\tbutton-text=\"'subscription.button.SELECT_PLAN' | translate\"\n\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading.isLoading\"></ui-braintree-subscription-plan>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 115 */
@@ -29314,18 +29462,27 @@
 	var Inject = __webpack_require__(83);
 	
 	var SubscriptionPlansCustomComponent = (function () {
-		function SubscriptionPlansCustomComponent(braintreeDataService, braintreeAppService) {
+		function SubscriptionPlansCustomComponent(braintreeDataService, braintreeAppService, $translate) {
 			_classCallCheck(this, _SubscriptionPlansCustomComponent);
 	
 			this.braintreeDataService = braintreeDataService;
 			this.braintreeAppService = braintreeAppService;
+			this.$translate = $translate;
 	
-			this.message = '';
-			this.loadingText = '';
 			this.plans = [];
 			this.state = {
 				error: false,
-				loading: false,
+				loading: {
+					isLoading: false,
+					text: ''
+				},
+				message: {
+					text: '',
+					link: '',
+					linkText: '',
+					descriptionHtml: '',
+					type: ''
+				},
 				nextRoute: '',
 				selectedCurrency: {
 					currencyIsoCode: '',
@@ -29405,15 +29562,32 @@
 				//this.braintreeDataService.initSelectedSubscriptionData();
 			}
 		}, {
-			key: '_getAllSubscriptionPlans',
-			value: function _getAllSubscriptionPlans() {
+			key: '_displayMessage',
+			value: function _displayMessage(type, resourceString, extraText, descriptionHtml) {
 				var _this = this;
 	
-				this.state.loading = true;
-				this.loadingText = 'Fetching subscription plans...';
+				this.state.message.type = type;
+				if (resourceString) {
+					this.$translate(resourceString).then(function (value) {
+						_this.state.message.text = value + (extraText ? extraText : '');
+					});
+				} else if (extraText) {
+					this.state.message.text = extraText;
+				}
+	
+				if (descriptionHtml) {
+					this.state.message.descriptionHtml = descriptionHtml;
+				}
+			}
+		}, {
+			key: '_getAllSubscriptionPlans',
+			value: function _getAllSubscriptionPlans() {
+				var _this2 = this;
+	
+				this._startLoading('subscription.loading.FETCHING_SUBSCRIPTION_PLANS');
 	
 				this.braintreeDataService.getAllSubscriptionPlans().then(function (response) {
-					_this.plans = response.data.plans;
+					_this2.plans = response.data.plans;
 	
 					_lodash2['default'].each(response.data.plans, function (plan) {
 						// Override the default array that is returned
@@ -29422,84 +29596,82 @@
 						switch (plan.id) {
 							// USD
 							case 'premiumOneUSD':
-								_this.customPlans.USD.premiumOne = plan;
+								_this2.customPlans.USD.premiumOne = plan;
 								break;
 							case 'premiumThreeUSD':
-								_this.customPlans.USD.premiumThree = plan;
+								_this2.customPlans.USD.premiumThree = plan;
 								break;
 							case 'premiumSixUSD':
-								_this.customPlans.USD.premiumSix = plan;
+								_this2.customPlans.USD.premiumSix = plan;
 								break;
 							case 'premiumTwelveUSD':
-								_this.customPlans.USD.premiumTwelve = plan;
+								_this2.customPlans.USD.premiumTwelve = plan;
 								break;
 							case 'premiumLifetimeUSD':
-								_this.customPlans.USD.premiumLifetime = plan;
+								_this2.customPlans.USD.premiumLifetime = plan;
 								break;
 	
 							// EUR
 							case 'premiumOneEUR':
-								_this.customPlans.EUR.premiumOne = plan;
+								_this2.customPlans.EUR.premiumOne = plan;
 								break;
 							case 'premiumThreeEUR':
-								_this.customPlans.EUR.premiumThree = plan;
+								_this2.customPlans.EUR.premiumThree = plan;
 								break;
 							case 'premiumSixEUR':
-								_this.customPlans.EUR.premiumSix = plan;
+								_this2.customPlans.EUR.premiumSix = plan;
 								break;
 							case 'premiumTwelveEUR':
-								_this.customPlans.EUR.premiumTwelve = plan;
+								_this2.customPlans.EUR.premiumTwelve = plan;
 								break;
 							case 'premiumLifetimeEUR':
-								_this.customPlans.EUR.premiumLifetime = plan;
+								_this2.customPlans.EUR.premiumLifetime = plan;
 								break;
 	
 							// GBP
 							case 'premiumOneGBP':
-								_this.customPlans.GBP.premiumOne = plan;
+								_this2.customPlans.GBP.premiumOne = plan;
 								break;
 							case 'premiumThreeGBP':
-								_this.customPlans.GBP.premiumThree = plan;
+								_this2.customPlans.GBP.premiumThree = plan;
 								break;
 							case 'premiumSixGBP':
-								_this.customPlans.GBP.premiumSix = plan;
+								_this2.customPlans.GBP.premiumSix = plan;
 								break;
 							case 'premiumTwelveGBP':
-								_this.customPlans.GBP.premiumTwelve = plan;
+								_this2.customPlans.GBP.premiumTwelve = plan;
 								break;
 							case 'premiumLifetimeGBP':
-								_this.customPlans.GBP.premiumLifetime = plan;
+								_this2.customPlans.GBP.premiumLifetime = plan;
 								break;
 	
 							// ISK
 							case 'premiumOneISK':
-								_this.customPlans.ISK.premiumOne = plan;
+								_this2.customPlans.ISK.premiumOne = plan;
 								break;
 							case 'premiumThreeISK':
-								_this.customPlans.ISK.premiumThree = plan;
+								_this2.customPlans.ISK.premiumThree = plan;
 								break;
 							case 'premiumSixISK':
-								_this.customPlans.ISK.premiumSix = plan;
+								_this2.customPlans.ISK.premiumSix = plan;
 								break;
 							case 'premiumTwelveISK':
-								_this.customPlans.ISK.premiumTwelve = plan;
+								_this2.customPlans.ISK.premiumTwelve = plan;
 								break;
 							case 'premiumLifetimeISK':
-								_this.customPlans.ISK.premiumLifetime = plan;
+								_this2.customPlans.ISK.premiumLifetime = plan;
 								break;
 						}
 					});
 	
 					// If some overrides has been set externally
-					_this._setCustomPlansDefaultValues();
+					_this2._setCustomPlansDefaultValues();
 	
-					_this.showSelectedCurrencyPlans(_this.selectedMerchantAccount.id);
-					_this.state.loading = false;
+					_this2.showSelectedCurrencyPlans(_this2.selectedMerchantAccount.id);
+					_this2._stopLoading();
 				}, function (error) {
-					// TODO: Notify development team or do it via api
-					_this.message = 'Unable to get subscription plans, the development team has been notified, please try again later.';
-					_this.state.loading = false;
-					_this.state.error = true;
+					_this2._stopLoading();
+					_this2._displayMessage('warning', 'subscription.message.ERROR_FETCHING_SUBSCRIPTION_PLANS');
 				});
 			}
 		}, {
@@ -29509,6 +29681,22 @@
 					// Merge this._customPlansDefaults into this.customPlans
 					_lodash2['default'].merge(this.customPlans, this._customPlansDefaults);
 				}
+			}
+		}, {
+			key: '_startLoading',
+			value: function _startLoading(resourceString) {
+				var _this3 = this;
+	
+				this.state.loading.isLoading = true;
+				this.$translate(resourceString).then(function (value) {
+					_this3.state.loading.text = value;
+				});
+			}
+		}, {
+			key: '_stopLoading',
+			value: function _stopLoading() {
+				this.state.loading.isLoading = false;
+				this.state.loading.text = '';
 			}
 	
 			// Public viewModel methods
@@ -29570,7 +29758,7 @@
 		}]);
 	
 		var _SubscriptionPlansCustomComponent = SubscriptionPlansCustomComponent;
-		SubscriptionPlansCustomComponent = Inject('braintreeDataService', 'braintreeAppService')(SubscriptionPlansCustomComponent) || SubscriptionPlansCustomComponent;
+		SubscriptionPlansCustomComponent = Inject('braintreeDataService', 'braintreeAppService', '$translate')(SubscriptionPlansCustomComponent) || SubscriptionPlansCustomComponent;
 		return SubscriptionPlansCustomComponent;
 	})();
 	
@@ -29587,7 +29775,7 @@
 /* 116 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.selectedSubscription\"></ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n\n<p ng-if=\"$ctrl.message\" ng-bind=\"$ctrl.message\"></p>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading\" text=\"$ctrl.loadingText\"></ui-loading-icon>\n\n\n<section class=\"Panel fn-customSubscriptionPlans\" ng-if=\"$ctrl.plans.length\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Select a subscription plan</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignRight\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccountsArray.length\">\n\t\t\t\t\t<label class=\"Form-itemLabel\">Currency\n\n\t\t\t\t\t                              <!--<select name=\"selectedCurrency\" id=\"selectedCurrency\"-->\n\t\t\t\t\t                              <!--class=\"Selectbox\"-->\n\t\t\t\t\t                              <!--ng-change=\"$ctrl.showSelectedCurrencyPlans()\"-->\n\t\t\t\t\t                              <!--ng-model=\"$ctrl.state.selectedCurrency\"-->\n\t\t\t\t\t                              <!--ng-options=\"merchantAccount.name as merchantAccount.currencyName for merchantAccount in $ctrl.merchantAccountsArray track by merchantAccount.id\">-->\n\t\t\t\t\t                              <!--</select>-->\n\n\t\t\t\t\t\t<select name=\"selectedCurrency\" id=\"selectedCurrency\"\n\t\t\t\t\t\t        class=\"Selectbox\"\n\t\t\t\t\t\t        ng-change=\"$ctrl.showSelectedCurrencyPlans($ctrl.state.selectedCurrencyModel)\"\n\t\t\t\t\t\t        ng-model=\"$ctrl.state.selectedCurrencyModel\">\n\t\t\t\t\t\t\t<option value=\"jivaroUSD\" ng-selected=\"$ctrl.selectedMerchantAccount.id === 'jivaroUSD'\">US Dollar (USD)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroEUR\" ng-selected=\"$ctrl.selectedMerchantAccount.id === 'jivaroEUR'\">EUR (EUR)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroGBP\" ng-selected=\"$ctrl.selectedMerchantAccount.id === 'jivaroGBP'\">British Pound (GBP)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroISK\" ng-selected=\"$ctrl.selectedMerchantAccount.id === 'jivaroISK'\">Icelandic Krona (ISK)</option>\n\t\t\t\t\t\t</select>\n\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4 CustomPlan-col--premiumThree\">\n\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t<header class=\"CustomPlan-panelHeader\">\n\t\t\t\t\t\t<h2 class=\"CustomPlan-panelHeading\">\n\t\t\t\t\t\t\t<span ng-if=\"$ctrl.plansDisplayed.premiumThree.customPlanTitle\" ng-bind=\"$ctrl.plansDisplayed.premiumTwelve.customPlanTitle\"></span>\n\t\t\t\t\t\t\t<span ng-if=\"!$ctrl.plansDisplayed.premiumThree.customPlanTitle\">&nbsp;</span>\n\t\t\t\t\t\t</h2>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class=\"CustomPlan-panelBody\">\n\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumThree\"\n\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4 CustomPlan-col--premiumSix\">\n\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t<header class=\"CustomPlan-panelHeader\">\n\t\t\t\t\t\t<h2 class=\"CustomPlan-panelHeading\">\n\t\t\t\t\t\t\t<span ng-if=\"$ctrl.plansDisplayed.premiumSix.customPlanTitle\" ng-bind=\"$ctrl.plansDisplayed.premiumTwelve.customPlanTitle\"></span>\n\t\t\t\t\t\t\t<span ng-if=\"!$ctrl.plansDisplayed.premiumSix.customPlanTitle\">Most popular</span>\n\t\t\t\t\t\t</h2>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class=\"CustomPlan-panelBody\">\n\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\tbutton-css-modifier=\"'Button--success Button--lg'\"\n\t\t\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumSix\"\n\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\">\n\t\t\t\t\t\t</ui-braintree-subscription-plan>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4 CustomPlan-col--premiumTwelve\">\n\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t<header class=\"CustomPlan-panelHeader\">\n\t\t\t\t\t\t<h2 class=\"CustomPlan-panelHeading\">\n\t\t\t\t\t\t\t<span ng-if=\"$ctrl.plansDisplayed.premiumTwelve.customPlanTitle\" ng-bind=\"$ctrl.plansDisplayed.premiumTwelve.customPlanTitle\"></span>\n\t\t\t\t\t\t\t<span ng-if=\"!$ctrl.plansDisplayed.premiumTwelve.customPlanTitle\">&nbsp;</span>\n\t\t\t\t\t\t</h2>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class=\"CustomPlan-panelBody\">\n\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\t\t\tbutton-text=\"'Select plan'\"\n\t\t\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumTwelve\"\n\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading\"></ui-braintree-subscription-plan>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!--<hr class=\"Divider&#45;&#45;dotted\">-->\n\t\t<!--<div class=\"Grid-row Grid-row&#45;&#45;alignCenter\">-->\n\t\t<!--<div class=\"Grid-col&#45;&#45;12 \">-->\n\t\t<!--<h3 class=\"Heading&#45;&#45;three Heading&#45;&#45;light\">Premium for life?</h3>-->\n\t\t<!--<h4 class=\"Heading&#45;&#45;five\">Lifetime licence</h4>-->\n\t\t<!--<h5 class=\"Heading&#45;&#45;three u-textWarning mb&#45;&#45;0\">{{ $ctrl.state.selectedCurrency.currencySymbol }}{{ $ctrl.plansDisplayed.premiumLifetime.price }}</h5>-->\n\t\t<!--<p class=\"mt&#45;&#45;0\">One time payment</p>-->\n\t\t<!--<button class=\"Button Button&#45;&#45;cta Button&#45;&#45;lg\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumLifetime)\">-->\n\t\t<!--Go All In!-->\n\t\t<!--</button>-->\n\t\t<!--</div>-->\n\t\t<!--</div>-->\n\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignCenter CustomPlan-row--premiumOne\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<p>or<br> pay monthly<br>\n\t\t\t\t\t<button class=\"Button Button--secondary\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumOne)\">\n\t\t\t\t\t\t{{ $ctrl.formatCurrencyAmount($ctrl.plansDisplayed.premiumOne.price, $ctrl.plansDisplayed.premiumOne.currencyIsoCode) }}\n\t\t\t\t\t\t/ month\n\t\t\t\t\t</button>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress subscription-plan=\"$ctrl.selectedSubscription\"></ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation route-to=\"$ctrl.routeTo(route)\" selected-route=\"'/subscribe'\"></ui-braintree-subscription-navigation>\n\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n\n<section class=\"Panel fn-customSubscriptionPlans\" ng-if=\"$ctrl.plans.length\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\" translate=\"subscription.heading.SELECT_SUBSCRIPTION\"></h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignRight\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccountsArray.length\">\n\t\t\t\t\t<label class=\"Form-itemLabel\">\n\t\t\t\t\t\t<span translate=\"general.CURRENCY\"></span>\n\t\t\t\t\t\t<select name=\"selectedCurrency\" id=\"selectedCurrency\"\n\t\t\t\t\t\t        class=\"Selectbox\"\n\t\t\t\t\t\t        ng-change=\"$ctrl.showSelectedCurrencyPlans($ctrl.state.selectedCurrencyModel)\"\n\t\t\t\t\t\t        ng-model=\"$ctrl.state.selectedCurrencyModel\">\n\t\t\t\t\t\t\t<option value=\"jivaroUSD\" ng-selected=\"$ctrl.selectedMerchantAccount.id === 'jivaroUSD'\">{{ 'general.US_DOLLAR' | translate }} (USD)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroEUR\" ng-selected=\"$ctrl.selectedMerchantAccount.id === 'jivaroEUR'\">{{ 'general.EURO' | translate }} (EUR)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroGBP\" ng-selected=\"$ctrl.selectedMerchantAccount.id === 'jivaroGBP'\">{{ 'general.BRITISH_POUND' | translate }} (GBP)</option>\n\t\t\t\t\t\t\t<option value=\"jivaroISK\" ng-selected=\"$ctrl.selectedMerchantAccount.id === 'jivaroISK'\">{{ 'general.ICELANDIC_KRONA' | translate }} (ISK)</option>\n\t\t\t\t\t\t</select>\n\n\t\t\t\t\t</label>\n\t\t\t\t</div>\n\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"Grid-row\">\n\t\t\t<div class=\"Grid-col--4 CustomPlan-col--premiumThree\">\n\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t<header class=\"CustomPlan-panelHeader\">\n\t\t\t\t\t\t<h2 class=\"CustomPlan-panelHeading\">\n\t\t\t\t\t\t\t<span ng-if=\"$ctrl.plansDisplayed.premiumThree.customPlanTitle\" ng-bind=\"$ctrl.plansDisplayed.premiumTwelve.customPlanTitle\"></span>\n\t\t\t\t\t\t\t<span ng-if=\"!$ctrl.plansDisplayed.premiumThree.customPlanTitle\">&nbsp;</span>\n\t\t\t\t\t\t</h2>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class=\"CustomPlan-panelBody\">\n\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\t\t\tbutton-text=\"'subscription.button.SELECT_PLAN' | translate\"\n\t\t\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumThree\"\n\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading.isLoading\"></ui-braintree-subscription-plan>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4 CustomPlan-col--premiumSix\">\n\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t<header class=\"CustomPlan-panelHeader\">\n\t\t\t\t\t\t<h2 class=\"CustomPlan-panelHeading\">\n\t\t\t\t\t\t\t<span ng-if=\"$ctrl.plansDisplayed.premiumSix.customPlanTitle\" ng-bind=\"$ctrl.plansDisplayed.premiumTwelve.customPlanTitle\"></span>\n\t\t\t\t\t\t\t<span ng-if=\"!$ctrl.plansDisplayed.premiumSix.customPlanTitle\">Most popular</span>\n\t\t\t\t\t\t</h2>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class=\"CustomPlan-panelBody\">\n\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\tbutton-css-modifier=\"'Button--success Button--lg'\"\n\t\t\t\t\t\t\tbutton-text=\"'subscription.button.SELECT_PLAN' | translate\"\n\t\t\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumSix\"\n\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading.isLoading\">\n\t\t\t\t\t\t</ui-braintree-subscription-plan>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"Grid-col--4 CustomPlan-col--premiumTwelve\">\n\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t<header class=\"CustomPlan-panelHeader\">\n\t\t\t\t\t\t<h2 class=\"CustomPlan-panelHeading\">\n\t\t\t\t\t\t\t<span ng-if=\"$ctrl.plansDisplayed.premiumTwelve.customPlanTitle\" ng-bind=\"$ctrl.plansDisplayed.premiumTwelve.customPlanTitle\"></span>\n\t\t\t\t\t\t\t<span ng-if=\"!$ctrl.plansDisplayed.premiumTwelve.customPlanTitle\">&nbsp;</span>\n\t\t\t\t\t\t</h2>\n\t\t\t\t\t</header>\n\t\t\t\t\t<div class=\"CustomPlan-panelBody\">\n\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\tbutton-css-modifier=\"'Button--primary Button--lg'\"\n\t\t\t\t\t\t\tbutton-text=\"'subscription.button.SELECT_PLAN' | translate\"\n\t\t\t\t\t\t\tcurrency=\"$ctrl.state.selectedCurrency\"\n\t\t\t\t\t\t\tsubscription-plan=\"$ctrl.plansDisplayed.premiumTwelve\"\n\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\ton-choose=\"$ctrl.chooseSubscriptionPlan(subscriptionPlanModel)\" ng-hide=\"$ctrl.state.loading.isLoading\"></ui-braintree-subscription-plan>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<!--<hr class=\"Divider&#45;&#45;dotted\">-->\n\t\t<!--<div class=\"Grid-row Grid-row&#45;&#45;alignCenter\">-->\n\t\t<!--<div class=\"Grid-col&#45;&#45;12 \">-->\n\t\t<!--<h3 class=\"Heading&#45;&#45;three Heading&#45;&#45;light\">Premium for life?</h3>-->\n\t\t<!--<h4 class=\"Heading&#45;&#45;five\">Lifetime licence</h4>-->\n\t\t<!--<h5 class=\"Heading&#45;&#45;three u-textWarning mb&#45;&#45;0\">{{ $ctrl.state.selectedCurrency.currencySymbol }}{{ $ctrl.plansDisplayed.premiumLifetime.price }}</h5>-->\n\t\t<!--<p class=\"mt&#45;&#45;0\">One time payment</p>-->\n\t\t<!--<button class=\"Button Button&#45;&#45;cta Button&#45;&#45;lg\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumLifetime)\">-->\n\t\t<!--Go All In!-->\n\t\t<!--</button>-->\n\t\t<!--</div>-->\n\t\t<!--</div>-->\n\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div class=\"Grid-row Grid-row--alignCenter CustomPlan-row--premiumOne\">\n\t\t\t<div class=\"Grid-col--12\">\n\t\t\t\t<p>{{ 'subscription.label.OR' | translate }}<br> {{ 'subscription.label.PAY_MONTHLY' | translate }}<br>\n\t\t\t\t\t<button class=\"Button Button--secondary\" ng-click=\"$ctrl.chooseSubscriptionPlan($ctrl.plansDisplayed.premiumOne)\">\n\t\t\t\t\t\t{{ $ctrl.formatCurrencyAmount($ctrl.plansDisplayed.premiumOne.price, $ctrl.plansDisplayed.premiumOne.currencyIsoCode) }}\n\t\t\t\t\t\t/ {{ 'subscription.label.MONTH' | translate }}\n\t\t\t\t\t</button>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 117 */
@@ -29620,11 +29808,12 @@
 	var Inject = __webpack_require__(83);
 	
 	var SubscriptionOverviewComponent = (function () {
-		function SubscriptionOverviewComponent(braintreeDataService, braintreeAppService) {
+		function SubscriptionOverviewComponent(braintreeDataService, braintreeAppService, $translate) {
 			_classCallCheck(this, _SubscriptionOverviewComponent);
 	
 			this.braintreeDataService = braintreeDataService;
 			this.braintreeAppService = braintreeAppService;
+			this.$translate = $translate;
 	
 			this.state = {
 				loading: {
@@ -29667,19 +29856,37 @@
 			}
 		}, {
 			key: '_displayMessage',
-			value: function _displayMessage(text, type, descriptionHtml, linkText, linkRoute) {
-				this.state.message.type = type;
-				this.state.message.text = text;
-				this.state.message.descriptionHtml = descriptionHtml;
+			value: function _displayMessage(type, resourceString, extraText, descriptionHtml, linkResourceString, linkRoute) {
+				var _this = this;
 	
-				this.state.message.linkText = linkText;
-				this.state.message.link = linkRoute;
+				this.state.message.type = type;
+	
+				if (resourceString) {
+					this.$translate(resourceString).then(function (value) {
+						_this.state.message.text = value + extraText;
+					});
+				} else {
+					this.state.message.text = extraText;
+				}
+	
+				if (linkResourceString) {
+					this.$translate(resourceString).then(function (value) {
+						_this.state.message.linkText = value;
+					});
+					this.state.message.link = linkRoute;
+				}
+	
+				this.state.message.descriptionHtml = descriptionHtml;
 			}
 		}, {
 			key: '_startLoading',
-			value: function _startLoading(text) {
+			value: function _startLoading(resourceString) {
+				var _this2 = this;
+	
 				this.state.loading.isLoading = true;
-				this.state.loading.text = text;
+				this.$translate(resourceString).then(function (value) {
+					_this2.state.loading.text = value;
+				});
 			}
 		}, {
 			key: '_stopLoading',
@@ -29693,9 +29900,9 @@
 		}, {
 			key: '_confirmSubscription',
 			value: function _confirmSubscription() {
-				var _this = this;
+				var _this3 = this;
 	
-				this._startLoading('Creating subscription...');
+				this._startLoading('subscription.loading.CREATING_SUBSCRIPTION');
 	
 				var subscriptionData = {
 					subscription: {
@@ -29742,17 +29949,17 @@
 	
 				this.braintreeDataService.createSubscription(subscriptionData).then(function (response) {
 					if (response.data.success) {
-						_this._clearMessage();
-						_this._stopLoading();
-						_this.state.success = true;
-						_this.subscriptionPlan = _this.selectedSubscription; // TODO: should this not take response object instead?
+						_this3._clearMessage();
+						_this3._stopLoading();
+						_this3.state.success = true;
+						_this3.subscriptionPlan = _this3.selectedSubscription; // TODO: should this not take response object instead?
 	
 						// Clear the selected subscription which has now been created
-						_this.braintreeDataService.initSelectedSubscriptionData();
+						_this3.braintreeDataService.initSelectedSubscriptionData();
 					} else {
 						// TODO: Handle different failures maybe?
-						_this._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'warning', null, 'Start over', _braintreeConstants.ROUTES.SUBSCRIPTION);
-						_this._stopLoading();
+						_this3._displayMessage('warning', 'subscription.message.ERROR_CREATING_SUBSCRIPTION', response.data.message, null, 'subscription.button.START_OVER', _braintreeConstants.ROUTES.SUBSCRIPTION);
+						_this3._stopLoading();
 					}
 				}, function (error) {
 					var errorMessage = error.data.message;
@@ -29770,8 +29977,8 @@
 						}
 					}
 	
-					_this._displayMessage(errorMessage, 'warning', errorDescription, 'Start over', _braintreeConstants.ROUTES.SUBSCRIPTION);
-					_this._stopLoading();
+					_this3._displayMessage('warning', 'subscription.message.ERROR_CREATING_SUBSCRIPTION', errorMessage + ' ' + errorDescription, 'subscription.button.START_OVER', _braintreeConstants.ROUTES.SUBSCRIPTION);
+					_this3._stopLoading();
 				});
 			}
 		}, {
@@ -29782,7 +29989,7 @@
 		}]);
 	
 		var _SubscriptionOverviewComponent = SubscriptionOverviewComponent;
-		SubscriptionOverviewComponent = Inject('braintreeDataService', 'braintreeAppService')(SubscriptionOverviewComponent) || SubscriptionOverviewComponent;
+		SubscriptionOverviewComponent = Inject('braintreeDataService', 'braintreeAppService', '$translate')(SubscriptionOverviewComponent) || SubscriptionOverviewComponent;
 		return SubscriptionOverviewComponent;
 	})();
 	
@@ -29799,7 +30006,7 @@
 /* 118 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n\t<div ng-if=\"$ctrl.state.success\">\n\t\t<h2 class=\"Heading--two\" ng-if=\"$ctrl.state.success\">Your subscription has been created!</h2>\n\t\tGo to <a href=\"\" ng-click=\"$ctrl.routeTo('/billing-overview')\">billing overview</a> for more details.\n\t</div>\n\n\t<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n</section>\n"
+	module.exports = "<section>\n\t<div ng-if=\"$ctrl.state.success\">\n\t\t<h2 class=\"Heading--two\" ng-if=\"$ctrl.state.success\">{{ 'subscription.heading.SUBSCRIPTION_CREATED' | translate}}!</h2>\n\t\t{{ 'subscription.text.GO_TO' | translate }} <a href=\"\" ng-click=\"$ctrl.routeTo('/billing-overview')\">{{ 'subscription.text.BILLING_OVERVIEW' | translate }}</a> {{ 'subscription.text.FOR_MORE_DETAILS' | translate }}.\n\t</div>\n\n\t<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n</section>\n"
 
 /***/ },
 /* 119 */
@@ -31515,7 +31722,7 @@
 /* 121 */
 /***/ function(module, exports) {
 
-	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\">Choose your payment method</h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t<h2 class=\"Heading--five\">Stored payment methods</h2>\n\t\t\t<div class=\"Grid-row\">\n\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\">\n\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\ton-card-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"\n\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"></ui-braintree-payment-method>\n\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<h2 class=\"Heading--five\" ng-if=\"$ctrl.customer.paymentMethods['0']\">New payment method</h2>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('cards')\">Credit or Debit card</button>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('paypal')\">Paypal</button>\n\n\t</div>\n</section>\n"
+	module.exports = "<ui-braintree-subscription-progress\n\tsubscription-plan=\"$ctrl.selectedSubscription\"\n\tsubscription-route=\"$ctrl.routes.subscription\"\n\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\troute-to=\"$ctrl.routeTo(route)\">\n</ui-braintree-subscription-progress>\n<ui-braintree-subscription-navigation\n\troute-to=\"$ctrl.routeTo(route)\"\n\tselected-route=\"'/payment-methods'\"\n\tng-if=\"$ctrl.state.mode.subscription\">\n</ui-braintree-subscription-navigation>\n\n<ui-braintree-message-box message=\"$ctrl.state.message\" on-route=\"$ctrl.routeTo(route)\"></ui-braintree-message-box>\n\n<section class=\"Panel\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showForm\">\n\t<div class=\"Panel-body\">\n\t\t<h2 class=\"Heading--two Heading--light u-textCenter\" translate=\"payment.heading.CHOOSE_PAYMENT_METHOD\"></h2>\n\t\t<hr class=\"Divider--dotted\">\n\n\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t<h2 class=\"Heading--five\" translate=\"payment.heading.SAVED_PAYMENT_METHODS\"></h2>\n\t\t\t<div class=\"Grid-row\">\n\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\">\n\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\tcard-button-text=\"('payment.button.CHOOSE_CARD' | translate)\"\n\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\tpaypal-button-text=\"('payment.button.CHOOSE_PAYPAL' | translate)\"\n\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\ton-card-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"\n\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.chooseStoredPaymentMethod(paymentMethod)\"></ui-braintree-payment-method>\n\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<h2 class=\"Heading--five\" ng-if=\"$ctrl.customer.paymentMethods['0']\" translate=\"payment.heading.NEW_PAYMENT_METHOD\"></h2>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('cards')\">{{ 'payment.heading.CREDIT_OR_DEBIT_CARD' | translate }}</button>\n\t\t<button class=\"Button Button--cta Button--lg\" ng-click=\"$ctrl.choosePaymentMethod('paypal')\">Paypal</button>\n\n\t</div>\n</section>\n"
 
 /***/ },
 /* 122 */
@@ -31548,13 +31755,14 @@
 	var Inject = __webpack_require__(83);
 	
 	var CustomerDetailsComponent = (function () {
-		function CustomerDetailsComponent(braintreeDataService, braintreeAppService, moment, $animate) {
+		function CustomerDetailsComponent(braintreeDataService, braintreeAppService, moment, $animate, $translate) {
 			_classCallCheck(this, _CustomerDetailsComponent);
 	
 			this.braintreeDataService = braintreeDataService;
 			this.braintreeAppService = braintreeAppService;
 			this.moment = moment;
 			this.$animate = $animate;
+			this.$translate = $translate;
 	
 			this.state = {
 				header: {
@@ -31594,8 +31802,17 @@
 		_createClass(CustomerDetailsComponent, [{
 			key: '$onInit',
 			value: function $onInit() {
+				var _this = this;
+	
+				// When set by an outside app
+				if (this.language) {
+					this.$translate.use(this.language);
+				}
+	
 				var customer = {};
-				//console.log('this.customerData', this.customerData);
+				this.$translate('subscription.heading.BILLING_OVERVIEW').then(function (value) {
+					_this.state.header.text = value;
+				});
 				if (this.customerData) {
 					if (this.customerData.id) {
 						customer.id = this.customerData.id;
@@ -31631,10 +31848,21 @@
 			}
 		}, {
 			key: '_displayMessage',
-			value: function _displayMessage(text, type, descriptionHtml) {
+			value: function _displayMessage(type, resourceString, extraText, descriptionHtml) {
+				var _this2 = this;
+	
 				this.state.message.type = type;
-				this.state.message.text = text;
-				this.state.message.descriptionHtml = descriptionHtml;
+				if (resourceString) {
+					this.$translate(resourceString).then(function (value) {
+						_this2.state.message.text = value + (extraText ? extraText : '');
+					});
+				} else if (extraText) {
+					this.state.message.text = extraText;
+				}
+	
+				if (descriptionHtml) {
+					this.state.message.descriptionHtml = descriptionHtml;
+				}
 			}
 		}, {
 			key: 'getCurrencySymbol',
@@ -31648,9 +31876,13 @@
 			}
 		}, {
 			key: '_startLoading',
-			value: function _startLoading(text) {
+			value: function _startLoading(resourceString) {
+				var _this3 = this;
+	
 				this.state.loading.isLoading = true;
-				this.state.loading.text = text;
+				this.$translate(resourceString).then(function (value) {
+					_this3.state.loading.text = value;
+				});
 			}
 		}, {
 			key: '_stopLoading',
@@ -31673,24 +31905,24 @@
 		}, {
 			key: 'addCreditCard',
 			value: function addCreditCard(paymentMethod, subscription) {
-				var _this = this;
+				var _this4 = this;
 	
 				this._clearMessage();
-				this._startLoading('Saving payment information...');
+				this._startLoading('payment.loading.SAVING_PAYMENT_INFORMATION');
 				var customerId = this.braintreeDataService.customer.id;
 	
 				paymentMethod.verificationMerchantAccountId = this.selectedMerchantAccount.id;
 	
 				// Send request to get token, then use the token to tokenize credit card info and verify the card
 				this.braintreeDataService.createVaultedPayment(customerId, paymentMethod).then(function (response) {
-					_this._stopLoading();
+					_this4._stopLoading();
 	
-					_this.addPaymentMethod(response.data.customer.paymentMethod, subscription);
+					_this4.addPaymentMethod(response.data.customer.paymentMethod, subscription);
 				}, function (error) {
 					// TODO: Handle errors better
-					_this._displayMessage(error, 'warning');
-					_this._stopLoading();
-					_this.state.showForm = true;
+					_this4._displayMessage('warning', null, error);
+					_this4._stopLoading();
+					_this4.state.showForm = true;
 				});
 			}
 	
@@ -31702,14 +31934,14 @@
 		}, {
 			key: 'addPaymentMethod',
 			value: function addPaymentMethod(paymentMethod, subscription) {
-				var loadingText = 'Updating payment method...';
-				var messageSuccessText = 'Payment method has been updated.';
+				var loadingTextResource = 'payment.loading.UPDATING_PAYMENT_METHOD';
+				var messageSuccessResource = 'payment.message.PAYMENT_METHOD_UPDATED';
 				var subscriptionChanges = {
 					planId: subscription.planId,
 					paymentMethodToken: paymentMethod.token
 				};
 	
-				this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
+				this.updateSubscription(subscription, subscriptionChanges, loadingTextResource, messageSuccessResource);
 			}
 	
 			/**
@@ -31719,20 +31951,20 @@
 		}, {
 			key: 'cancelSubscription',
 			value: function cancelSubscription(subscription) {
-				var _this2 = this;
+				var _this5 = this;
 	
 				this._clearMessage();
-				this._startLoading('Canceling subscription...');
+				this._startLoading('subscription.loading.CANCELLING_SUBSCRIPTION');
 	
 				this.braintreeDataService.cancelSubscription(subscription.id).then(function (response) {
-					if (_this2.customer.id) {
-						_this2.getCustomerDetails(_this2.customer.id).then(function () {
-							_this2._displayMessage('Subscription has been canceled.', 'success');
+					if (_this5.customer.id) {
+						_this5.getCustomerDetails(_this5.customer.id).then(function () {
+							_this5._displayMessage('success', 'subscription.message.SUBSCRIPTION_CANCELLED');
 						});
 					}
 				}, function (error) {
-					_this2._stopLoading();
-					_this2._displayMessage(error.data.message, 'warning');
+					_this5._stopLoading();
+					_this5._displayMessage('warning', 'subscription.message.ERROR_CANCELLING_SUBSCRIPTION', null, error.data.message);
 				});
 			}
 	
@@ -31744,14 +31976,15 @@
 		}, {
 			key: 'changePaymentMethodForSubscription',
 			value: function changePaymentMethodForSubscription(newPaymentMethod, subscription) {
-				var loadingText = 'Updating payment method...';
-				var messageSuccessText = 'Payment method has been updated.';
+				var loadingTextResource = 'payment.loading.UPDATING_PAYMENT_METHOD';
+				var messageSuccessResource = 'payment.message.PAYMENT_METHOD_UPDATED';
+	
 				var subscriptionChanges = {
 					planId: subscription.planId,
 					paymentMethodToken: newPaymentMethod.token
 				};
 	
-				this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
+				this.updateSubscription(subscription, subscriptionChanges, loadingTextResource, messageSuccessResource);
 			}
 	
 			/**
@@ -31765,18 +31998,18 @@
 		}, {
 			key: 'changeSubscriptionPlan',
 			value: function changeSubscriptionPlan(newSubscriptionPlan, currentSubscription) {
-				var _this3 = this;
+				var _this6 = this;
 	
 				//console.log('plan chosen', newSubscriptionPlan, currentSubscription);
 	
 				this._clearMessage();
-				this._startLoading('Updating subscription plan...');
+				this._startLoading('subscription.loading.UPDATING_SUBSCRIPTION_PLANS');
 				// Set the selectedMerchantAccount
 				this.braintreeDataService.setSelectedMerchantAccountByCurrency(newSubscriptionPlan.currencyIsoCode);
 	
 				// Cancel the current subscription
 				this.braintreeDataService.cancelSubscription(currentSubscription.id).then(function (response) {
-					if (_this3.customer.id) {
+					if (_this6.customer.id) {
 						(function () {
 							var subLessFrequent = newSubscriptionPlan.billingFrequency > currentSubscription.plan.billingFrequency;
 							var discount = 0;
@@ -31786,16 +32019,16 @@
 								subscription: {
 									paymentMethodToken: currentSubscription.defaultPaymentMethod.token,
 									planId: newSubscriptionPlan.id,
-									merchantAccountId: _this3.braintreeDataService.selectedMerchantAccount.id
+									merchantAccountId: _this6.braintreeDataService.selectedMerchantAccount.id
 								}
 							};
 	
 							// Calculate discount if we are going to a less frequent billing cycle.
 							if (subLessFrequent) {
 								// Get remaining days of current subscription
-								var nextBillingDate = _this3.moment(currentSubscription.nextBillingDate).startOf('days');
-								var today = _this3.moment(_this3.moment().startOf('days'));
-								var duration = _this3.moment.duration(nextBillingDate.diff(today));
+								var nextBillingDate = _this6.moment(currentSubscription.nextBillingDate).startOf('days');
+								var today = _this6.moment(_this6.moment().startOf('days'));
+								var duration = _this6.moment.duration(nextBillingDate.diff(today));
 								var remainingDays = duration.asDays();
 								var billingCycleDays = currentSubscription.plan.billingFrequency * 31;
 	
@@ -31817,39 +32050,48 @@
 							}
 	
 							// Create a new subscription
-							_this3.braintreeDataService.createSubscription(newSubscriptionData).then(function (response) {
+							_this6.braintreeDataService.createSubscription(newSubscriptionData).then(function (response) {
 								//console.log('response', response);
 								if (response.data.success) {
-									_this3.getCustomerDetails(_this3.customer.id).then(function () {
+									_this6.getCustomerDetails(_this6.customer.id).then(function () {
 										var descriptionHtml = '';
 	
 										if (response.data.subscription.transactions.length) {
 											var transactionAmount = response.data.subscription.transactions[0].amount;
-											var currencySymbol = _this3.getCurrencySymbol(response.data.subscription.transactions[0].currencyIsoCode);
+											var currencySymbol = _this6.getCurrencySymbol(response.data.subscription.transactions[0].currencyIsoCode);
 	
 											if (discount > 0) {
-												descriptionHtml = '<p>A payment of ' + currencySymbol + transactionAmount + ' has been submitted, Your previous subscription credit of ' + currencySymbol + discount + ' was deducted from the full amount.</p>';
+												//
+												_this6.$translate('subscription.message.UPDATED_SUBSCRIPTION_WITH_DISCOUNT', {
+													amount: currencySymbol + transactionAmount,
+													discount: currencySymbol + discount
+												}).then(function (value) {
+													descriptionHtml = '<p>';
+													descriptionHtml += value;
+													descriptionHtml += '</p>';
+	
+													_this6._displayMessage('success', 'subscription.message.SUBSCRIPTION_CHANGED_TO_NEW_PLAN', null, descriptionHtml);
+												});
+											} else {
+												_this6._displayMessage('success', 'subscription.message.SUBSCRIPTION_CHANGED_TO_NEW_PLAN', null);
 											}
 										}
-	
-										_this3._displayMessage('Your subscription has been changed to the new plan.', 'success', descriptionHtml);
 									});
 								} else {
-									//console.log('Error creating a sub', response.data.message);
 									// TODO: Handle different failures maybe?
-									_this3._displayMessage('An error occurred creating a subscription: ' + response.data.message, 'warning');
-									_this3._stopLoading();
+									_this6._displayMessage('warning', 'subscription.message.ERROR_CREATING_SUBSCRIPTION', null, response.data.message);
+									_this6._stopLoading();
 								}
 							}, function (error) {
 								//console.log('Error creating a subcription', error);
-								_this3._displayMessage(error.data.message, 'warning');
-								_this3._stopLoading();
+								_this6._displayMessage('warning', 'subscription.message.ERROR_CREATING_SUBSCRIPTION', null, error);
+								_this6._stopLoading();
 							});
 						})();
 					}
 				}, function (error) {
-					_this3._stopLoading();
-					_this3._displayMessage(error.data.message, 'warning');
+					_this6._stopLoading();
+					_this6._displayMessage('warning', 'subscription.message.ERROR_CANCELLING_SUBSCRIPTION', null, error.data.message);
 				});
 			}
 	
@@ -31861,20 +32103,20 @@
 		}, {
 			key: 'deletePaymentMethod',
 			value: function deletePaymentMethod(paymentMethod) {
-				var _this4 = this;
+				var _this7 = this;
 	
 				this._clearMessage();
-				this._startLoading('Deleting payment method...');
+				this._startLoading('payment.loading.DELETING_PAYMENT_METHOD');
 	
 				this.braintreeDataService.deletePaymentMethod(paymentMethod).then(function (response) {
-					if (_this4.customer.id) {
-						_this4.getCustomerDetails(_this4.customer.id).then(function () {
-							_this4._displayMessage('Payment method has been deleted, and all connected subscriptions have been cancelled.', 'success');
+					if (_this7.customer.id) {
+						_this7.getCustomerDetails(_this7.customer.id).then(function () {
+							_this7._displayMessage('success', 'payment.message.PAYMENT_METHOD_DELETED');
 						});
 					}
 				}, function (error) {
-					_this4._stopLoading();
-					_this4._displayMessage(error.data.message, 'warning');
+					_this7._stopLoading();
+					_this7._displayMessage('warning', 'payment.message.ERROR_DELETING_PAYMENT_METHOD', null, error.data.message);
 				});
 			}
 	
@@ -31885,51 +32127,52 @@
 		}, {
 			key: 'disableAutoRenew',
 			value: function disableAutoRenew(subscription) {
-				var loadingText = 'Disabling auto renew';
-				var messageSuccessText = 'Auto renew has been disabled';
+				var loadingResource = 'subscription.loading.DISABLING_AUTO_RENEW';
+				var messageSuccessResource = 'subscription.message.AUTO_RENEW_HAS_BEEN_DISABLED';
+	
 				var subscriptionChanges = {
 					planId: subscription.planId,
 					price: 0.00,
 					numberOfBillingCycles: subscription.currentBillingCycle
 				};
 	
-				this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
+				this.updateSubscription(subscription, subscriptionChanges, loadingResource, messageSuccessResource);
 			}
 		}, {
 			key: 'getAllPlans',
 			value: function getAllPlans() {
-				var _this5 = this;
+				var _this8 = this;
 	
-				this._startLoading('Loading subscription plans...');
+				this._startLoading('subscription.loading.FETCHING_SUBSCRIPTION_PLANS');
 	
 				this.braintreeDataService.getAllSubscriptionPlans().then(function (response) {
-					_this5.plans = response.data.plans;
-					_this5._stopLoading();
+					_this8.plans = response.data.plans;
+					_this8._stopLoading();
 				}, function (error) {
 					// TODO: Notify development team or do it via api
-					_this5._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
-					_this5._stopLoading();
+					_this8._displayMessage('error', 'subscription.message.ERROR_FETCHING_SUBSCRIPTION_PLANS');
+					_this8._stopLoading();
 				});
 			}
 		}, {
 			key: 'getPlansByCurrency',
 			value: function getPlansByCurrency(currencyIsoCode) {
-				var _this6 = this;
+				var _this9 = this;
 	
-				this._startLoading('Loading subscription plans...');
+				this._startLoading('subscription.loading.FETCHING_SUBSCRIPTION_PLANS');
 				this.braintreeDataService.getSubscriptionPlansForCurrency(currencyIsoCode).then(function (response) {
 	
 					// Little hack to Exclude some plans (TODO: Find a better solution for this)
 					// Looks for "hidden" in description to exclude plan from displaying
-					_this6.plans = _lodash2['default'].filter(response.data.plans, function (plan) {
+					_this9.plans = _lodash2['default'].filter(response.data.plans, function (plan) {
 						return plan.description !== 'hidden';
 					});
 	
-					_this6._stopLoading();
+					_this9._stopLoading();
 				}, function (error) {
 					// TODO: Notify development team or do it via api
-					_this6._displayMessage('Unable to get subscription plans, the development team has been notified, please try again later.', 'error');
-					_this6._stopLoading();
+					_this9._displayMessage('error', 'subscription.message.ERROR_FETCHING_SUBSCRIPTION_PLANS');
+					_this9._stopLoading();
 				});
 			}
 	
@@ -31940,8 +32183,8 @@
 		}, {
 			key: 'enableAutoRenew',
 			value: function enableAutoRenew(subscription) {
-				var loadingText = 'Enabling auto renew';
-				var messageSuccessText = 'Auto renew has been enabled.';
+				var loadingTextResource = 'subscription.loading.ENABLING_AUTO_RENEW';
+				var messageSuccessResource = 'subscription.message.AUTO_RENEW_HAS_BEEN_ENABLED';
 	
 				var subscriptionChanges = {
 					planId: subscription.planId,
@@ -31949,7 +32192,7 @@
 					numberOfBillingCycles: null
 				};
 	
-				this.updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText);
+				this.updateSubscription(subscription, subscriptionChanges, loadingTextResource, messageSuccessResource);
 			}
 	
 			/**
@@ -31959,59 +32202,56 @@
 		}, {
 			key: 'getCustomerDetails',
 			value: function getCustomerDetails(customerId) {
-				var _this7 = this;
+				var _this10 = this;
 	
-				this._startLoading('Loading profile details...');
+				this._startLoading('customer.loading.LOADING_PROFILE_DETAILS');
 	
 				//Get Customer if logged in
 				return this.braintreeDataService.getCustomer(customerId, true).then(function (response) {
-					_this7.braintreeDataService.updateCustomerData(response.data.customer);
-					_this7.customer = response.data.customer;
-					_this7._stopLoading();
+					_this10.braintreeDataService.updateCustomerData(response.data.customer);
+					_this10.customer = response.data.customer;
+					_this10._stopLoading();
 				}, function (error) {
-					_this7._stopLoading();
-					_this7._displayMessage(error.data.message, 'warning');
+					_this10._stopLoading();
+					_this10._displayMessage('warning', 'customer.message.ERROR_FETCHING_CUSTOMER_INFO', null, error.data.message);
 				});
 			}
 		}, {
 			key: 'retryCharge',
 			value: function retryCharge(subscription) {
-				var _this8 = this;
+				var _this11 = this;
 	
 				this._clearMessage();
-				this._startLoading('Retrying transaction...');
+				this._startLoading('payment.loading.RETRYING_TRANSACTION');
 	
 				this.braintreeDataService.retrySubscriptionCharge(subscription).then(function (response) {
 					if (response.success) {
-						_this8._stopLoading();
-						_this8._displayMessage('Transaction was successful!', 'success');
+						_this11._stopLoading();
+						_this11._displayMessage('success', 'payment.message.TRANSACTION_SUCCESSFUL');
 					} else {
-						_this8._stopLoading();
-						_this8._displayMessage(response.data.message, 'warning');
+						_this11._stopLoading();
+						_this11._displayMessage('warning', 'payment.message.RETRY_TRANSACTION_UNSUCCESSFUL', null, response.data.message);
 					}
 				}, function (error) {
-					_this8._stopLoading();
-					_this8._displayMessage(error.data.message, 'warning');
+					_this11._stopLoading();
+					_this11._displayMessage('error', 'payment.message.RETRY_TRANSACTION_UNSUCCESSFUL', null, error.data.message);
 				});
 			}
-	
-			// TODO: Change this so we use an endpoint in the api for this, so we are not sending the price over the wire
 		}, {
 			key: 'updateSubscription',
-			value: function updateSubscription(subscription, subscriptionChanges, loadingText, messageSuccessText) {
-				var _this9 = this;
+			value: function updateSubscription(subscription, subscriptionChanges, loadingResourceString, messageSuccessResourceString) {
+				var _this12 = this;
 	
 				this._clearMessage();
-				this._startLoading(loadingText);
+				this._startLoading(loadingResourceString);
 	
 				this.braintreeDataService.updateSubscription(subscription.id, subscriptionChanges).then(function (response) {
-					_this9.getCustomerDetails(_this9.customer.id).then(function () {
-						_this9._displayMessage(messageSuccessText, 'success');
+					_this12.getCustomerDetails(_this12.customer.id).then(function () {
+						_this12._displayMessage('success', messageSuccessResourceString);
 					});
 				}, function (error) {
-					//console.log(error.data.message);
-					_this9._stopLoading();
-					_this9._displayMessage(error.data.message, 'warning');
+					_this12._stopLoading();
+					_this12._displayMessage('warning', 'subscription.message.ERROR_UPDATING_SUBSCRIPTION', null, error.data.message);
 				});
 			}
 		}, {
@@ -32032,7 +32272,7 @@
 		}]);
 	
 		var _CustomerDetailsComponent = CustomerDetailsComponent;
-		CustomerDetailsComponent = Inject('braintreeDataService', 'braintreeAppService', 'moment', '$animate')(CustomerDetailsComponent) || CustomerDetailsComponent;
+		CustomerDetailsComponent = Inject('braintreeDataService', 'braintreeAppService', 'moment', '$animate', '$translate')(CustomerDetailsComponent) || CustomerDetailsComponent;
 		return CustomerDetailsComponent;
 	})();
 	
@@ -32041,7 +32281,8 @@
 			customerData: '<',
 			headerText: '<',
 			headerVisible: '<',
-			subscribeRedirectUrl: '<'
+			subscribeRedirectUrl: '<',
+			language: '<'
 		},
 		template: _billingOverviewHtml2['default'],
 		controller: CustomerDetailsComponent
@@ -32054,7 +32295,7 @@
 /* 123 */
 /***/ function(module, exports) {
 
-	module.exports = "<header ng-if=\"$ctrl.state.header.visible\">\n\t<h2 class=\"Heading--two\" ng-bind=\"$ctrl.state.header.text\"></h2>\n\t<hr class=\"Divider--dotted\">\n</header>\n<ui-braintree-message-box message=\"$ctrl.state.message\"></ui-braintree-message-box>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section ng-if=\"$ctrl.customer\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel\">\n\t<!-- Profile -->\n\t<!--<div class=\"Grid-row\">-->\n\t<!--<div class=\"Grid-col&#45;&#45;12\">-->\n\n\t<!--<section class=\"Panel\">-->\n\t<!--<h3 class=\"Panel-heading Heading&#45;&#45;three\">Profile</h3>-->\n\t<!--<div class=\"Panel-body\">-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Full name</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.firstName\"></span> <span ng-bind=\"$ctrl.customer.lastName\"></span>-->\n\t<!--</div>-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Email</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.email\"></span>-->\n\t<!--</div>-->\n\t<!--</div>-->\n\t<!--</section>-->\n\n\t<!--</div>-->\n\t<!--</div>-->\n\n\t<!-- Subscriptions & Payment methods -->\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--12\">\n\t\t\t<section class=\"Panel\" ng-if=\"!$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">You have no subscriptions.</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<button class=\"Button Button--success Button--lg\" ng-click=\"$ctrl.subscribeNow();\">Subscribe now...</button>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<section class=\"Panel\" ng-if=\"$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? 'Subscriptions' : 'Subscription' }}</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<div ng-repeat=\"subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['-updatedAt']\">\n\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<ui-braintree-subscription-details subscription=\"subscription\" format-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"></ui-braintree-subscription-details>\n\n\t\t\t\t\t\t\t\t<button type=\"button\"\n\t\t\t\t\t\t\t\t        class=\"Button Button--cta\"\n\t\t\t\t\t\t\t\t        ng-if=\"subscription.status.toLowerCase() === 'past due'\"\n\t\t\t\t\t\t\t\t        ng-click=\"$ctrl.retryCharge(subscription);\">Retry Charge</button>\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"Button Button--primary\" ng-click=\"$ctrl.getPlansByCurrency(subscription.plan.currencyIsoCode); showEditPlanModal = !showEditPlanModal\" ng-show=\"subscription.status.toLowerCase() === 'active'\">Edit Plan</button>\n\t\t\t\t\t\t\t\t<span ng-if=\"subscription.status.toLowerCase() === 'active' || subscription.status.toLowerCase() === 'past due'\">|</span>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price > 0\" ng-click=\"$ctrl.disableAutoRenew(subscription)\">Disable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price <= 0\" ng-click=\"$ctrl.enableAutoRenew(subscription)\">Enable Auto Renew</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'pending' || subscription.status.toLowerCase() === 'past due'\" ng-click=\"$ctrl.cancelSubscription(subscription)\">Cancel subscription</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Payment method</h4>\n\t\t\t\t\t\t\t\t<ui-braintree-payment-method payment-method=\"subscription.defaultPaymentMethod\"></ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t<button class=\"Button Button--primary\"\n\t\t\t\t\t\t\t\t        ng-click=\"showEditPaymentMethodsModal = !showEditPaymentMethodsModal\"\n\t\t\t\t\t\t\t\t        ng-hide=\"subscription.status.toLowerCase() === 'canceled'\">Change Payment Method\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<!-- Edit plan -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'editPlanModal'\" modal-visible=\"showEditPlanModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<ui-braintree-message-box message=\"$ctrl.state.message\"></ui-braintree-message-box>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit subscription plan</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.plans.loading.isLoading\" text=\"$ctrl.state.plans.loading.text\"></ui-loading-icon>\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row Grid-row--alignCenter\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"plan.id === subscription.planId\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-css-modifier=\"plan.id === subscription.planId ? 'Button--success' : 'Button--cta'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"plan.id === subscription.planId ? 'Current plan' : 'Select plan'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\t\t\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-choose=\"$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)\"></ui-braintree-subscription-plan>\n\t\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\t\t\t\t\t\t<!-- Edit payment method -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'changePaymentMethodModal'\" modal-visible=\"showEditPaymentMethodsModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<ui-braintree-message-box message=\"$ctrl.state.message\"></ui-braintree-message-box>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\">Edit payment method</h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Your stored payment methods</h5>\n\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"CustomerDetails-paymentMethodColumn Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\" ng-class=\"{'is-default' : paymentMethod.token === subscription.defaultPaymentMethod.token}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"paymentMethod.token === subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled-text=\"'Default payment method'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-text=\"'Choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-text=\"'Delete'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-visible=\"paymentMethod.token !== subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-text=\"'Choose paypal'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-card-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-delete-click=\"$ctrl.deletePaymentMethod(paymentMethod)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t</ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Add a new payment method</h5>\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Credit or Debit Card</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-creditcard-form\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-submit=\"$ctrl.addCreditCard(paymentModel, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tback-button-visible=\"false\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubmit-button-text=\"'Save and choose card'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\thide-amount=\"true\"></ui-braintree-creditcard-form>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Paypal</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<braintree-paypal-button\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"'Connect with Paypal...'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tcurrency-iso-code=\"subscription.plan.currencyIsoCode\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-finish=\"$ctrl.addPaymentMethod(paymentModel, subscription)\"></braintree-paypal-button>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\n\t\t\t\t\t\t<!-- Transaction history -->\n\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t<h4 class=\"Panel-bodyHeading Heading--four\"\n\t\t\t\t\t\t    ui-toggle\n\t\t\t\t\t\t    toggle-el-css-class=\"js-transactionHistory\"\n\t\t\t\t\t\t    toggle-icon-css-class=\"js-toggleIcon\"\n\t\t\t\t\t\t    toggle-icon-css-class-hide=\"fa-chevron-down\"\n\t\t\t\t\t\t    toggle-icon-css-class-show=\"fa-chevron-right\">\n\t\t\t\t\t\t\t<i class=\"fa fa-chevron-right js-toggleIcon\"></i> Transaction history</h4>\n\n\t\t\t\t\t\t<div class=\"js-transactionHistory\" hidden>\n\t\t\t\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-repeat=\"transaction in subscription.transactions\">\n\t\t\t\t\t\t\t\t\t<header class=\"HeadingGroup\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--seven HeadingGroup-heading--top\">\n\t\t\t\t\t\t\t\t\t\t\t<time>{{ transaction.createdAt | date: longDate }}</time>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five HeadingGroup-heading--main\" ng-class=\"{'u-textSuccess': !transaction.refundId, 'u-textDanger': transaction.refundId }\">\n\t\t\t\t\t\t\t\t\t\t\t<span ng-if=\"transaction.refundId\">Refund: <span>-</span></span>{{ $ctrl.formatCurrencyAmount(transaction.amount, transaction.currencyIsoCode) }}\n\t\t\t\t\t\t\t\t\t\t\t<small class=\"u-textBase\" ng-if=\"transaction.discounts.length\">(Discount / Upgrade credit:\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-repeat=\"discount in transaction.discounts\" class=\"u-textSuccess\">{{ $ctrl.formatCurrencyAmount(discount.amount, transaction.currencyIsoCode) }}</span>)\n\t\t\t\t\t\t\t\t\t\t\t</small>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t</header>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\">Status history</h5>\n\t\t\t\t\t\t\t\t\t<div ng-repeat=\"statusHistoryItem in transaction.statusHistory\">\n\t\t\t\t\t\t\t\t\t\t{{ statusHistoryItem.timestamp | date: longDate }}\n\t\t\t\t\t\t\t\t\t\t/ {{ statusHistoryItem.status }}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-if=\"!subscription.transactions.length\">\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--five\">No transactions were found.</h4>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t</div>\n\t</div>\n\n</section>\n"
+	module.exports = "<header ng-if=\"$ctrl.state.header.visible\">\n\t<h2 class=\"Heading--two\" ng-bind=\"$ctrl.state.header.text\"></h2>\n\t<hr class=\"Divider--dotted\">\n</header>\n<ui-braintree-message-box message=\"$ctrl.state.message\"></ui-braintree-message-box>\n<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.loading.isLoading\" text=\"$ctrl.state.loading.text\"></ui-loading-icon>\n\n<section ng-if=\"$ctrl.customer\" ng-hide=\"$ctrl.state.loading.isLoading || !$ctrl.state.showDetailsPanel\">\n\t<!-- Profile -->\n\t<!--<div class=\"Grid-row\">-->\n\t<!--<div class=\"Grid-col&#45;&#45;12\">-->\n\n\t<!--<section class=\"Panel\">-->\n\t<!--<h3 class=\"Panel-heading Heading&#45;&#45;three\">Profile</h3>-->\n\t<!--<div class=\"Panel-body\">-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Full name</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.firstName\"></span> <span ng-bind=\"$ctrl.customer.lastName\"></span>-->\n\t<!--</div>-->\n\t<!--<div class=\"Form-item\">-->\n\t<!--<label class=\"Form-itemLabel\">Email</label>-->\n\t<!--<span ng-bind=\"$ctrl.customer.email\"></span>-->\n\t<!--</div>-->\n\t<!--</div>-->\n\t<!--</section>-->\n\n\t<!--</div>-->\n\t<!--</div>-->\n\n\t<!-- Subscriptions & Payment methods -->\n\t<div class=\"Grid-row\">\n\t\t<div class=\"Grid-col--12\">\n\t\t\t<section class=\"Panel\" ng-if=\"!$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">{{ 'subscription.heading.YOU_HAVE_NO_SUBSCRIPTIONS' | translate }}.</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<button class=\"Button Button--success Button--lg\" ng-click=\"$ctrl.subscribeNow();\">{{ 'subscription.button.SUBSCRIBE_NOW' | translate }}...</button>\n\t\t\t\t</div>\n\t\t\t</section>\n\t\t\t<section class=\"Panel\" ng-if=\"$ctrl.customer.subscriptions\">\n\t\t\t\t<header class=\"Panel-header\">\n\t\t\t\t\t<h3 class=\"Panel-heading Heading--three\">{{ ($ctrl.customer.subscriptions[1] !== undefined) ? ('subscription.heading.SUBSCRIPTIONS' | translate ) : ('subscription.heading.SUBSCRIPTION' | translate) }}</h3>\n\t\t\t\t</header>\n\t\t\t\t<div class=\"Panel-body\">\n\t\t\t\t\t<div ng-repeat=\"subscription in $ctrl.customer.subscriptions | toArray: true | orderBy: ['-updatedAt']\">\n\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<ui-braintree-subscription-details subscription=\"subscription\" format-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"></ui-braintree-subscription-details>\n\n\t\t\t\t\t\t\t\t<button type=\"button\"\n\t\t\t\t\t\t\t\t        class=\"Button Button--cta\"\n\t\t\t\t\t\t\t\t        ng-if=\"subscription.status.toLowerCase() === 'past due'\"\n\t\t\t\t\t\t\t\t        ng-click=\"$ctrl.retryCharge(subscription);\">{{ 'subscription.button.RETRY_CHARGE' | translate }}</button>\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"Button Button--primary\" ng-click=\"$ctrl.getPlansByCurrency(subscription.plan.currencyIsoCode); showEditPlanModal = !showEditPlanModal\" ng-show=\"subscription.status.toLowerCase() === 'active'\">{{ 'subscription.button.EDIT_PLAN' | translate }}</button>\n\t\t\t\t\t\t\t\t<span ng-if=\"subscription.status.toLowerCase() === 'active' || subscription.status.toLowerCase() === 'past due'\">|</span>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price > 0\" ng-click=\"$ctrl.disableAutoRenew(subscription)\">{{ 'subscription.button.DISABLE_AUTO_RENEW' | translate }}</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'active' && subscription.price <= 0\" ng-click=\"$ctrl.enableAutoRenew(subscription)\">{{ 'subscription.button.ENABLE_AUTO_RENEW' | translate }}</a>\n\t\t\t\t\t\t\t\t<a href=\"\" ng-if=\"subscription.status.toLowerCase() === 'pending' || subscription.status.toLowerCase() === 'past due'\" ng-click=\"$ctrl.cancelSubscription(subscription)\">{{ 'subscription.button.CANCEL_SUBSCRIPTION' | translate }}</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\" translate=\"subscription.heading.PAYMENT_METHOD\"></h4>\n\t\t\t\t\t\t\t\t<ui-braintree-payment-method payment-method=\"subscription.defaultPaymentMethod\"></ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t<button class=\"Button Button--primary\"\n\t\t\t\t\t\t\t\t        ng-click=\"showEditPaymentMethodsModal = !showEditPaymentMethodsModal\"\n\t\t\t\t\t\t\t\t        ng-hide=\"subscription.status.toLowerCase() === 'canceled'\">\n\t\t\t\t\t\t\t\t\t{{ 'subscription.button.CHANGE_PAYMENT_METHOD' | translate }}\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<!-- Edit plan -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'editPlanModal'\" modal-visible=\"showEditPlanModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<ui-braintree-message-box message=\"$ctrl.state.message\"></ui-braintree-message-box>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\" translate=\"subscription.heading.EDIT_SUBSCRIPTION_PLAN\"></h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<ui-loading-icon size=\"'4x'\" icon-modifier=\"'circle-o-notch'\" visible=\"$ctrl.state.plans.loading.isLoading\" text=\"$ctrl.state.plans.loading.text\"></ui-loading-icon>\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row Grid-row--alignCenter\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--4\" ng-repeat=\"plan in $ctrl.plans\" ng-if=\"$ctrl.plans.length\">\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-subscription-plan\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"plan.id === subscription.planId\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-css-modifier=\"plan.id === subscription.planId ? 'Button--success' : 'Button--cta'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"plan.id === subscription.planId ? ('subscription.button.CURRENT_PLAN' | translate) : ('subscription.button.SELECT_PLAN' | translate)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubscription-plan=\"plan\"\n\t\t\t\t\t\t\t\t\t\t\t\t\titem-css-class=\"'u-textCenter'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tformat-currency-amount=\"$ctrl.formatCurrencyAmount(amount, currencyIsoCode)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-choose=\"$ctrl.changeSubscriptionPlan(subscriptionPlanModel, subscription)\"></ui-braintree-subscription-plan>\n\t\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\t\t\t\t\t\t<!-- Edit payment method -->\n\t\t\t\t\t\t<ui-modal modal-id=\"'changePaymentMethodModal'\" modal-visible=\"showEditPaymentMethodsModal\" modal-max-width=\"'800px'\">\n\t\t\t\t\t\t\t<modal-body>\n\t\t\t\t\t\t\t\t<section class=\"Panel\">\n\t\t\t\t\t\t\t\t\t<ui-braintree-message-box message=\"$ctrl.state.message\"></ui-braintree-message-box>\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--four\" translate=\"subscription.heading.EDIT_PAYMENT_METHOD\"></h4>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\">\n\n\t\t\t\t\t\t\t\t\t\t<div ng-if=\"$ctrl.customer.paymentMethods['0']\">\n\t\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\" translate=\"subscription.heading.YOUR_SAVED_PAYMENT_METHODS\"></h5>\n\t\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"CustomerDetails-paymentMethodColumn Grid-col--4\" ng-repeat=\"paymentMethod in $ctrl.customer.paymentMethods\" ng-class=\"{'is-default' : paymentMethod.token === subscription.defaultPaymentMethod.token}\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-payment-method\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpayment-method=\"paymentMethod\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled=\"paymentMethod.token === subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-disabled-text=\"'payment.button.DEFAULT_PAYMENT_METHOD' | translate\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-text=\"'payment.button.CHOOSE_CARD' | translate\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tcard-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-text=\"'Delete'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tdelete-link-visible=\"paymentMethod.token !== subscription.defaultPaymentMethod.token\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-text=\"'payment.button.CHOOSE_PAYPAL' | translate\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tpaypal-button-visible=\"true\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-card-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-delete-click=\"$ctrl.deletePaymentMethod(paymentMethod)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\t\ton-paypal-button-click=\"$ctrl.changePaymentMethodForSubscription(paymentMethod, subscription)\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t</ui-braintree-payment-method>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\" translate=\"payment.heading.ADD_NEW_PAYMENT_METHOD\"></h5>\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\" translate=\"payment.heading.CREDIT_OR_DEBIT_CARD\"></h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<ui-braintree-creditcard-form\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-submit=\"$ctrl.addCreditCard(paymentModel, subscription)\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tback-button-visible=\"false\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tsubmit-button-text=\"'payment.button.SAVE_AND_CHOOSE_CARD' | translate\"\n\t\t\t\t\t\t\t\t\t\t\t\t\thide-amount=\"true\"></ui-braintree-creditcard-form>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"Grid-col--6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<h2 class=\"Heading--six\">Paypal</h2>\n\t\t\t\t\t\t\t\t\t\t\t\t<braintree-paypal-button\n\t\t\t\t\t\t\t\t\t\t\t\t\tbutton-text=\"('payment.button.CONNECT_TO_PAYPAL' | translate) + '...'\"\n\t\t\t\t\t\t\t\t\t\t\t\t\tcurrency-iso-code=\"subscription.plan.currencyIsoCode\"\n\t\t\t\t\t\t\t\t\t\t\t\t\ton-finish=\"$ctrl.addPaymentMethod(paymentModel, subscription)\"></braintree-paypal-button>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</section>\n\n\t\t\t\t\t\t\t</modal-body>\n\t\t\t\t\t\t</ui-modal>\n\n\n\t\t\t\t\t\t<!-- Transaction history -->\n\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t<h4 class=\"Panel-bodyHeading Heading--four\"\n\t\t\t\t\t\t    ui-toggle\n\t\t\t\t\t\t    toggle-el-css-class=\"js-transactionHistory\"\n\t\t\t\t\t\t    toggle-icon-css-class=\"js-toggleIcon\"\n\t\t\t\t\t\t    toggle-icon-css-class-hide=\"fa-chevron-down\"\n\t\t\t\t\t\t    toggle-icon-css-class-show=\"fa-chevron-right\">\n\t\t\t\t\t\t\t<i class=\"fa fa-chevron-right js-toggleIcon\"></i> {{ 'subscription.heading.TRANSACTION_HISTORY' | translate }}</h4>\n\n\t\t\t\t\t\t<div class=\"js-transactionHistory\" hidden>\n\t\t\t\t\t\t\t<div class=\"Panel\">\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-repeat=\"transaction in subscription.transactions\">\n\t\t\t\t\t\t\t\t\t<header class=\"HeadingGroup\">\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--seven HeadingGroup-heading--top\">\n\t\t\t\t\t\t\t\t\t\t\t<time>{{ transaction.createdAt | date: longDate }}</time>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five HeadingGroup-heading--main\" ng-class=\"{'u-textSuccess': !transaction.refundId, 'u-textDanger': transaction.refundId }\">\n\t\t\t\t\t\t\t\t\t\t\t<span ng-if=\"transaction.refundId\">Refund: <span>-</span></span>{{ $ctrl.formatCurrencyAmount(transaction.amount, transaction.currencyIsoCode) }}\n\t\t\t\t\t\t\t\t\t\t\t<small class=\"u-textBase\" ng-if=\"transaction.discounts.length\">({{ 'subscription.label.DISCOUNT' | translate }} / {{ 'subscription.label.UPGRADE_CREDIT' | translate }}:\n\t\t\t\t\t\t\t\t\t\t\t\t<span ng-repeat=\"discount in transaction.discounts\" class=\"u-textSuccess\">{{ $ctrl.formatCurrencyAmount(discount.amount, transaction.currencyIsoCode) }}</span>)\n\t\t\t\t\t\t\t\t\t\t\t</small>\n\t\t\t\t\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t\t\t\t</header>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider--dotted\">\n\t\t\t\t\t\t\t\t\t<h5 class=\"Heading--five\" translate=\"subscription.heading.TRANSACTION_STATUS_HISTORY\"></h5>\n\t\t\t\t\t\t\t\t\t<div ng-repeat=\"statusHistoryItem in transaction.statusHistory\">\n\t\t\t\t\t\t\t\t\t\t{{ statusHistoryItem.timestamp | date: longDate }}\n\t\t\t\t\t\t\t\t\t\t/ {{ statusHistoryItem.status }}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"Panel-body Panel-body--highlight\" ng-if=\"!subscription.transactions.length\">\n\t\t\t\t\t\t\t\t\t<h4 class=\"Heading--five\">{{ 'subscription.heading.NO_TRANSACTIONS_FOUND' | translate }}.</h4>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<hr class=\"Divider\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</section>\n\n\t\t</div>\n\t</div>\n\n</section>\n"
 
 /***/ },
 /* 124 */
@@ -32096,7 +32337,7 @@
 /* 125 */
 /***/ function(module, exports) {
 
-	module.exports = "<section>\n\t<form name=\"payment\" ng-submit=\"$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})\">\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccounts.length && !$ctrl.selectedMerchantAccount\">\n\t\t\t<label class=\"Form-itemLabel\">Currency</label>\n\t\t\t<label ng-repeat=\"merchantAccount in $ctrl.merchantAccounts\">\n\t\t\t\t<input type=\"radio\" name=\"merchantAccountId\" ng-value=\"merchantAccount.id\" ng-model=\"$ctrl.paymentModel.merchantAccountId\" required>\n\t\t\t\t{{ merchantAccount.currencyIsoCode }}\n\t\t\t</label>\n\t\t</div>\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.selectedMerchantAccount && !$ctrl.hideCurrency\">\n\t\t\t<label class=\"Form-itemLabel\">Currency</label>\n\t\t\t{{ $ctrl.selectedMerchantAccount.currencyIsoCode }}\n\t\t</div>\n\n\t\t<div class=\"Form-item\" ng-if=\"!$ctrl.hideAmount\">\n\t\t\t<label class=\"Form-itemLabel\">Amount<br>\n\t\t\t\t<input type=\"text\" class=\"Textbox fn-amount\" ng-model=\"$ctrl.paymentModel.amount\" size=\"8\" ng-required=\"true\" />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Card Number<br>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox fn-creditCardNumber\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.creditCardNumber\"\n\t\t\t       size=\"25\"\n\t\t\t       payments-validate=\"card\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"card\"\n\t\t\t       payments-length=\"card\"\n\t\t\t       ng-class=\"$ctrl.type\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">Expiration Date<br>\n\t\t\t<input type=\"text\" class=\"Textbox fn-expiryDate\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.expirationDate\"\n\t\t\t       payments-validate=\"expiry\"\n\t\t\t       payments-format=\"expiry\"\n\t\t\t       size=\"8\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">CVV<br>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox fn-cvv\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.cvv\"\n\t\t\t       payments-validate=\"cvc\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"cvc\"\n\t\t\t       size=\"4\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t</form>\n</section>\n"
+	module.exports = "<section>\n\t<form name=\"payment\" ng-submit=\"$ctrl.onSubmit({paymentModel: $ctrl.paymentModel})\">\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.merchantAccounts.length && !$ctrl.selectedMerchantAccount\">\n\t\t\t<label class=\"Form-itemLabel\" translate=\"payment.label.CURRENCY\"></label>\n\t\t\t<label ng-repeat=\"merchantAccount in $ctrl.merchantAccounts\">\n\t\t\t\t<input type=\"radio\" name=\"merchantAccountId\" ng-value=\"merchantAccount.id\" ng-model=\"$ctrl.paymentModel.merchantAccountId\" required>\n\t\t\t\t{{ merchantAccount.currencyIsoCode }}\n\t\t\t</label>\n\t\t</div>\n\t\t<div class=\"Form-item\" ng-if=\"$ctrl.selectedMerchantAccount && !$ctrl.hideCurrency\">\n\t\t\t<label class=\"Form-itemLabel\" translate=\"payment.label.CURRENCY\"></label>\n\t\t\t{{ $ctrl.selectedMerchantAccount.currencyIsoCode }}\n\t\t</div>\n\n\t\t<div class=\"Form-item\" ng-if=\"!$ctrl.hideAmount\">\n\t\t\t<label class=\"Form-itemLabel\">{{ 'payment.label.AMOUNT' | translate }}<br>\n\t\t\t\t<input type=\"text\" class=\"Textbox fn-amount\" ng-model=\"$ctrl.paymentModel.amount\" size=\"8\" ng-required=\"true\" />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">{{ 'payment.label.CARD_NUMBER' | translate }}<br>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox fn-creditCardNumber\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.creditCardNumber\"\n\t\t\t       size=\"25\"\n\t\t\t       payments-validate=\"card\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"card\"\n\t\t\t       payments-length=\"card\"\n\t\t\t       ng-class=\"$ctrl.type\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">{{ 'payment.label.CARD_EXPIRATION_DATE' | translate }}<br>\n\t\t\t<input type=\"text\" class=\"Textbox fn-expiryDate\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.expirationDate\"\n\t\t\t       payments-validate=\"expiry\"\n\t\t\t       payments-format=\"expiry\"\n\t\t\t       size=\"8\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\t\t<div class=\"Form-item\">\n\t\t\t<label class=\"Form-itemLabel\">{{ 'payment.label.CVV' | translate }}<br>\n\t\t\t<input type=\"text\"\n\t\t\t       class=\"Textbox fn-cvv\"\n\t\t\t       ng-model=\"$ctrl.paymentModel.cvv\"\n\t\t\t       payments-validate=\"cvc\"\n\t\t\t       payments-type-model=\"$ctrl.type\"\n\t\t\t       payments-format=\"cvc\"\n\t\t\t       size=\"4\"\n\t\t\t       ng-required=\"true\"\n\t\t\t        />\n\t\t\t</label>\n\t\t</div>\n\n\n\t\t<button class=\"Button Button--primary\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t</form>\n</section>\n"
 
 /***/ },
 /* 126 */
@@ -32134,7 +32375,7 @@
 /* 127 */
 /***/ function(module, exports) {
 
-	module.exports = "<form name=\"customer\" ng-submit=\"$ctrl.onSubmit({customerModel: $ctrl.customerModel})\">\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtFirstName\">First name</label>\n\t\t<input type=\"text\" class=\"Textbox fn-firstName\" id=\"txtFirstName\" ng-model=\"$ctrl.customerModel.firstName\" required placeholder=\"First name\" />\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtLastName\">Last name</label>\n\t\t<input type=\"text\" class=\"Textbox fn-lastName\" id=\"txtLastName\" ng-model=\"$ctrl.customerModel.lastName\" required placeholder=\"Last name\" />\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtEmail\">Email</label>\n\t\t<input type=\"email\" class=\"Textbox fn-email\" id=\"txtEmail\" ng-model=\"$ctrl.customerModel.email\" required placeholder=\"Email address\" />\n\t</div>\n\n\t<button class=\"Button Button--primary fn-customerSubmit\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t<input type=\"hidden\" id=\"txtCustomerId\" ng-model=\"$ctrl.customerModel.id\" />\n</form>\n"
+	module.exports = "<form name=\"customer\" ng-submit=\"$ctrl.onSubmit({customerModel: $ctrl.customerModel})\">\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtFirstName\" translate=\"customer.label.FIRST_NAME\"></label>\n\t\t<input type=\"text\" class=\"Textbox fn-firstName\" id=\"txtFirstName\" ng-model=\"$ctrl.customerModel.firstName\" required placeholder=\"{{ 'customer.label.FIRST_NAME' | translate }}\" />\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtLastName\" translate=\"customer.label.LAST_NAME\"></label>\n\t\t<input type=\"text\" class=\"Textbox fn-lastName\" id=\"txtLastName\" ng-model=\"$ctrl.customerModel.lastName\" required placeholder=\"{{ 'customer.label.LAST_NAME' | translate }}\" />\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" for=\"txtEmail\" translate=\"customer.label.EMAIL\"></label>\n\t\t<input type=\"email\" class=\"Textbox fn-email\" id=\"txtEmail\" ng-model=\"$ctrl.customerModel.email\" required placeholder=\"{{ 'customer.label.EMAIL_ADDRESS' | translate }}\" />\n\t</div>\n\n\t<button class=\"Button Button--primary fn-customerSubmit\" type=\"submit\">{{ $ctrl.submitButtonText }}</button>\n\t<span ng-if=\"$ctrl.backButtonVisible\">\n\t\t\t| <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.backButtonRoute})\">{{ $ctrl.backButtonText }}</a>\n\t\t</span>\n\t<input type=\"hidden\" id=\"txtCustomerId\" ng-model=\"$ctrl.customerModel.id\" />\n</form>\n"
 
 /***/ },
 /* 128 */
@@ -32270,7 +32511,7 @@
 /* 131 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"{{ $ctrl.itemCssClass }}\">\n\t<header class=\"HeadingGroup\">\n\t\t<h3 class=\"Heading--four mb--1\">\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span>\n\t\t</h3>\n\t\t<h4 class=\"Heading--seven Heading--light mt--0\" ng-if=\"!$ctrl.subscriptionPlan.offerPrice\">\n\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t</h4>\n\t\t<h4 class=\"Heading--seven Heading--light mt--0\" ng-if=\"$ctrl.subscriptionPlan.offerPrice\">\n\t\t\t<span class=\"u-textStrikeThrough u-textDanger\">\n\t\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t</span><br>\n\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.offerPrice, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t</h4>\n\t</header>\n\t<hr class=\"Divider--dotted\">\n\t<h4 class=\"Heading--four u-textSuccess mb--0\" ng-if=\"!$ctrl.subscriptionPlan.offerPrice\">\n\t\t{{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.price / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t</h4>\n\t<h4 class=\"Heading--four u-textSuccess mb--0\" ng-if=\"$ctrl.subscriptionPlan.offerPrice\">\n\t\t<small>\n\t\t\t<span class=\"u-textStrikeThrough u-textDanger\">\n\t\t\t\t{{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.price / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t</span>\n\t\t</small>\n\t\t<br>\n\t\t{{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.offerPrice / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t</h4>\n\t<p class=\"mt--0\">/month</p>\n\t<button class=\"Button {{ $ctrl.buttonCssModifier }}\"\n\t        ng-click=\"$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\">{{ $ctrl.buttonText }}\n\t</button>\n</div>\n"
+	module.exports = "<div class=\"{{ $ctrl.itemCssClass }}\">\n\t<header class=\"HeadingGroup\">\n\t\t<h3 class=\"Heading--four mb--1\">\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span>\n\t\t</h3>\n\t\t<h4 class=\"Heading--seven Heading--light mt--0\" ng-if=\"!$ctrl.subscriptionPlan.offerPrice\">\n\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t</h4>\n\t\t<h4 class=\"Heading--seven Heading--light mt--0\" ng-if=\"$ctrl.subscriptionPlan.offerPrice\">\n\t\t\t<span class=\"u-textStrikeThrough u-textDanger\">\n\t\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t</span><br>\n\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.offerPrice, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t</h4>\n\t</header>\n\t<hr class=\"Divider--dotted\">\n\t<h4 class=\"Heading--four u-textSuccess mb--0\" ng-if=\"!$ctrl.subscriptionPlan.offerPrice\">\n\t\t{{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.price / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t</h4>\n\t<h4 class=\"Heading--four u-textSuccess mb--0\" ng-if=\"$ctrl.subscriptionPlan.offerPrice\">\n\t\t<small>\n\t\t\t<span class=\"u-textStrikeThrough u-textDanger\">\n\t\t\t\t{{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.price / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t</span>\n\t\t</small>\n\t\t<br>\n\t\t{{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.offerPrice / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t</h4>\n\t<p class=\"mt--0\">/{{ 'subscription.label.MONTH' | translate }}</p>\n\t<button class=\"Button {{ $ctrl.buttonCssModifier }}\"\n\t        ng-click=\"$ctrl.onChoose({subscriptionPlanModel: $ctrl.subscriptionPlan})\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\">{{ $ctrl.buttonText }}\n\t</button>\n</div>\n"
 
 /***/ },
 /* 132 */
@@ -32304,7 +32545,7 @@
 /* 133 */
 /***/ function(module, exports) {
 
-	module.exports = "<h4 class=\"Heading--four\">{{ $ctrl.subscription.plan.name}}</h4>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Status</label>\n\t<strong ng-class=\"{\n\t'u-textSuccess' : $ctrl.subscription.status.toLowerCase() === 'active',\n\t'u-textDanger' : $ctrl.subscription.status.toLowerCase() === 'canceled',\n\t'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pastdue',\n\t'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pending'\n\t}\">\n\t\t<span ng-if=\"$ctrl.subscription.status.toLowerCase() !== 'active'\" ng-bind=\"$ctrl.subscription.status\"></span>\n\t\t<span ng-if=\"$ctrl.subscription.price > 0 && $ctrl.subscription.status.toLowerCase() === 'active'\" ng-bind=\"$ctrl.subscription.status\"></span>\n\t\t<span ng-if=\"$ctrl.subscription.price <= 0 && $ctrl.subscription.status.toLowerCase() === 'active'\" class=\"u-textWarning\">{{ $ctrl.subscription.status }} <span class=\"u-textBase u-textNormal\">( Auto renew disabled )</span></span>\n\t</strong>\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Billing amount</label>\n\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.price, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Next billing amount</label>\n\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.nextBillAmount, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Next billing period amount</label>\n\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.nextBillingPeriodAmount, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Started</label>\n\t{{ $ctrl.subscription.createdAt | date: longDate }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\">Next billing date</label>\n\t{{ $ctrl.subscription.nextBillingDate | date: longDate }}\n</div>\n"
+	module.exports = "<h4 class=\"Heading--four\">{{ $ctrl.subscription.plan.name}}</h4>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\" translate=\"subscription.label.SUBSCRIPTION_STATUS\"></label>\n\t<strong ng-class=\"{\n\t'u-textSuccess' : $ctrl.subscription.status.toLowerCase() === 'active',\n\t'u-textDanger' : $ctrl.subscription.status.toLowerCase() === 'canceled',\n\t'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pastdue',\n\t'u-textWarning' : $ctrl.subscription.status.toLowerCase() === 'pending'\n\t}\">\n\t\t<span ng-if=\"$ctrl.subscription.status.toLowerCase() !== 'active'\" ng-bind=\"$ctrl.subscription.status\"></span>\n\t\t<span ng-if=\"$ctrl.subscription.price > 0 && $ctrl.subscription.status.toLowerCase() === 'active'\" ng-bind=\"$ctrl.subscription.status\"></span>\n\t\t<span ng-if=\"$ctrl.subscription.price <= 0 && $ctrl.subscription.status.toLowerCase() === 'active'\" class=\"u-textWarning\">{{ $ctrl.subscription.status }} <span class=\"u-textBase u-textNormal\">( {{ 'subscription.label.AUTO_RENEW_DISABLED' | translate }} )</span></span>\n\t</strong>\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\" translate=\"subscription.label.BILLING_AMOUNT\"></label>\n\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.price, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\" translate=\"subscription.label.NEXT_BILLING_AMOUNT\"></label>\n\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.nextBillAmount, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\" translate=\"subscription.label.NEXT_BILLING_PERIOD_AMOUNT\"></label>\n\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscription.nextBillingPeriodAmount, currencyIsoCode: $ctrl.subscription.plan.currencyIsoCode}) }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\" translate=\"subscription.label.SUBSCRIPTION_STARTED\"></label>\n\t{{ $ctrl.subscription.createdAt | date: longDate }}\n</div>\n<div class=\"Form-item\">\n\t<label class=\"Form-itemLabel\" translate=\"subscription.label.NEXT_BILLING_DATE\"></label>\n\t{{ $ctrl.subscription.nextBillingDate | date: longDate }}\n</div>\n"
 
 /***/ },
 /* 134 */
@@ -32373,7 +32614,7 @@
 /* 137 */
 /***/ function(module, exports) {
 
-	module.exports = "<section ng-if=\"$ctrl.subscriptionPlan.id\" class=\"Alert--info fn-subscriptionProgress\">\n\t<div class=\"Alert-body\">\n\t\t<p>Selected plan:\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span>:\n\t\t   <span ng-if=\"$ctrl.subscriptionPlan.billingFrequency > 1\">\n\t\t\t   {{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t   ({{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.price / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t   /month)\n\t\t   </span>\n\t\t\t<span ng-if=\"$ctrl.subscriptionPlan.billingFrequency === 1\">\n\t\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }} /month\n\t\t\t</span>\n\t\t\t<span ng-if=\"$ctrl.subscriptionRoute\">\n\t\t\t- <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.subscriptionRoute})\">change plan</a>\n\t\t</span>\n\t\t</p>\n\t</div>\n</section>\n"
+	module.exports = "<section ng-if=\"$ctrl.subscriptionPlan.id\" class=\"Alert--info fn-subscriptionProgress\">\n\t<div class=\"Alert-body\">\n\t\t<p>\n\t\t\t<span translate=\"subscription.label.SELECTED_PLAN\"></span>:\n\t\t\t<span ng-bind=\"$ctrl.subscriptionPlan.name\"></span>:\n\t\t   <span ng-if=\"$ctrl.subscriptionPlan.billingFrequency > 1\">\n\t\t\t   {{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t   ({{ $ctrl.formatCurrencyAmount({amount: ($ctrl.subscriptionPlan.price / $ctrl.subscriptionPlan.billingFrequency), currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }}\n\t\t\t   /{{ 'subscription.label.MONTH' | translate }})\n\t\t   </span>\n\t\t\t<span ng-if=\"$ctrl.subscriptionPlan.billingFrequency === 1\">\n\t\t\t\t{{ $ctrl.formatCurrencyAmount({amount: $ctrl.subscriptionPlan.price, currencyIsoCode: $ctrl.subscriptionPlan.currencyIsoCode}) }} /{{ 'subscription.label.MONTH' | translate }}\n\t\t\t</span>\n\t\t\t<span ng-if=\"$ctrl.subscriptionRoute\">\n\t\t\t- <a href=\"\" ng-click=\"$ctrl.routeTo({route: $ctrl.subscriptionRoute})\">{{ 'subscription.button.CHANGE_PLAN' | translate }}</a>\n\t\t</span>\n\t\t</p>\n\t</div>\n</section>\n"
 
 /***/ },
 /* 138 */
@@ -32407,7 +32648,7 @@
 /* 139 */
 /***/ function(module, exports) {
 
-	module.exports = "<ul class=\"Nav Nav--tabs\">\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/subscribe'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/subscribe'})\">1. Subscription plan</a>\n\t</li>\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/customer'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/customer'})\">2. Customer information</a>\n\t</li>\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/payment-methods'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/payment-methods'})\">3. Payment method</a>\n\t</li>\n</ul>\n"
+	module.exports = "<ul class=\"Nav Nav--tabs\">\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/subscribe'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/subscribe'})\">1. {{ 'subscription.navigation.SUBSCRIPTION_PLAN' | translate }}</a>\n\t</li>\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/customer'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/customer'})\">2. {{ 'subscription.navigation.CUSTOMER_INFORMATION' | translate }}</a>\n\t</li>\n\t<li class=\"Nav-item\" ng-class=\"{'is-active': $ctrl.selectedRoute === '/payment-methods'}\">\n\t\t<a class=\"Nav-link\" href=\"\" ng-click=\"$ctrl.routeTo({route: '/payment-methods'})\">3. {{ 'subscription.navigation.PAYMENT_METHOD' | translate }}</a>\n\t</li>\n</ul>\n"
 
 /***/ },
 /* 140 */
@@ -32452,7 +32693,7 @@
 /* 141 */
 /***/ function(module, exports) {
 
-	module.exports = "<div ng-if=\"$ctrl.paymentMethod.cardType\">\n\t<!-- Card -->\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Type</label>\n\t\t<i class=\"fa fa-credit-card\"></i> <span ng-bind=\"$ctrl.paymentMethod.cardType\"></span>\n\t\t<span ng-if=\"$ctrl.paymentMethod.debit === 'Yes'\">Debit Card</span>\n\t\t<span ng-if=\"$ctrl.paymentMethod.prepaid === 'Yes'\">(Prepaid)</span>\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Card number</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.maskedNumber\"></span>\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Expiration date</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.expirationDate | date:'MM / y'\"></span>\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Expired</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.expired\"></span>\n\t</div>\n\n\t<button class=\"Button Button--primary\"\n\t        ng-if=\"$ctrl.cardButtonVisible\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\"\n\t        ng-click=\"$ctrl.onCardButtonClick({paymentMethod: $ctrl.paymentMethod})\">\n\t\t{{ ($ctrl.buttonDisabled) ? $ctrl.buttonDisabledText : $ctrl.cardButtonText }}\n\t</button>\n\t<a href=\"\"\n\t   ng-if=\"$ctrl.deleteLinkVisible\"\n\t   confirm-message=\"'Are you sure you want to delete this payment method?'\"\n\t   ui-confirm-click=\"$ctrl.onDeleteClick({paymentMethod: $ctrl.paymentMethod})\">{{ $ctrl.deleteLinkText }}</a>\n</div>\n\n<div ng-if=\"$ctrl.paymentMethod.billingAgreementId\">\n\t<!-- Paypal -->\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Type</label>\n\t\t<i class=\"fa fa-cc-paypal\"></i> Paypal\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\">Email</label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.email\"></span>\n\t</div>\n\n\t<button class=\"Button Button--primary\"\n\t        ng-if=\"$ctrl.paypalButtonVisible\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\"\n\t        ng-click=\"$ctrl.onPaypalButtonClick({paymentMethod: $ctrl.paymentMethod})\">\n\t\t{{ ($ctrl.buttonDisabled) ? $ctrl.buttonDisabledText : $ctrl.paypalButtonText }}\n\t</button>\n\t<a href=\"\"\n\t   ng-if=\"$ctrl.deleteLinkVisible\"\n\t   confirm-message=\"'Are you sure you want to delete this payment method?'\"\n\t   ui-confirm-click=\"$ctrl.onDeleteClick({paymentMethod: $ctrl.paymentMethod})\">{{ $ctrl.deleteLinkText }}</a>\n</div>\n"
+	module.exports = "<div ng-if=\"$ctrl.paymentMethod.cardType\">\n\t<!-- Card -->\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" translate=\"payment.label.PAYMENT_TYPE\"></label>\n\t\t<i class=\"fa fa-credit-card\"></i> <span ng-bind=\"$ctrl.paymentMethod.cardType\"></span>\n\t\t<span ng-if=\"$ctrl.paymentMethod.debit === 'Yes'\" translate=\"payment.label.DEBIT_CARD\"></span>\n\t\t<span ng-if=\"$ctrl.paymentMethod.prepaid === 'Yes'\">({{ 'payment.label.PREPAID_CARD' }})</span>\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" translate=\"payment.label.CARD_NUMBER\"></label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.maskedNumber\"></span>\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" translate=\"payment.label.CARD_EXPIRATION_DATE\"></label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.expirationDate | date:'MM / y'\"></span>\n\t</div>\n\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" translate=\"payment.label.CARD_EXPIRED\"></label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.expired\"></span>\n\t</div>\n\n\t<button class=\"Button Button--primary\"\n\t        ng-if=\"$ctrl.cardButtonVisible\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\"\n\t        ng-click=\"$ctrl.onCardButtonClick({paymentMethod: $ctrl.paymentMethod})\">\n\t\t{{ ($ctrl.buttonDisabled) ? $ctrl.buttonDisabledText : $ctrl.cardButtonText }}\n\t</button>\n\t<a href=\"\"\n\t   ng-if=\"$ctrl.deleteLinkVisible\"\n\t   confirm-message=\"{{ 'payment.button.DELETE_PAYMENT_METHOD_CONFIRM' | translate }}\"\n\t   ui-confirm-click=\"$ctrl.onDeleteClick({paymentMethod: $ctrl.paymentMethod})\">{{ $ctrl.deleteLinkText }}</a>\n</div>\n\n<div ng-if=\"$ctrl.paymentMethod.billingAgreementId\">\n\t<!-- Paypal -->\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" translate=\"payment.label.PAYMENT_TYPE\"></label>\n\t\t<i class=\"fa fa-cc-paypal\"></i> Paypal\n\t</div>\n\t<div class=\"Form-item\">\n\t\t<label class=\"Form-itemLabel\" translate=\"payment.label.PAYPAL_EMAIL\"></label>\n\t\t<span ng-bind=\"$ctrl.paymentMethod.email\"></span>\n\t</div>\n\n\t<button class=\"Button Button--primary\"\n\t        ng-if=\"$ctrl.paypalButtonVisible\"\n\t        ng-disabled=\"$ctrl.buttonDisabled\"\n\t        ng-click=\"$ctrl.onPaypalButtonClick({paymentMethod: $ctrl.paymentMethod})\">\n\t\t{{ ($ctrl.buttonDisabled) ? $ctrl.buttonDisabledText : $ctrl.paypalButtonText }}\n\t</button>\n\t<a href=\"\"\n\t   ng-if=\"$ctrl.deleteLinkVisible\"\n\t   confirm-message=\"{{ 'payment.button.DELETE_PAYMENT_METHOD_CONFIRM' | translate }}\"\n\t   ui-confirm-click=\"$ctrl.onDeleteClick({paymentMethod: $ctrl.paymentMethod})\">{{ $ctrl.deleteLinkText }}</a>\n</div>\n"
 
 /***/ },
 /* 142 */
@@ -32481,11 +32722,12 @@
 	var Inject = __webpack_require__(83);
 	
 	var BraintreeHomeComponent = (function () {
-		function BraintreeHomeComponent(braintreeDataService, braintreeAppService) {
+		function BraintreeHomeComponent(braintreeDataService, braintreeAppService, $translate) {
 			_classCallCheck(this, _BraintreeHomeComponent);
 	
 			this.braintreeDataService = braintreeDataService;
 			this.braintreeAppService = braintreeAppService;
+			this.$translate = $translate;
 	
 			this.state = {
 				enableWizardMode: false
@@ -32516,6 +32758,11 @@
 			// Public viewModel methods
 			// --------------------------------------------------
 		}, {
+			key: 'changeLanguage',
+			value: function changeLanguage(lang) {
+				this.$translate.use(lang);
+			}
+		}, {
 			key: 'initFlowMode',
 			value: function initFlowMode() {
 				if (this.state.enableWizardMode) {
@@ -32532,7 +32779,7 @@
 		}]);
 	
 		var _BraintreeHomeComponent = BraintreeHomeComponent;
-		BraintreeHomeComponent = Inject('braintreeDataService', 'braintreeAppService')(BraintreeHomeComponent) || BraintreeHomeComponent;
+		BraintreeHomeComponent = Inject('braintreeDataService', 'braintreeAppService', '$translate')(BraintreeHomeComponent) || BraintreeHomeComponent;
 		return BraintreeHomeComponent;
 	})();
 	
@@ -32560,7 +32807,7 @@
 /* 143 */
 /***/ function(module, exports) {
 
-	module.exports = "<h1 class=\"Heading--one\">Braintree module</h1>\n<hr class=\"Divider--dotted\">\n\n<label>\n\t<input type=\"checkbox\" ng-click=\"$ctrl.initFlowMode()\" ng-model=\"$ctrl.state.enableWizardMode\"> Subscription wizard mode enabled\n</label>\n<p>\n\t<small>Note: Enable this to prevent going to other parts without choosing a the previous step.</small>\n</p>\n\n<div class=\"Page\">\n\t<nav class=\"Page-aside--left\">\n\t\t<ul class=\"Nav Nav--vertical\">\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/billing-overview')\">Billing overview</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/subscribe')\">Subscribe</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/customer')\">Create Customer</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/cards')\">Pay with Credit or Debit Card</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/paypal')\">Pay with Paypal</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/drop-in')\">Drop-in</a>\n\t\t\t</li>\n\t\t</ul>\n\t</nav>\n\t<main class=\"Page-main\">\n\t\t<div ng-view=\"\"></div>\n\t</main>\n</div>\n\n\n\n"
+	module.exports = "<h1 class=\"Heading--one\">Braintree module</h1>\n<hr class=\"Divider--dotted\">\n\n<label>\n\t<input type=\"checkbox\" ng-click=\"$ctrl.initFlowMode()\" ng-model=\"$ctrl.state.enableWizardMode\"> Subscription wizard mode enabled\n</label>\n<br>\n<button type=\"button\" ng-click=\"$ctrl.changeLanguage('en');\">English</button>\n<button type=\"button\" ng-click=\"$ctrl.changeLanguage('pt');\">Portuguese</button>\n\n<p>\n\t<small>Note: Enable this to prevent going to other parts without choosing a the previous step.</small>\n</p>\n\n<div class=\"Page\">\n\t<nav class=\"Page-aside--left\">\n\t\t<ul class=\"Nav Nav--vertical\">\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/billing-overview')\">Billing overview</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/subscribe')\">Subscribe</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/customer')\">Create Customer</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/cards')\">Pay with Credit or Debit Card</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/paypal')\">Pay with Paypal</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/drop-in')\">Drop-in</a>\n\t\t\t</li>\n\t\t</ul>\n\t</nav>\n\t<main class=\"Page-main\">\n\t\t<div ng-view=\"\"></div>\n\t</main>\n</div>\n"
 
 /***/ },
 /* 144 */
@@ -32587,10 +32834,11 @@
 	var Inject = __webpack_require__(83);
 	
 	var SubscribeViewComponent = (function () {
-		function SubscribeViewComponent(braintreeDataService) {
+		function SubscribeViewComponent(braintreeDataService, $translate) {
 			_classCallCheck(this, _SubscribeViewComponent);
 	
 			this.braintreeDataService = braintreeDataService;
+			this.$translate = $translate;
 		}
 	
 		// Component decorations
@@ -32601,6 +32849,11 @@
 		_createClass(SubscribeViewComponent, [{
 			key: '$onInit',
 			value: function $onInit() {
+				// When set by an outside app
+				if (this.language) {
+					this.$translate.use(this.language);
+				}
+	
 				this.braintreeDataService.initMode('subscription');
 				var customer = {};
 				if (this.customerData) {
@@ -32636,7 +32889,7 @@
 		}]);
 	
 		var _SubscribeViewComponent = SubscribeViewComponent;
-		SubscribeViewComponent = Inject('braintreeDataService')(SubscribeViewComponent) || SubscribeViewComponent;
+		SubscribeViewComponent = Inject('braintreeDataService', '$translate')(SubscribeViewComponent) || SubscribeViewComponent;
 		return SubscribeViewComponent;
 	})();
 	
@@ -32644,7 +32897,8 @@
 		bindings: {
 			customerData: '<',
 			customPlansDefaults: '<',
-			defaultCurrency: '<'
+			defaultCurrency: '<',
+			language: '<'
 		},
 		template: _subscribeViewHtml2['default'],
 		controller: SubscribeViewComponent
@@ -32661,6 +32915,346 @@
 
 /***/ },
 /* 146 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"general": {
+			"CURRENCY": "Currency",
+			"US_DOLLAR": "US Dollar",
+			"EURO": "Euro",
+			"BRITISH_POUND": "British Pound",
+			"ICELANDIC_KRONA": "Icelandic Krona",
+			"button": {
+				"BACK": "Back",
+				"CONTINUE": "Continue",
+				"GO_TO_SUBSCRIPTION_PAGE": "Go to subscription page",
+				"GO_TO_CUSTOMER_PAGE": "Go to customer page"
+			},
+			"message": {
+				"ERROR_CONNECTING_TO_SERVER": "Error: cannot connect to server. Please make sure your server is running.",
+				"MUST_CHOOSE_SUBSCRIPTION": "You must choose a subscription plan before you proceed",
+				"MUST_FILL_CUSTOMER_INFO": "You need to fill out customer information before you proceed"
+			}
+		},
+		"customer": {
+			"button": {
+				"CREATE_CUSTOMER": "Create customer"
+			},
+			"heading": {
+				"FILL_OUT_YOUR_CONTACT_INFO": "Fill out your contact information"
+			},
+			"loading": {
+				"CREATING_CUSTOMER": "Creating customer...",
+				"FETCHING_CUSTOMER_INFO": "Fetching customer information...",
+				"LOADING_PROFILE_DETAILS": "Loading profile details..."
+			},
+			"label": {
+				"FIRST_NAME": "First name",
+				"LAST_NAME": "Last name",
+				"EMAIL": "Email",
+				"EMAIL_ADDRESS": "Email address"
+			},
+			"message": {
+				"ERROR_FETCHING_CUSTOMER_INFO": "An error occurred while fetching customer information."
+			}
+		},
+		"subscription": {
+			"navigation": {
+				"SUBSCRIPTION_PLAN": "Subscription plan",
+				"CUSTOMER_INFORMATION": "Customer information",
+				"PAYMENT_METHOD": "Payment method"
+			},
+			"heading": {
+				"BILLING_OVERVIEW": "Billing overview",
+				"EDIT_SUBSCRIPTION_PLAN": "Edit subscription plan",
+				"EDIT_PAYMENT_METHOD": "Edit payment method",
+				"NO_TRANSACTIONS_FOUND": "No transactions were found",
+				"SELECT_SUBSCRIPTION": "Select a subscription plan",
+				"SUBSCRIPTION": "Subscription",
+				"SUBSCRIPTIONS": "Subscriptions",
+				"SUBSCRIPTION_CREATED": "Your subscription has been created",
+				"TRANSACTION_HISTORY": "Transaction history",
+				"PAYMENT_METHOD": "Payment method",
+				"TRANSACTION_STATUS_HISTORY": "Status history",
+				"YOU_HAVE_NO_SUBSCRIPTIONS": "You have no subscriptions",
+				"YOUR_SAVED_PAYMENT_METHODS": "Your saved payment methods"
+			},
+			"button": {
+				"CHANGE_PLAN": "change plan",
+				"CURRENT_PLAN": "Current plan",
+				"CHANGE_PAYMENT_METHOD": "Change Payment Method",
+				"CANCEL_SUBSCRIPTION": "Cancel subscription",
+				"DISABLE_AUTO_RENEW": "Disable Auto Renew",
+				"EDIT_PLAN": "Edit Plan",
+				"ENABLE_AUTO_RENEW": "Enable Auto Renew",
+				"RETRY_CHARGE": "Retry Charge",
+				"SELECT_PLAN": "Select plan",
+				"SUBSCRIBE_NOW": "Subscribe now",
+				"START_OVER": "Start over"
+			},
+			"label": {
+				"AUTO_RENEW_DISABLED": "Auto renew disabled",
+				"AUTO_RENEW_ENABLED": "Auto renew enabled",
+				"BILLING_AMOUNT": "Billing amount",
+				"DISCOUNT": "Discount",
+				"MONTH": "month",
+				"NEXT_BILLING_AMOUNT": "Next billing amount",
+				"NEXT_BILLING_DATE": "Next billing date",
+				"NEXT_BILLING_PERIOD_AMOUNT": "Next billing period amount",
+				"OR": "or",
+				"PAY_MONTHLY": "pay monthly",
+				"SELECTED_PLAN": "Selected plan",
+				"SUBSCRIPTION_STARTED": "Started",
+				"SUBSCRIPTION_STATUS": "Status",
+				"UPGRADE_CREDIT": "Upgrade credit"
+			},
+			"loading": {
+				"CANCELLING_SUBSCRIPTION": "Cancelling subscription...",
+				"CREATING_SUBSCRIPTION": "Creating subscription...",
+				"ENABLING_AUTO_RENEW": "Enabling auto renew...",
+				"DISABLING_AUTO_RENEW": "Disabling auto renew...",
+				"FETCHING_SUBSCRIPTION_PLANS": "Fetching subscription plans...",
+				"UPDATING_SUBSCRIPTION_PLANS": "Updating subscription plan..."
+			},
+			"message": {
+				"AUTO_RENEW_HAS_BEEN_DISABLED": "Auto renew has been disabled.",
+				"AUTO_RENEW_HAS_BEEN_ENABLED": "Auto renew has been enabled.",
+				"ERROR_CANCELLING_SUBSCRIPTION": "An error occurred cancelling your current subscription",
+				"ERROR_CREATING_SUBSCRIPTION": "An error occurred creating a subscription.",
+				"ERROR_UPDATING_SUBSCRIPTION": "An error occurred while updating the subscription.",
+				"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Unable to get subscription plans, please try again later.",
+				"SUBSCRIPTION_CANCELLED": "Subscription has been cancelled.",
+				"SUBSCRIPTION_CHANGED_TO_NEW_PLAN": "Your subscription has been changed to the new plan.",
+				"UPDATED_SUBSCRIPTION_WITH_DISCOUNT": "A payment of {{amount}} has been submitted, Your previous subscription credit of {{discount}} was deducted from the full amount."
+			},
+			"text": {
+				"GO_TO": "Go to",
+				"BILLING_OVERVIEW": "billing overview",
+				"FOR_MORE_DETAILS": "for more details"
+			}
+		},
+		"payment": {
+			"button": {
+				"CHOOSE_CARD": "Choose card",
+				"CHOOSE_PAYPAL": "Choose Paypal",
+				"CONNECT_TO_PAYPAL": "Connect with Paypal",
+				"DEFAULT_PAYMENT_METHOD": "Default payment method",
+				"DELETE_PAYMENT_METHOD_CONFIRM": "Are you sure you want to delete this payment method?",
+				"SAVE_AND_CHOOSE_CARD": "Save and choose card",
+				"PAY_NOW": "Pay now"
+			},
+			"heading": {
+				"ADD_NEW_PAYMENT_METHOD": "Add a new payment method",
+				"CREDIT_OR_DEBIT_CARD": "Credit or Debit Card",
+				"CONNECT_TO_PAYPAL": "Connect with Paypal",
+				"CHOOSE_PAYMENT_METHOD": "Choose your payment method",
+				"FILL_OUT_YOUR_CARD_DETAILS": "Fill out your card details",
+				"NEW_PAYMENT_METHOD": "New payment method",
+				"SAVED_PAYMENT_METHODS": "Saved payment methods"
+			},
+			"label": {
+				"AMOUNT": "Amount",
+				"CARD_NUMBER": "Card number",
+				"CARD_EXPIRATION_DATE": "Expiration date",
+				"CARD_EXPIRED": "Expired",
+				"CVV": "CVV",
+				"CURRENCY": "Currency",
+				"DEBIT_CARD": "Debit Card",
+				"PAYMENT_TYPE": "Type",
+				"PAYPAL_EMAIL": "Email",
+				"PREPAID_CARD": "Prepaid Card"
+			},
+			"message": {
+				"ERROR_DELETING_PAYMENT_METHOD": "An error occurred deleting your payment method.",
+				"PAYMENT_AUTHORIZED": "Payment authorized, thanks.",
+				"PAYMENT_FAILED": "Payment failed",
+				"PAYMENT_METHOD_DELETED": "Payment method has been deleted, and all connected subscriptions have been cancelled.",
+				"PAYMENT_METHOD_UPDATED": "Payment method has been updated.",
+				"RETRY_TRANSACTION_UNSUCCESSFUL": "Retry of transaction was not successful!",
+				"TRANSACTION_SUCCESSFUL": "Transaction was successful!"
+			},
+			"loading": {
+				"DELETING_PAYMENT_METHOD": "Deleting payment method...",
+				"RETRYING_TRANSACTION": "Retrying transaction...",
+				"SAVING_PAYMENT_INFORMATION": "Saving payment information...",
+				"PROCESSING_PAYMENT": "Processing payment...",
+				"UPDATING_PAYMENT_METHOD": "Updating payment method..."
+			}
+		}
+	};
+
+/***/ },
+/* 147 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"general": {
+			"CURRENCY": "Moeda",
+			"US_DOLLAR": "Dólar americano",
+			"EURO": "Euro",
+			"BRITISH_POUND": "Libra britânica",
+			"ICELANDIC_KRONA": "Coroa islandesa",
+			"button": {
+				"BACK": "Volte",
+				"CONTINUE": "Continuar",
+				"GO_TO_SUBSCRIPTION_PAGE": "Ir para a página de inscrição",
+				"GO_TO_CUSTOMER_PAGE": "Ir para a página do cliente"
+			},
+			"message": {
+				"ERROR_CONNECTING_TO_SERVER": "Erro: não é possível conectar ao servidor. Verifique se o servidor está em execução.",
+				"MUST_CHOOSE_SUBSCRIPTION": "Você deve escolher um plano de assinatura antes de prosseguir",
+				"MUST_FILL_CUSTOMER_INFO": "You need to fill out customer information before you proceed"
+			}
+		},
+		"customer": {
+			"button": {
+				"CREATE_CUSTOMER": "Criar cliente"
+			},
+			"heading": {
+				"FILL_OUT_YOUR_CONTACT_INFO": "Preencha suas informações de contato"
+			},
+			"loading": {
+				"CREATING_CUSTOMER": "Criando clientes...",
+				"FETCHING_CUSTOMER_INFO": "Obtendo informações do cliente...",
+				"LOADING_PROFILE_DETAILS": "Carregando detalhes do perfil..."
+			},
+			"label": {
+				"FIRST_NAME": "Primeiro nome",
+				"LAST_NAME": "Último nome",
+				"EMAIL": "Email",
+				"EMAIL_ADDRESS": "Endereço de email"
+			},
+			"message": {
+				"ERROR_FETCHING_CUSTOMER_INFO": "Ocorreu um erro ao buscar informações do cliente."
+			}
+		},
+		"subscription": {
+			"navigation": {
+				"SUBSCRIPTION_PLAN": "Plano de assinatura",
+				"CUSTOMER_INFORMATION": "Informação ao Cliente",
+				"PAYMENT_METHOD": "Método de pagamento"
+			},
+			"heading": {
+				"BILLING_OVERVIEW": "Visão geral da faturação",
+				"EDIT_SUBSCRIPTION_PLAN": "Editar plano de assinatura",
+				"EDIT_PAYMENT_METHOD": "Editar método de pagamento",
+				"NO_TRANSACTIONS_FOUND": "Nenhuma transação foi encontrada",
+				"SELECT_SUBSCRIPTION": "Selecionar um plano de assinatura",
+				"SUBSCRIPTION": "Inscrição",
+				"SUBSCRIPTIONS": "Assinaturas",
+				"SUBSCRIPTION_CREATED": "Sua assinatura foi criada",
+				"TRANSACTION_HISTORY": "Histórico de transações",
+				"PAYMENT_METHOD": "Método de pagamento",
+				"TRANSACTION_STATUS_HISTORY": "Histórico de status",
+				"YOU_HAVE_NO_SUBSCRIPTIONS": "Você não tem subscrições",
+				"YOUR_SAVED_PAYMENT_METHODS": "Os métodos de pagamento guardados"
+			},
+			"button": {
+				"CHANGE_PLAN": "plano de mudança",
+				"CURRENT_PLAN": "Plano atual",
+				"CHANGE_PAYMENT_METHOD": "Mudar o metodo de pagamento",
+				"CANCEL_SUBSCRIPTION": "Cancelar assinatura",
+				"DISABLE_AUTO_RENEW": "Desativar renovação automática",
+				"EDIT_PLAN": "Editar plano",
+				"ENABLE_AUTO_RENEW": "Ativar renovação automática",
+				"RETRY_CHARGE": "Taxa de nova tentativa",
+				"SELECT_PLAN": "Selecione o plano",
+				"SUBSCRIBE_NOW": "Inscreva-se agora",
+				"START_OVER": "Start over"
+			},
+			"label": {
+				"AUTO_RENEW_DISABLED": "Renovação automática desativada",
+				"AUTO_RENEW_ENABLED": "Renovação automática ativada",
+				"BILLING_AMOUNT": "Montante da faturação",
+				"DISCOUNT": "Desconto",
+				"MONTH": "mês",
+				"NEXT_BILLING_AMOUNT": "Próximo valor de faturamento",
+				"NEXT_BILLING_DATE": "Próxima data de faturamento",
+				"NEXT_BILLING_PERIOD_AMOUNT": "Próximo período de faturamento",
+				"OR": "ou",
+				"PAY_MONTHLY": "pagar mensalmente",
+				"SELECTED_PLAN": "Plano selecionado",
+				"SUBSCRIPTION_STARTED": "Started",
+				"SUBSCRIPTION_STATUS": "Status",
+				"UPGRADE_CREDIT": "Atualizar crédito"
+			},
+			"loading": {
+				"CANCELLING_SUBSCRIPTION": "Cancelar subscrição...",
+				"CREATING_SUBSCRIPTION": "Criar subscrição...",
+				"ENABLING_AUTO_RENEW": "Ativando a renovação automática...",
+				"DISABLING_AUTO_RENEW": "Desativando a renovação automática...",
+				"FETCHING_SUBSCRIPTION_PLANS": "Obtenção de planos de assinatura...",
+				"UPDATING_SUBSCRIPTION_PLANS": "Atualizando plano de assinatura..."
+			},
+			"message": {
+				"AUTO_RENEW_HAS_BEEN_DISABLED": "A renovação automática foi desativada.",
+				"AUTO_RENEW_HAS_BEEN_ENABLED": "A renovação automática foi ativada.",
+				"ERROR_CANCELLING_SUBSCRIPTION": "Ocorreu um erro ao cancelar sua assinatura atual.",
+				"ERROR_CREATING_SUBSCRIPTION": "Ocorreu um erro ao criar uma assinatura.",
+				"ERROR_UPDATING_SUBSCRIPTION": "Ocorreu um erro ao atualizar a assinatura.",
+				"ERROR_FETCHING_SUBSCRIPTION_PLANS": "Não é possível obter planos de assinatura. Tente novamente mais tarde.",
+				"SUBSCRIPTION_CANCELlED": "A subscrição foi cancelada.",
+				"SUBSCRIPTION_CHANGED_TO_NEW_PLAN": "Sua assinatura foi alterada para o novo plano.",
+				"UPDATED_SUBSCRIPTION_WITH_DISCOUNT": "Um pagamento de {{amount}} foi submetido, Seu crédito de subscrição anterior de {{discount}} foi deduzido do valor total."
+			},
+			"text": {
+				"GO_TO": "Vamos para",
+				"BILLING_OVERVIEW": "Visão geral de faturamento",
+				"FOR_MORE_DETAILS": "para mais detalhes"
+			}
+		},
+		"payment": {
+			"button": {
+				"CHOOSE_CARD": "Escolha o cartão",
+				"CHOOSE_PAYPAL": "Escolha Paypal",
+				"CONNECT_TO_PAYPAL": "Conectar com Paypal",
+				"DEFAULT_PAYMENT_METHOD": "Metodo de pagamento padrão",
+				"DELETE_PAYMENT_METHOD_CONFIRM": "Tem a certeza de que pretende eliminar este método de pagamento?",
+				"SAVE_AND_CHOOSE_CARD": "Salvar e escolher cartão",
+				"PAY_NOW": "Pague agora"
+			},
+			"heading": {
+				"ADD_NEW_PAYMENT_METHOD": "Adicionar um novo método de pagamento",
+				"CREDIT_OR_DEBIT_CARD": "Cartão de crédito ou débito",
+				"CONNECT_TO_PAYPAL": "Conectar com Paypal",
+				"CHOOSE_PAYMENT_METHOD": "Escolha o seu método de pagamento",
+				"FILL_OUT_YOUR_CARD_DETAILS": "Preencha os detalhes do seu cartão",
+				"NEW_PAYMENT_METHOD": "Novo método de pagamento",
+				"SAVED_PAYMENT_METHODS": "Métodos de pagamento guardados"
+			},
+			"label": {
+				"AMOUNT": "Montante",
+				"CARD_NUMBER": "Número do cartão",
+				"CARD_EXPIRATION_DATE": "Data de validade",
+				"CARD_EXPIRED": "Expirado",
+				"CVV": "CVV",
+				"CURRENCY": "Moeda",
+				"DEBIT_CARD": "Cartão de débito",
+				"PAYMENT_TYPE": "Tipo",
+				"PAYPAL_EMAIL": "Email",
+				"PREPAID_CARD": "Cartão Pré-pago"
+			},
+			"message": {
+				"ERROR_DELETING_PAYMENT_METHOD": "Ocorreu um erro ao eliminar a sua forma de pagamento.",
+				"PAYMENT_AUTHORIZED": "Pagamento autorizado, obrigado.",
+				"PAYMENT_FAILED": "Pagamento falhou",
+				"PAYMENT_METHOD_DELETED": "O método de pagamento foi eliminado e todas as subscrições associadas foram canceladas.",
+				"PAYMENT_METHOD_UPDATED": "O método de pagamento foi actualizado.",
+				"RETRY_TRANSACTION_UNSUCCESSFUL": "A tentativa da transação não foi bem-sucedida!",
+				"TRANSACTION_SUCCESSFUL": "A transação foi bem-sucedida!"
+			},
+			"loading": {
+				"DELETING_PAYMENT_METHOD": "Como excluir o método de pagamento...",
+				"RETRYING_TRANSACTION": "Repetição da transação...",
+				"SAVING_PAYMENT_INFORMATION": "Como guardar informações de pagamento...",
+				"PROCESSING_PAYMENT": "Processamento de pagamento...",
+				"UPDATING_PAYMENT_METHOD": "Atualizando o método de pagamento..."
+			}
+		}
+	};
+
+/***/ },
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Container Components
@@ -32672,7 +33266,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _debugComponent = __webpack_require__(147);
+	var _debugComponent = __webpack_require__(149);
 	
 	var _debugComponent2 = _interopRequireDefault(_debugComponent);
 	
@@ -32689,7 +33283,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 147 */
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32704,7 +33298,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _debugHtml = __webpack_require__(148);
+	var _debugHtml = __webpack_require__(150);
 	
 	var _debugHtml2 = _interopRequireDefault(_debugHtml);
 	
@@ -32754,13 +33348,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 148 */
+/* 150 */
 /***/ function(module, exports) {
 
 	module.exports = "<h1>Debug</h1>\n<button ng-click=\"$ctrl.refresh()\">Refresh</button><br>\n\n<h2>Customer</h2>\n<json-formatter json=\"$ctrl.customer\" open=\"1\"></json-formatter>\n"
 
 /***/ },
-/* 149 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
