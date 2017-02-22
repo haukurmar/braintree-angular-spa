@@ -28969,11 +28969,12 @@
 	var Inject = __webpack_require__(83);
 	
 	var PaypalComponent = (function () {
-		function PaypalComponent(braintreeDataService, braintreeAppService) {
+		function PaypalComponent(braintreeDataService, braintreeAppService, $translate) {
 			_classCallCheck(this, _PaypalComponent);
 	
 			this.braintreeDataService = braintreeDataService;
 			this.braintreeAppService = braintreeAppService;
+			this.$translate = $translate;
 	
 			this._checkout = null;
 			this.state = {
@@ -29009,6 +29010,9 @@
 			value: function $onInit() {
 				var _this = this;
 	
+				this.$translate('general.button.BACK').then(function (value) {
+					_this.state.backButtonText = value;
+				});
 				this.customer = this.braintreeDataService.customer;
 				this.state.mode = this.braintreeDataService.mode;
 	
@@ -29093,7 +29097,7 @@
 		}]);
 	
 		var _PaypalComponent = PaypalComponent;
-		PaypalComponent = Inject('braintreeDataService', 'braintreeAppService')(PaypalComponent) || PaypalComponent;
+		PaypalComponent = Inject('braintreeDataService', 'braintreeAppService', '$translate')(PaypalComponent) || PaypalComponent;
 		return PaypalComponent;
 	})();
 	
