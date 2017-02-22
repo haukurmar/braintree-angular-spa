@@ -2,7 +2,7 @@ import template from './paypal.html';
 import {ROUTES} from '../../../braintree.constants';
 
 // Inject dependencies
-@Inject('braintreeDataService', 'braintreeAppService')
+@Inject('braintreeDataService', 'braintreeAppService', '$translate')
 class PaypalComponent {
 	constructor() {
 		this._checkout = null;
@@ -32,6 +32,7 @@ class PaypalComponent {
 	// Private methods
 	// --------------------------------------------------
 	$onInit() {
+		this.$translate('general.button.BACK').then((value) => {this.state.backButtonText = value});
 		this.customer = this.braintreeDataService.customer;
 		this.state.mode = this.braintreeDataService.mode;
 
