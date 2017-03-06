@@ -14,7 +14,7 @@
 		"message": {
 			"ERROR_CONNECTING_TO_SERVER": "Erro: não é possível conectar ao servidor. Verifique se o servidor está em execução.",
 			"MUST_CHOOSE_SUBSCRIPTION": "Você deve escolher um plano de assinatura antes de prosseguir",
-			"MUST_FILL_CUSTOMER_INFO": "You need to fill out customer information before you proceed"
+			"MUST_FILL_CUSTOMER_INFO": "Você precisa preencher as informações do cliente antes de prosseguir"
 		}
 	},
 	"customer": {
@@ -30,8 +30,8 @@
 			"LOADING_PROFILE_DETAILS": "Carregando detalhes do perfil..."
 		},
 		"label": {
-			"FIRST_NAME": "Primeiro nome",
-			"LAST_NAME": "Último nome",
+			"FIRST_NAME": "Nome",
+			"LAST_NAME": "Sobrenome",
 			"EMAIL": "Email",
 			"EMAIL_ADDRESS": "Endereço de email"
 		},
@@ -72,7 +72,7 @@
 			"RETRY_CHARGE": "Taxa de nova tentativa",
 			"SELECT_PLAN": "Selecione o plano",
 			"SUBSCRIBE_NOW": "Inscreva-se agora",
-			"START_OVER": "Start over"
+			"START_OVER": "Começar de novo"
 		},
 		"label": {
 			"AUTO_RENEW_DISABLED": "Renovação automática desativada",
@@ -151,7 +151,7 @@
 			"PAYMENT_AUTHORIZED": "Pagamento autorizado, obrigado.",
 			"PAYMENT_FAILED": "Pagamento falhou",
 			"PAYMENT_METHOD_DELETED": "O método de pagamento foi eliminado e todas as subscrições associadas foram canceladas.",
-			"PAYMENT_METHOD_UPDATED": "O método de pagamento foi actualizado.",
+			"PAYMENT_METHOD_UPDATED": "O método de pagamento foi atualizado.",
 			"RETRY_TRANSACTION_UNSUCCESSFUL": "A tentativa da transação não foi bem-sucedida!",
 			"TRANSACTION_SUCCESSFUL": "A transação foi bem-sucedida!"
 		},
