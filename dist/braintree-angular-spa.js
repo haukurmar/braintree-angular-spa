@@ -151,7 +151,7 @@
 	
 	var _modulesCoreCoreModule2 = _interopRequireDefault(_modulesCoreCoreModule);
 	
-	var _modulesDebugDebugModule = __webpack_require__(148);
+	var _modulesDebugDebugModule = __webpack_require__(149);
 	
 	var _modulesDebugDebugModule2 = _interopRequireDefault(_modulesDebugDebugModule);
 	
@@ -451,7 +451,7 @@
 	
 	/* @ngInject */
 	function braintreeConfig($locationProvider, $routeProvider, $translateProvider) {
-		$translateProvider.translations('en', __webpack_require__(146)).translations('pt', __webpack_require__(147)).useSanitizeValueStrategy(null).preferredLanguage('en').fallbackLanguage('en');
+		$translateProvider.translations('en', __webpack_require__(146)).translations('pt', __webpack_require__(147)).translations('es', __webpack_require__(148)).useSanitizeValueStrategy(null).preferredLanguage('en').fallbackLanguage('en');
 	
 		$locationProvider.html5Mode(false);
 	
@@ -32811,7 +32811,7 @@
 /* 143 */
 /***/ function(module, exports) {
 
-	module.exports = "<h1 class=\"Heading--one\">Braintree module</h1>\n<hr class=\"Divider--dotted\">\n\n<label>\n\t<input type=\"checkbox\" ng-click=\"$ctrl.initFlowMode()\" ng-model=\"$ctrl.state.enableWizardMode\"> Subscription wizard mode enabled\n</label>\n<br>\n<button type=\"button\" ng-click=\"$ctrl.changeLanguage('en');\">English</button>\n<button type=\"button\" ng-click=\"$ctrl.changeLanguage('pt');\">Portuguese</button>\n\n<p>\n\t<small>Note: Enable this to prevent going to other parts without choosing a the previous step.</small>\n</p>\n\n<div class=\"Page\">\n\t<nav class=\"Page-aside--left\">\n\t\t<ul class=\"Nav Nav--vertical\">\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/billing-overview')\">Billing overview</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/subscribe')\">Subscribe</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/customer')\">Create Customer</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/cards')\">Pay with Credit or Debit Card</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/paypal')\">Pay with Paypal</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/drop-in')\">Drop-in</a>\n\t\t\t</li>\n\t\t</ul>\n\t</nav>\n\t<main class=\"Page-main\">\n\t\t<div ng-view=\"\"></div>\n\t</main>\n</div>\n"
+	module.exports = "<h1 class=\"Heading--one\">Braintree module</h1>\n<hr class=\"Divider--dotted\">\n\n<label>\n\t<input type=\"checkbox\" ng-click=\"$ctrl.initFlowMode()\" ng-model=\"$ctrl.state.enableWizardMode\"> Subscription wizard mode enabled\n</label>\n<br>\n<button type=\"button\" ng-click=\"$ctrl.changeLanguage('en');\">English</button>\n<button type=\"button\" ng-click=\"$ctrl.changeLanguage('pt');\">Portuguese</button>\n<button type=\"button\" ng-click=\"$ctrl.changeLanguage('es');\">Spanish</button>\n\n<p>\n\t<small>Note: Enable this to prevent going to other parts without choosing a the previous step.</small>\n</p>\n\n<div class=\"Page\">\n\t<nav class=\"Page-aside--left\">\n\t\t<ul class=\"Nav Nav--vertical\">\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/billing-overview')\">Billing overview</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/subscribe')\">Subscribe</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/customer')\">Create Customer</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/cards')\">Pay with Credit or Debit Card</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/paypal')\">Pay with Paypal</a>\n\t\t\t</li>\n\t\t\t<li class=\"Nav-item\">\n\t\t\t\t<a class=\"Nav-link\" ng-click=\"$ctrl.routeTo('/drop-in')\">Drop-in</a>\n\t\t\t</li>\n\t\t</ul>\n\t</nav>\n\t<main class=\"Page-main\">\n\t\t<div ng-view=\"\"></div>\n\t</main>\n</div>\n"
 
 /***/ },
 /* 144 */
@@ -33108,7 +33108,7 @@
 			"message": {
 				"ERROR_CONNECTING_TO_SERVER": "Erro: não é possível conectar ao servidor. Verifique se o servidor está em execução.",
 				"MUST_CHOOSE_SUBSCRIPTION": "Você deve escolher um plano de assinatura antes de prosseguir",
-				"MUST_FILL_CUSTOMER_INFO": "You need to fill out customer information before you proceed"
+				"MUST_FILL_CUSTOMER_INFO": "Você precisa preencher as informações do cliente antes de prosseguir"
 			}
 		},
 		"customer": {
@@ -33124,8 +33124,8 @@
 				"LOADING_PROFILE_DETAILS": "Carregando detalhes do perfil..."
 			},
 			"label": {
-				"FIRST_NAME": "Primeiro nome",
-				"LAST_NAME": "Último nome",
+				"FIRST_NAME": "Nome",
+				"LAST_NAME": "Sobrenome",
 				"EMAIL": "Email",
 				"EMAIL_ADDRESS": "Endereço de email"
 			},
@@ -33166,7 +33166,7 @@
 				"RETRY_CHARGE": "Taxa de nova tentativa",
 				"SELECT_PLAN": "Selecione o plano",
 				"SUBSCRIBE_NOW": "Inscreva-se agora",
-				"START_OVER": "Start over"
+				"START_OVER": "Começar de novo"
 			},
 			"label": {
 				"AUTO_RENEW_DISABLED": "Renovação automática desativada",
@@ -33245,7 +33245,7 @@
 				"PAYMENT_AUTHORIZED": "Pagamento autorizado, obrigado.",
 				"PAYMENT_FAILED": "Pagamento falhou",
 				"PAYMENT_METHOD_DELETED": "O método de pagamento foi eliminado e todas as subscrições associadas foram canceladas.",
-				"PAYMENT_METHOD_UPDATED": "O método de pagamento foi actualizado.",
+				"PAYMENT_METHOD_UPDATED": "O método de pagamento foi atualizado.",
 				"RETRY_TRANSACTION_UNSUCCESSFUL": "A tentativa da transação não foi bem-sucedida!",
 				"TRANSACTION_SUCCESSFUL": "A transação foi bem-sucedida!"
 			},
@@ -33261,6 +33261,176 @@
 
 /***/ },
 /* 148 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"general": {
+			"CURRENCY": "Moneda",
+			"US_DOLLAR": "Dolar Americano",
+			"EURO": "Euro",
+			"BRITISH_POUND": "Libra Británica",
+			"ICELANDIC_KRONA": "Corona de Islandia",
+			"button": {
+				"BACK": "Volver",
+				"CONTINUE": "Continuar",
+				"GO_TO_SUBSCRIPTION_PAGE": "Ir a la página de suscripción",
+				"GO_TO_CUSTOMER_PAGE": "Ir a la página del usuario"
+			},
+			"message": {
+				"ERROR_CONNECTING_TO_SERVER": "Error: no se puede conectar con el servidor. Por favor asegúrese de que el servidor esté funcionando correctamente.",
+				"MUST_CHOOSE_SUBSCRIPTION": "Debe escoger un plan de suscripción antes de continuar",
+				"MUST_FILL_CUSTOMER_INFO": "Debe rellenar la información del usuario antes de continuar"
+			}
+		},
+		"customer": {
+			"button": {
+				"CREATE_CUSTOMER": "Crear usuario"
+			},
+			"heading": {
+				"FILL_OUT_YOUR_CONTACT_INFO": "Rellene su información de contacto"
+			},
+			"loading": {
+				"CREATING_CUSTOMER": "Creando usuario...",
+				"FETCHING_CUSTOMER_INFO": "Recopilando la información del usuario...",
+				"LOADING_PROFILE_DETAILS": "Cargando la información del usuario..."
+			},
+			"label": {
+				"FIRST_NAME": "Nombre",
+				"LAST_NAME": "Apellido",
+				"EMAIL": "Email",
+				"EMAIL_ADDRESS": "Dirección de correo electrónico"
+			},
+			"message": {
+				"ERROR_FETCHING_CUSTOMER_INFO": "Ha ocurrido un error mientras se cargaba la información del usuario"
+			}
+		},
+		"subscription": {
+			"navigation": {
+				"SUBSCRIPTION_PLAN": "Plan de suscripción",
+				"CUSTOMER_INFORMATION": "Información del usuario",
+				"PAYMENT_METHOD": "Método de pago"
+			},
+			"heading": {
+				"BILLING_OVERVIEW": "Resumen de pago",
+				"EDIT_SUBSCRIPTION_PLAN": "Editar plan de suscripción",
+				"EDIT_PAYMENT_METHOD": "Editar método de pago",
+				"NO_TRANSACTIONS_FOUND": "No se han encontrado transacciones",
+				"SELECT_SUBSCRIPTION": "Seleccione un plan de suscripción",
+				"SUBSCRIPTION": "Suscripción",
+				"SUBSCRIPTIONS": "Suscripciones",
+				"SUBSCRIPTION_CREATED": "Suscripción realizada",
+				"TRANSACTION_HISTORY": "Historial de transacciones",
+				"PAYMENT_METHOD": "Método de pago",
+				"TRANSACTION_STATUS_HISTORY": "Historial de estado de transacciones",
+				"YOU_HAVE_NO_SUBSCRIPTIONS": "Usted no tiene suscripciones",
+				"YOUR_SAVED_PAYMENT_METHODS": "Tus métodos de pago guardados"
+			},
+			"button": {
+				"CHANGE_PLAN": "Cambiar plan de suscripción",
+				"CURRENT_PLAN": "Plan actual de suscripción",
+				"CHANGE_PAYMENT_METHOD": "Cambiar método de pago",
+				"CANCEL_SUBSCRIPTION": "Cancelar suscripción",
+				"DISABLE_AUTO_RENEW": "Desactivar renovación automática",
+				"EDIT_PLAN": "Editar plan de suscripción",
+				"ENABLE_AUTO_RENEW": "Activar renovación automática",
+				"RETRY_CHARGE": "Reintentar cargo",
+				"SELECT_PLAN": "Seleccionar plan",
+				"SUBSCRIBE_NOW": "Suscribirse ahora",
+				"START_OVER": "Empezar de nuevo"
+			},
+			"label": {
+				"AUTO_RENEW_DISABLED": "Renovación automática deshabilitada",
+				"AUTO_RENEW_ENABLED": "Renovación automática habilitada",
+				"BILLING_AMOUNT": "Cantidad de facturación",
+				"DISCOUNT": "Descuento",
+				"MONTH": "mes",
+				"NEXT_BILLING_AMOUNT": "Próxima cantidad de facturación",
+				"NEXT_BILLING_DATE": "Próxima fecha de facturación",
+				"NEXT_BILLING_PERIOD_AMOUNT": "Next billing period amount",
+				"OR": "o",
+				"PAY_MONTHLY": "pago mensual",
+				"SELECTED_PLAN": "Pago seleccionado",
+				"SUBSCRIPTION_STARTED": "Suscripción empezada",
+				"SUBSCRIPTION_STATUS": "Estado",
+				"UPGRADE_CREDIT": "Actualizar crédito"
+			},
+			"loading": {
+				"CANCELLING_SUBSCRIPTION": "Cancelando suscripción...",
+				"CREATING_SUBSCRIPTION": "Creando suscripción...",
+				"ENABLING_AUTO_RENEW": "Habilitando auto renovación...",
+				"DISABLING_AUTO_RENEW": "Deshabilitando auto renovación...",
+				"FETCHING_SUBSCRIPTION_PLANS": "Obteniendo planes de suscripción...",
+				"UPDATING_SUBSCRIPTION_PLANS": "Actualizando plan de suscripción..."
+			},
+			"message": {
+				"AUTO_RENEW_HAS_BEEN_DISABLED": "La autorenovación ha sido deshabilitada.",
+				"AUTO_RENEW_HAS_BEEN_ENABLED": "La autorenovación ha sido habilitada.",
+				"ERROR_CANCELLING_SUBSCRIPTION": "Ha ocurrido un error al cancelar su suscripción",
+				"ERROR_CREATING_SUBSCRIPTION": "Ha ocurrido un error al crear su suscripción.",
+				"ERROR_UPDATING_SUBSCRIPTION": "Ha ocurrido un error al actualizar su suscripción.",
+				"ERROR_FETCHING_SUBSCRIPTION_PLANS": "No ha sido posible obtener los planes de suscripción, por favor inténtelo de nuevo más tarde.",
+				"SUBSCRIPTION_CANCELLED": "Su suscripción ha sido cancelada.",
+				"SUBSCRIPTION_CHANGED_TO_NEW_PLAN": "Su suscripción ha sido cambiada a un nuevo plan.",
+				"UPDATED_SUBSCRIPTION_WITH_DISCOUNT": "Un pago de {{cantidad}} ha sido enviado, Su crédito de suscripción anterior de {{descuento}} se dedujo del importe total."
+			},
+			"text": {
+				"GO_TO": "Ir a",
+				"BILLING_OVERVIEW": "Resumen de facturación",
+				"FOR_MORE_DETAILS": "Para más detalles"
+			}
+		},
+		"payment": {
+			"button": {
+				"CHOOSE_CARD": "Elija la tarjeta",
+				"CHOOSE_PAYPAL": "Elija Paypal",
+				"CONNECT_TO_PAYPAL": "Conectar con Paypal",
+				"DEFAULT_PAYMENT_METHOD": "Método de pago por defecto",
+				"DELETE_PAYMENT_METHOD_CONFIRM": "¿Seguro que desea eliminar este método de pago?",
+				"SAVE_AND_CHOOSE_CARD": "Guardar y elegir tarjeta",
+				"PAY_NOW": "Pagar ahora"
+			},
+			"heading": {
+				"ADD_NEW_PAYMENT_METHOD": "Añadir un nuevo método de pago",
+				"CREDIT_OR_DEBIT_CARD": "Tarjeta de crédito o débito",
+				"CONNECT_TO_PAYPAL": "Conectar con Paypal",
+				"CHOOSE_PAYMENT_METHOD": "Elija un método de pago",
+				"FILL_OUT_YOUR_CARD_DETAILS": "Complete los datos de su tarjeta",
+				"NEW_PAYMENT_METHOD": "Nuevo método de pago",
+				"SAVED_PAYMENT_METHODS": "Guardar métodos de pago"
+			},
+			"label": {
+				"AMOUNT": "Cantidad",
+				"CARD_NUMBER": "Número de tarjeta",
+				"CARD_EXPIRATION_DATE": "Fecha de caducidad",
+				"CARD_EXPIRED": "Caducado",
+				"CVV": "CVV",
+				"CURRENCY": "Moneda",
+				"DEBIT_CARD": "Tarjeta de débito",
+				"PAYMENT_TYPE": "Método",
+				"PAYPAL_EMAIL": "Email",
+				"PREPAID_CARD": "Tarjeta prepago"
+			},
+			"message": {
+				"ERROR_DELETING_PAYMENT_METHOD": "Ha ocurrido un error eliminando su método de pago.",
+				"PAYMENT_AUTHORIZED": "Su pago ha sido autorizado, gracias.",
+				"PAYMENT_FAILED": "Pago fallido",
+				"PAYMENT_METHOD_DELETED": "El método de pago se ha eliminado y todas las suscripciones conectadas se han cancelado.",
+				"PAYMENT_METHOD_UPDATED": "Se ha actualizado el método de pago.",
+				"RETRY_TRANSACTION_UNSUCCESSFUL": "¡La repetición de la transacción no tuvo éxito!",
+				"TRANSACTION_SUCCESSFUL": "¡La transacción fue un éxito!"
+			},
+			"loading": {
+				"DELETING_PAYMENT_METHOD": "Eliminando método de pago...",
+				"RETRYING_TRANSACTION": "Repitiendo transacción...",
+				"SAVING_PAYMENT_INFORMATION": "Guardando información de pago...",
+				"PROCESSING_PAYMENT": "Procesando pago...",
+				"UPDATING_PAYMENT_METHOD": "Actualizando método de pago..."
+			}
+		}
+	};
+
+/***/ },
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Container Components
@@ -33272,7 +33442,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var _debugComponent = __webpack_require__(149);
+	var _debugComponent = __webpack_require__(150);
 	
 	var _debugComponent2 = _interopRequireDefault(_debugComponent);
 	
@@ -33289,7 +33459,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 149 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33304,7 +33474,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _debugHtml = __webpack_require__(150);
+	var _debugHtml = __webpack_require__(151);
 	
 	var _debugHtml2 = _interopRequireDefault(_debugHtml);
 	
@@ -33354,7 +33524,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 150 */
+/* 151 */
 /***/ function(module, exports) {
 
 	module.exports = "<h1>Debug</h1>\n<button ng-click=\"$ctrl.refresh()\">Refresh</button><br>\n\n<h2>Customer</h2>\n<json-formatter json=\"$ctrl.customer\" open=\"1\"></json-formatter>\n"
